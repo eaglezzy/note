@@ -1,0 +1,739 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	Ansible常用模块汇总 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">Ansible常用模块汇总</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<blockquote>
+<p>Ansible通过模块的方式来完成一些远程的管理工作。可以通过ansible-doc -l查看所有模块，可以使用ansible-doc -s module来查看某个模块的参数具体用法，也可以使用ansible-doc help module来查看该模块更详细的信息。</p>
+</blockquote>
+
+<h2 id="toc_0">setup</h2>
+
+<p>可以用来收集远程主机的一些基本信息：</p>
+
+<pre><code>ansible -i /etc/ansible/hosts test -m setup
+</code></pre>
+
+<h2 id="toc_1">ping</h2>
+
+<p>可以用来测试远程主机的运行状态：</p>
+
+<pre><code>ansible test -m ping
+</code></pre>
+
+<h2 id="toc_2">file</h2>
+
+<p>设置文件的属性<br/>
+file模块包含如下选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>force</td>
+<td>需要在两种情况下强制创建软链接，一种是源文件不存在但之后会建立的情况下；另一种是目标软链接已存在,需要先取消之前的软链，然后创建新的软链，有两个选项：yes</td>
+</tr>
+<tr>
+<td>group</td>
+<td>定义文件/目录的属组</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>定义文件/目录的权限</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>定义文件/目录的属主</td>
+</tr>
+<tr>
+<td>path</td>
+<td>必选项，定义文件/目录的路径</td>
+</tr>
+<tr>
+<td>recurse</td>
+<td>递归的设置文件的属性，只对目录有效</td>
+</tr>
+<tr>
+<td>src</td>
+<td>要被链接的源文件的路径，只应用于state=link的情况</td>
+</tr>
+<tr>
+<td>dest</td>
+<td>被链接到的路径，只应用于state=link的情况</td>
+</tr>
+</tbody>
+</table>
+
+<p>state:</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>directory</td>
+<td>如果目录不存在，创建目录</td>
+</tr>
+<tr>
+<td>file</td>
+<td>即使文件不存在，也不会被创建</td>
+</tr>
+<tr>
+<td>link</td>
+<td>创建软链接</td>
+</tr>
+<tr>
+<td>hard</td>
+<td>创建硬链接</td>
+</tr>
+<tr>
+<td>touch</td>
+<td>如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时间</td>
+</tr>
+<tr>
+<td>absent</td>
+<td>删除目录、文件或者取消链接文件</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> ansible test -m file -a &quot;src=/etc/fstab dest=/tmp/fstab state=link&quot;
+ ansible test -m file -a &quot;path=/tmp/fstab state=absent&quot;
+ ansible test -m file -a &quot;path=/tmp/test state=touch&quot;
+ ansible test -m file -a &quot;path=/tmp/test state=directory&quot;
+ ansible test -m file -a &quot;path=/tmp/testd state=directory owner=root group=root mode=777&quot;
+</code></pre>
+
+<h2 id="toc_3">copy</h2>
+
+<p>复制文件到远程主机<br/>
+copy模块包含如下选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>backup</td>
+<td>在覆盖之前将原文件备份，备份文件包含时间信息。有两个选项：yes|no</td>
+</tr>
+<tr>
+<td>content</td>
+<td>用于替代&quot;src&quot;,可以直接设定指定文件的值</td>
+</tr>
+<tr>
+<td>dest</td>
+<td>必选项。要将源文件复制到的远程主机的绝对路径，如果源文件是一个目录，那么该路径也必须是个目录</td>
+</tr>
+<tr>
+<td>directory_mode</td>
+<td>递归的设定目录的权限，默认为系统默认权限</td>
+</tr>
+<tr>
+<td>force</td>
+<td>如果目标主机包含该文件，但内容不同，如果设置为yes，则强制覆盖，如果为no，则只有当目标主机的目标位置不存在该文件时，才复制。默认为yes</td>
+</tr>
+<tr>
+<td>others</td>
+<td>所有的file模块里的选项都可以在这里使用</td>
+</tr>
+<tr>
+<td>src</td>
+<td>要复制到远程主机的文件在本地的地址，可以是绝对路径，也可以是相对路径。如果路径是一个目录，它将递归复制。在这种情况下，如果路径使用&quot;/&quot;来结尾，则只复制目录里的内容，如果没有使用&quot;/&quot;来结尾，则包含目录在内的整个内容全部复制，类似于rsync。</td>
+</tr>
+<tr>
+<td>validate</td>
+<td>The validation command to run before copying into place. The path to the file to validate is passed in via &#39;%s&#39; which must be present as in the visudo example below.</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> ansible test -m copy -a &quot;src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644&quot;
+ ansible test -m copy -a &quot;src=/mine/ntp.conf dest=/etc/ntp.conf owner=root group=root mode=644 backup=yes&quot;
+ ansible test -m copy -a &quot;src=/mine/sudoers dest=/etc/sudoers validate=&#39;visudo -cf %s&#39;&quot;
+</code></pre>
+
+<h2 id="toc_4">command</h2>
+
+<p>在远程主机上执行命令<br/>
+command模块包含如下选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>creates</td>
+<td>一个文件名，当该文件存在，则该命令不执行</td>
+</tr>
+<tr>
+<td>free_form</td>
+<td>要执行的linux指令</td>
+</tr>
+<tr>
+<td>chdir</td>
+<td>在执行指令之前，先切换到该指定的目录</td>
+</tr>
+<tr>
+<td>removes</td>
+<td>一个文件名，当该文件不存在，则该选项不执行</td>
+</tr>
+<tr>
+<td>executable</td>
+<td>切换shell来执行指令，该执行路径必须是一个绝对路径</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> ansible test -a &quot;ls /root&quot;
+</code></pre>
+
+<h2 id="toc_5">shell</h2>
+
+<p>切换到某个shell执行指定的指令，参数与command相同。</p>
+
+<p>示例：</p>
+
+<pre><code> ansible test -m shell -a &quot;somescript.sh &gt;&gt; somelog.txt&quot;
+</code></pre>
+
+<h2 id="toc_6">service</h2>
+
+<p>用于管理服务<br/>
+该模块包含如下选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>arguments</td>
+<td>给命令行提供一些选项</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>是否开机启动 yes</td>
+</tr>
+<tr>
+<td>name</td>
+<td>必选项，服务名称</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>定义一个模式，如果通过status指令来查看服务的状态时，没有响应，就会通过ps指令在进程中根据该模式进行查找，如果匹配到，则认为该服务依然在运行</td>
+</tr>
+<tr>
+<td>runlevel</td>
+<td>运行级别</td>
+</tr>
+<tr>
+<td>sleep</td>
+<td>如果执行了restarted，在则stop和start之间沉睡几秒钟</td>
+</tr>
+<tr>
+<td>state</td>
+<td>对当前服务执行启动，停止、重启、重新加载等操作（started,stopped,restarted,reloaded）</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> ansible test -m service -a &quot;name=httpd state=started enabled=yes&quot;
+ ansible test -m service -a &quot;name=foo pattern=/usr/bin/foo state=started&quot;
+ ansible test -m service -a &quot;name=network state=restarted args=eth0&quot;
+</code></pre>
+
+<h2 id="toc_7">cron</h2>
+
+<p>用于管理计划任务<br/>
+包含如下选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>backup</td>
+<td>对远程主机上的原任务计划内容修改之前做备份</td>
+</tr>
+<tr>
+<td>cron_file</td>
+<td>如果指定该选项，则用该文件替换远程主机上的cron.d目录下的用户的任务计划</td>
+</tr>
+<tr>
+<td>day</td>
+<td>日（1-31，[i]，[/i]/2,……）</td>
+</tr>
+<tr>
+<td>hour</td>
+<td>小时（0-23，[i]，[/i]/2，……）</td>
+</tr>
+<tr>
+<td>minute</td>
+<td>分钟（0-59，[i]，[/i]/2，……）</td>
+</tr>
+<tr>
+<td>month</td>
+<td>月（1-12，[i]，[/i]/2，……）</td>
+</tr>
+<tr>
+<td>weekday</td>
+<td>周（0-7，*，……）</td>
+</tr>
+<tr>
+<td>job</td>
+<td>要执行的任务，依赖于state=present</td>
+</tr>
+<tr>
+<td>name</td>
+<td>该任务的描述</td>
+</tr>
+<tr>
+<td>special_time</td>
+<td>指定什么时候执行，参数：reboot,yearly,annually,monthly,weekly,daily,hourly</td>
+</tr>
+<tr>
+<td>state</td>
+<td>确认该任务计划是创建还是删除</td>
+</tr>
+<tr>
+<td>user</td>
+<td>以哪个用户的身份执行</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> ansible test -m cron -a &#39;name=&quot;check dirs&quot; hour=&quot;5,2&quot; job=&quot;ls -alh &gt; /dev/null&quot;&#39;
+ ansible test -m cron -a &#39;name=&quot;a job for reboot&quot; special_time=reboot job=&quot;/some/job.sh&quot;&#39;
+ ansible test -m cron -a &#39;name=&quot;yum autoupdate&quot; weekday=&quot;2&quot; minute=0 hour=12 user=&quot;root&quot; job=&quot;YUMINTERACTIVE=0 /usr/sbin/yum-autoupdate&quot; cron_file=ansible_yum-autoupdate&#39;
+ ansilbe test -m cron -a &#39;cron_file=ansible_yum-autoupdate state=absent&#39;
+</code></pre>
+
+<h2 id="toc_8">filesystem</h2>
+
+<p>在块设备上创建文件系统<br/>
+选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>dev</td>
+<td>目标块设备</td>
+</tr>
+<tr>
+<td>force</td>
+<td>在一个已有文件系统的设备上强制创建</td>
+</tr>
+<tr>
+<td>fstype</td>
+<td>文件系统的类型</td>
+</tr>
+<tr>
+<td>opts</td>
+<td>传递给mkfs命令的选项</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_9">user</h2>
+
+<p>管理用户</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>home</td>
+<td></td>
+</tr>
+<tr>
+<td>groups</td>
+<td></td>
+</tr>
+<tr>
+<td>uid</td>
+<td></td>
+</tr>
+<tr>
+<td>password</td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td>createhome</td>
+<td></td>
+</tr>
+<tr>
+<td>system</td>
+<td></td>
+</tr>
+<tr>
+<td>remove</td>
+<td></td>
+</tr>
+<tr>
+<td>state</td>
+<td></td>
+</tr>
+<tr>
+<td>shell</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>需要特别说明的是，password后面指定的密码不能是明文，后面这一串密码会被直接传送到被管理主机的/etc/shadow文件中，而登陆的时候输入的密码会被hash加密以后再去与/etc/shadow中存放的密码去做对比，会出现不一致的现象。所以需要先将密码字符串进行加密处理：openssl passwd -salt -1 &quot;123456&quot;，然后将得到的字符串放到password中即可。</p>
+</blockquote>
+
+<h2 id="toc_10">synchronize</h2>
+
+<p>使用rsync同步文件</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>archive</td>
+<td></td>
+</tr>
+<tr>
+<td>checksum</td>
+<td></td>
+</tr>
+<tr>
+<td>delete</td>
+<td></td>
+</tr>
+<tr>
+<td>dest</td>
+<td></td>
+</tr>
+<tr>
+<td>src</td>
+<td></td>
+</tr>
+<tr>
+<td>dest_port</td>
+<td></td>
+</tr>
+<tr>
+<td>existing_only</td>
+<td>skip createing new files on receiver</td>
+</tr>
+<tr>
+<td>links</td>
+<td></td>
+</tr>
+<tr>
+<td>owner</td>
+<td></td>
+</tr>
+<tr>
+<td>mode</td>
+<td>(push, pull)</td>
+</tr>
+<tr>
+<td>recursive</td>
+<td></td>
+</tr>
+<tr>
+<td>rsync_path</td>
+<td></td>
+</tr>
+<tr>
+<td>times</td>
+<td>Preserve modification times</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> src=some/relative/path dest=/some/absolute/path rsync_path=&quot;sudo rsync&quot;
+ src=some/relative/path dest=/some/absolute/path archive=no links=yes
+ src=some/relative/path dest=/some/absolute/path checksum=yes times=no
+ src=/tmp/helloworld dest=/var/www/helloword rsync_opts=--no-motd,--exclude=.git mode=pull
+</code></pre>
+
+<h2 id="toc_11">mount</h2>
+
+<p>配置挂载点<br/>
+选项：</p>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>dump</td>
+<td></td>
+</tr>
+<tr>
+<td>fstype</td>
+<td>必选项，挂载文件的类型</td>
+</tr>
+<tr>
+<td>name</td>
+<td>必选项，挂载点</td>
+</tr>
+<tr>
+<td>opts</td>
+<td>传递给mount命令的参数</td>
+</tr>
+<tr>
+<td>passno</td>
+<td></td>
+</tr>
+<tr>
+<td>src</td>
+<td>必选项，要挂载的文件</td>
+</tr>
+<tr>
+<td>state</td>
+<td>必选项</td>
+</tr>
+<tr>
+<td>present</td>
+<td>只处理fstab中的配置</td>
+</tr>
+<tr>
+<td>absent</td>
+<td>删除挂载点</td>
+</tr>
+<tr>
+<td>mounted</td>
+<td>自动创建挂载点并挂载之</td>
+</tr>
+<tr>
+<td>umounted</td>
+<td>卸载</td>
+</tr>
+</tbody>
+</table>
+
+<p>示例：</p>
+
+<pre><code> name=/mnt/dvd src=/dev/sr0 fstype=iso9660 opts=ro state=present
+ name=/srv/disk src=&#39;LABEL=SOME_LABEL&#39; state=present
+ name=/home src=&#39;UUID=b3e48f45-f933-4c8e-a700-22a159ec9077&#39; opts=noatime state=present
+
+ ansible test -a &#39;dd if=/dev/zero of=/disk.img bs=4k count=1024&#39;
+ ansible test -a &#39;losetup /dev/loop0 /disk.img&#39;
+ ansible test -m filesystem &#39;fstype=ext4 force=yes opts=-F dev=/dev/loop0&#39;
+ ansible test -m mount &#39;name=/mnt src=/dev/loop0 fstype=ext4 state=mounted opts=rw&#39;
+</code></pre>
+
+<h2 id="toc_12">raw</h2>
+
+<p>类似command，可以传递管道</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

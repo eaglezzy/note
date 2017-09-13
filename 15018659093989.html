@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十五、awk命令精讲 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十五、awk命令精讲</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>[TOC]<br/>
+1. # awk基础<br/>
+    1. ## awk是什么<br/>
+是一个名字怪异的编程语言--查找与处理计算<br/>
+    2. ## BEGIN 和 END 模块<br/>
+    通常，对于每个输入行，awk 都会执行每个脚本代码块一次。然而，在许多编程情况中， 可能需要在 awk 开始处理输入文件中的文本之前执行初始化代码。对于这种情况，awk 允许 您定义一个 BEGIN 块。我们在前一个示例中使用了 BEGIN 块。因为 awk 在开始处理输入文 件之前会执行 BEGIN 块，因此它是初始化 FS(字段分隔符)变量、打印页眉或初始化其它 在程序中以后会引用的全局变量的极佳位置。<br/>
+    awk 还提供了另一个特殊块，叫作 END 块。awk 在处理了输入文件中的所有行之后执行 这个块。通常，END 块用于执行最终计算或打印应该出现在输出流结尾的摘要信息。<br/>
+    ## 运算符<br/>
+类型<br/>
+运算符<br/>
+描述<br/>
+赋值运算符<br/>
+= += -= *= /= %= <sup>=</sup> **=<br/>
+赋值语句<br/>
+逻辑运算符<br/>
+||<br/>
+逻辑或</p>
+
+<p>&amp;&amp;<br/>
+逻辑与<br/>
+正则运算符<br/>
+~ !~<br/>
+匹配正则表达式和不匹配正则表达式<br/>
+关系运算符<br/>
+&lt; &lt;= &gt; &gt;= != ==<br/>
+关系运算符<br/>
+算术运算符<br/>
++-<br/>
+加，减</p>
+
+<p>* /&amp;<br/>
+乘，除与求余</p>
+
+<p>+-!<br/>
+一元加，减和逻辑非</p>
+
+<p>^ ***<br/>
+求幂</p>
+
+<p>++ --<br/>
+增加或减少，作为前缀或后缀<br/>
+其他运算符<br/>
+$<br/>
+字段引用</p>
+
+<p>空格<br/>
+字符串链接符</p>
+
+<p>?:<br/>
+三目运算符</p>
+
+<p>In<br/>
+数组中是否存在某键值<br/>
+    ### awk 赋值运算符<br/>
+    a+5;等价于:a=a+5;其他同类<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=5;a+=5;print a}&#39;<br/>
+10<br/>
+    ### awk 逻辑运算符<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=1;b=2;print (a&gt;2&amp;&amp;b&gt;1,a=1||b&gt;1)}&#39;<br/>
+01<br/>
+    ### awk 正则运算符<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=&quot;100testaaa&quot;;if(a~/100/){print &quot;ok&quot;}}&#39;<br/>
+ok<br/>
+[root@yum tmp]# echo|awk &#39;BEGIN{a=&quot;100testaaa&quot;}a~/100/{print &quot;ok&quot;}&#39;<br/>
+ok<br/>
+    ### 关系运算符<br/>
+    如:&gt; &lt; 可以作为字符串比较，也可以用作数值比较，关键看操作数如果是字符串 就会转换为字符串比较。两个都为数字 才转为数值比较。字符串比较:按照ascii 码顺序比较。<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=&quot;11&quot;;if(a&gt;=9){print &quot;ok&quot;}}&#39;<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=11;if(a&gt;=9){print &quot;ok&quot;}}&#39;<br/>
+ok<br/>
+[root@yum tmp]# awk &#39;BEGIN{a;if(a&gt;=b){print &quot;ok&quot;}}&#39;<br/>
+ok<br/>
+    ### awk 算术运算符<br/>
+说明，所有用作算术运算符 进行操作，操作数自动转为数值，所有非数值都变为 0。<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=&quot;b&quot;;print a++,++a}&#39;<br/>
+02<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=&quot;20b4&quot;;print a++,++a}&#39;<br/>
+20 22<br/>
+    ### 其他运算符<br/>
+?:三目运算符<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=&quot;b&quot;;print a<mark>&quot;b&quot;?&quot;ok&quot;:&quot;err&quot;}&#39;<br/>
+ok<br/>
+[root@yum tmp]# awk &#39;BEGIN{a=&quot;b&quot;;print a</mark>&quot;c&quot;?&quot;ok&quot;:&quot;err&quot;}&#39;<br/>
+err<br/>
+in 运算符见后面数组<br/>
+    ## 常用 awk 内置变量<br/>
+变量名<br/>
+属性<br/>
+\(0<br/>
+当前记录<br/>
+\)1~\(n<br/>
+当前记录的第 n 个字段<br/>
+FS<br/>
+输入字段分隔符 默认是空格<br/>
+RS<br/>
+输入记录分割符 默认为换行符<br/>
+NF<br/>
+当前记录中的字段个数，就是有多少列<br/>
+NR<br/>
+已经读出的记录数，就是行号，从 1 开始<br/>
+OFS<br/>
+输出字段分隔符 默认也是空格<br/>
+ORS<br/>
+输出的记录分隔符 默认为换行符<br/>
+    ## awk正则<br/>
+元字符<br/>
+功能<br/>
+示例<br/>
+解释<br/>
+^<br/>
+行首定位符<br/>
+/^root/<br/>
+匹配所有以 root 开头的行<br/>
+\)<br/>
+行尾定位符<br/>
+/root\(/<br/>
+匹配所有以 root 结尾的行<br/>
+.<br/>
+匹配任意单个字符<br/>
+/r..t/<br/>
+匹配字母 r,然后两个任意字符，再以 l 结尾的行，比如 root,r33l 等<br/>
+\*<br/>
+匹配 0 个或多个前 导字符(包括回车)<br/>
+/a\*ool/<br/>
+匹配 0 个或多个 a 之后紧跟着 ool 的 行，比如 ool，aaaaool 等<br/>
++<br/>
+匹配 1 个或多个前 导字符<br/>
+/a+b/<br/>
+匹配 1 个或多个 a 加 b 的行，比如 ab,aab 等<br/>
+?<br/>
+匹配 0 个或 1 个前 导字符<br/>
+/a?b/<br/>
+匹配 b 或 ab 的行<br/>
+\[]<br/>
+匹配指定字符组内 的任意一个字符<br/>
+/^\[abc]<br/>
+匹配以字母 a 或 b 或 c 开头的行<br/>
+\[^]<br/>
+匹配不在指定字符 组内任意一个字符<br/>
+/^\[^abc]/<br/>
+匹配不以字母 a 或 b 或 c 开头的行<br/>
+()<br/>
+子表达式组合<br/>
+/(rool)+/<br/>
+表示一个或多个 rool 组合，当有一些 字符需要组合时，使用括号括起来<br/>
+|<br/>
+或者的意思<br/>
+/(root)|B/<br/>
+匹配 root 或者 B 的行<br/>
+\<br/>
+转义字符<br/>
+/a\\/\\//<br/>
+匹配 a//<br/>
+\~,!\~<br/>
+匹配，不匹配的条件语句<br/>
+\)1~/root/<br/>
+匹配第一个字段包含字符 root 的所有记录<br/>
+x{m} x{m,} X{m,n}<br/>
+x 重复 m 次 x 重复至少 m 次 x 重复至少 m 次， 但不超过 n 次 需要指定参数: -posix 或者 --re-interval 没有该参数不能使用该模式<br/>
+/(root){3}/ /(root){3,}/ /(root){5,6}/ cat rex.txt smierth,harry smierth,reru robin,tom<br/>
+需要注意一点的是，root 加括号和不加括号的区别，x 可以表示字符串也可以只是一个字符，所以/root\{5\}/表示匹配 roo 再加上 5 个 t，及 roottttt /\(root\)\{2,\}/ 则表示匹配 rootrootrootroot 等 awk -posix &#39;/er\{1,2\}/&#39; rex.text smierth,harry smierth,reru<br/>
+1. # awk 的 if、循环和数组<br/>
+    1. ## 条件语句<br/>
+        1. ### awk 提供了非常好的类似于 C 语言的 if 语句。<br/>
+{<br/>
+    if ( \(1== &quot;foo&quot; ) \{<br/>
+        if ( \)2== &quot;foo&quot; ) {<br/>
+            print &quot;uno&quot;<br/>
+        } else {<br/>
+            print &quot;one&quot;<br/>
+        }<br/>
+    } elseif (\(1== &quot;bar&quot; ) \{<br/>
+        print &quot;two&quot;<br/>
+    } else \{<br/>
+        print &quot;three&quot;<br/>
+    }<br/>
+}<br/>
+    ### 使用 if 语句还可以将代码:<br/>
+! /matchme/ \{ print \)1 \(3 \)4 }<br/>
+    转换成:<br/>
+{<br/>
+    if ( \(0 !\~ /matchme/ ) {<br/>
+        print \)1 \(3 \)4<br/>
+    }<br/>
+}<br/>
+    ## 循环结构<br/>
+    我们已经看到了 awk 的 while 循环结构，它等同于相应的 C 语言 while 循环。awk 还有 &quot;do...while&quot;循环，它在代码块结尾处对条件求值，而不像标准 while 循环那样在开始处<br/>
+求值。它类似于其它语言中的&quot;repeat...until&quot;循环。以下是一个示例:<br/>
+    do...while 示例<br/>
+{  count=1<br/>
+    do {<br/>
+        print &quot;I get printed at least once no matter what&quot;<br/>
+    } while ( count !=1 )<br/>
+}<br/>
+    与一般的 while 循环不同，由于在代码块之后对条件求值，&quot;do...while&quot;循环永远都至少执行一次。换句话说，当第一次遇到普通 while 循环时，如果条件为假，将永远不执行该循环。<br/>
+    ### for 循环<br/>
+    awk 允许创建 for 循环，它就象 while 循环，也等同于 C 语言的 for 循环:<br/>
+for ( initial assignment; comparison; increment ) {<br/>
+    code block<br/>
+ }<br/>
+    以下是一个简短示例:<br/>
+for ( x=1;x&lt;=4;x++ ) {<br/>
+    print&quot;iteration&quot;, x<br/>
+}<br/>
+    此段代码将打印:<br/>
+iteration1<br/>
+iteration2<br/>
+iteration3<br/>
+iteration4<br/>
+    ### break 和 continue<br/>
+    此外，如同 C 语言一样，awk 提供了 break 和 continue 语句。使用这些语句可以更好地 控制 awk 的循环结构。以下是迫切需要 break 语句的代码片断:<br/>
+while 死循环<br/>
+while (1) {<br/>
+    print &quot;forever and ever...&quot;<br/>
+}while 死循环 1 永远代表是真，这个 while 循环将永远运行下去。<br/>
+以下是一个只执行十次的循环:<br/>
+#break 语句示例<br/>
+x=1while(1) {  print &quot;iteration&quot;, x<br/>
+    if ( x<mark>10 ) {     break<br/>
+    }   x++<br/>
+}<br/>
+    这里，break 语句用于“逃出”最深层的循环。&quot;break&quot;使循环立即终止，并继续执行循 环代码块后面的语句。    continue 语句补充了 break，其作用如下:x=1<br/>
+while (1) {<br/>
+    if ( x</mark>4 ) {<br/>
+        x++<br/>
+        continue<br/>
+    }<br/>
+    print &quot;iteration&quot;, x<br/>
+    if ( x&gt;20 ) {<br/>
+        break<br/>
+    }<br/>
+    x++<br/>
+}<br/>
+    这段代码打印&quot;iteration1&quot;到&quot;iteration21&quot;，&quot;iteration4&quot;除外。如果迭代等于 4，则增加 x 并调用 continue 语句，该语句立即使 awk 开始执行下一个循环迭代，而不执行代码块 的其余部分。如同 break 一样，continue 语句适合各种 awk 迭代循环。在 for 循环主体 中使用时，continue 将使循环控制变量自动增加。以下是一个等价循环:<br/>
+for ( x=1;x&lt;=21;x++ ) {<br/>
+    if ( x==4 ) {<br/>
+        continue<br/>
+    }<br/>
+    print &quot;iteration&quot;, x<br/>
+}<br/>
+在 while 循环中时，在调用 continue 之前没有必要增加 x，因为 for 循环会自动增加 x。</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

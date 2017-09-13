@@ -1,0 +1,1015 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十七、rsync课程讲解 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十七、rsync课程讲解</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">一、rsync原理</a>
+<ul>
+<li>
+<a href="#toc_1">1. 数据备份方式：</a>
+</li>
+<li>
+<a href="#toc_2">2. 企业备份实践方式：</a>
+</li>
+<li>
+<a href="#toc_3">3. rsync服务是什么</a>
+</li>
+<li>
+<a href="#toc_4">4. rsync服务的由来</a>
+</li>
+<li>
+<a href="#toc_5">5. rsync服务的特征</a>
+<ul>
+<li>
+<a href="#toc_6">Rsync的特性如下（7个特性信息说明）：</a>
+<ul>
+<li>
+<a href="#toc_7">01 支持拷贝普通文件与特殊文件如链接文件，设备等。</a>
+</li>
+<li>
+<a href="#toc_8">02 可以有排除指定文件或目录同步的功能，相当于打包命令tar的排除功能。</a>
+</li>
+<li>
+<a href="#toc_9">03 可以做到保持原文件或目录的权限、时间、软硬链接、属主、组等所有属性均不改变-p。</a>
+</li>
+<li>
+<a href="#toc_10">04 可实现增量同步，既只同步发生变化的数据，因此数据传输效率很高（tar -N）。</a>
+</li>
+<li>
+<a href="#toc_11">05 可以使用rcp,rsh,ssh等方式来配合进行隧道加密传输文件（rsync本身不对数据加密）</a>
+</li>
+<li>
+<a href="#toc_12">06 可以通过socket(进程方式)传输文件和数据（服务端和客户端）*****。重点掌握</a>
+</li>
+<li>
+<a href="#toc_13">07 支持匿名的或认证（无需系统用户）的进程模式传输，可实现方便安全的进行数据备份及镜像。</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_14">6. rsync复制的原理</a>
+</li>
+<li>
+<a href="#toc_15">7. rsync服务工作方式</a>
+<ul>
+<li>
+<a href="#toc_16">①. 单个主机本地之间的数据传输（此时类似于cp命令的功能）。</a>
+<ul>
+<li>
+<a href="#toc_17">rsync本地复制类似于cp命令</a>
+</li>
+<li>
+<a href="#toc_18">总结：</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_19">02 当复制目录时，目录后不接 /，表示复制目录下面的内容及目录本身</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_20">②. 借助rcp,ssh等通道来传输数据（此时类似于scp命令的功能）。</a>
+<ul>
+<li>
+<a href="#toc_21">rsync远程复制数据方式类似于scp</a>
+</li>
+<li>
+<a href="#toc_22">初识scp命令使用</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_23">02 scp命令--恏</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_24">利用rsync命令实现---推</a>
+<ul>
+<li>
+<a href="#toc_25">利用rsync命令实现---恏</a>
+</li>
+<li>
+<a href="#toc_26">通过rsync命令与scp命令进行比对，了解增量与全量</a>
+</li>
+<li>
+<a href="#toc_27">进行scp命令全量复制</a>
+</li>
+<li>
+<a href="#toc_28">进行rsync命令全量复制</a>
+</li>
+<li>
+<a href="#toc_29">测试远程复制命令增量功能</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_30">③. 以守护进程（socket）的方式传输数据（这个是rsync自身的重要的功能）。重点掌握</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_31">rsync服务的部署</a>
+<ul>
+<li>
+<a href="#toc_32">rsync服务端</a>
+<ul>
+<li>
+<a href="#toc_33">第一个里程碑：确认服务软件是否存在</a>
+<ul>
+<li>
+<a href="#toc_34">如何确认rsync这个软件安装了什么？</a>
+</li>
+<li>
+<a href="#toc_35">查看一个命令属于哪个软件大礼包</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_36">第二个里程碑：对软件服务进行配置（编写配置文件）</a>
+</li>
+<li>
+<a href="#toc_37">第三个里程碑：添加管理程序的虚拟用户</a>
+</li>
+<li>
+<a href="#toc_38">第四个里程碑：创建服务端备份数据目录</a>
+</li>
+<li>
+<a href="#toc_39">第五个里程碑：创建密码认证文件</a>
+<ul>
+<li>
+<a href="#toc_40"><strong>只要涉及到有密码（明文）信息，都需要将密码文件权限设置为600</strong></a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_41">第六个里程碑：rsync服务需要进行启动</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_42">至此：服务端配置完成</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_43">rsync客户端</a>
+<ul>
+<li>
+<a href="#toc_44">第一个里程碑：确认服务软件是否存在</a>
+</li>
+<li>
+<a href="#toc_45">第二步里程碑：实现客户端免秘钥传输数据</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_46">rsync服务的排错</a>
+<ul>
+<li>
+<a href="#toc_47">问题一：</a>
+</li>
+<li>
+<a href="#toc_48">解决：</a>
+</li>
+<li>
+<a href="#toc_49">问题二：</a>
+</li>
+<li>
+<a href="#toc_50">解决：</a>
+</li>
+<li>
+<a href="#toc_51">问题三：</a>
+</li>
+<li>
+<a href="#toc_52">解决：</a>
+</li>
+<li>
+<a href="#toc_53">rsync服务的扩展</a>
+<ul>
+<li>
+<a href="#toc_54">①. 守护进程多模块功能</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_55">在配置文件中添加多模块信息</a>
+</li>
+<li>
+<a href="#toc_56">多模块信息添加完毕，创建多模块指定的目录</a>
+</li>
+<li>
+<a href="#toc_57">多模块配置完毕后，需要重启rsync服务，使配置生效</a>
+</li>
+<li>
+<a href="#toc_58">rsync无法创建多级目录，即没有-p参数功能</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_59">②. 守护进程排除文件功能</a>
+<ul>
+<li>
+<a href="#toc_60">rsync实现排除功能</a>
+</li>
+<li>
+<a href="#toc_61">服务端进行测试验证</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_62">③ rsync守护进程访问控制功能</a>
+<ul>
+<li>
+<a href="#toc_63">rsync服务的应用（实践案例）</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_64">异常问题大招：</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_65">遗留知识点：</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="toc_0">一、rsync原理</h2>
+
+<h3 id="toc_1">1. 数据备份方式：</h3>
+
+<pre><code>定时的备份方式：主要备份的网站内部人员所创建数据信息，采用定时备份 
+实时的备份方式：主要备份的网站外部人员所创建数据信息，采用实时备份
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_2">2. 企业备份实践方式：</h3>
+
+<pre><code>①. 相同IDC中心，会对备份服务，再次进行备份；同一机房多台备份服务器
+②. 不同IDC中心，会对备份服务，再次进行备份；不同机房多台备份服务器
+③. 不同区域中心，会对备份服务，再次进行备份；不同区域多台备份服务器
+以上企业备份方案成为两地三中心
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_3">3. rsync服务是什么</h3>
+
+<pre><code>a fast, versatile, remote (and local) file-copying tool
+Rsync是一款开源的、快速的、多功能的、可实现&quot;全量及增量&quot; 的本地或远程数据同步备份的优秀工具
+rsync命令非常强大：cp（本地复制命令） scp（远程复制命令） rm（删除命令） ls（查看文件命令）
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_4">4. rsync服务的由来</h3>
+
+<pre><code>01 rsync命令就是最常用的数据备份服务命令，rsync通过算法实现了增量备份
+02 rsync相应算法方式需要理解
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_5">5. rsync服务的特征</h3>
+
+<hr/>
+
+<h4 id="toc_6">Rsync的特性如下（7个特性信息说明）：</h4>
+
+<hr/>
+
+<h5 id="toc_7">01 支持拷贝普通文件与特殊文件如链接文件，设备等。</h5>
+
+<hr/>
+
+<h5 id="toc_8">02 可以有排除指定文件或目录同步的功能，相当于打包命令tar的排除功能。</h5>
+
+<pre><code>#tar zcvf backup_1.tar.gz/opt/data-exclude=oldboy
+</code></pre>
+
+<blockquote>
+<p>说明：在打包/opt/data时就排除了oldboy命名的目录和文件。</p>
+</blockquote>
+
+<hr/>
+
+<h5 id="toc_9">03 可以做到保持原文件或目录的权限、时间、软硬链接、属主、组等所有属性均不改变-p。</h5>
+
+<hr/>
+
+<h5 id="toc_10">04 可实现增量同步，既只同步发生变化的数据，因此数据传输效率很高（tar -N）。</h5>
+
+<pre><code>将备份/home 目录自 2008-01-29 以来修改过的文件
+tar -N 2008-01-29 -zcvf /backups/inc-backup_$(date +%F).tar.gz /home
+将备份 /home 目录昨天以来修改过的文件
+tar -N $(date -d yesterday &quot;+%F&quot;) -zcvf /backups/inc-backup_$(date +%F).tar.gz /home
+添加文件到已经打包的文件
+tar -rf all.tar *.gif
+</code></pre>
+
+<blockquote>
+<p>说明：这条命令是将所有.gif的文件增加到all.tar的包里面去。-r是表示增加文件的意思。</p>
+</blockquote>
+
+<hr/>
+
+<h5 id="toc_11">05 可以使用rcp,rsh,ssh等方式来配合进行隧道加密传输文件（rsync本身不对数据加密）</h5>
+
+<hr/>
+
+<h5 id="toc_12">06 可以通过socket(进程方式)传输文件和数据（服务端和客户端）*****。重点掌握</h5>
+
+<hr/>
+
+<h5 id="toc_13">07 支持匿名的或认证（无需系统用户）的进程模式传输，可实现方便安全的进行数据备份及镜像。</h5>
+
+<hr/>
+
+<h3 id="toc_14">6. rsync复制的原理</h3>
+
+<p><code>当A主机有数据信息，B主机没有数据信息时，采用全量复制方式<br/>
+当A主机有数据信息，B主机也有数据信息时，进行数据信息比对，从而判断是否采用增量方式或是不进行复制</code></p>
+
+<hr/>
+
+<h3 id="toc_15">7. rsync服务工作方式</h3>
+
+<hr/>
+
+<h4 id="toc_16">①. 单个主机本地之间的数据传输（此时类似于cp命令的功能）。</h4>
+
+<hr/>
+
+<h5 id="toc_17">rsync本地复制类似于cp命令</h5>
+
+<p><code>#回顾cp命令如何使用</code></p>
+
+<pre><code>[root@backup ~]# mkdir /tmp/{cp,rsync} -p
+[root@backup ~]# cp -a /etc/hosts /tmp/cp/
+[root@backup ~]# ll /tmp/cp/
+total 4
+-rw-r--r--. 1 root root 349 Jul 26 10:18 hosts
+</code></pre>
+
+<p><code># 以上利用cp命令复制文件信息</code></p>
+
+<hr/>
+
+<p><code>#应用rsync命令进行复制</code></p>
+
+<pre><code>[root@backup ~]# rsync -a /etc/hosts /tmp/rsync/
+[root@backup ~]# ll /tmp/rsync/
+total 4
+-rw-r--r-- 1 root root 349 Jul 26 10:18 hosts
+[root@backup ~]# # 以上利用rsync命令复制文件信息
+[root@backup ~]# 
+[root@backup ~]# # 以下利用cp命令复制目录信息
+[root@backup ~]# cp -a /etc/selinux/ /tmp/cp/
+[root@backup ~]# ll -d /tmp/cp/selinux/
+drwxr-xr-x. 3 root root 4096 Jun9 18:56 /tmp/cp/selinux/
+</code></pre>
+
+<hr/>
+
+<p><code>#以下利用rsync命令复制目录信息</code></p>
+
+<pre><code>[root@backup ~]# rsync -a /etc/selinux/ /tmp/rsync/
+[root@backup ~]# ll/tmp/rsync/
+total 28
+-rw-r--r-- 1 root root457 Jun9 18:56 config
+-rw-r--r-- 1 root root458 Jun9 16:53 config.bak
+-rw-r--r-- 1 root root349 Jul 26 10:18 hosts
+-rw-r--r-- 1 root root113 Nov 182016 restorecond.conf
+-rw-r--r-- 1 root root 76 Nov 182016 restorecond_user.conf
+-rw-r--r-- 1 root root 2271 Jul 242015 semanage.conf
+drwxr-xr-x 6 root root 4096 Jun9 16:54 targeted
+</code></pre>
+
+<p><code>#说明：没有将selinux目录进行复制到rsync目录中，而是将selinux目录下面的文件复制到了rsync目录中</code></p>
+
+<pre><code>[root@backup ~]# rsync -a /etc/selinux /tmp/rsync/
+[root@backup ~]# ll -d /tmp/rsync/selinux/
+drwxr-xr-x 3 root root 4096 Jun9 18:56 /tmp/rsync/selinux/
+</code></pre>
+
+<hr/>
+
+<h5 id="toc_18">总结：</h5>
+
+<p>01 当复制目录时，目录后接上 /，表示只复制目录下面的内容信息</p>
+
+<h2 id="toc_19">02 当复制目录时，目录后不接 /，表示复制目录下面的内容及目录本身</h2>
+
+<h4 id="toc_20">②. 借助rcp,ssh等通道来传输数据（此时类似于scp命令的功能）。</h4>
+
+<hr/>
+
+<h5 id="toc_21">rsync远程复制数据方式类似于scp</h5>
+
+<hr/>
+
+<h5 id="toc_22">初识scp命令使用</h5>
+
+<p>01 scp命令--推</p>
+
+<pre><code>[root@backup ~]# scp -rp /etc/hosts 172.16.1.31:/tmp/scp/
+The authenticity of host &#39;172.16.1.31 (172.16.1.31)&#39; can&#39;t be established.
+RSA key fingerprint is 82:d7:80:62:c0:db:c9:9a:d5:d0:8f:66:94:53:8b:9f.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;172.16.1.31&#39; (RSA) to the list of known hosts.
+root@172.16.1.31&#39;s password: 
+hosts100%349 0.3KB/s 00:00
+</code></pre>
+
+<h2 id="toc_23">02 scp命令--恏</h2>
+
+<pre><code>[root@backup ~]# mv /etc/hosts /tmp/
+[root@backup ~]# ll /etc/host
+host.confhosts.allowhosts.bakhosts.deny 
+[root@backup ~]# ll /etc/host
+host.confhosts.allowhosts.bakhosts.deny 
+[root@backup ~]# scp -rp 172.16.1.31:/tmp/scp/hosts /etc/
+root@172.16.1.31&#39;s password: 
+hosts100%349 0.3KB/s 00:00
+[root@backup ~]# ll /etc/hosts
+-rw-r--r-- 1 root root 349 Jul 26 10:18 /etc/hosts
+</code></pre>
+
+<h1 id="toc_24">利用rsync命令实现---推</h1>
+
+<pre><code>[root@backup ~]# rsync -rp /etc/hosts 172.16.1.31:/tmp/rsync/
+root@172.16.1.31&#39;s password: 
+</code></pre>
+
+<h1 id="toc_25">利用rsync命令实现---恏</h1>
+
+<pre><code>[root@backup ~]# mv /etc/hosts /tmp/
+mv: overwrite `/tmp/hosts&#39;? y
+[root@backup ~]# ll /etc/hosts
+ls: cannot access /etc/hosts: No such file or directory
+[root@backup ~]# rsync -rp 172.16.1.31:/tmp/rsync/hosts /etc/
+root@172.16.1.31&#39;s password: 
+[root@backup ~]# ll /etc/hosts
+-rw-r--r-- 1 root root 349 Jul 26 10:54 /etc/hosts
+</code></pre>
+
+<h1 id="toc_26">通过rsync命令与scp命令进行比对，了解增量与全量</h1>
+
+<pre><code>[root@backup ~]# mkdir /tmp/{scp,rsync}/{1..5} -p
+[root@backup ~]# ll /tmp/rsync/
+total 52
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 1
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 2
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 3
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 4
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 5
+[root@backup ~]# ll /tmp/scp/
+total 20
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 1
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 2
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 3
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 4
+drwxr-xr-x 2 root root 4096 Jul 26 11:15 5
+</code></pre>
+
+<h1 id="toc_27">进行scp命令全量复制</h1>
+
+<pre><code>[root@backup ~]# scp -rp /tmp/scp/* 172.16.1.31:/tmp/scp/
+root@172.16.1.31&#39;s password: 
+</code></pre>
+
+<h1 id="toc_28">进行rsync命令全量复制</h1>
+
+<pre><code>[root@backup ~]# rsync -rpv /tmp/rsync/* 172.16.1.31:/tmp/rsync
+root@172.16.1.31&#39;s password: 
+sending incremental file list
+config
+config.bak
+hosts
+restorecond.conf
+restorecond_user.conf
+semanage.conf
+---省略部分---
+</code></pre>
+
+<h1 id="toc_29">测试远程复制命令增量功能</h1>
+
+<pre><code>[root@backup ~]# mkdir /tmp/{scp,rsync}/{6..10} -p
+[root@backup ~]# scp -rp /tmp/scp/ 172.16.1.31:/tmp/scp/
+root@172.16.1.31&#39;s password: 
+说明：scp采用全量复制
+
+[root@backup ~]# rsync -avzP /tmp/rsync/ 172.16.1.31:/tmp/rsync/
+root@172.16.1.31&#39;s password: 
+sending incremental file list
+./
+6/
+7/
+8/
+9/
+10/
+
+sent 12700 bytesreceived 64 bytes3646.86 bytes/sec
+total size is 43123143speedup is 3378.50
+说明：rsync采用增量复制
+</code></pre>
+
+<hr/>
+
+<h4 id="toc_30">③. 以守护进程（socket）的方式传输数据（这个是rsync自身的重要的功能）。重点掌握</h4>
+
+<p>优势：<br/><br/>
+①. 通过自身服务配置，即可实现远程访问免秘钥备份数据<br/><br/>
+②. 由于存在守护进程，数据备份传输效率会更高一些</p>
+
+<pre><code>补充知识：
+rsync可以实现增量与全量
+全量：第一次备份数据的时候
+rsync -avz /tmp/rsync/* /tmp/---有星号存在时，也会出现全量备份的效果
+增量：rsync -avz /tmp/rsync/ /tmp/ ---无星号存在时，便会出现增量备份的效果
+</code></pre>
+
+<h1 id="toc_31">rsync服务的部署</h1>
+
+<h2 id="toc_32">rsync服务端</h2>
+
+<h3 id="toc_33">第一个里程碑：确认服务软件是否存在</h3>
+
+<pre><code>[root@backup ~]# rpm -qa rsync
+rsync-3.0.6-12.el6.x86_64
+[root@backup ~]# rpm -qa |grep rsyn
+rsync-3.0.6-12.el6.x86_64
+</code></pre>
+
+<h4 id="toc_34">如何确认rsync这个软件安装了什么？</h4>
+
+<pre><code>[root@backup ~]# rpm -ql rsync
+/etc/xinetd.d/rsync
+/usr/bin/rsync
+
+[root@backup ~]# rpm -qa ssh
+[root@backup ~]# ss
+ss ssh-addssh-copy-idssh-keygen ssltap 
+sshssh-agentsshd ssh-keyscan 
+</code></pre>
+
+<h4 id="toc_35">查看一个命令属于哪个软件大礼包</h4>
+
+<pre><code>[root@backup ~]# rpm -qf ssh
+error: file /root/ssh: No such file or directory
+[root@backup ~]# rpm -qf `which ssh`
+openssh-clients-5.3p1-122.el6.x86_64
+</code></pre>
+
+<h3 id="toc_36">第二个里程碑：对软件服务进行配置（编写配置文件）</h3>
+
+<pre><code>cat &gt;&gt;/etc/rsyncd.conf&lt;&lt;EOF 
+#rsync_config
+#created by HQ at 2017
+##rsyncd.conf start## 
+uid = rsync
+gid = rsync
+use chroot = no
+max connections = 200
+timeout = 300
+pid file = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+log file = /var/log/rsyncd.log
+ignore errors
+read only = false
+list = false
+hosts allow = 172.16.1.0/24
+hosts deny = 0.0.0.0/32
+auth users = rsync_backup
+secrets file = /etc/rsync.password
+[backup]
+comment = &quot;backup dir by oldboy&quot;
+path = /backup
+EOF
+</code></pre>
+
+<h3 id="toc_37">第三个里程碑：添加管理程序的虚拟用户</h3>
+
+<pre><code>[root@backup ~]# useradd -s /sbin/nologin -M rsync
+[root@backup ~]# id rsync
+uid=500(rsync) gid=500(rsync) groups=500(rsync)
+</code></pre>
+
+<h3 id="toc_38">第四个里程碑：创建服务端备份数据目录</h3>
+
+<pre><code>[root@backup ~]# mkdir /backup
+[root@backup ~]# ll -d /backup/
+drwxr-xr-x 2 root root 4096 Jul 26 15:02 /backup/
+[root@backup ~]# chown -R rsync.rsync /backup/
+</code></pre>
+
+<h3 id="toc_39">第五个里程碑：创建密码认证文件</h3>
+
+<pre><code>echo &quot;rsync_backup:oldboy123&quot; &gt; /etc/rsync.password
+
+ll /etc/rsync.password 
+-rw-r--r-- 1 root root 23 Jul 26 15:09 /etc/rsync.password
+</code></pre>
+
+<h4 id="toc_40"><strong>只要涉及到有密码（明文）信息，都需要将密码文件权限设置为600</strong></h4>
+
+<pre><code>chmod 600 /etc/rsync.password 
+</code></pre>
+
+<h3 id="toc_41">第六个里程碑：rsync服务需要进行启动</h3>
+
+<pre><code class="language-bash">    rsync --daemon
+</code></pre>
+
+<blockquote>
+<p>说明：rsync服务的端口号为873</p>
+</blockquote>
+
+<h6 id="toc_42">至此：服务端配置完成</h6>
+
+<h2 id="toc_43">rsync客户端</h2>
+
+<h3 id="toc_44">第一个里程碑：确认服务软件是否存在</h3>
+
+<pre><code>[root@backup ~]# rpm -qa rsync
+rsync-3.0.6-12.el6.x86_64
+</code></pre>
+
+<h3 id="toc_45">第二步里程碑：实现客户端免秘钥传输数据</h3>
+
+<pre><code>[root@nfs01 data]# # 客户端第二里程：实现免秘钥
+[root@nfs01 data]# ## 需要一个告知服务端密码信息文件
+[root@nfs01 data]# echo &quot;oldboy123&quot; &gt;/etc/rsync.password
+[root@nfs01 data]# chmod 600 /etc/rsync.password 
+[root@nfs01 data]# ## 在执行备份数据命令时，告知密码文件信息
+[root@nfs01 data]# rsync -avz /etc/hosts rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
+sending incremental file list
+hosts
+
+sent 196 bytesreceived 27 bytes446.00 bytes/sec
+total size is 349speedup is 1.57
+</code></pre>
+
+<h1 id="toc_46">rsync服务的排错</h1>
+
+<h2 id="toc_47">问题一：</h2>
+
+<pre><code>[root@backup ~]# scp -rp /etc/hosts 172.16.1.31:tmp/scp
+ssh: connect to host 172.16.1.31 port 22: Connection refused
+lost connection
+</code></pre>
+
+<h2 id="toc_48">解决：</h2>
+
+<p>①. 确然链路是否通畅ping<br/><br/>
+②. 确认端口是否通畅telnet<br/>
+01. 服务端口没有开启<br/>
+02. 防火墙进行链路阻止<br/>
+03. sshd配置文件信息有问题</p>
+
+<h2 id="toc_49">问题二：</h2>
+
+<pre><code># rsync -avz /etc/hosts rsync_backup@172.16.1.41::backup
+rsync: failed to connect to 172.16.1.41: Connection refused (111)
+rsync error: error in socket IO (code 10) at clientserver.c(124) [sender=3.0.6]
+</code></pre>
+
+<h2 id="toc_50">解决：</h2>
+
+<pre><code>rsync服务端的程序没有启动
+</code></pre>
+
+<h2 id="toc_51">问题三：</h2>
+
+<pre><code># rsync -avz /etc/hosts rsync_backup@172.16.1.41::backup
+Password: 
+sending incremental file list
+hosts
+rsync: mkstemp &quot;.hosts.3LfwwJ&quot; (in backup) failed: Permission denied (13)
+
+sent 196 bytesreceived 27 bytes10.88 bytes/sec
+total size is 349speedup is 1.57
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1039) [sender=3.0.6
+</code></pre>
+
+<h2 id="toc_52">解决：</h2>
+
+<p>备份目录权限没有设置为rsync</p>
+
+<h2 id="toc_53">rsync服务的扩展</h2>
+
+<h3 id="toc_54">①. 守护进程多模块功能</h3>
+
+<h5 id="toc_55">在配置文件中添加多模块信息</h5>
+
+<pre><code>[root@backup ~]# cat /etc/rsyncd.conf 
+#rsync_config
+#created by HQ at 2017
+##rsyncd.conf start##
+
+uid = rsync
+gid = rsync
+use chroot = no
+max connections = 200
+timeout = 300
+pid file = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+log file = /var/log/rsyncd.log
+ignore errors
+read only = false
+list = false
+hosts allow = 172.16.1.0/24
+hosts deny = 0.0.0.0/32
+auth users = rsync_backup
+secrets file = /etc/rsync.password
+[backup]
+comment = &quot;backup dir by oldboy&quot;
+path = /backup
+[nfsbackup]
+comment = &quot;nfsbackup dir by oldboy&quot;
+path = /nfsbackup
+</code></pre>
+
+<h5 id="toc_56">多模块信息添加完毕，创建多模块指定的目录</h5>
+
+<pre><code>[root@backup ~]# mkdir /nfsbackup;chown -R rsync.rsync /nfsbackup
+[root@backup ~]# ll /nfsbackup/ -d
+drwxr-xr-x 2 rsync rsync 4096 Jul 26 16:43 /nfsbackup/
+</code></pre>
+
+<h5 id="toc_57">多模块配置完毕后，需要重启rsync服务，使配置生效</h5>
+
+<pre><code>root@backup ~]# /etc/init.d/xinetd
+Usage: /etc/init.d/xinetd {start|stop|status|restart|condrestart|reload}
+[root@backup ~]# /etc/init.d/xinetd restart
+Stopping xinetd: [FAILED]
+Starting xinetd: [OK]
+[root@backup ~]# netstat -lntup|grep xinetd
+tcp00 :::873:::*LISTEN2351/xinetd 
+
+[root@nfs01 data]# rsync -avz /etc/hosts rsync_backup@172.16.1.41::nfsbackup/dba/01/02/03/04/ --password-file=/etc/rsync.password 
+sending incremental file list
+rsync: mkdir &quot;dba/01/02/03/04&quot; (in nfsbackup) failed: No such file or directory (2)
+rsync error: error in file IO (code 11) at main.c(576) [receiver=3.0.6]
+rsync: connection unexpectedly closed (5 bytes received so far) [sender]
+rsync error: error in rsync protocol data stream (code 12) at io.c(600) [sender=3.0.6]
+</code></pre>
+
+<h5 id="toc_58">rsync无法创建多级目录，即没有-p参数功能</h5>
+
+<h3 id="toc_59">②. 守护进程排除文件功能</h3>
+
+<h4 id="toc_60">rsync实现排除功能</h4>
+
+<pre><code>[root@nfs01 rsync]# cd /tmp/rsync/
+[root@nfs01 rsync]# ll
+total 0
+[root@nfs01 rsync]# mkdir {a..d}
+[root@nfs01 rsync]# touch {a..d}/{1..3}
+[root@nfs01 rsync]# rsync -avz --exclude=a --exclude=b/2 /tmp/rsync/ rsync_backup@172.16.1.41::nfsbackup --password-file=/etc/rsync.password 
+sending incremental file list
+./
+b/
+b/1
+b/3
+c/
+c/1
+c/2
+c/3
+d/
+d/1
+d/2
+d/3
+
+sent 423 bytesreceived 175 bytes1196.00 bytes/sec
+total size is 0speedup is 0.00
+</code></pre>
+
+<h4 id="toc_61">服务端进行测试验证</h4>
+
+<pre><code>[root@backup nfsbackup]# tree
+.
+├── b
+│   ├── 1
+│   └── 3
+├── c
+│   ├── 1
+│   ├── 2
+│   └── 3
+└── d
+├── 1
+├── 2
+└── 3
+</code></pre>
+
+<h3 id="toc_62">③ rsync守护进程访问控制功能</h3>
+
+<h4 id="toc_63">rsync服务的应用（实践案例）</h4>
+
+<h2 id="toc_64">异常问题大招：</h2>
+
+<p>①. 重启（服务重启 服务器重启）<br/>
+②. 重配（所有配置信息重新配置）<br/>
+③. 重装（系统重装 服务架构重装）</p>
+
+<hr/>
+
+<h5 id="toc_65">遗留知识点：</h5>
+
+<pre><code>企业备份方案实践说明：   
+借助cron+rsync把所有客户服务器数据同步到备份服务器     
+全网服务器数据备份解决方案提出及负责实施 200x.03 – 200x.09     
+
+01. 针对公司重要数据备份混乱状况向领导提出备份全网数据的解决方案。     
+02. 通过本地打包备份，然后rsync结合inotify应用把全网数据统一备份到一个固定存储服务器，然后在存储服务器上通过脚本检查并报警管理员备份结果。     
+03. 定期将IDC机房的数据备份到公司的内部服务器，防止机房地震及火灾问题导致数据丢失。
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

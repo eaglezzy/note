@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十一、磁盘管理 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十一、磁盘管理</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>[TOC]<br/>
+<strong>一、磁盘知识体系</strong></p>
+
+<hr/>
+
+<p><strong>二、磁盘结构</strong></p>
+
+<ol>
+<li>磁盘外部结构
+
+<ol>
+<li>组成</li>
+<li>接口类型
+
+<ol>
+<li>SAS 300G/600G 15K转/分钟</li>
+<li>SATA 5400/7200转/分钟 企业级1W转/分钟</li>
+<li>SCSI</li>
+<li>PCI-E SSD</li>
+</ol></li>
+</ol></li>
+<li>磁盘内部原理
+
+<ol>
+<li>磁盘 硬盘(Disk)</li>
+<li>磁头(Head)
+
+<ol>
+<li>盘面数量==磁头数量</li>
+<li>用来写入和读取数据的</li>
+</ol></li>
+<li>磁道(Track)</li>
+<li>扇区(Sector)
+
+<ol>
+<li>磁道上面的最小的单位</li>
+<li>默认大小512字节</li>
+</ol></li>
+<li>柱面(Cylinder)
+
+<ol>
+<li>不同盘面上面的相同的磁道组成的圆柱体</li>
+<li>不同盘面上的相同的呼啦圈组成的圆柱体</li>
+<li>磁盘默认是按照柱面进行读写</li>
+</ol></li>
+<li>单元块(Units)
+表示一个柱面的大小</li>
+<li>如何计算磁盘的大小
+
+<ol>
+<li>磁盘空间:一个柱面的大小*柱面的数量</li>
+<li>如何查看柱面的数量,柱面的大小</li>
+<li>Linux如何进行计算</li>
+</ol></li>
+</ol></li>
+</ol>
+
+<hr/>
+
+<p><strong>三、raid</strong></p>
+
+<ol>
+<li>磁盘阵列
+能获得更大的容量,获得更高的性能,获得更好的安全性</li>
+<li>raid卡
+
+<ol>
+<li>集成raid 0 raid 1</li>
+<li>独立 0 1 5 10</li>
+</ol></li>
+<li>常用raid级别
+
+<ol>
+<li>raid 0
+
+<ol>
+<li>具有最高的存储性能(磁盘容量不浪费,读写很快),容量为所有磁盘的总和</li>
+<li>要制作raid 0至少要有1块物理磁盘,不做raid不能安装系统</li>
+</ol></li>
+<li>raid 1
+
+<ol>
+<li>镜像效果,损失50%的数据容量.例如2块1T的硬盘,做完raid 1后容量为1T</li>
+<li>Mirror不能提高存储性能.理论上写性能和单盘相差不大</li>
+</ol></li>
+<li>raid 5
+至少需要3块硬盘,最多损坏1块</li>
+<li>raid 10
+至少需要4块硬盘,最多损坏2块</li>
+</ol></li>
+</ol>
+
+<hr/>
+
+<p><strong>四、磁盘分区</strong></p>
+
+<ol>
+<li>磁盘分区表位置</li>
+</ol>
+
+<blockquote>
+<p>1磁头0磁道01扇区<br/>
+前446字节mbr主引导记录<br/>
+14字节的分区表<br/>
+15AA表示的是结束标记</p>
+</blockquote>
+
+<ol>
+<li>磁盘-盘片-mbr</li>
+<li>主分区</li>
+<li>扩展分区</li>
+<li>逻辑分区</li>
+<li>硬盘分区的设备名</li>
+</ol>
+
+<hr/>
+
+<p><strong>五、磁盘格式化</strong>  </p>
+
+<blockquote>
+<p>磁盘分区实战</p>
+</blockquote>
+
+<ol>
+<li>fdisk
+
+<ol>
+<li>创建一个100M的分区,把他挂载到/mnt上面
+
+<ol>
+<li>添加一个分区,给给所有容量</li>
+<li>通知系统/dev/sdb的分区表更改了</li>
+<li>装修-格式化(创建文件系统)</li>
+<li>调整-挂载次数-检查间隔</li>
+<li>挂载并检查结果</li>
+<li>开机自动挂载</li>
+</ol></li>
+<li>磁盘大小小于2TB mbr</li>
+</ol></li>
+<li>parted
+
+<ol>
+<li>主要用于给磁盘大于2TB的磁盘进行分区</li>
+<li>基于GPT分区表,支持更大的硬盘,支持更多的主分区</li>
+<li>??企业案例:Java环境内存不够用</li>
+</ol></li>
+</ol>
+
+<hr/>
+
+<p><strong>六、文件系统</strong>  </p>
+
+<ol>
+<li>含义:决定系统怎么存放数据<br/></li>
+<li>分类及区别<br/></li>
+<li>centos 5.x ext3<br/></li>
+<li>centos 6.x ext4<br/></li>
+<li>centos 7.x xfs<br/></li>
+<li>文件系统详细知识-superblock<br/>
+inode block使用量剩余量</li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

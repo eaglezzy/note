@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿四、网站访问相关命令 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿四、网站访问相关命令</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><h1 id="toc_0">curl 传输网页内容命令</h1>
+
+<pre><code>[root@m01 ~]# curl www.etiantian.org
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;301 Moved Permanently&lt;/title&gt;&lt;/head&gt;
+&lt;body bgcolor=&quot;white&quot;&gt;
+&lt;center&gt;&lt;h1&gt;301 Moved Permanently&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.2.9&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<hr/>
+
+<ol>
+<li><p>-I 只显示响应头信息(去掉响应报文中的&lt;号以及响应报文主体)</p>
+
+<pre><code>[root@m01 ~]# curl -I www.etiantian.org
+HTTP/1.1 301 Moved Permanently
+Server: nginx/1.2.9
+Date: Mon, 07 Aug 2017 07:33:58 GMT
+Content-Type: text/html
+Content-Length: 184
+Connection: keep-alive
+Location: http://www.oldboyedu.com/
+</code></pre>
+
+<hr/></li>
+<li><p>-s Silent mode不显示进度和错误信息, 显示的内容尽可能少</p>
+
+<pre><code>[root@m01 ~]# curl -s www.etiantian.org
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;301 Moved Permanently&lt;/title&gt;&lt;/head&gt;
+&lt;body bgcolor=&quot;white&quot;&gt;
+&lt;center&gt;&lt;h1&gt;301 Moved Permanently&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.2.9&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<hr/></li>
+<li><p>-v 显示详细访问过程(&#39;&gt;&#39;表示用户请求;&#39;&lt;&#39;表示服务器响应)</p>
+
+<pre><code>[root@m01 ~]# curl -v www.etiantian.org
+* About to connect() to www.etiantian.org port 80 (#0)
+*   Trying 42.62.5.158... connected
+* Connected to www.etiantian.org (42.62.5.158) port 80 (#0)
+&gt; GET / HTTP/1.1
+&gt; User-Agent: curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.21 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2
+&gt; Host: www.etiantian.org
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 301 Moved Permanently
+&lt; Server: nginx/1.2.9
+&lt; Date: Mon, 07 Aug 2017 07:34:35 GMT
+&lt; Content-Type: text/html
+&lt; Content-Length: 184
+&lt; Connection: keep-alive
+&lt; Location: http://www.oldboyedu.com/
+&lt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;301 Moved Permanently&lt;/title&gt;&lt;/head&gt;
+&lt;body bgcolor=&quot;white&quot;&gt;
+&lt;center&gt;&lt;h1&gt;301 Moved Permanently&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.2.9&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+* Connection #0 to host www.etiantian.org left intact
+* Closing connection #0
+</code></pre>
+
+<hr/></li>
+<li><p>-o 将下载的数据(响应报文主体)写入到文件，必须使用绝对路径</p>
+
+<pre><code>[root@m01 ~]# curl -o /tmp/test.txt www.etiantian.org
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+184   184  184   184    0     0     36      0  0:00:05  0:00:05 --:--:--  8000
+</code></pre>
+
+<hr/></li>
+<li><p>-w 指定输出格式</p>
+
+<pre><code>[root@m01 ~]# curl -w &quot;%{http_code}\n&quot; www.etiantian.org
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;301 Moved Permanently&lt;/title&gt;&lt;/head&gt;
+&lt;body bgcolor=&quot;white&quot;&gt;
+&lt;center&gt;&lt;h1&gt;301 Moved Permanently&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.2.9&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+301
+</code></pre>
+
+<hr/></li>
+<li><p>--progress 显示进度条</p>
+
+<pre><code>[root@m01 ~]# curl -o /tmp/test.txt --progress www.jd.com
+######################################################################## 100.0%
+</code></pre>
+
+<hr/></li>
+<li><p>-A</p>
+
+<pre><code>curl -A &quot;iphone&quot; www.etiantian.org 
+</code></pre>
+
+<blockquote>
+<p>说明：-A参数可以模拟谷歌浏览器的F12功能，指定访问的user_agent信息</p>
+</blockquote></li>
+<li><p>-L 定位到跳转后的新网址</p>
+
+<hr/></li>
+<li><p>-H Host: 将自定义的请求头信息传递给服务器</p>
+
+<pre><code> [root@lb01 conf]# curl www.etiantian.org/oldboy.html
+www web02
+[root@lb01 conf]# curl 10.0.0.8/oldboy.html
+bbs web01
+[root@lb01 conf]# curl -H Host:www.etiantian.org 10.0.0.8/oldboy.html 
+www web01
+</code></pre>
+
+<hr/></li>
+<li><p>实际应用: curl获取状态码</p>
+
+<ul>
+<li>方法1</li>
+</ul>
+
+<pre><code>[root@m01 ~]# curl -w &quot;%{http_code}\n&quot; -o /dev/null www.etiantian.org
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+184   184  184   184    0     0     35      0  0:00:05  0:00:05 --:--:--  7360
+301
+[root@m01 ~]# curl -sw &quot;%{http_code}\n&quot; -o /dev/null www.etiantian.org
+301
+</code></pre>
+
+<ul>
+<li>方法2</li>
+</ul>
+
+<pre><code>[root@m01 ~]# curl -I www.etiantian.org|awk &#39;NR==1{print $2}&#39;
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                    Dload  Upload   Total   Spent    Left  Speed
+  0   184    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+301
+[root@m01 ~]# curl -Is www.etiantian.org|awk &#39;NR==1{print $2}&#39;
+301
+[root@m01 ~]# curl -sI www.etiantian.org|awk &#39;NR==1{print $2}&#39;
+301
+</code></pre></li>
+</ol>
+
+<hr/></li>
+<li><h1 id="toc_1">wget 下载工具</h1>
+
+<ul>
+<li>--debug 查看网址访问过程</li>
+</ul>
+
+<pre><code>[root@m01 ~]# wget --debug www.bing.com
+DEBUG output created by Wget 1.12 on linux-gnu.
+
+--2017-08-05 18:25:48--  http://www.bing.com/
+Resolving www.bing.com... 202.89.233.104, 202.89.233.103
+Caching www.bing.com =&gt; 202.89.233.104 202.89.233.103
+Connecting to www.bing.com|202.89.233.104|:80... connected.
+Created socket 3.
+Releasing 0x0000000002779020 (new refcount 1).
+
+---request begin---
+GET / HTTP/1.0
+User-Agent: Wget/1.12 (linux-gnu)
+Accept: * / *
+Host: www.bing.com
+Connection: Keep-Alive
+
+---request end---
+HTTP request sent, awaiting response...
+
+---response begin---
+HTTP/1.1 301 Moved Permanently
+Location: http://cn.bing.com/
+Server: Microsoft-IIS/10.0
+X-MSEdge-Ref: Ref A: B1BE0DB046744BCDA6EB5A47881DB4BC Ref B: BJ1EDGE0221 Ref C: 2017-08-05T10:25:53Z
+Date: Sat, 05 Aug 2017 10:25:52 GMT
+Connection: keep-alive
+Content-Length: 0
+
+---response end---
+301 Moved Permanently
+Registered socket 3 for persistent reuse.
+Location: http://cn.bing.com/ [following]
+Skipping 0 bytes of body: [] done.
+--2017-08-05 18:25:53--  http://cn.bing.com/
+conaddr is: 202.89.233.104
+Resolving cn.bing.com... 202.89.233.104, 202.89.233.103
+Caching cn.bing.com =&gt; 202.89.233.104 202.89.233.103
+Releasing 0x0000000002779600 (new refcount 1).
+Reusing existing connection to www.bing.com:80.
+Reusing fd 3.
+...
+</code></pre>
+
+<hr/></li>
+<li><h1 id="toc_2">iptables 防火墙配置命令</h1>
+
+<blockquote>
+<p>! 是取反的意思。<br/>
+-t&lt;表&gt;：指定要操纵的表<br/>
+ -A：向规则链中添加条目<br/>
+ -D：从规则链中删除条目<br/>
+ -I：向规则链中插入条目<br/>
+ -R：替换规则链中的条目<br/>
+ -L：显示规则链中已有的条目<br/>
+ -F：清空规则链中已有的条目<br/>
+ -Z：清空规则链中的数据包计算器和字节计数器<br/>
+ -N：创建新的用户自定义规则链<br/>
+ -P：定义规则链中的默认目标<br/>
+ -h：显示帮助信息<br/>
+ -p：指定要匹配的数据包协议类型<br/>
+ -s：指定要匹配的数据包源ip地址<br/>
+ -j&lt;目标&gt;：指定要跳转的目标<br/>
+ -i&lt;网络接口&gt;：指定数据包进入本机的网络接口<br/>
+ -o&lt;网络接口&gt;：指定数据包要离开本机所使用的网络接口。<br/>
+iptables命令选项输入顺序<br/>
+ iptables -t 表名 &lt;-A/I/D/R&gt; 规则链名 [规则号] &lt;-i/o 网卡名&gt; -p 协议名 &lt;-s 源IP/源子网&gt; --sport 源端口 &lt;-d 目标IP/目标子网&gt; --dport 目标端口 -j 动作 </p>
+</blockquote>
+
+<hr/>
+
+<ol>
+<li><p>表名包括</p>
+
+<blockquote>
+<p>raw：高级功能，如：网址过滤。 <br/>
+mangle：数据包修改（QOS），用于实现服务质量。 <br/>
+nat：地址转换，用于网关路由器。 <br/>
+filter：包过滤，用于防火墙规则。 </p>
+</blockquote>
+
+<hr/></li>
+<li><p>规则链名包括</p>
+
+<blockquote>
+<p>INPUT链：处理输入数据包。 <br/>
+OUTPUT链：处理输出数据包。 <br/>
+PORWARD链：处理转发数据包。 <br/>
+PREROUTING链：用于目标地址转换（DNAT）。 <br/>
+POSTOUTING链：用于源地址转换（SNAT）。 </p>
+</blockquote>
+
+<hr/></li>
+<li><p>-j后的动作包括： </p>
+
+<blockquote>
+<p>ACCEPT：接收数据包。 <br/>
+DROP：丢弃数据包。 <br/>
+REDIRECT：重定向、映射、透明代理。 <br/>
+SNAT：源地址转换。 <br/>
+DNAT：目标地址转换。 <br/>
+MASQUERADE：IP伪装（NAT），用于ADSL。 <br/>
+LOG：日志记录。 </p>
+</blockquote>
+
+<hr/></li>
+<li><p>实例</p>
+
+<ul>
+<li>清除已有iptables规则 </li>
+</ul>
+
+<pre><code>iptables -F 
+iptables -X 
+iptables -Z
+</code></pre>
+
+<ul>
+<li>开放指定的端口 </li>
+</ul>
+
+<pre><code>iptables -A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT #允许本地回环接口(即运行本机访问本机) 
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT #允许已建立的或相关连的通行 
+iptables -A OUTPUT -j ACCEPT #允许所有本机向外的访问 
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT #允许访问22端口 
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT #允许访问80端口 
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT #允许ftp服务的21端口 
+iptables -A INPUT -p tcp --dport 20 -j ACCEPT #允许FTP服务的20端口 
+iptables -A INPUT -j reject #禁止其他未允许的规则访问 
+iptables -A FORWARD -j REJECT #禁止其他未允许的规则访问 
+</code></pre>
+
+<ul>
+<li>屏蔽IP </li>
+</ul>
+
+<pre><code>iptables -I INPUT -s 123.45.6.7 -j DROP #屏蔽单个IP的命令 
+iptables -I INPUT -s 123.0.0.0/8 -j DROP #封整个段即从123.0.0.1到123.255.255.254的命令 
+iptables -I INPUT -s 124.45.0.0/16 -j DROP #封IP段即从123.45.0.1到123.45.255.254的命令 
+iptables -I INPUT -s 123.45.6.0/24 -j DROP #封IP段即从123.45.6.1到123.45.6.254的命令
+</code></pre>
+
+<ul>
+<li>查看已添加的iptables规则 </li>
+</ul>
+
+<pre><code>iptables -L -n -v
+</code></pre>
+
+<ul>
+<li>删除已添加的iptables规则 将所有iptables以序号标记显示</li>
+</ul>
+
+<pre><code>iptables -L -n --line-numbers
+</code></pre>
+
+<ul>
+<li>比如要删除INPUT里序号为8的规则，执行： </li>
+</ul>
+
+<pre><code>iptables -D INPUT 8
+</code></pre></li>
+</ol></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

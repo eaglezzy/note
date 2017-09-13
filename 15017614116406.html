@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	五、Linux基础优化 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">五、Linux基础优化</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">1. 基础环境</a>
+</li>
+<li>
+<a href="#toc_1">2. 添加普通用户账号</a>
+</li>
+<li>
+<a href="#toc_2">3. 关闭SElinux功能</a>
+<ul>
+<li>
+<a href="#toc_3">3.1. 修改配置文件，使关闭SElinux永久生效</a>
+</li>
+<li>
+<a href="#toc_4">3.2. 关闭iptables防火墙</a>
+<ul>
+<li>
+<a href="#toc_6">4. Linux中文显示设置（如何防止显示中文乱码）</a>
+<ul>
+<li>
+<a href="#toc_7">4.1. 临时更改字符集</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="toc_0">1. 基础环境</h2>
+
+<pre><code>你的系统是什么版本的？
+</code></pre>
+
+<p>查询系统版本<br/>
+查询系统内核版本</p>
+
+<h2 id="toc_1">2. 添加普通用户账号</h2>
+
+<pre><code>Linux/Unix是一个多用户、多任务的操作系统
+超级管理员（root）：root默认在Unix/Linux操作系统中拥有最高的管理权限。比喻：皇帝
+普通用户：管理员或者具备管理权限的用户创建的。权限：系统管理尽可以读、看，不能增、删、改。
+权限越大，责任越大。
+
+可使用如下命令添加一个普通用户账号，并为其设置口令：
+</code></pre>
+
+<pre><code class="language-bash">[root@oldboyedu38 \~]# passwd oldboy
+Changing password for user oldboy.
+New password: 
+BAD PASSWORD: it is too simplistic/systematic
+BAD PASSWORD: is too simple
+Retype new password: 
+passwd: all authentication tokens updated successfully.
+\[root@oldboyedu38 \~]# su - oldboy
+\[oldboy@oldboyedu38 \~]$ whoami 
+oldboy
+\[oldboy@oldboyedu38-01 \~]$ su -
+Password:
+\[root@oldboyedu38-01 oldboy]# whoami
+root
+</code></pre>
+
+<pre><code>批量修改密码
+--stdin 从管道获取密码 非交互式设置密码
+</code></pre>
+
+<pre><code class="language-bash">[root@oldboyedu38-01 \~]# echo &quot;123456&quot; | passwd --stdin oldboy
+更改用户 oldboy 的密码 。
+passwd： 所有的身份验证令牌已经成功更新。
+</code></pre>
+
+<h2 id="toc_2">3. 关闭SElinux功能</h2>
+
+<pre><code>SElinux（Security-Enhanced Linux）是美国国家安全局（NSA）对于强制访问控制的实现，这个功能让系统管理员又爱又恨，这里我们还是把它给关闭了吧，至于安全问题，后面通过其他手段来解决，这也是大多数生产环境的做法，如果非要开启也是可以的。关闭方法如下。
+</code></pre>
+
+<h3 id="toc_3">3.1. 修改配置文件，使关闭SElinux永久生效</h3>
+
+<pre><code class="language-bash">[root@oldboyedu38-01 ~]# cp /etc/selinux/config /etc/selinux/config.ori #&lt;==备份
+[root@oldboyedu38-01 ~]# sed &#39;s#SELINUX=enforcing#SELINUX=disabled#g&#39; /etc/selinux/config
+#&lt;==修改配置文件可使配置永久生效，但必须要重启系统，此步使sed快速修改方法，也可以通过vi编辑修改此文件。
+[root@oldboyedu38-01 ~]# grep &quot;SELINUX=disabled&quot; /etc/selinux/config
+SELINUX=disabled #&lt;==监察替换结果为disabled就表示编辑成功了。
+       
+## 临时关闭SElinux，可在命令行执行如下命令：   #命令行修改，重启失效
+\[root@oldboyedu38-01 \~]# setenforce
+usage:  setenforce \[ Enforcing | Permissive | 1 | 0 ]
+    数字0表示Permissive，即给出警告提示，但不会阻止操作，相当于disabled
+    数字1表示Enforcing，即表示SElinux为开启状态
+\[root@oldboyedu38-01 \~]# setenforce 0 ##&lt;==临时将SElinux调成Permissive状态。
+\[root@oldboyedu38-01 \~]# getenforce   ##&lt;==查看SElinux当前状态
+Permissive
+</code></pre>
+
+<h3 id="toc_4">3.2. 关闭iptables防火墙</h3>
+
+<blockquote>
+<p>关闭防火墙的目的是为了让初学者学习更方便，将来在学了iptables技术后可再统一开启。<br/>
+再企业环境中，一般只有配置外网IP的Linux服务器才需要开启防火墙，但即使是有外网IP，对于高并发高流量的业务服务器仍是不能开的，因为会有较大性能损失导致网站访问很慢，这种情况下只能在前端加更好的硬件防火墙了。</p>
+</blockquote>
+
+<pre><code>临时关闭防火墙的具体操作过程如下：
+[root@oldboyedu38-01 \~]# /etc/init.d/iptables stop                 #&lt;==重复执行下确认已关闭。
+iptables：Setting chains to policy  ACCEPT：filter                    [确定]
+iptables：Flushing firewall rules：                                   [确定]
+iptables：Unloading modules：                                     [确定]
+[root@oldboyedu38-01 \~]# /etc/init.d/iptables stop                 #&lt;==重复执行下确认已关闭。
+[root@oldboyedu38-01 \~]# /etc/init.d/iptables status               #查看是否关闭
+iptables: Firewall is not running.
+
+永久关闭防火墙的具体操作如下：
+[root@oldboyedu38-01 \~]# chkconfig iptables off                    #&lt;==关闭开机自启动命令
+[root@oldboyedu38-01 \~]# chkconfig | grep ipt                      #检查是否关闭自启动
+iptables        0:off   1:off   2:off   3:off   4:off   5:off   6:off
+</code></pre>
+
+<blockquote>
+<h1 id="toc_5">企业案例：系统开机启动项优化</h1>
+</blockquote>
+
+<pre><code>除了下面5个服务以外都关闭
+
+crond sshd network sysstat rsyslog
+
+
+
+
+
+chkconfig --list|grep 3:on|sed -r &#39;s#(.*).*0.*#\1#&#39;|egrep -v &#39;crond|sshd|network|sysstat|rsyslog&#39;|sed -r &#39;s#(.*)#chkconfig \1 off#&#39;|bash
+</code></pre>
+
+<h2 id="toc_6">4. Linux中文显示设置（如何防止显示中文乱码）</h2>
+
+<blockquote>
+<p>此项优化为可选项，即调整Linux系统的字符集设置，那么，什么是字符集呢？<br/>
+简单的说，字符集就是一套文字符号及编码。目前Linux下常用的字符集有：</p>
+
+<blockquote>
+<p>GBK：定长，双字节，不是国际标准，支持的系统不少，实际企业用的不多。</p>
+
+<p>UTF-8：非定长，1~4字节，广泛支持，MYSQL也使用UTF-8，企业广泛使用。  </p>
+</blockquote>
+
+<p>可通过快捷的命令方式在/etc/sysconfig/i18n中添加如下内容，使其支持中文显示：</p>
+</blockquote>
+
+<h3 id="toc_7">4.1. 临时更改字符集</h3>
+
+<pre><code class="language-bash">[root@oldboyedu38-01 ~]# echo $LANG                             #查看系统当前的字符集
+en_US.UTF8
+[root@oldboyedu38-01 ~]# cat /etc/sysconfig/i18n                    #系统字符集配置文件的位置
+LANG=&quot;en_US.UTF-8&quot;
+SYSFONT=&quot;latarcyrheb-sun16&quot; 
+    [root@oldboyedu38-01 ~]# export LANG=zh\_CN.UTF-8                   #临时更改字符集
+    ```
+## 4.2. 写入到合同里面
+```bash
+[root@oldboyedu38-01 ~]# cp /etc/sysconfig/i18n /etc/sysconfig/i18n.ori #备份 
+[root@oldboyedu38-01 ~]# echo &#39;LANG=&quot;zh_CN.UTF-8&quot;&#39; &gt;/etc/sysconfig/i18n #修改配置文件
+    #→相当于用vi /etc/sysconfig/i18n 添加LANG=&quot;zh_CN.UTF-8&quot;内容
+[root@oldboyedu38-01 ~]# source /etc/sysconfig/i18n             #让配置文件生效
+[root@oldboyedu38-01 ~]# echo $LANG                             #查看系统当前的字符集
+zh_CN.UTF-8
+</code></pre>
+
+<pre><code>## 乱码的核心解决方法：
+    ### 系统字符集（utf-8）
+    ### 保持SSH客户端的字符集与Linux服务端一致。
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

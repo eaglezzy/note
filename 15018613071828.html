@@ -1,0 +1,336 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十二、sed命令精讲 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十二、sed命令精讲</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">sed是什么</a>
+</li>
+<li>
+<a href="#toc_1">sed功能与版本</a>
+</li>
+<li>
+<a href="#toc_2">语法格式</a>
+</li>
+<li>
+<a href="#toc_3">命令执行流程</a>
+</li>
+<li>
+<a href="#toc_4">常用功能</a>
+<ul>
+<li>
+<a href="#toc_5">查询</a>
+</li>
+<li>
+<a href="#toc_6">增加</a>
+</li>
+<li>
+<a href="#toc_7">删除</a>
+</li>
+<li>
+<a href="#toc_8">替换</a>
+</li>
+<li>
+<a href="#toc_9">拓展</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="toc_0">sed是什么</h2>
+
+<blockquote>
+<p>字符流编辑器(Stream Editor)</p>
+</blockquote>
+
+<h2 id="toc_1">sed功能与版本</h2>
+
+<blockquote>
+<p>处理纯文本文件,日志,配置文件等==&gt;Linux<br/>
+增加/删除/修改/查询<br/>
+sed --version</p>
+</blockquote>
+
+<h2 id="toc_2">语法格式</h2>
+
+<pre><code class="language-bash">sed [选项] [sed指令] [输入文件]
+</code></pre>
+
+<h2 id="toc_3">命令执行流程</h2>
+
+<blockquote>
+<p>模式空间:sed从文件读取一行文本后存入的缓冲区(这个缓冲区是在内存中)</p>
+</blockquote>
+
+<h2 id="toc_4">常用功能</h2>
+
+<h3 id="toc_5">查询</h3>
+
+<p><strong>按行查询</strong></p>
+
+<p>单行</p>
+
+<pre><code>p   打印模式空间的内容
+-n  取消默认的sed软件的输出
+sed -n &#39;1p&#39; pperson.txt
+</code></pre>
+
+<p>多行 ==&gt;地址范围精讲</p>
+
+<pre><code>1.没有地址,默认匹配所有行
+2.sed &#39;n1[,n2]p&#39; 文件
+3.数字
+sed -n &#39;1p&#39; pperson.txt
+sed -n &#39;1,3p&#39; person.txt
+4.正则
+sed -n &#39;/oldboy/p&#39; person.txt
+sed -n &#39;/oldboy/,/yy/p&#39; person.txt
+</code></pre>
+
+<p>过滤多个字符</p>
+
+<pre><code>-r支持扩展正则表达式
+|扩展正则,同时过滤多个字符
+sed -rn &#39;/oldboy|yy/p&#39; person.txt
+</code></pre>
+
+<h3 id="toc_6">增加</h3>
+
+<p>单行增加</p>
+
+<pre><code>a追加append,在指定行后添加一行或多行文本
+i插入insert,在指定行前添加一行或多行文本
+</code></pre>
+
+<p>多行添加</p>
+
+<pre><code>换行符  \n
+</code></pre>
+
+<p>企业案例<br/>
+优化SSH配置(一键完成增加若干参数)</p>
+
+<pre><code>cp /etc/ssh/sshd_config
+-i将修改内容写入到磁盘文件
+</code></pre>
+
+<h3 id="toc_7">删除</h3>
+
+<p>单行删除</p>
+
+<pre><code>d 删除 delete
+</code></pre>
+
+<p>多行删除<br/>
+企业案例</p>
+
+<pre><code>打印文件内容但不包含oldboy
+sed -n &#39;/oldboy/d&#39; person.txt
+</code></pre>
+
+<h3 id="toc_8">替换</h3>
+
+<p>文本替换</p>
+
+<pre><code>s单独使用--&gt;将每一行中第一处匹配的字符串进行替换
+g每一行进行全部替换--&gt;sed指令s的替换标志之一(全局替换)
+-i将修改内容写入到文件,-i.ori将修改内容写入到备份文件
+Ms对第M行处理,单独使用时,只处理第一处匹配,有g时则对第M行全部匹配替换
+Ng对每一行从匹配上的第N处开始替换.
+</code></pre>
+
+<p>变量替换</p>
+
+<blockquote>
+<p>引号的区别</p>
+
+<blockquote>
+<p>单引号<br/>
+双引号<br/>
+不用引号<br/>
+反引号<br/>
+反向引用</p>
+</blockquote>
+</blockquote>
+
+<p>()可以记住正则表达式的一部分<br/>
+扩展正则,需使用-r</p>
+
+<pre><code>\1引用第一个()中的匹配内容,\2引用第二个,以此类推,最多可9个
+案例: echo &quot;i am oldboy teacher.&quot;如果想保留这一行的单词oldbo
+sed -r &#39;s#.*(oldboy).*#\1#g&#39;
+</code></pre>
+
+<p>企业案例</p>
+
+<pre><code>系统开机启动项优化
+</code></pre>
+
+<h3 id="toc_9">拓展</h3>
+
+<p>特殊符号&quot;=&quot;获取行号</p>
+
+<pre><code>sed &quot;=&quot; person.txt
+sed -n &quot;$=&quot; person.txt  #只显示文件最后一行的行号 == wc -l
+</code></pre>
+
+<p>一条sed语句执行多条命</p>
+
+<pre><code>每个-e选项后可接一个sed指令
+</code></pre>
+
+<p>&quot;;&quot;分号的使用</p>
+
+<pre><code>sed &#39;3,$d;s#10#01#&#39; person.txt
+</code></pre>
+
+<p>企业案例:</p>
+
+<pre><code>一个文件100行,把5,35,70行单独拿出来
+sed -n &#39;5p;35p;70p&#39;
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

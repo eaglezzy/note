@@ -1,0 +1,1358 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十四、网络基础 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十四、网络基础</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">互联网技术人员需要了解的技术</a>
+</li>
+<li>
+<a href="#toc_1">系统运维(Linux系统)</a>
+</li>
+<li>
+<a href="#toc_2">网络知识</a>
+</li>
+<li>
+<a href="#toc_3">开发知识(Java C C++ Python GO)</a>
+</li>
+<li>
+<a href="#toc_4">数据库(MySQL)</a>
+</li>
+<li>
+<a href="#toc_5">大数据(Hadoop)</a>
+</li>
+<li>
+<a href="#toc_6">架构知识(docker openstack)</a>
+</li>
+<li>
+<a href="#toc_7">为什么要学习网络知识</a>
+</li>
+<li>
+<a href="#toc_8">主机之间如何实现网络通讯(实现网络通讯需要具备哪些条件)</a>
+</li>
+<li>
+<a href="#toc_9">两台主机之间需要拥有传输介质</a>
+</li>
+<li>
+<a href="#toc_10">两台主机之间通讯需要将数据信息变为计算机可以识别的二进制信息</a>
+</li>
+<li>
+<a href="#toc_11">两台主机之间实现通讯需要利用网卡硬件设备</a>
+</li>
+<li>
+<a href="#toc_12">网络基础硬件设备(重点)</a>
+</li>
+<li>
+<a href="#toc_13">交换机</a>
+<ul>
+<li>
+<a href="#toc_14">交换机的作用</a>
+</li>
+<li>
+<a href="#toc_15">交换机如何实现多台主机之间通讯</a>
+<ul>
+<li>
+<a href="#toc_16">身份识别问题</a>
+</li>
+<li>
+<a href="#toc_17">判断相应网络范围内有对应主机信息存在方法</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_18">交换机的缺点</a>
+<ul>
+<li>
+<a href="#toc_19">无法解决广播风暴问题,广播只会影响在本地局域网中的主机,因此交换机无法隔离广播域</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">交换机的作用</a>
+<ul>
+<li>
+<a href="#toc_21">在一个交换机的端口上所连接的所有终端设备,均在一个网段上(称为一个广播域)</a>
+</li>
+<li>
+<a href="#toc_22">并且1个网段会有一个统一的网络标识,会产生广播消耗设备的CPU资源</a>
+</li>
+<li>
+<a href="#toc_23">交换机可以隔离冲突域,每一个端口就是一个冲突域</a>
+</li>
+<li>
+<a href="#toc_24">终端用户的设备接入</a>
+</li>
+<li>
+<a href="#toc_25">基本的安全功能</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_26">路由器</a>
+<ul>
+<li>
+<a href="#toc_27">隔离广播风暴的思路</a>
+</li>
+<li>
+<a href="#toc_28">什么是路由器</a>
+<ul>
+<li>
+<a href="#toc_29">实现不同局域网之间主句的通讯需求</a>
+</li>
+<li>
+<a href="#toc_30">隔离广播风暴</a>
+</li>
+<li>
+<a href="#toc_31">让多台路由器之间的路由表信息共享</a>
+</li>
+<li>
+<a href="#toc_32">悄悄话实现路由信息共享==路由协议</a>
+</li>
+<li>
+<a href="#toc_33">实现路由信息共享(实现全部路由表信息统一) ==路由表的收敛过程</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_34">路由器的作用</a>
+<ul>
+<li>
+<a href="#toc_35">路由转发,实现不同网段之间主机的通讯</a>
+</li>
+<li>
+<a href="#toc_36">路由器会作为网关</a>
+</li>
+<li>
+<a href="#toc_37">广域网链路支持</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_38">网络层次架构(拓扑结构)</a>
+</li>
+<li>
+<a href="#toc_39">按照层次划分</a>
+</li>
+<li>
+<a href="#toc_40">按照区域划分</a>
+</li>
+<li>
+<a href="#toc_41">OSI网络模型概念</a>
+</li>
+<li>
+<a href="#toc_42">OSI网络模型样子</a>
+</li>
+<li>
+<a href="#toc_43">OSI网络模型层次(重点)</a>
+</li>
+<li>
+<a href="#toc_44">OSI层次模型特征</a>
+</li>
+<li>
+<a href="#toc_45">OSI层次模型介绍</a>
+</li>
+<li>
+<a href="#toc_46">利用数据包封装与解封装过程熟悉主机之间网际互联原理</a>
+</li>
+<li>
+<a href="#toc_47">TCP/IP协议簇</a>
+</li>
+<li>
+<a href="#toc_48">TCP/IP网络模型概念</a>
+<ul>
+<li>
+<a href="#toc_49">TCP/IP网络模型层次</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_50">TCP/IP三次握手过程</a>
+<ul>
+<li>
+<a href="#toc_51">理解seq和ACK</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_53">TCP/IP四次挥手过程</a>
+</li>
+<li>
+<a href="#toc_54">TCP/IP十一种状态集的转换</a>
+<ul>
+<li>
+<a href="#toc_55">十一种状态集的转换</a>
+</li>
+<li>
+<a href="#toc_56">socket套接字文件:(五元组)</a>
+<ul>
+<li>
+<a href="#toc_57">协议TCP UDP协议</a>
+</li>
+<li>
+<a href="#toc_58">目标IP地址</a>
+</li>
+<li>
+<a href="#toc_59">目标端口号</a>
+</li>
+<li>
+<a href="#toc_60">源IP地址</a>
+</li>
+<li>
+<a href="#toc_61">源端口号</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_62">ARP协议说明</a>
+<ul>
+<li>
+<a href="#toc_63">ARP协议的功能</a>
+<ul>
+<li>
+<a href="#toc_64">将IPv4地址解析为MAC地址</a>
+</li>
+<li>
+<a href="#toc_65">维护映射的缓存</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_66">提示信息</a>
+<ul>
+<li>
+<a href="#toc_67">网络层对应的是IP地址,是跨网段使用的</a>
+</li>
+<li>
+<a href="#toc_68">链路层地址对应的是MAC地址,是物理地址,实在局域网内部使用的</a>
+</li>
+<li>
+<a href="#toc_69">MAC地址就好比自己的小名一样,只有本地局域网有效</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_70">ARP协议原理</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_71">IP地址分类与子网划分基础</a>
+<ul>
+<li>
+<a href="#toc_72">IP地址概念介绍</a>
+</li>
+<li>
+<a href="#toc_73">十进制与二进制转换</a>
+</li>
+<li>
+<a href="#toc_74">按照IP地址范围进行划分</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_75">127.0.0.1</a>
+</li>
+<li>
+<a href="#toc_76">0.0.0.0</a>
+</li>
+<li>
+<a href="#toc_77">255.255.255.255</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_78">按照IP地址用途进行划分</a>
+</li>
+<li>
+<a href="#toc_79">按照IP地址数值范围划分</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_80">ABC三类分配给互联网用户所使用</a>
+</li>
+<li>
+<a href="#toc_81">D类型作为组播使用</a>
+</li>
+<li>
+<a href="#toc_82">E类型作为科学研究使用,进行保留</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_83">IP地址子网划分</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_84">利用掩码信息,获取得知一个IP地址的网络部分和主机部分</a>
+</li>
+<li>
+<a href="#toc_85">利用主类地址进行切割的方式,划分出多个小的网络(子网)</a>
+</li>
+<li>
+<a href="#toc_86">IP地址网络部分不可以使用,因此需要借助主机部分,进行划分子网</a>
+</li>
+<li>
+<a href="#toc_87">主机被借用,变为网络部分,从而生成相应子网.</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_88">子网划分结论说明</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_89">判断IP地址类型,找掩码</a>
+</li>
+<li>
+<a href="#toc_90">变更掩码,出子网</a>
+</li>
+<li>
+<a href="#toc_91">已知子网,获得子网号</a>
+</li>
+<li>
+<a href="#toc_92">已知子网号,算取主机段</a>
+</li>
+<li>
+<a href="#toc_93">根据主机段,得出广播号</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_94">IP地址子网划分方法</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_95">2的N次方=可以划分的子网个数</a>
+</li>
+<li>
+<a href="#toc_96">2的N次方-2=一个网段的额主机个数</a>
+</li>
+<li>
+<a href="#toc_97">其中N表示借用的主机位个数</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_98">企业中间搭建一个局域网的过程</a>
+<ul>
+<li>
+<a href="#toc_99">确认相应网络硬件设备是否具备</a>
+</li>
+<li>
+<a href="#toc_100">规划好连接拓扑,确认物理连接正常</a>
+</li>
+<li>
+<a href="#toc_101">交换机上进行VLAN的配置</a>
+</li>
+<li>
+<a href="#toc_102">路由器上面进行的配置:DHCP地址池设置</a>
+</li>
+<li>
+<a href="#toc_103">进行检验测试</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_104">DNS</a>
+<ul>
+<li>
+<a href="#toc_105">DNS解析原理过程</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_106">用户主机输入域名地址后：先要查询本地hosts文件，是否存在域名与IP地址的解析对应关系</a>
+</li>
+<li>
+<a href="#toc_107">本地主机若不存在解析记录，需要进行访问Local DNS服务器（本地dns服务器），让LDNS服务器进行告知域名与IP的解析信息</a>
+</li>
+<li>
+<a href="#toc_108">若LDNS服务器上也没有对应的域名与IP解析记录，需要向根域名服务器进行请求（www.jd.com.---&gt;ip地址）</a>
+</li>
+<li>
+<a href="#toc_109">根域名服务器会有点com（顶级域名）的记录信息，告知LDNS服务器去找.com服务器进行询问</a>
+</li>
+<li>
+<a href="#toc_110">顶级域名服务器会有.jd.com(二级域名)的记录信息，告知LDNS服务器去找jd.com服务器进行询问</a>
+</li>
+<li>
+<a href="#toc_111">二级域名服务器会存在www.jd.com对应IP地址信息，告知LDNS服务器域名对应的解析记录</a>
+</li>
+<li>
+<a href="#toc_112">LDNS服务器收到解析记录后，将解析记录进行保存到本地（缓存），再讲解析记录告知主机</a>
+</li>
+<li>
+<a href="#toc_113">主机收到解析记录，将解析记录进行缓存；会根据解析的IP地址，进行网络访问</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_114">DNS解析相关命令</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_115">windows上dns记录查询命令</a>
+</li>
+<li>
+<a href="#toc_116">通过域名获取解析后的IP地址信息命令</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_117">Linux相关的网络配置与设置</a>
+<ul>
+<li>
+<a href="#toc_118">系统网卡配置知识</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_119">推荐：ifdown,ifup进行指定网卡的重启操作</a>
+</li>
+<li>
+<a href="#toc_120">针对所有网卡进行重启操作（工作场景慎用此命令）</a>
+<ul>
+<li>
+<a href="#toc_121">修改主机名的规范</a>
+</li>
+<li>
+<a href="#toc_122">配置默认网关方法(重点掌握)</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_123">生效文件---ifcfg-ethx</a>
+</li>
+<li>
+<a href="#toc_124">生效文件---network</a>
+</li>
+<li>
+<a href="#toc_125">命令行优先，且临时生效</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_126">route命令应用的三种方式（重点）</a>
+<ul>
+<li>
+<a href="#toc_127">IP别名与辅助IP配置方法（重点掌握）</a>
+<ul>
+<li>
+<a href="#toc_128">IP别名方式（centos6）</a>
+</li>
+<li>
+<a href="#toc_129">删除IP别名配置：</a>
+<ul>
+<li>
+<a href="#toc_130">重启网卡即可</a>
+</li>
+<li>
+<a href="#toc_131">利用命令删除IP别名信息</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_132">配置辅助IP地址方法（centos7）</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_133">利用辅助IP方式，增加接口地址</a>
+<ul>
+<li>
+<a href="#toc_134">检查老男孩教育的网站是否有问题：</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_135">利用ping命令先检测网络连通性：</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_136">ping www.etiantian.org</a>
+<ul>
+<li>
+<a href="#toc_137">ping -c3 -i2 -s512 www.baidu.com</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_138">利用tracroute命令检测网络连通性：(虚拟主机无法使用此命令)</a>
+</li>
+<li>
+<a href="#toc_139">利用telnet命令检查相应网络服务有没有开启：</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_140">telnet www.etiatian.org 80</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_141">利用namp命令检测服务端相应网络服务端口是否开启：</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_142">nmap 10.0.0.25 -p 80</a>
+</li>
+</ul>
+
+
+<h2 id="toc_0">互联网技术人员需要了解的技术</h2>
+
+<h2 id="toc_1">系统运维(Linux系统)</h2>
+
+<h2 id="toc_2">网络知识</h2>
+
+<h2 id="toc_3">开发知识(Java C C++ Python GO)</h2>
+
+<h2 id="toc_4">数据库(MySQL)</h2>
+
+<h2 id="toc_5">大数据(Hadoop)</h2>
+
+<h2 id="toc_6">架构知识(docker openstack)</h2>
+
+<h2 id="toc_7">为什么要学习网络知识</h2>
+
+<pre><code>                        通过网络
+</code></pre>
+
+<p>基础系统知识                  ======&gt;     系统服务的概念<br/>
+单机游戏                        ======&gt;     网络游戏(王者荣耀)<br/>
+听歌                          ======&gt;     听歌可以下载<br/>
+看文档                     ======&gt;     文档资源共享(有道云笔记 为知笔记)<br/>
+大电影(男生电脑的F盘)        ======&gt;     大电影(下载资源更方便)</p>
+
+<h2 id="toc_8">主机之间如何实现网络通讯(实现网络通讯需要具备哪些条件)</h2>
+
+<h2 id="toc_9">两台主机之间需要拥有传输介质</h2>
+
+<pre><code>介质: 连接不同主机之间的物质(铜轴电缆 双绞线 光纤 无线WiFi 蓝牙)
+</code></pre>
+
+<h2 id="toc_10">两台主机之间通讯需要将数据信息变为计算机可以识别的二进制信息</h2>
+
+<pre><code>通过计算机将二进制信息转换为高低不等的电压,在传输介质中进行传输
+</code></pre>
+
+<h2 id="toc_11">两台主机之间实现通讯需要利用网卡硬件设备</h2>
+
+<pre><code>网卡: 单位时间内可以调制或接收到的信号个数
+利用网卡将计算机中的二进制数(bit流(1个二进制==1bit))转换响应高低电压,也可以将高低电压转换为响应的二进制数(bit流)
+网卡速率:   100Mbps=MB-&gt;MBit
+                ps-&gt;per second
+补充说明:   网络中100Mbps==b==&gt;bit流
+            磁盘中100KB==B==&gt;Byte字节
+            1bit=1/8字节  1字节=8bit
+</code></pre>
+
+<h2 id="toc_12">网络基础硬件设备(重点)</h2>
+
+<h2 id="toc_13">交换机</h2>
+
+<h3 id="toc_14">交换机的作用</h3>
+
+<pre><code>为了解决网络中多台主机之间的彼此通讯需求
+</code></pre>
+
+<h3 id="toc_15">交换机如何实现多台主机之间通讯</h3>
+
+<h4 id="toc_16">身份识别问题</h4>
+
+<pre><code>通过mac(物理地址)地址,mac地址只在一个局域网内识别身份信息有效
+</code></pre>
+
+<h4 id="toc_17">判断相应网络范围内有对应主机信息存在方法</h4>
+
+<pre><code>利用交换机的广播功能,可以实现局域网中所有主机都可以接收广播信号信息
+</code></pre>
+
+<h3 id="toc_18">交换机的缺点</h3>
+
+<h4 id="toc_19">无法解决广播风暴问题,广播只会影响在本地局域网中的主机,因此交换机无法隔离广播域</h4>
+
+<pre><code>1个交换机不管有多少接口,只有一个广播域
+1个交换机有多少个接口,就有多少个冲突域
+</code></pre>
+
+<h3 id="toc_20">交换机的作用</h3>
+
+<h4 id="toc_21">在一个交换机的端口上所连接的所有终端设备,均在一个网段上(称为一个广播域)</h4>
+
+<h4 id="toc_22">并且1个网段会有一个统一的网络标识,会产生广播消耗设备的CPU资源</h4>
+
+<h4 id="toc_23">交换机可以隔离冲突域,每一个端口就是一个冲突域</h4>
+
+<h4 id="toc_24">终端用户的设备接入</h4>
+
+<h4 id="toc_25">基本的安全功能</h4>
+
+<h2 id="toc_26">路由器</h2>
+
+<p>交换机<br/>
+路由器<br/>
+实现局域网内部主机之间的通讯交流<br/>
+实现不同局域网主机之间的通讯交流<br/>
+局域网中标识主机身份信息利用MAC地址<br/>
+mac属于物理地址;mac地址是采用16进制数显示输出的48位表示(2进制数)<br/>
+mac是护照!全球唯一<br/>
+不同局域网之间标识主机身份信息利用IP地址<br/>
+IP属于逻辑地址:IP地址采用10进制数显示输出的32位表示2进制数;如何转换成10进制数(重点了解)<br/>
+IP地址对应的是身份证:一个局域网内部IP地址不可以相互重复<br/>
+局域网数据包的基本组成:源Mac地址 目标Mac地址 数据信息<br/>
+不同局域网数据的基本组成:源IP地址 目标IP地址 数据信息<br/>
+冲突域:多个数据信息通过一个接口进行传输;交换机解决了冲突域,每一个接口就称为一个冲突域<br/>
+每一个接口就称为一个冲突域<br/>
+广播域:交换机无法解决广播域;因此会出现__广播风暴__<br/>
+交换机所有的接口在一个广播域中<br/>
+路由器的每一个接口称为一个广播域</p>
+
+<h3 id="toc_27">隔离广播风暴的思路</h3>
+
+<pre><code>通过隔离不同局域网来实现
+</code></pre>
+
+<h3 id="toc_28">什么是路由器</h3>
+
+<h4 id="toc_29">实现不同局域网之间主句的通讯需求</h4>
+
+<pre><code>路由器只记录: 局域网编号信息,不记录局域网中的主机编号信息
+                局域网编号==网段       主机编号:主机地址
+                网段+主机地址==IP地址,IP地址是一个逻辑地址
+</code></pre>
+
+<h4 id="toc_30">隔离广播风暴</h4>
+
+<pre><code>利用多台路由器可以实现可以实现不同局域网主机之间的共享
+</code></pre>
+
+<h4 id="toc_31">让多台路由器之间的路由表信息共享</h4>
+
+<h4 id="toc_32">悄悄话实现路由信息共享==路由协议</h4>
+
+<h4 id="toc_33">实现路由信息共享(实现全部路由表信息统一) ==路由表的收敛过程</h4>
+
+<pre><code>静态路由协议:指明到达目标地址或网络的方式
+动态路由协议:自我宣告,或者通知的方式,发起其他互联路由器我饿路由表信息
+</code></pre>
+
+<h3 id="toc_34">路由器的作用</h3>
+
+<h4 id="toc_35">路由转发,实现不同网段之间主机的通讯</h4>
+
+<h4 id="toc_36">路由器会作为网关</h4>
+
+<h4 id="toc_37">广域网链路支持</h4>
+
+<h2 id="toc_38">网络层次架构(拓扑结构)</h2>
+
+<h2 id="toc_39">按照层次划分</h2>
+
+<pre><code>核心层:连接外网(互联网);要有冗余能力
+汇聚层:承上启下
+接入层:接入终端主机(用户)设备
+</code></pre>
+
+<h2 id="toc_40">按照区域划分</h2>
+
+<pre><code>局域网
+城域网(多个局域网)
+广域网(多个城域网)
+</code></pre>
+
+<h2 id="toc_41">OSI网络模型概念</h2>
+
+<h2 id="toc_42">OSI网络模型样子</h2>
+
+<p>按层次进行划分的,由下至上共划分为7层</p>
+
+<h2 id="toc_43">OSI网络模型层次(重点)</h2>
+
+<p>DOD模型<br/>
+OSI模型<br/>
+功能<br/>
+说明<br/>
+应用层<br/>
+应用层<br/>
+应用程序及接口<br/>
+提供应用程序的接口;就相当于开发好的软件.<br/>
+FTP Telnet http pop3等</p>
+
+<p>表示层<br/>
+对数据进行转换 加密和压缩<br/>
+将上层的数据进行装换和编译压缩为标准的文件,如jpg GIF ASCII码等</p>
+
+<p>会话层<br/>
+建立 管理和终止会话</p>
+
+<p>主机到主机层<br/>
+传输层<br/>
+提供可靠的端到端的报文传输和差错控制<br/>
+TCP UDP 建立可靠和费可靠连接<br/>
+将上层的数据进行分段处理<br/>
+因特网层<br/>
+网络层<br/>
+将分组从源端传送到目的端;提供网络互联<br/>
+实质上就是提供路由寻址(IP协议)<br/>
+将上层分段的数据进行打包<br/>
+网络接入层<br/>
+数据链路层<br/>
+将分组数据封装成帧;提供节点到节点方式的传输<br/>
+帧就是本地局域网中传输数据的一个单元,负责在局域网内部的点对点的寻址</p>
+
+<p>物理层<br/>
+在媒体上传输比特;提供机械的和电气的规约<br/>
+就是底层链路介质的规范</p>
+
+<h2 id="toc_44">OSI层次模型特征</h2>
+
+<p>上层管理下层;下层为上层服务;但是每层都互相独立<br/>
+两个OSI模型之间,相同层次进行交流</p>
+
+<h2 id="toc_45">OSI层次模型介绍</h2>
+
+<pre><code>只是一个标准模型,用于定于各层次的协议
+</code></pre>
+
+<p>网络层:IP地址(网段+主机地址)</p>
+
+<h2 id="toc_46">利用数据包封装与解封装过程熟悉主机之间网际互联原理</h2>
+
+<h2 id="toc_47">TCP/IP协议簇</h2>
+
+<h2 id="toc_48">TCP/IP网络模型概念</h2>
+
+<h3 id="toc_49">TCP/IP网络模型层次</h3>
+
+<p>网络接入层 网络层 传输层 应用层<br/>
+应用层:账户哦都有那些重要的协议,掌握这些协议对应的端口号信息<br/>
+传输层:<br/>
+TCP协议:属于面向连接的网络协议==同步的概念 ==== QQ在线传输文件 效率不高 可靠性高<br/>
+UDP协议:属于无连接的网络协议==异步的概念 ==== QQ离线传输文件 效率更高 可靠性不高</p>
+
+<h2 id="toc_50">TCP/IP三次握手过程</h2>
+
+<h3 id="toc_51">理解seq和ACK</h3>
+
+<ol>
+<li>主机之间通讯都是有数据data信息的,只要有数据信息,就会有seq ACK存在</li>
+<li>作为发送数据的一方,只发送seq数据序列号信息+拆分的数据信息</li>
+<li><p>作为接收数据的一方,只发送ACK确认号信息,并且ACK确认号信息=接收到的seq信息数值+1</p>
+
+<h3 id="toc_52">TCP三次握手状态转换简单说明:</h3></li>
+<li><p>首先,建立连接之前,服务器和客户端的状态都为CLOSED</p></li>
+<li><p>服务器创建socket后开始监听,变为LISTEN状态<br/>
+客户端请求建立连接,向服务器发送SYN报文，客户端的状态变为SYN_SENT。</p></li>
+<li><p>服务器收到客户端的报文后，向客户端发送ACK和SYN报文，此时服务器的状态变为SYN_RCVD。</p></li>
+<li><p>然后，客户端收到ACK、SYN，就向服务器发送ACK，客户端状态变为ESTABLISHED。</p></li>
+<li><p>服务器收到客户端的ACK后也变为ESTABLISHED。<br/>
+此时三次握手完成，连接建立。</p></li>
+</ol>
+
+<h2 id="toc_53">TCP/IP四次挥手过程</h2>
+
+<blockquote>
+<p>由于TCP连接是全双工的，断开连接会比建立连接麻烦一点点。</p>
+</blockquote>
+
+<ol>
+<li>客户端现象服务器发送FIN报文，请求断开连接，其状态变为FIN_WAIT1。</li>
+<li>服务器收到FIN后向客户端发送ACK，服务器状态变为CLOSE_WAIT。</li>
+<li>客户端收到ACK后就进入FIN_WAIT2状态。此时连接已经断开了一半了，如果服务器还有数据要发给客户端，就会继续发送。</li>
+<li>直到发送完成，就发送FIN报文，此时服务器进入LAST_ACK状态。</li>
+<li>客户端收到服务器的FIN后，马上发送ACK给服务器，此时客户端进入TIME_WAIT状态，再过了2MSL长的时间后进入CLOSED状态，服务器收到客户端的ACK就进入CLOSED状态。</li>
+</ol>
+
+<blockquote>
+<p>至此，还有一个状态没有提及：CLOSING状态<br/>
+CLOSING状态表示：<br/>
+客户端发生了FIN，但FIN_WAIT1状态时没有收到服务器的ACK确认字段，却收到了服务器的FIN字段，这种情况发生在服务器发送的ACK丢包的时候，因为网络传输有时会有意外。</p>
+</blockquote>
+
+<h2 id="toc_54">TCP/IP十一种状态集的转换</h2>
+
+<h3 id="toc_55">十一种状态集的转换</h3>
+
+<p>状态出现方式<br/>
+状态出现环境<br/>
+状态名称<br/>
+状态描述<br/>
+TCP建立过程<br/>
+涉及5种状态<br/>
+服务端/客户端<br/>
+CLOSED<br/>
+默认初始化状态</p>
+
+<p>服务端<br/>
+LISTEN<br/>
+建立socket,进入监听状态</p>
+
+<p>客户端<br/>
+SYN_SENT<br/>
+发送SYN报文,进入SYN发送状态</p>
+
+<p>服务端<br/>
+SYN_RCVD<br/>
+接收SYN报文,并回复ACK及SYN报文</p>
+
+<p>客服端/服务端<br/>
+ESTABLISHED<br/>
+接收SYN报文,回复ACK,建立连接(客户端)<br/>
+接收ACK报文,建立连接(服务端)<br/>
+TCP断开过程<br/>
+涉及6种状态<br/>
+服务端/客户端<br/>
+ESTABLISHED<br/>
+默认断开前初始状态</p>
+
+<p>客户端<br/>
+FIN_WAIT1<br/>
+发送断开请求FIN报文</p>
+
+<p>服务端<br/>
+CLOSE_WAIT<br/>
+收到FIN后想客户端发送ACK</p>
+
+<p>客户端<br/>
+FIN_WAIT2<br/>
+收到服务端返回的ACK报文,等待数据传输</p>
+
+<p>服务端<br/>
+LAST_ACK<br/>
+发送FIN断开请求报文</p>
+
+<p>客户端<br/>
+TIME_WAIT<br/>
+回复FIN断开请求,发送ACK报文</p>
+
+<p>服务端/客户端<br/>
+CLOSED<br/>
+收到ACK报文,立即转变为断开状态<br/>
+等待2MSL后,进入断开状态</p>
+
+<p>客户端<br/>
+CLOSEING<br/>
+没收收到回复FIN报文的ACK,直接收到FIN</p>
+
+<h3 id="toc_56">socket套接字文件:(五元组)</h3>
+
+<h4 id="toc_57">协议TCP UDP协议</h4>
+
+<h4 id="toc_58">目标IP地址</h4>
+
+<h4 id="toc_59">目标端口号</h4>
+
+<h4 id="toc_60">源IP地址</h4>
+
+<h4 id="toc_61">源端口号</h4>
+
+<h2 id="toc_62">ARP协议说明</h2>
+
+<h3 id="toc_63">ARP协议的功能</h3>
+
+<h4 id="toc_64">将IPv4地址解析为MAC地址</h4>
+
+<pre><code>用于让IP地址与MAC地址建立关系
+</code></pre>
+
+<h4 id="toc_65">维护映射的缓存</h4>
+
+<pre><code>ARP表主要存储在主机和交换机挡住,主要用于减少广播风暴
+</code></pre>
+
+<h3 id="toc_66">提示信息</h3>
+
+<h4 id="toc_67">网络层对应的是IP地址,是跨网段使用的</h4>
+
+<h4 id="toc_68">链路层地址对应的是MAC地址,是物理地址,实在局域网内部使用的</h4>
+
+<h4 id="toc_69">MAC地址就好比自己的小名一样,只有本地局域网有效</h4>
+
+<h3 id="toc_70">ARP协议原理</h3>
+
+<pre><code>ARP条目分为静态条目和动态条目
+静态条目:主机量比较少的情况  主机不会频繁发生变更
+动态条目:主机量比较多的情况  主机会频繁发生变更
+</code></pre>
+
+<h1 id="toc_71">IP地址分类与子网划分基础</h1>
+
+<h2 id="toc_72">IP地址概念介绍</h2>
+
+<pre><code>常见的IP地址版本分为IPv4和IPv6
+32位:IPv4地址是由32位二进制数字序列组成的数字序列
+点分十进制:采用点将32位数字进行分割为4段,每段8位的二进制数,但二进制数不便于记忆,因此转换为10进制数显示,即点分十进制.
+</code></pre>
+
+<h2 id="toc_73">十进制与二进制转换</h2>
+
+<h2 id="toc_74">按照IP地址范围进行划分</h2>
+
+<p>特殊IP地址说明:</p>
+
+<h4 id="toc_75">127.0.0.1</h4>
+
+<pre><code>表示回环地址,进行测试使用,验证本地的TCP协议簇安装的是否正确.
+</code></pre>
+
+<h4 id="toc_76">0.0.0.0</h4>
+
+<pre><code>主机位全为0的,称为是网络地址
+</code></pre>
+
+<h4 id="toc_77">255.255.255.255</h4>
+
+<pre><code>主机位全为1的,称为广播地址,即向所有人发出信息
+</code></pre>
+
+<h2 id="toc_78">按照IP地址用途进行划分</h2>
+
+<pre><code>公网地址:全球唯一的IP地址,并且可以被互联网路由器进行识别
+私网地址:就是避免公网IP地址的枯竭所出现的
+        一个局域网范围内唯一,不同的局域网主机,可以有相同的IP地址
+        私网IP地址不能出现在互联网路由器中
+公网地址类似于:护照上面的编号
+私网地址类似于:国内使用的身份证编号
+</code></pre>
+
+<h2 id="toc_79">按照IP地址数值范围划分</h2>
+
+<p>共分为5类,常见的地址是A,B,C三类<br/>
+A<br/>
+1.0.0.0~126.0.0.0<br/>
+0.0.0.0和127.0.0.0保留<br/>
+B<br/>
+128.1.0.0~191.254.0.0<br/>
+128.0.0.0和191.255.0.0保留<br/>
+C<br/>
+192.0.1.0~223.255.254.0<br/>
+192.0.0.0和223.255.255.0保留<br/>
+D<br/>
+224.0.0.0~239.255.255.255<br/>
+用于多点广播<br/>
+E<br/>
+240.0.0.0~255.255.255.254<br/>
+保留(255.255.255.255用于广播)</p>
+
+<h4 id="toc_80">ABC三类分配给互联网用户所使用</h4>
+
+<h4 id="toc_81">D类型作为组播使用</h4>
+
+<h4 id="toc_82">E类型作为科学研究使用,进行保留</h4>
+
+<h2 id="toc_83">IP地址子网划分</h2>
+
+<h4 id="toc_84">利用掩码信息,获取得知一个IP地址的网络部分和主机部分</h4>
+
+<h4 id="toc_85">利用主类地址进行切割的方式,划分出多个小的网络(子网)</h4>
+
+<h4 id="toc_86">IP地址网络部分不可以使用,因此需要借助主机部分,进行划分子网</h4>
+
+<h4 id="toc_87">主机被借用,变为网络部分,从而生成相应子网.</h4>
+
+<h2 id="toc_88">子网划分结论说明</h2>
+
+<h4 id="toc_89">判断IP地址类型,找掩码</h4>
+
+<pre><code>根据上面所学的IP地址分类规划,可以得知默认的主类网络地址掩码信息
+</code></pre>
+
+<h4 id="toc_90">变更掩码,出子网</h4>
+
+<pre><code>根据默认的掩码规划信息,将掩码信息进行调整变更,即进行子网划分
+</code></pre>
+
+<h4 id="toc_91">已知子网,获得子网号</h4>
+
+<pre><code>根据借用的主机位,可以判断出可用的子网信息
+</code></pre>
+
+<h4 id="toc_92">已知子网号,算取主机段</h4>
+
+<pre><code>根据剩余的主机位,可以判断出可用的主机地址
+</code></pre>
+
+<h4 id="toc_93">根据主机段,得出广播号</h4>
+
+<pre><code>得出足迹范围,即也就得出了网络地址和广播地址
+</code></pre>
+
+<h2 id="toc_94">IP地址子网划分方法</h2>
+
+<h4 id="toc_95">2的N次方=可以划分的子网个数</h4>
+
+<h4 id="toc_96">2的N次方-2=一个网段的额主机个数</h4>
+
+<h4 id="toc_97">其中N表示借用的主机位个数</h4>
+
+<h1 id="toc_98">企业中间搭建一个局域网的过程</h1>
+
+<h4 id="toc_99">确认相应网络硬件设备是否具备</h4>
+
+<h4 id="toc_100">规划好连接拓扑,确认物理连接正常</h4>
+
+<h4 id="toc_101">交换机上进行VLAN的配置</h4>
+
+<h4 id="toc_102">路由器上面进行的配置:DHCP地址池设置</h4>
+
+<pre><code>进行路由配置(进行拨号连接就行了)
+在路由和交换机互联的接口上配置一个IP地址,作为网关地址
+</code></pre>
+
+<h4 id="toc_103">进行检验测试</h4>
+
+<h1 id="toc_104">DNS</h1>
+
+<h2 id="toc_105">DNS解析原理过程</h2>
+
+<h4 id="toc_106">用户主机输入域名地址后：先要查询本地hosts文件，是否存在域名与IP地址的解析对应关系</h4>
+
+<pre><code>                            其次查询本地的dns缓存记录 ipconfig /displaydns 在cmd命令行中
+    如果本地存在相应域名与IP的解析信息，就可以直接利用解析后的IP地址，进行网络访问
+    疑问：如果缓存和hosts文件都没有呢
+</code></pre>
+
+<h4 id="toc_107">本地主机若不存在解析记录，需要进行访问Local DNS服务器（本地dns服务器），让LDNS服务器进行告知域名与IP的解析信息</h4>
+
+<pre><code>    访问LDNS服务器，是通过网卡上面配置的DNS服务器信息进行访问的
+    以为：如果LDNS服务器上也不存在响应域名与IP的对应关系呢
+</code></pre>
+
+<h4 id="toc_108">若LDNS服务器上也没有对应的域名与IP解析记录，需要向根域名服务器进行请求（www.jd.com.---&gt;ip地址）</h4>
+
+<h4 id="toc_109">根域名服务器会有点com（顶级域名）的记录信息，告知LDNS服务器去找.com服务器进行询问</h4>
+
+<h4 id="toc_110">顶级域名服务器会有.jd.com(二级域名)的记录信息，告知LDNS服务器去找jd.com服务器进行询问</h4>
+
+<h4 id="toc_111">二级域名服务器会存在www.jd.com对应IP地址信息，告知LDNS服务器域名对应的解析记录</h4>
+
+<h4 id="toc_112">LDNS服务器收到解析记录后，将解析记录进行保存到本地（缓存），再讲解析记录告知主机</h4>
+
+<h4 id="toc_113">主机收到解析记录，将解析记录进行缓存；会根据解析的IP地址，进行网络访问</h4>
+
+<pre><code>递归查询：主机到LDNS服务器的查询过程
+          直接返回查询结果的过程
+迭代查询：LDNS服务器到根域名服务器 到顶级域名服务器 到二级域名服务器的查询过程
+          需要不断补充，从而完成最终的查询结果
+</code></pre>
+
+<h2 id="toc_114">DNS解析相关命令</h2>
+
+<h4 id="toc_115">windows上dns记录查询命令</h4>
+
+<pre><code>    ipconfig /flushdns          &lt;- 清除缓存命令
+    ipconfig /displaydns        &lt;- 显示缓存命令
+</code></pre>
+
+<h4 id="toc_116">通过域名获取解析后的IP地址信息命令</h4>
+
+<pre><code>    dig www.baidu.com
+    dig @223.5.5.5 www.baidu.com +trace   &lt;- 通过此命令获取得知整个DNS解析原理过程
+    nslookup www.baidu.com
+    host www.baidu.com
+    ping www.baidu.com
+</code></pre>
+
+<h1 id="toc_117">Linux相关的网络配置与设置</h1>
+
+<h2 id="toc_118">系统网卡配置知识</h2>
+
+<h1 id="toc_119">推荐：ifdown,ifup进行指定网卡的重启操作</h1>
+
+<pre><code>    ifdown eth0     &lt;- 停掉eth0网卡
+    ifup eth0           &lt;- 启动eth0网卡
+</code></pre>
+
+<h1 id="toc_120">针对所有网卡进行重启操作（工作场景慎用此命令）</h1>
+
+<pre><code>    /etc/init.d/network restart 
+</code></pre>
+
+<h2 id="toc_121">修改主机名的规范</h2>
+
+<h2 id="toc_122">配置默认网关方法(重点掌握)</h2>
+
+<h1 id="toc_123">生效文件---ifcfg-ethx</h1>
+
+<pre><code>    grep -i gate /etc/sysconfig/network-scripts/ifcfg-eth0 
+    GATEWAY=10.0.0.254
+</code></pre>
+
+<h1 id="toc_124">生效文件---network</h1>
+
+<pre><code>    grep -i gate /etc/sysconfig/network
+    GATEWAY=10.0.0.253
+</code></pre>
+
+<h1 id="toc_125">命令行优先，且临时生效</h1>
+
+<pre><code>    route -n或netstat -rn进行查看确认
+    route add default gw 10.0.0.254
+    route del default gw 10.0.0.254
+</code></pre>
+
+<h3 id="toc_126">route命令应用的三种方式（重点）</h3>
+
+<p>· 添加默认网关路由<br/>
+  route add default gw 10.0.0.254<br/>
+· 添加静态网段路由<br/>
+  route add -net 172.16.1.0 netmask 255.255.255.0 gw 10.0.0.254<br/>
+· 添加静态主机路由<br/><br/>
+      route add -host 192.168.2.13 dev eth2</p>
+
+<h2 id="toc_127">IP别名与辅助IP配置方法（重点掌握）</h2>
+
+<h3 id="toc_128">IP别名方式（centos6）</h3>
+
+<pre><code>ifconfig eth0:0 10.0.0.100/24 up
+ifconfig eth0:0 10.0.0.10 netmask 255.255.255.0 up
+</code></pre>
+
+<h3 id="toc_129">删除IP别名配置：</h3>
+
+<h4 id="toc_130">重启网卡即可</h4>
+
+<h4 id="toc_131">利用命令删除IP别名信息</h4>
+
+<pre><code>    ifconfig eth0:0 down
+    ifconfig eth0:0 10.0.0.10 netmask 255.255.255.0 down
+使别名IP网卡重启不失效：
+写成配置文件（/etc/sysconfig/network-scripts/ifcfg-eth0:1）。
+</code></pre>
+
+<h3 id="toc_132">配置辅助IP地址方法（centos7）</h3>
+
+<h1 id="toc_133">利用辅助IP方式，增加接口地址</h1>
+
+<pre><code>ip addr add 10.0.0.13/24 
+ip addr del 10.0.0.10/24 dev ethx    &lt;- 删除辅助IP方式
+
+一大波网络常用命令
+ping命令：-c 指定ping包个数  -i 指定ping包间隔  -q 不显示ping过程 -f 表示极限快速ping
+ telnet命令：测试端口是否可以访问 telnet 10.0.0.200 22
+ ifconfig命令：查看网路信息 
+               指定关闭或开启网卡 ifconfig eth0 down / ifconfig eth0 up
+ 其余需要总结命令参见网络文件命令文件
+</code></pre>
+
+<h2 id="toc_134">检查老男孩教育的网站是否有问题：</h2>
+
+<h4 id="toc_135">利用ping命令先检测网络连通性：</h4>
+
+<h1 id="toc_136">ping <a href="http://www.etiantian.org">www.etiantian.org</a></h1>
+
+<h1 id="toc_137">ping -c3 -i2 -s512 <a href="http://www.baidu.com">www.baidu.com</a></h1>
+
+<h4 id="toc_138">利用tracroute命令检测网络连通性：(虚拟主机无法使用此命令)</h4>
+
+<pre><code>     traceroute www.baidu.com -n     -n 阻止IP到域名的解析（IP到域名，反向解析）
+     tracert -d www.baidu.com
+</code></pre>
+
+<h4 id="toc_139">利用telnet命令检查相应网络服务有没有开启：</h4>
+
+<h1 id="toc_140">telnet <a href="http://www.etiatian.org">www.etiatian.org</a> 80</h1>
+
+<h4 id="toc_141">利用namp命令检测服务端相应网络服务端口是否开启：</h4>
+
+<h1 id="toc_142">nmap 10.0.0.25 -p 80</h1>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

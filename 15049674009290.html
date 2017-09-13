@@ -1,0 +1,560 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卅八、memcache及session共享 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卅八、memcache及session共享</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>前言--数据库</p>
+
+<blockquote>
+<p>MySQL：数据最终是存放在磁盘上的<br/>
+内存 和 磁盘 对比：<br/>
+内存快，磁盘慢；<br/>
+内存是断电数据丢失，磁盘只要是正常断电数据不丢数据</p>
+</blockquote>
+
+<blockquote>
+<p>当我们生产环境是一个高并发大流量的网站<br/>
+使用mysql时，会出现mysql进程占用cpu高，系统负载是CPU核数几十倍或百倍，此时MYSQL不顶用；<br/>
+此时缓存（内存）数据库隆重登场，</p>
+</blockquote>
+
+<blockquote>
+<p>常见的内存数据库：memcache、Redis、MongoDB</p>
+</blockquote>
+
+<p><strong>企业生产场景：MySQL（数据仓库）+内存数据库（提供业务服务）  搭配使用</strong></p>
+
+<blockquote>
+<p>内存数据库的缺点：<br/>
+某些产品数据不做持久化（数据存在磁盘上）<br/>
+内存数据库目的是为更快效率更高，但是这种能力是牺牲数据安全<br/>
+数据出问题了还可以到MySQL去校验</p>
+</blockquote></li>
+<li><p>介绍memcache</p>
+
+<blockquote>
+<p>Memcached是一款开源的、高性能的纯内存缓存服务软件。Mem是内存的意思，cache是缓存的意思，d是daemon的意思。</p>
+</blockquote>
+
+<blockquote>
+<p>Memcache是项目的名字，诞生于2003年。Memcache服务分为客户端和服务端两部分，C/S架构。</p>
+</blockquote>
+
+<blockquote>
+<p>客户端软件memcache-2.25.tar.gz<br/>
+服务端软件memcached-1.4.13.tar.gz</p>
+</blockquote>
+
+<blockquote>
+<p>C/S  client/server <br/>
+B/S  browser/server</p>
+</blockquote>
+
+<blockquote>
+<p>在启动Memcached时，根据指定的内存大小参数，会被分配一个内存空间。当我们读取数据库的各类业务数据后，数据会同时放入Memcached缓存中，当下一次用户请求同样的数据，程序直接去Memcached取数据返回给用户。</p>
+</blockquote>
+
+<blockquote>
+<p>优点：</p>
+
+<blockquote>
+<p>①对于用户来讲，用户访问网站更快了，体验更好了。</p>
+</blockquote>
+
+<blockquote>
+<p>②对网站来说，数据库压力降低了。只有当内存没有数据时才会去请求数据库。第一次写入的数据也会请求数据库。一般公司没有预热，只有当用户读取过数据库才会放到Memcached中。</p>
+</blockquote>
+
+<blockquote>
+<p>③提升了网站的并发访问，减少服务器数量。</p>
+</blockquote>
+</blockquote></li>
+<li><p>Memcached在企业中使用场景</p>
+
+<p>3.1 作为数据库的前端缓存<br/>
+3.2 作为session会话保持</p>
+
+<blockquote>
+<p>cookies：网站程序存放在浏览器的一段字符串，作用是如同你的身份证，或者阿泰的vip会员卡</p>
+</blockquote>
+
+<blockquote>
+<p>你的卡    包子店的电脑<br/>
+会员ID==》去电脑中的数据库查找对应ID的所有信息。比如余额<br/>
+cookies   session（存放相应的cookies的对应所有信息，比如你的姓名，性别...电话等）</p>
+</blockquote>
+
+<blockquote>
+<p>session：存放在服务器的磁盘上；服务器通过磁盘上有无session来判断你是否登录</p>
+
+<p>最开始，开发者将所有信息存放在cookies，不安全。<br/>
+为了安全，cookies只存放id。然后用户通过cookies去服务器上找到对应的session</p>
+</blockquote>
+
+<blockquote>
+<p>session共享方案：</p>
+
+<blockquote>
+<p>1.session是以文件的形式存放：通过文件共享方式，nfs、rsync、intotify、sersync、scp</p>
+</blockquote>
+
+<blockquote>
+<p>2.session是以字符串的形式存放在数据库之中：mysql、memcache</p>
+</blockquote>
+</blockquote></li>
+<li><p>Memcached分布式缓存集群</p>
+
+<blockquote>
+<p>memcache数据是存放内存中，常规最大内存128G<br/>
+MYSQL 1T ==&gt;10台memcache<br/>
+数据分开，程序不知道你的数据放哪了<br/>
+memcache天生不支持集群</p>
+</blockquote>
+
+<blockquote>
+<p>解决方案：memcache本身不支持，那么我自己写程序就是了<br/>
+如果以一定规律存放数据，<br/>
+那么可以根据这个规律找到数据</p>
+</blockquote>
+
+<blockquote>
+<p>重点：一致性哈希<br/>
+<a href="http://blog.csdn.net/cywosp/article/details/23397179">http://blog.csdn.net/cywosp/article/details/23397179</a></p>
+</blockquote></li>
+<li><p>安装使用memcache<br/>
+5.1 环境准备</p>
+
+<pre><code>[root@web02 ~]# cat /etc/redhat-release 
+CentOS release 6.9 (Final)
+[root@web02 ~]# uname -r
+2.6.32-696.el6.x86_64
+[root@web02 ~]# getenforce 
+Disabled
+[root@web02 ~]# /etc/init.d/iptables status
+iptables: Firewall is not running.
+[root@web02 ~]# hostname -I
+10.0.0.7 172.16.1.7 
+</code></pre>
+
+<p>5.2 安装memcached</p>
+
+<pre><code>[root@web02 ~]# echo &quot;192.168.14.200 mirrors.aliyun.com&quot; &gt;&gt;/etc/hosts
+[root@web02 ~]# yum -y install memcached
+</code></pre>
+
+<p>5.3 启动memcached</p>
+
+<pre><code>[root@web02 ~]# /etc/init.d/memcached start
+[root@web02 ~]# netstat -tunlp|grep mem
+tcp        0      0 0.0.0.0:11211               0.0.0.0:*                   LISTEN      14883/memcached     
+tcp        0      0 :::11211                    :::*                        LISTEN      14883/memcached     
+udp        0      0 0.0.0.0:11211               0.0.0.0:*                               14883/memcached     
+udp        0      0 :::11211                    :::*                                    14883/memcached    
+</code></pre>
+
+<blockquote>
+<p>-p <num>      指定TCP监听端口号，默认11211<br/>
+-l <addr>     绑定监听的网卡。默认所有网卡<br/>
+-d            后台运行<br/>
+-u <username> 指定用户运行memcache<br/>
+-m <num>      指定分配给memcahe内存空间大小，默认64M。<br/>
+-c <num>      并发访问连接数，默认1024<br/>
+-P <file>     指定pid存放文件名</p>
+</blockquote>
+
+<p>5.4 使用memcache</p>
+
+<blockquote>
+<p>memcahe数据类型只有一种：键值对 key-value<br/>
+\r换行 相当于回车 \n新行</p>
+</blockquote>
+
+<blockquote>
+<p>stored 英[stɔ:d]<br/>
+美[stɔ:d]<br/>
+adj.    存储的; 存信息的;</p>
+</blockquote>
+
+<pre><code>[root@web02 ~]# printf &quot;set key008 0 0 10\r\noldboy0987\r\n&quot;|nc 127.0.0.1 11211
+STORED
+
+set key008 0 0 10\r\noldboy0987\r\n
+</code></pre>
+
+<blockquote>
+<p>set：写入，插入  mysql--insert  memcache--set<br/>
+zabbix自定义监控:key，value(shell command)<br/>
+memcahed存储数据格式为：key--value  oldboy--123456  set oldboy 。。。。  get oldboy<br/>
+key008  : 就是一个存放在memcahed的一个key<br/>
+0  ：flags<br/>
+0  ：超时时间，如果值为0，表示永不过期，其他值单位为秒，<br/>
+10 ：准备给key定义的value的值长度<br/>
+oldboy0987 ：value值</p>
+</blockquote>
+
+<pre><code>[root@web02 ~]# printf &quot;get key008\r\n&quot;|nc 127.0.0.1 11211
+VALUE key008 0 10
+oldboy0987
+END
+</code></pre>
+
+<p>完整例子</p>
+
+<pre><code>[root@web02 ~]# printf &quot;set key008 0 0 10\r\noldboy0987\r\n&quot;|nc 127.0.0.1 11211
+STORED
+[root@web02 ~]# printf &quot;set key009 0 0 10\r\noldboy09876\r\n&quot;|nc 127.0.0.1 11211
+CLIENT_ERROR bad data chunk
+ERROR
+[root@web02 ~]# printf &quot;get key009\r\n&quot;|nc 127.0.0.1 11211
+END
+[root@web02 ~]# printf &quot;get key008\r\n&quot;|nc 127.0.0.1 11211
+VALUE key008 0 10
+oldboy0987
+END
+[root@web02 ~]# printf &quot;set key009 0 10 11\r\noldboy09876\r\n&quot;|nc 127.0.0.1 11211
+STORED
+[root@web02 ~]# printf &quot;get key009\r\n&quot;|nc 127.0.0.1 11211
+VALUE key009 0 11
+oldboy09876
+END
+[root@web02 ~]# printf &quot;get key009\r\n&quot;|nc 127.0.0.1 11211
+END
+[root@web02 ~]# printf &quot;delete key008\r\n&quot;|nc 127.0.0.1 11211
+DELETED
+[root@web02 ~]# printf &quot;get key008\r\n&quot;|nc 127.0.0.1 11211
+END
+</code></pre>
+
+<p>5.5 监控memcached</p>
+
+<pre><code>[root@web02 ~]# printf &quot;stats\r\n&quot;|nc 127.0.0.1 11211
+</code></pre>
+
+<blockquote>
+<p>命中率：hits数量/总数<br/>
+要求命中率越高越好</p>
+</blockquote>
+
+<blockquote>
+<p>①监听port或进程<br/>
+②可以模拟用户先set后get，比对get内容是不是set的。crond nagios zabbix<br/>
+③监控命中百分比<br/>
+④监控响应时间及需要的状态<br/>
+可以用gnuplot、rrdtool等绘图工具出图。</p>
+</blockquote></li>
+<li><p>memcahe客户端（PHP版本）</p>
+
+<blockquote>
+<p>/application/php/bin/php -m 查看PHP支持的模块<br/>
+上传memcache-2.2.5.tgz</p>
+</blockquote>
+
+<p>编译安装客户端</p>
+
+<pre><code>tar zxvf memcache-2.2.5.tgz
+cd memcache-2.2.5
+/application/php/bin/phpize
+./configure --enable-memcache --with-php-config=/application/php/bin/php-config --with-zlib-dir
+make
+make install
+</code></pre>
+
+<p>配置php支持memcahe</p>
+
+<pre><code>sed -i &#39;$a extension=memcache.so&#39; /application/php/lib/php.ini
+pkill php
+/application/php/sbin/php-fpm -t
+/application/php/sbin/php-fpm
+/application/php/bin/php -m|grep memcache
+</code></pre></li>
+<li><p>写程序支持memcahed存储数据</p>
+
+<pre><code>[root@web02 memcache-2.2.5]# cat /application/nginx/html/blog/mc.php
+&lt;?php
+    $memcache = new Memcache;
+    $memcache-&gt;connect(&#39;127.0.0.1&#39;, 11211) or die (&quot;Could not connect&quot;);
+    $memcache-&gt;set(&#39;key20170901&#39;, &#39;oldboy0326&#39;);
+    $get_value = $memcache-&gt;get(&#39;key20170901&#39;);
+    echo $get_value;
+?&gt;
+</code></pre>
+
+<p>访问网页<a href="http://blog.etiantian.org/mc.php">http://blog.etiantian.org/mc.php</a></p>
+
+<pre><code>[root@web02 memcache-2.2.5]# printf &quot;get key20170901\r\n&quot;|nc 127.0.0.1 11211
+VALUE key20170901 0 10
+oldboy0326
+END
+</code></pre></li>
+<li><p>支持session共享，使用memcahed存储session</p>
+
+<pre><code>[root@web02 memcache-2.2.5]# grep session.save_path /application/php/lib/php.ini 
+;session.save_path = &quot;/tmp&quot;
+
+sed -i &#39;s#session.save_handler = files#session.save_handler = memcache#;$a session.save_path = &quot;tcp://127.0.0.1:11211&quot;&#39; /application/php/lib/php.ini
+
+pkill php
+/application/php/sbin/php-fpm -t
+/application/php/sbin/php-fpm
+</code></pre>
+
+<blockquote>
+<p>访问：<a href="http://blog.etiantian.org/test_info.php">http://blog.etiantian.org/test_info.php</a></p>
+
+<p>访问：<a href="http://blog.etiantian.org/sess.php">http://blog.etiantian.org/sess.php</a></p>
+</blockquote>
+
+<blockquote>
+<p>session_time:1501382375<br/>
+now_time:1501382375<br/>
+session_id:4g8q1j5dg244otv5drrrntol72</p>
+</blockquote>
+
+<pre><code>[root@web02 memcache-2.2.5]# printf &quot;get 4g8q1j5dg244otv5drrrntol72\r\n&quot;|nc 127.0.0.1 11211
+VALUE 4g8q1j5dg244otv5drrrntol72 0 26
+session_time|i:1501382375;
+END
+</code></pre></li>
+<li><p>通过网页管理memcahed</p>
+
+<blockquote>
+<p>上传memadmin-1.0.12.tar.gz</p>
+</blockquote>
+
+<pre><code>[root@web02 tools]# tar xf memadmin-1.0.12.tar.gz -C /application/nginx/html/blog/
+[root@web02 tools]# cd /application/nginx/html/blog/
+[root@web02 blog]# ls memadmin/
+
+http://blog.etiantian.org/memadmin/
+
+[root@web02 memadmin]# pwd
+/application/nginx/html/blog/memadmin
+[root@web02 memadmin]# vim config.php 
+&lt;?php
+if (!defined(&#39;IN_MADM&#39;)) exit();
+
+$config[&#39;user&#39;] = &quot;admin&quot;; // your username
+$config[&#39;passwd&#39;] = &quot;admin&quot;; // your password
+</code></pre></li>
+<li><p>wordpress将数据存入memcahed</p>
+
+<p>前提：你有现成程序支持</p>
+
+<blockquote>
+<p>WordPress 会自动检查在 wp-content 目录下是否有 object-cache.php 文件，如果有，直接调用它作为 WordPress 对象缓存机制。</p>
+</blockquote>
+
+<pre><code>[root@web02 memadmin]# cd /application/nginx/html/blog/wp-content/
+[root@web02 memadmin]# rz object-cache.php
+[root@web02 wp-content]# ls
+index.php  languages  object-cache.php  plugins  themes  uploads
+</code></pre>
+
+<p>memcache 2种使用场景</p>
+
+<ol>
+<li><p>作为mysql的盾牌：例子：wordpress object-cache.php</p>
+
+<blockquote>
+<p>需要配置：</p>
+</blockquote>
+
+<blockquote>
+<p>①有memcahe.so模块 《==编译安装客户端memcache-2.2.5.tgz</p>
+</blockquote>
+
+<blockquote>
+<p>②配置php.ini:<br/>
+添加extension=memcache.so ==》能够让php找到memcache客户端，然后能够将数据发送给客户端</p>
+</blockquote>
+
+<pre><code>[root@web02 wp-content]# ls /application/php-5.5.32/lib/php/extensions/no-debug-non-zts-20121212/
+memcache.so
+</code></pre>
+
+<blockquote>
+<p>③怎么找到服务端？怎么往服务端插入数据？<br/>
+            在你的php文件中配置相关参数<br/>
+            $memcache-&gt;connect(&#39;127.0.0.1&#39;, 11211) or die (&quot;Could not connect&quot;);</p>
+</blockquote></li>
+<li><p>session 共享</p>
+
+<blockquote>
+<p>需要配置：</p>
+</blockquote>
+
+<blockquote>
+<p>①有memcahe.so模块 《==编译安装客户端memcache-2.2.5.tgz</p>
+</blockquote>
+
+<blockquote>
+<p>②配置php.ini:<br/>
+    添加extension=memcache.so ==》能够让php找到memcache客户端，然后能够将数据发送给客户端</p>
+</blockquote>
+
+<blockquote>
+<p>③还需要配置php.ini:<br/>
+session.save_handler = memcache<br/>
+session.save_path = &quot;tcp://127.0.0.1:11211&quot;</p>
+</blockquote>
+
+<blockquote>
+<p>session是php软件的功能</p>
+</blockquote></li>
+</ol></li>
+</ol>
+
+<blockquote>
+<h1 id="toc_0">今日总结：</h1>
+
+<ol>
+<li>一致性哈希</li>
+<li>memcached安装，监控</li>
+<li>memcache安装，和php的结合</li>
+<li>数据缓存和session共享的实现步骤</li>
+</ol>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

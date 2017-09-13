@@ -1,0 +1,428 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿五、Nginx入门 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿五、Nginx入门</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><h2 id="toc_0">常用Web服务软件</h2>
+
+<ol>
+<li>静态请求</li>
+</ol>
+
+<blockquote>
+<p>Nginx/Apache/Lighttpd/tengine</p>
+</blockquote>
+
+<ol>
+<li>动态请求</li>
+</ol>
+
+<blockquote>
+<p>PHP   处理解析PHP语言<br/>
+Tomcat  处理解析Java语言<br/>
+resin 大型动态Web服务, Java容器</p>
+</blockquote></li>
+<li><p>web软件比较</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-7/90337747.jpg" alt=""/></p>
+
+<ol>
+<li><p>Apache优缺点</p>
+
+<blockquote>
+<p>优点：<br/>
+Apache的兼容性和稳定性都是非常强<br/>
+Apache 的模块比 Nginx/Lighttpd丰富<br/>
+Apache在处理动态请求比Nginx/Lighttpd更有优势<br/>
+缺点：<br/>
+属于重量级web服务器（重量级主要是在软件包的大小上比较大, 软件的耦合度大）<br/>
+在速度、性能不及其他轻量级web服务器, 并且消费内存较高。<br/>
+使用传统的select模型, 高并发能力有限</p>
+</blockquote></li>
+<li><p>Nginx优缺点</p>
+
+<blockquote>
+<p>优点：<br/>
+轻量级而且抗高并发, 支持几万的并发连接, 在高并发下nginx 能保持低资源/低消耗/高性能<br/>
+基于异步的网络I/O模型(epoll), nginx 处理请求是异步非阻塞的, 而apache 则是同步阻塞型的<br/>
+优秀地支持Web服务,反向代理(Reverse Proxy),缓存(cache)三大功能<br/>
+高度模块化的设计, 编写模块相对简单<br/>
+处理静态文件, 索引文件以及自动索引, 打开文件描述符缓冲。<br/>
+缺点：<br/>
+nginx处理动态请求不如Apache优秀</p>
+</blockquote></li>
+<li><p>建议</p>
+
+<blockquote>
+</blockquote>
+
+<ul>
+<li>软件环境统一--批量管理--标准化--自动化运维</li>
+<li>Apache 动态业务后台服务器（主要处理php及一些动态请求+Tomcat）；</li>
+<li>Nginx/Tengine 静态业务前端服务器（高并发请求、静态资源、负载均衡、反向代理和前端Cache等）。</li>
+</ul>
+
+<p><a href="http://www.cnblogs.com/oubo/archive/2012/05/21/2511726.html">http://www.cnblogs.com/oubo/archive/2012/05/21/2511726.html</a><br/>
+<a href="http://www.blogjava.net/daniel-tu/archive/2008/12/29/248883.html">http://www.blogjava.net/daniel-tu/archive/2008/12/29/248883.html</a></p></li>
+</ol></li>
+<li><p>Nginx用途</p>
+
+<ol>
+<li><p>提供页面请求处理功能==web服务<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-7/10009570.jpg" alt=""/></p></li>
+<li><p>提供反向代理和负载均衡</p>
+
+<blockquote>
+<p>反向代理==指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。其目的是使用户可就近取得所需内容，解决 Internet网络拥挤的状况，提高用户访问网站的响应速度。</p>
+
+<p>负载均衡==对访问请求进行调度, 使各个web服务器一起分担压力<br/>
+Nginx 反向代理+负载均衡<br/>
+LVS 数据转发+负载均衡</p>
+</blockquote></li>
+<li><p>提供前端数据缓存服务==Web高速缓存</p>
+
+<blockquote>
+<p>通过提高重复访问内容的命中率，可以有效地改善网站的访问速度和整体性能，以弥补带宽的不足。特定的WWW对象经常被多个网络用户再次请求时，缓存设备会监视Web请求，检索它们，当第一次传送对象时把它存储到缓存设备中, 在以后的请求中发送缓存设备中(而不是目标站点)的对象。</p>
+</blockquote>
+
+<p>====WEB高速缓存重定向技术的好处</p>
+
+<ol>
+<li>减少带宽消耗:
+由于需要在网上通过的请求和响应减少，降低了托管客户对互联网带宽的占用，因此可节省大量的带宽资源。</li>
+<li>减少服务器载入:
+服务器处理的请求减少，可以减少服务器的载入。</li>
+<li>减少用户通入时间:
+因为对缓存请求的响应是立即可以获得的, 不仅极大地缩短了互联网静态页面访问的响应时间，而且也大大提高了托管客户的WEB服务器对于不可缓存的内容的处理能力，因此可以在现有网络和设备条件下提供更好的内容访问服务。</li>
+<li>增加吞吐量
+在客户投资最少的情况下增加服务器的内容访问服务能力。</li>
+<li>增加可靠性
+由于具有持续高性能的互联网服务质量，系统的冗余性和故障恢复能力，因此可有效地保证高峰值业务量的服务能力。</li>
+</ol></li>
+</ol></li>
+<li><p>Nginx安装部署</p>
+
+<ol>
+<li><p>确认安装环境</p>
+
+<pre><code>[root@web01 ~]# cat /etc/centos-release
+CentOS release 6.9 (Final)
+[root@web01 ~]# uname -a
+Linux web01 2.6.32-696.el6.x86_64 #1 SMP Tue Mar 21 19:29:05 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre></li>
+<li><p>安装环境准备</p>
+
+<blockquote>
+<p><strong>nginx.org官网半年内的稳定版</strong></p>
+</blockquote>
+
+<pre><code>id www
+useradd -s /sbin/nologin -M www
+mkdir -p /server/tools/
+cd /server/tools/
+wget http://nginx.org/download/nginx-1.10.3.tar.gz
+</code></pre></li>
+<li><p>安装依赖软件包</p>
+
+<blockquote>
+<p>pcre-devel(Perl语言兼容的正则表达式, rewrite会用到)<br/>
+OpenSSL-devel(安全相关软件, 部署HTTPS服务会用到)<br/>
+gcc(GNU编译器套件GNU Compiler Collection)</p>
+</blockquote>
+
+<pre><code>yum install pcre-devel openssl-devel gcc -y
+rpm -qa pcre* openssl* gcc
+</code></pre></li>
+<li><p>编译安装</p>
+
+<pre><code>tar xf nginx-1.10.3.tar.gz
+cd nginx-1.10.3/
+./configure --prefix=/application/nginx-1.10.3/ --user=www --group=www --with-http_stub_status_module --with-http_ssl_module
+make &amp;&amp; make install
+</code></pre></li>
+<li><p>启动检查</p>
+
+<pre><code>ln -s /application/nginx-1.10.3/ /application/nginx
+ln -s /application/nginx/sbin/nginx /usr/local/sbin/
+nginx
+lsof -i:80       #Nginx使用端口80
+</code></pre></li>
+</ol></li>
+<li><p>Nginx目录结构<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-7/61781401.jpg" alt=""/></p>
+
+<pre><code>[root@web01 nginx]# tree
+.
+├── conf
+│   ├── fastcgi.conf            #Nginx与其他动态网站软件PHP配合
+│   ├── fastcgi.conf.default
+│   ├── fastcgi_params
+│   ├── fastcgi_params.default
+│   ├── koi-utf
+│   ├── koi-win
+│   ├── mime.types              #http协议中的媒体类型
+│   ├── mime.types.default
+│   ├── nginx.conf              #核心配置文件
+│   ├── nginx.conf.default      #原始备份
+│   ├── scgi_params
+│   ├── scgi_params.default
+│   ├── uwsgi_params
+│   ├── uwsgi_params.default
+│   └── win-utf
+├── html                        #默认的站点根目录
+│   ├── 50x.html
+│   └── index.html              #首页
+├── logs
+│   ├── access.log              #访问日志
+│   ├── error.log
+│   └── nginx.pid
+├── sbin
+    └── nginx                   #管理命令
+
+9 directories, 21 files
+</code></pre></li>
+<li><p>修改配置文件</p>
+
+<blockquote>
+<p>main主区块<br/>
+events 事件区块<br/>
+http区块<br/>
+  server 虚拟主机区块<br/>
+    location 位置区块</p>
+</blockquote>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-7/2232182.jpg" alt=""/></p>
+
+<pre><code>[root@web01 conf]# egrep -v &#39;#|^$&#39; nginx.conf.default
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    server {                                  # 虚拟主机
+        listen       80;                      # 监听端口
+        server_name  localhost;              # 主机域名
+        location / {
+            root   html;                      # 站点根目录
+            index  index.html index.htm;    # 首页文件
+        }
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+[root@web01 conf]# egrep -v &#39;#|^$&#39; nginx.conf.default &gt;nginx.conf
+[root@web01 conf]# sed -i &#39;s#localhost#www.etiantian.org#g&#39; nginx.conf
+</code></pre></li>
+<li><p>Nginx命令(默认用来启动)</p>
+
+<blockquote>
+<p>-h 帮助<br/>
+-t 配置文件语法检查<br/>
+-s Nginx服务管理 reload reopen quit stop   #不用选项即为start<br/>
+-V 查看配置参数和版本</p>
+</blockquote>
+
+<pre><code> [root@web01 conf]# ln -s /application/nginx/sbin/nginx /usr/sbin/nginx #创建命令软链接
+[root@web01 conf]# nginx -t #配置文件语法检查
+nginx: the configuration file /application/nginx-1.10.3/conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3/conf/nginx.conf test is successful
+[root@web01 conf]# nginx -s reload #重新载入配置文件
+</code></pre>
+
+<blockquote>
+<p>启动结果检查:</p>
+</blockquote>
+
+<pre><code>ps -ef|grep nginx
+lsof -i:80
+ss -lntup|grep nginx
+curl 10.0.0.8
+</code></pre></li>
+<li><p>修改Windows的hosts</p>
+
+<blockquote>
+<p>C:\Windows\System32\drivers\etc\hosts<br/>
+使用管理员权限编辑, 加入一行新内容:</p>
+</blockquote>
+
+<pre><code>10.0.0.8 www.etiantian.org bbs.etiantian.org blog.etiantian.org
+</code></pre></li>
+<li><p>站点检查</p>
+
+<blockquote>
+<p>用curl命令访问10.0.0.8<br/>
+用浏览器访问10.0.0.8, 检查是否正确返回</p>
+</blockquote></li>
+<li><p>注意点</p>
+
+<ol>
+<li>不要用Windows edge浏览器打开Nginx主页</li>
+<li>及时清理浏览器缓存!!!</li>
+<li>注意Windows hosts不要写错</li>
+</ol></li>
+<li><p>补充知识</p>
+
+<ol>
+<li>并行程序设计模式--Master-Worker模式</li>
+</ol>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-9/23629867.jpg" alt=""/></p>
+
+<blockquote>
+<p>Master进程负责接收和分配任务，Worker进程负责处理子任务。当各个Worker进程将子任务处理完后，将结果返回给Master进程，由Master进行归纳和汇总，从而得到系统结果。</p>
+</blockquote></li>
+<li><p>FastCGI<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-9/13307944.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-9/49236229.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-9/27337252.jpg" alt=""/></p></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

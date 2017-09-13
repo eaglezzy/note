@@ -1,0 +1,488 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十三、shell编程入门 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十三、shell编程入门</h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+
+<ol>
+<li>为什么要学习shell编程
+
+<ol>
+<li>Linux系统批量管理</li>
+<li>提升工作效率</li>
+<li>减少重复工作</li>
+</ol></li>
+<li>本阶段shell学习要求
+
+<ol>
+<li>看懂简单脚本</li>
+<li>尝试写脚本</li>
+<li>结合后面的其中架构</li>
+</ol></li>
+<li>学好shell编程所需的基础知识
+
+<ol>
+<li>熟练使用vim编辑器</li>
+<li>熟悉ssh终端</li>
+<li>数量掌握80个以上Linux常用命令</li>
+<li>数量账务Linux正则表达式及三剑客命令(grep,sed,awk)</li>
+<li>熟练账务常用系统服务</li>
+</ol></li>
+<li>如何学好shell编程
+
+<ol>
+<li>核心
+多练--&gt;多思考--&gt;再练--&gt;再思考,坚持如此循环即可</li>
+<li>大忌
+不可拿来主义,可以模仿,但是要自己嚼烂了再吃下去,否则会闹肚子</li>
+</ol></li>
+<li><p>基础知识</p>
+
+<ol>
+<li>什么是shell
+
+<ol>
+<li>命令解释器
+
+<ol>
+<li>交互:从键盘输入命令,通过/bin/bash的解析,可以立即得到shell的回应</li>
+<li>非交互:脚本<br/>
+\(____________
+|                               外围应用程序                              |  
+|               |                 命令解释器                |               |
+|               |              |    系统核心    |            |               |
+|               |              |   |    硬件  |   |            |               |
+\)</li>
+</ol></li>
+</ol></li>
+</ol>
+
+<p>centos默认的shell是bash<br/>
+echo $SHELL<br/>
+1. 什么是shell脚本<br/>
+    1. 一个程序文件,包含若干行Linux命令语句<br/>
+    2. 由命令/变量和流程控制语句有机的结合</p></li>
+<li><p>创建shell脚本</p>
+
+<ol>
+<li>统一脚本存放目录
+/server/scripts</li>
+<li>推荐使用vim编辑器编辑脚本</li>
+<li>第一行指出由哪个解释器来执行脚本中的内容
+
+<ol>
+<li>#!/bin/bash
+
+<ol>
+<li>&quot;#!&quot;称为幻数,能被内核识别</li>
+<li>必须写在第一行,如果不是第一行则为脚本注释行</li>
+<li>也可以写为#!/bin/sh
+1.sh和bash的区别
+2.bash的版本</li>
+</ol></li>
+<li>脚本注释
+
+<ol>
+<li>除第一行外,跟在#后面的内容表示注释</li>
+<li>注释部分不会被执行,仅给人看</li>
+<li>注释可以自成一行,也可以跟在命令后面,与命令同行</li>
+<li>脚本不要用中文注释,尽量用英文注释</li>
+</ol></li>
+<li>版权声明
+配置文件为 ~/.vimrc</li>
+<li>写一个简单脚本(切换目录显示文件属性)并运行
+
+<ol>
+<li>sh script-name(推荐使用)</li>
+<li>path/script-name或./script-name(全路径或当前路径执行脚本)</li>
+</ol></li>
+</ol></li>
+</ol></li>
+<li><p>shell脚本深入---变量段</p>
+
+<ol>
+<li>什么是变量
+    用一个固定的字符串,替代更多更复杂的内容
+    1. x=1
+    2. devPath=/server/
+    3. filelist=`ls`或\((ls)
+    4. echo &quot;你现在使用\)USER用户登录,字符集为$LANG,因此我可以使用中文和你交流.&quot;</li>
+<li>变量的分类
+
+<ol>
+<li>全局变量
+又称环境变量
+在创建他们的shell及其派生出来的子shell中使用
+分类:
+
+<ol>
+<li>查看全局变量
+env只显示全局变量</li>
+<li>bash内置的环境变量
+1.shell通过环境变量来确定登录用户名\命令路径\终端类型\登录目录等
+2.HOME PATH SHELL UID USER等</li>
+</ol></li>
+<li>自定义环境变量
+
+<ol>
+<li>建议所有环境变量名称均为的大写</li>
+<li>必须用export命令定义
+export OLDBOY=老男孩
+取消变量
+unset OLDBOY
+永久生效
+#全局环境变量配置文件
+/etc/profile /etc/bashrc /etc/profile.d
+#用户环境变量配置文件
+~/.bash_profile ~/.bashrc
+局部变量
+又称普通变量
+只能在创建他们的shell函数或shell脚本中使用
+定义变量:
+变量名=value
+变量名要求
+由字母\数字\下划线组成,且以字母开头
+规范的变量名写法定义:见名知意
+驼峰语法:单个单词字母小写,其余单词首字母大写
+oldboyAgeSex=1
+把一个命令作为变量
+普通字符串变量定义测试
+典故:金庸新著
+\(\{WEEK}DAY
+特殊变量
+位置变量:
+\)0
+1.获取当前执行的shell脚本的文件名
+2.如果执行脚本带路径,那么久包括脚本路径
+3.模拟系统脚本使用\(0
+\#n
+1.获取当前执行的shell脚本的第n个参数值,n=1..9..
+2.参数默认以空格隔开
+3.当n为0时表示脚本的文件名
+4.如果n大于9时,用\{}括起来,如{10}
+\)#
+获取当前执行的shell脚本后面接的参数的数量
+进程状态变量--\(?
+1.获取执行上一个指令的返回值
+2.0为成功,非0为失败
+3.生产环境使用场景---用于判断命令程序是否执行成功
+变量的定义
+直接赋值
+name=oldboy
+passWord=123456
+命令行传参
+name=\)1
+passWord=\(2
+echo \)name
+echo $passWord
+read读入
+read得到的输入默认存储在变量REPLY中
+存储在一个指定变量中</li>
+<li>存储在多个指定变量中</li>
+<li>read -p &quot;提示语句&quot;,则屏幕就会输出提示语句</li>
+<li>-t等待时间</li>
+<li>-s关闭回显,用于密码输入
+read -p &quot;请输入你的用户名:&quot; user
+read -s -p &quot;请输入你的密码:&quot; pass</li>
+</ol></li>
+</ol></li>
+</ol></li>
+<li><p>shell脚本深入---命令语句段</p>
+
+<ol>
+<li>条件表达式
+
+<ol>
+<li>明天是否下雨
+
+<ol>
+<li>下雨</li>
+<li>不下雨</li>
+</ol></li>
+<li>格式:[&lt;测试表达式&gt;]
+好习惯:先敲一对[],然后退格输入2个空格[  ],最后再退格开始输入[ -f /etc/hosts ]
+判断文件
+符号
+英文
+说明
+-f
+file
+文件存在且为普通文件则为真,即测试表达式成立
+-d
+directory
+文件存在且为目录文件则为真
+-s
+size
+文件存在且文件大小不为0则为真
+-e
+exist
+文件存在则为真,只要有文件就行
+-r
+read
+文件存在且可读
+-w
+write
+文件存在且可写
+-x
+executable
+文件存在且可执行
+-L
+link
+文件存在且为连接文件
+f1 -nt f2
+newer than
+文件f1比文件f2新则为真,根据文件修改时间计算
+f1 -ou f2
+older than
+文件f1比文件f2旧则为真,根据文件修改时间计算
+判断字符串
+常用字符串测试操作符
+说明
+-z &quot;字符串&quot;
+若&quot;字符串&quot;长度为0则为真,zero
+-n &quot;字符串&quot;
+若&quot;字符串&quot;长度不为0则为真,no zero
+&quot;字符串1&quot; = &quot;字符串2&quot;
+若等于则为真,可用&quot;<mark>&quot;代替&quot;=&quot;
+&quot;字符串1&quot; != &quot;字符串2&quot;
+若不等于则为真,但不能用&quot;!</mark>&quot;代替&quot;!=&quot;
+注意:空格字符是有长度的
+注意:字符串必须要用双引号引起来
+注意:变量 等号 字符串左右都有空格</li>
+<li>判断整数
+
+<ol>
+<li>-eq     等于          equal</li>
+<li>-ne     不等于     not equal</li>
+<li>-gt     大于          greater than</li>
+<li>-ge     大于等于        greater equal</li>
+<li>-lt     小于          less than</li>
+<li>-le     小于等于        less equal</li>
+</ol></li>
+<li>简单案例:判断命令行参数个数等于2</li>
+</ol></li>
+<li>if条件语句
+
+<ol>
+<li>单分支条件语句
+语法
+if [ 条件 ]
+then
+指令
+fi</li>
+</ol></li>
+</ol></li>
+</ol>
+
+<p>或<br/>
+if [ 条件 ]; then<br/>
+  指令<br/>
+fi<br/>
+    双分支条件语句<br/>
+语法<br/>
+if [ 条件 ]<br/>
+  then<br/>
+    指令1<br/>
+else<br/>
+    指令2<br/>
+fi<br/>
+    多分支if语句<br/>
+语法<br/>
+if [ 条件1 ]<br/>
+  then<br/>
+    指令1<br/>
+elif [ 条件2 ]<br/>
+  then<br/>
+    指令2<br/>
+elif [ 条件3 ]<br/>
+  then<br/>
+    指令3<br/>
+.......<br/>
+else<br/>
+    指令n<br/>
+fi<br/>
+    case条件语句<br/>
+        语法<br/>
+case &quot;字符串变量&quot; in<br/>
+  值1)<br/>
+        指令1<br/>
+        ;;<br/>
+  值2)<br/>
+        指令2<br/>
+        ;;<br/>
+.........<br/>
+  *)<br/>
+        指令n<br/>
+esac<br/>
+    case语句就相当于多分支的if语句<br/>
+        case语句的优势是更规范 易读<br/>
+        1. case语句适合变量的值少,且为固定的数字或字符串集合<br/>
+        2. 案例:菜单脚本<br/>
+    2. for循环语句<br/>
+        1. 语法<br/>
+for 变量名 in 变量取值列表<br/>
+    do<br/>
+      指令<br/>
+done<br/>
+    开机启动项优化<br/>
+        批量创建文件<br/>
+        1. 课后练习题:批量改文件名<br/>
+        2. 课后练习题:批量创建用户并设置随机密码<br/>
+        3. 倒计时 <br/>
+    2. while循环语句<br/>
+        1. 语法<br/>
+while 条件<br/>
+    do<br/>
+      指令<br/>
+done<br/>
+    一般用于守护进程<br/>
+        又名死循环<br/>
+            true<br/>
+        2. 语句小结<br/>
+            1. while循环的特长是执行守护进程以及我们希望循环不退出,持续执行,用于频率小于1分钟循环处理(crond),其他的while循环几乎都可以被for循环替代<br/>
+            2. case语句可以被if语句替换,一般在系统启动脚本传入少量固定规则字符串用case语句,其他普通判断多用if<br/>
+            3. 一句话,if,for语句最常用,其次while(守护进程),case(服务启动脚本)</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

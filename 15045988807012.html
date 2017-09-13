@@ -1,0 +1,539 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿三、http协议==超文本传输协议 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿三、http协议==超文本传输协议</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><h1 id="toc_0">http协议==超文本传输协议</h1>
+
+<p>1.0版本 短连接<br/>
+1.1版本 长连接--持久连接<br/>
+HTTPS 安全版本: HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。</p>
+
+<hr/></li>
+<li><h1 id="toc_1">http协议中的文件类型(mime-type媒体类型)</h1>
+
+<hr/></li>
+<li><h1 id="toc_2">通过域名访问网站的流程</h1>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/97544416.jpg" alt=""/></p>
+
+<hr/></li>
+<li><h1 id="toc_3">DNS解析原理过程</h1>
+
+<blockquote>
+<p>01：查询本地缓存信息/本地hosts文件信息，确认是否有域名到IP的对应关系<br/>
+    如果有域名--IP对应关系，直接通过IP地址访问服务器<br/>
+    如果没有，继续下一步<br/>
+02：请求LDNS（local DNS, 本地网卡上指定配置的），获取IP地址信息<br/>
+    如果有域名-IP对应关系，直接将IP地址信息返回给主机<br/>
+    如果没有，继续一下步<br/>
+---------------------------至此：主机的请求查询过程称为递归查询<br/>
+03：LDNS会向根域名服务器请求域名对应IP地址信息<br/>
+    根域名服务器会告知LDNS服务器，顶级域名服务器信息<br/>
+04：LDNS会向顶级域名服务器请求域名对应IP地址信息<br/>
+    顶级域名服务器会告知LDNS服务器，二级域名服务器信息（google.com）<br/>
+05: LDNS会向二级域名服务器请求域名对应IP地址信息<br/>
+    二级域名会告知相应的 www bbs blog主机记录信息对应IP地址（A记录）<br/>
+    这时二级域名服务器也会成为授权DNS服务器<br/>
+06：LDNS服务受到授权服务器告知的域名与IP地址对应记录，会进行本地缓存，然后将记录再发送给主机<br/>
+07：主机接收到域名与IP的对应关系记录，会进行本地缓存，根据获得的IP地址，直接访问网站服务器</p>
+</blockquote>
+
+<hr/>
+
+<ol>
+<li><p>域名的级别</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/7234860.jpg" alt=""/></p>
+
+<table>
+<thead>
+<tr>
+<th>根域名</th>
+<th>.(省略不写)</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>顶级域名</td>
+<td>com. org. gov. net. cn. edu. info.</td>
+<td><div>cn com gov org…</div></td>
+</tr>
+<tr>
+<td>二级域名</td>
+<td>bing.com</td>
+<td></td>
+</tr>
+<tr>
+<td>三级域名</td>
+<td><a href="http://www.bing.com">www.bing.com</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<hr/></li>
+<li><p>DNS查询操作的种类</p>
+
+<p>递归查询: 用户终端到本地DNS缓存/本地hosts文件/本地域名服务器/ISP DNS缓存的查询<br/>
+迭代查询: 本地DNS到根域名服务器/顶级域名服务器/网站授权DNS的查询</p>
+
+<hr/></li>
+<li><p>DNS记录的种类</p>
+
+<pre><code>[c:\~]$ ipconfig/displaydns
+Windows IP 配置
+www.bing.com
+----------------------------------------
+记录名称. . . . . . . : www.bing.com
+记录类型. . . . . . . : 1
+生存时间. . . . . . . : 10800
+数据长度. . . . . . . : 4
+部分. . . . . . . . . : 答案
+A (主机)记录  . . . . : 204.79.197.220
+
+www.bing.com
+----------------------------------------
+没有 AAAA 类型的记录
+220.197.79.204.in-addr.arpa
+----------------------------------------
+记录名称. . . . . . . : 220.197.79.204.in-addr.arpa.
+记录类型. . . . . . . : 12
+生存时间. . . . . . . : 10800
+数据长度. . . . . . . : 4
+部分. . . . . . . . . : 答案
+PTR 记录  . . . . . . : www.bing.com
+
+www2.bing.com
+----------------------------------------
+记录名称. . . . . . . : www2.bing.com
+记录类型. . . . . . . : 5
+生存时间. . . . . . . : 14
+数据长度. . . . . . . : 4
+部分. . . . . . . . . : 答案
+CNAME 记录  . . . . . : dual.a-0001.a-msedge.net
+</code></pre>
+
+<ul>
+<li>A记录: 域名--IP对应关系</li>
+<li>CNAME: 域名的别名</li>
+</ul>
+
+<hr/></li>
+<li><p>Windows中查看DNS解析</p>
+
+<ul>
+<li>ipconfig/displaydns</li>
+</ul>
+
+<pre><code>[c:\~]$ ipconfig/flushdns
+Windows IP 配置
+已成功刷新 DNS 解析缓存。
+[c:\~]$ ipconfig/displaydns
+Windows IP 配置
+www.bing.com
+----------------------------------------
+没有 AAAA 类型的记录
+
+www.bing.com
+----------------------------------------
+记录名称. . . . . . . : www.bing.com
+记录类型. . . . . . . : 1
+生存时间. . . . . . . : 10800
+数据长度. . . . . . . : 4
+部分. . . . . . . . . : 答案
+A (主机)记录  . . . . : 204.79.197.220
+
+220.197.79.204.in-addr.arpa
+----------------------------------------
+记录名称. . . . . . . : 220.197.79.204.in-addr.arpa.
+记录类型. . . . . . . : 12
+生存时间. . . . . . . : 10800
+数据长度. . . . . . . : 4
+部分. . . . . . . . . : 答案
+PTR 记录  . . . . . . : www.bing.com
+</code></pre>
+
+<ul>
+<li>nslookup</li>
+</ul>
+
+<pre><code>[c:\~]$ nslookup ww.bing.com
+非权威应答:
+服务器:  gjjdial.bta.net.cn
+Address:  202.106.195.68
+名称:    a-0001.a-msedge.net
+Addresses:  204.79.197.200
+  13.107.21.200
+Aliases:  ww.bing.com
+  star-bing-com.a-0001.a-msedge.net
+  ```
+
+---
+</code></pre></li>
+<li><p>Linux中查看DNS解析</p>
+
+<ul>
+<li>dig</li>
+</ul>
+
+<pre><code>[root@m01 ~]# dig www.bing.com
+[root@m01 ~]# dig +trace www.bing.com
+</code></pre>
+
+<ul>
+<li>nslookup</li>
+</ul>
+
+<pre><code>[root@m01 ~]# nslookup www.bing.com
+Server:     223.5.5.5
+Address:    223.5.5.5#53
+Non-authoritative answer:
+www.bing.com    canonical name = cn.a-0001.a-msedge.net.
+Name:   cn.a-0001.a-msedge.net
+Address: 202.89.233.103
+Name:   cn.a-0001.a-msedge.net
+Address: 202.89.233.104
+</code></pre>
+
+<ul>
+<li>host</li>
+</ul>
+
+<pre><code>[root@m01 ~]# host www.bing.com
+www.bing.com is an alias for cn.a-0001.a-msedge.net.
+cn.a-0001.a-msedge.net has address 202.89.233.104
+cn.a-0001.a-msedge.net has address 202.89.233.103
+</code></pre></li>
+</ol>
+
+<hr/></li>
+<li><h1 id="toc_4">请求/响应的过程</h1>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/8409480.jpg" alt=""/></p>
+
+<ol>
+<li><p>请求</p>
+
+<p>请求起始行<br/>
+请求头<br/>
+空行<br/>
+请求报文主体(用户提交的内容, post才有, get没有)</p>
+
+<hr/></li>
+<li><p>请求方法<br/>
+GET 下载<br/>
+POST 上传</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/7925496.jpg" alt=""/></p>
+
+<hr/></li>
+<li><p>响应<br/>
+响应起始行 HTTP/1.1 200 OK<br/>
+响应头部<br/>
+空行<br/>
+响应报文主体</p>
+
+<hr/></li>
+<li><p>响应代码<br/>
+200 OK标准返回<br/>
+301 永久跳转到新位置</p>
+
+<pre><code>&gt; Host: www.360buy.com
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 301 Moved Permanently
+&lt; Server: JDWS/2.0
+&lt; Location: https://www.jd.com/
+</code></pre>
+
+<p>302 临时跳转到新位置</p>
+
+<pre><code>&gt; Host: www.jd.com
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 302 Moved Temporarily
+&lt; Location: https://www.jd.com/
+</code></pre>
+
+<p>403 禁止访问, 服务器拒绝用户请求<br/>
+404 找不到指定页面<br/>
+500 内部服务器错误<br/>
+502 bad gateway--代理服务器没有响应--反向代理<br/>
+503 服务不可用<br/>
+504 响应超时</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/6973836.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/42947422.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/80271387.jpg" alt=""/></p></li>
+</ol>
+
+<hr/></li>
+<li><h1 id="toc_5">http资源类型</h1>
+
+<ol>
+<li><p>静态页面(访问效率更高)</p>
+
+<p>· 以html htm shtml结尾，网址里面一般没有？&amp; <br/>
+· 网页的内容，由<mark>客户端浏览器解析</mark>。服务器只需要根据请求，发送数据，网页内容即可<br/>
+· 网页内容固定不变，容易被搜索引擎收录<br/>
+· 很难有交互，一问一答<br/>
+· 高并发访问效率高</p>
+
+<hr/></li>
+<li><p>动态页面</p>
+
+<p>· 以asp、.aspx、.php、.js、.do、.cgi结尾，网址里面一般会有?/&amp;<br/>
+· <mark>服务器端解析</mark>用户请求<br/>
+· <mark>需要读取数据库</mark>，性能和效率降低<br/>
+· 后端拥有数据库支持，和用户的交互性提升，功能实现方式增多</p>
+
+<hr/></li>
+<li><p>伪静态页面</p>
+
+<p>将动态页面伪装成静态页面的方式, 方便搜索引擎收录<br/>
+<mark>rewrite</mark>使用正则表达式<br/>
+<a href="http://www.oldboyedu.com/oldboy&amp;linux">www.oldboyedu.com/oldboy&amp;linux</a><br/>
+<a href="http://www.oldboyedu.com/oldboy-linux">www.oldboyedu.com/oldboy-linux</a></p></li>
+</ol>
+
+<hr/></li>
+<li><h1 id="toc_6">ULR与URI</h1>
+
+<p><mark>注意:nginx中的URI指的是一个完整网址的顶级域名后面的部分</mark></p>
+
+<p>例如: <a href="http://www.cnblogs.com">http://www.cnblogs.com</a> <mark>/freescience/p/7309315.html</mark></p>
+
+<ol>
+<li><p>URI 统一资源标识符</p>
+
+<p>URI，是uniform resource identifier，统一资源标识符，用来唯一的标识一个资源。Web上可用的每种资源如HTML文档、图像、视频片段、程序等都是用一个URI来定位的<br/>
+URI一般由三部组成：<br/>
+①访问资源的命名机制<br/>
+②存放资源的主机名<br/>
+③资源自身的名称，由路径表示，着重强调于资源。</p>
+
+<ul>
+<li>URL 统一资源定位器</li>
+</ul>
+
+<p>URL是uniform resource locator，统一资源定位器，它是一种具体的URI，即URL可以用来标识一个资源，而且还指明了如何locate这个资源。URL是Internet上用来描述信息资源的字符串，主要用在各种WWW客户程序和服务器程序上，特别是著名的Mosaic。<br/>
+采用URL可以用一种统一的格式来描述各种信息资源，包括文件、服务器的地址和目录等。URL一般由三部组成：<br/>
+①协议(或称为服务方式)<br/>
+②存有该资源的主机IP地址(有时也包括端口号)<br/>
+③主机资源的具体地址。如目录和文件名等</p>
+
+<ul>
+<li>URN 统一资源命名</li>
+</ul>
+
+<p>URN，uniform resource name，统一资源命名，是通过名字来标识资源，比如mailto:<a href="mailto:java-net@java.sun.com">java-net@java.sun.com</a>。</p>
+
+<hr/></li>
+<li><p>区别</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/33526943.jpg" alt=""/></p>
+
+<p><a href="http://kb.cnblogs.com/page/90838/">http://kb.cnblogs.com/page/90838/</a></p></li>
+</ol>
+
+<hr/></li>
+<li><h1 id="toc_7">网站访问流量的度量</h1>
+
+<ol>
+<li><p>临时统计</p>
+
+<p>使用awk分析访问日志access.log</p>
+
+<hr/></li>
+<li><p>第三方统计</p>
+
+<p><a href="http://alexa.chinaz.com/">http://alexa.chinaz.com/</a> 查看IP PV统计信息网站<br/>
+hm.baidu.com 百度统计工具<br/>
+piwik.org 统计软件</p>
+
+<hr/></li>
+<li><p>ip独立IP访问</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/5574767.jpg" alt=""/></p>
+
+<p>私网ip--NAT映射--同一个公网IP--访问目标网站<br/>
+ADSL拨号--拨号次数--每次的独立IP--访问目标网站</p>
+
+<hr/></li>
+<li><p>PV 页面浏览量(点击量)</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/74321318.jpg" alt=""/></p>
+
+<hr/></li>
+<li><p>UV 独立用户访问量</p>
+
+<p>cookie(比较精确)<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/80187326.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/4070861.jpg" alt=""/></p></li>
+</ol>
+
+<hr/></li>
+<li><h1 id="toc_8">网站并发连接</h1>
+
+<p><mark>指的是一个网站在单位时间内能够处理的最大用户连接数</mark><br/>
+<a href="http://lidao.blog.51cto.com/3388056/1948925">http://lidao.blog.51cto.com/3388056/1948925</a><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/79116736.jpg" alt=""/></p>
+
+<hr/></li>
+<li><h1 id="toc_9">扩展教学：测试磁盘存储性能方法</h1>
+
+<p>连续的向磁盘中进行读写大文件的测试方法<br/>
+dd if=/dev/zero of=/tmp/test01.bin bs=1k count=10000<br/>
+随机读取<br/>
+fio软件安装使用(需要借助epel源)<br/>
+<a href="http://blog.csdn.net/hshl1214/article/details/49762149">http://blog.csdn.net/hshl1214/article/details/49762149</a><br/>
+<a href="http://www.cnblogs.com/lpfuture/p/6054882.html">http://www.cnblogs.com/lpfuture/p/6054882.html</a><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-5/37884096.jpg" alt=""/></p></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

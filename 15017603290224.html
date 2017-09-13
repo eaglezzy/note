@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	inotifywait - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">inotifywait</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>等待文件或文件集上的特定事件。</p>
+
+<p>用法：inotifywait [options] file1 [file2] [file3] [...]</p>
+
+<p>选项：</p>
+
+<p>-h|--help<br/>
+        显示此帮助文本。<br/>
+@<file><br/>
+        排除指定的文件被监视。<br/>
+--exclude <pattern><br/>
+        排除与扩展正则表达式<pattern>匹配的文件上的所有事件。<br/>
+--excludei <pattern><br/>
+        连接--exclude但不区分大小写。<br/>
+-m|-monitor<br/>
+        继续聆听事件。 如果没有这个选项，inotifywait将在收到一个事件后退出。<br/>
+-d|--daemon<br/>
+        与--monitor相同，除了在后台运行将事件记录到由-outfile指定的文件。<br/>
+        包含 - 日志。<br/>
+-r|--recursive<br/>
+        递归地观看目录。<br/>
+--fromfile <file><br/>
+        从<file>读取文件，或者使用` - &#39;查看stdin文件。<br/>
+-o|--outfile <file><br/>
+        将事件打印到<file>而不是stdout。<br/>
+-s|--syslog<br/>
+        将错误发送到syslog而不是stderr。<br/>
+-q|--quiet<br/>
+        打印少（仅打印事件）。<br/>
+-qq<br/>
+        不打印（甚至没有事件）。<br/>
+--format <fmt><br/>
+        使用指定的类似printf的格式字符串打印; 阅读手册页了解更多详情。<br/>
+--timefmt <fmt><br/>
+        与strftime兼容的格式字符串用于 ％T in --format字符串。<br/>
+-c | --csv<br/>
+        以CSV格式打印事件。<br/>
+-t | --timeout <seconds><br/>
+        当侦听到单个事件时，等待事件&lt;秒&gt;秒后超时。<br/>
+        如果<seconds>为0，inotifywait永远不会超时。<br/>
+-e | --event <event1> [-e | --event <event2> ...]<br/>
+        侦听定事件。如果省略，则会收听所有事件。<br/>
+退出状态：</p>
+
+<p>0 - 收到您要求的事件。<br/>
+1 - 您没有要求观看的活动已收到（通常为delete_self或unmount），或发生一些错误。<br/>
+2 - 给定了--timeout选项，在指定的时间间隔内没有发生任何事件。<br/>
+事件：</p>
+
+<p>access              文件或目录内容被读取<br/>
+modify              文件或目录内容已写入<br/>
+attrib              文件或目录属性已更改<br/>
+close_write         文件或目录在可写模式下打开后关闭<br/>
+close_nowrite       文件或目录在只读模式下打开后关闭<br/>
+close               文件或目录关闭，无论读/写模式如何<br/>
+open                文件或目录打开<br/>
+moved_to            文件或目录移动到监视目录<br/>
+moved_from          文件或目录从监视目录中移动<br/>
+move                文件或目录移动到或从监视目录移动<br/>
+create              在监视目录中创建的文件或目录<br/>
+delete              在监视目录中删除的文件或目录<br/>
+delete_self         文件或目录已被删除<br/>
+unmount             包含已卸载文件或目录的文件系统</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

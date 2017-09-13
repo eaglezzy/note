@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	四十、自动化安装 (二) -- cobbler - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">四十、自动化安装 (二) -- cobbler</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>自动化的前提是标准化</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/57384517.jpg" alt=""/></p>
+
+<ol>
+<li><p>KS自动应答文件</p>
+
+<p>作用：</p>
+
+<blockquote>
+<p>将我们手动安装的所有步骤以一个固定的格式写入到这个文件中。从此以后系统的安装程序只需要读取这个文件就可以自动安装系统。</p>
+</blockquote>
+
+<blockquote>
+<p>anaconda-ks.cfg    anaconda就是安装程序的名字 ks kickstart</p>
+</blockquote>
+
+<p>ks文件主要分为三大段：</p>
+
+<blockquote>
+<p>命令段（里面的参数排序不分先后）<br/>
+包组段（以%packages）一个包组包含若干个rpm包<br/>
+脚本段（%post）</p>
+</blockquote></li>
+<li><p>kickstart自动安装操作系统<br/>
+<a href="15050152527420.html">kickstart 自动批量的安装操作系统</a></p></li>
+<li><p>cobbler自动安装操作系统</p></li>
+</ol></li>
+<li><p>使用学校的yum仓库</p>
+
+<pre><code>echo &quot;192.168.14.200 mirrors.aliyun.com&quot; &gt;&gt;/etc/hosts
+</code></pre></li>
+<li><p>安装cobbler</p>
+
+<pre><code>yum -y install cobbler cobbler-web dhcp tftp-server pykickstart httpd
+</code></pre></li>
+<li><p>cobbler自检</p>
+
+<pre><code>cobbler check
+</code></pre></li>
+<li><p>修改配置文件</p>
+
+<pre><code>cp /etc/cobbler/settings{,.ori} 
+</code></pre></li>
+<li><p>manage_dhcp  cobbler管理DHCP</p></li>
+<li><p>pxe_just_once  只能装一次系统，防止重装</p>
+
+<pre><code>sed -i &#39;s/server: 127.0.0.1/server: 172.16.1.121/&#39; /etc/cobbler/settings
+sed -i &#39;s/next_server: 127.0.0.1/next_server: 172.16.1.121/&#39; /etc/cobbler/settings
+sed -i &#39;s/manage_dhcp: 0/manage_dhcp: 1/&#39; /etc/cobbler/settings
+sed -i &#39;s/pxe_just_once: 0/pxe_just_once: 1/&#39; /etc/cobbler/settings
+sed -ri &quot;/default_password_crypted/s#(.*: ).*#\1\&quot;`openssl passwd -1 -salt &#39;oldboy&#39; &#39;123456&#39;`\&quot;#&quot; /etc/cobbler/settings
+sed -i &#39;s#yes#no#&#39; /etc/xinetd.d/rsync
+sed -i &#39;s#yes#no#&#39; /etc/xinetd.d/tftp
+</code></pre></li>
+<li><p>cobbler get-loaders  下面是免下载方法</p>
+
+<pre><code>tar xfP cobbler_load.tar.gz
+</code></pre></li>
+<li><p>配置DHCP的配置文件的模板</p>
+
+<pre><code>sed -i &#39;s#192.168.1#172.16.1#g;22d;23d&#39; /etc/cobbler/dhcp.template
+</code></pre></li>
+<li><p>启动服务</p>
+
+<pre><code>/etc/init.d/xinetd restart
+/etc/init.d/cobblerd restart
+/etc/init.d/httpd restart
+</code></pre></li>
+<li><p>只要动了配置文件，就需要执行同步命令</p>
+
+<pre><code>cobbler sync
+</code></pre></li>
+<li><p>访问网页</p>
+
+<p><a href="http://10.0.0.121/cobbler_web">http://10.0.0.121/cobbler_web</a></p>
+
+<blockquote>
+<p>用户名：cobbler<br/>
+密码：cobbler</p>
+</blockquote></li>
+<li><p>导入镜像<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/30801238.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/24513241.jpg" alt=""/></p></li>
+<li><p>添加KS文件<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/66316311.jpg" alt=""/><br/>
+文件名： CentOS-6.9-x86_64.cfg<br/>
+内容：</p>
+
+<pre><code># Cobbler for Kickstart Configurator for CentOS 6.9 by yao zhang
+install
+url --url=$tree
+text
+lang en_US.UTF-8
+keyboard us
+zerombr
+bootloader --location=mbr --driveorder=sda --append=&quot;crashkernel=auto rhgb quiet&quot;
+$SNIPPET(&#39;network_config&#39;)
+timezone --utc Asia/Shanghai
+authconfig --enableshadow --passalgo=sha512
+rootpw  --iscrypted $default_password_crypted
+clearpart --all --initlabel
+part /boot --fstype=ext4 --asprimary --size=200
+part swap --size=1024
+part / --fstype=ext4 --grow --asprimary --size=200
+firstboot --disable
+selinux --disabled
+firewall --disabled
+logging --level=info
+reboot
+
+%pre
+$SNIPPET(&#39;log_ks_pre&#39;)
+$SNIPPET(&#39;kickstart_start&#39;)
+$SNIPPET(&#39;pre_install_network_config&#39;)
+# Enable installation monitoring
+$SNIPPET(&#39;pre_anamon&#39;)
+%end
+
+%packages
+@base
+@compat-libraries
+@debugging
+@development
+tree
+nmap
+sysstat
+lrzsz
+dos2unix
+telnet
+%end
+
+%post --nochroot
+$SNIPPET(&#39;log_ks_post_nochroot&#39;)
+%end
+
+%post
+$SNIPPET(&#39;log_ks_post&#39;)
+# Start yum configuration
+$yum_config_stanza
+# End yum configuration
+$SNIPPET(&#39;post_install_kernel_options&#39;)
+$SNIPPET(&#39;post_install_network_config&#39;)
+$SNIPPET(&#39;func_register_if_enabled&#39;)
+$SNIPPET(&#39;download_config_files&#39;)
+$SNIPPET(&#39;koan_environment&#39;)
+$SNIPPET(&#39;redhat_register&#39;)
+$SNIPPET(&#39;cobbler_register&#39;)
+# Enable post-install boot notification
+$SNIPPET(&#39;post_anamon&#39;)
+# Start final steps
+$SNIPPET(&#39;kickstart_done&#39;)
+# End final steps
+%end
+</code></pre>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/85271879.jpg" alt=""/></p></li>
+<li><p>如何用cobbler配置YUM仓库</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/16638440.jpg" alt=""/><br/>
+<a href="https://mirrors.aliyun.com/centos/6/os/x86_64/">Indexof/centos/6/os/x86_64/</a><br/>
+<a href="https://mirrors.aliyun.com/centos/6/os/x86_64/">https://mirrors.aliyun.com/centos/6/os/x86_64/</a><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/15071045.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/51017309.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/59439046.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/27300956.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/66057658.jpg" alt=""/></p></li>
+<li><p>自定义安装操作系统</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/3412012.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/29801964.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/99430010.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/3223783.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/40298229.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/15577609.jpg" alt=""/></p></li>
+</ol>
+
+<blockquote>
+<h1 id="toc_0">今日总结：</h1>
+
+<ol>
+<li>kickstart自动安装 ---配置文件保证无误</li>
+<li>cobbler安装成功</li>
+<li><p>cobbler web界面非常简单，看一下视频补一下步骤</p>
+
+<p>--导入镜像<br/>
+--添加ks，并关联镜像<br/>
+--同步公网yum仓库功能（把公网rpm下载到cobbler的自己的仓库中），并让镜像关联cobbler的yum仓库（让cobbler的yum仓库提供yum服务）<br/>
+--自定义安装操作系统 使用system功能</p></li>
+</ol>
+</blockquote>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/29141985.jpg" alt=""/></p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

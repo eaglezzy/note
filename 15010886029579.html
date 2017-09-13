@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	全网备份案例 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">全网备份案例</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<h2 id="toc_0">备份全网服务器数据生产架构方案案例模型</h2>
+
+<pre><code>做一个周期性定时备份,要求如下:
+每天网上00点整在web服务器A(web01)上打包备份网站程序目录,并通过rsync命令推送到服务器B(backup)上备份保留(备份思路:可以是先在本地按日期打包,然后再利用rsync推送到备份服务器上)
+</code></pre>
+
+<pre><code>具体要求如下:
+1)web服务器A和备份服务器B的备份目录必须都为/backup
+2)web服务器A站点目录假定为(/var/www/html)
+3)web服务器A本地仅保留7天内的备份
+4)备份服务器上[每周六的数据都保留],其他备份仅保留180天备份
+5)备份服务器上检查备份结果是否正常,并将每天的备份结果发给管理员信箱
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_1">backup+web01</h2>
+
+<h3 id="toc_2">一 backup是服务端</h3>
+
+<pre><code>谁是rsync的服务端和客户端
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_3">二 搭建好rsync服务端和客户端,并且测试</h3>
+
+<pre><code>服务端 -- backup   172.16.1.41
+客户端 -- web01    172.16.1.8
+</code></pre>
+
+<hr/>
+
+<h4 id="toc_4">服务端</h4>
+
+<p>1.检查是否安装</p>
+
+<pre><code>rpm -qa rsync
+</code></pre>
+
+<p>2.添加虚拟用户 rsync</p>
+
+<pre><code>useradd -s /sbin/nologin -M rsync
+id rsync        #检查是否添加成功
+</code></pre>
+
+<p>3.创建目录,并修改目录的属主与属组</p>
+
+<pre><code>mkdir /backup
+chown rsync.rsync /backup
+</code></pre>
+
+<p>4.创建密码文件并修改权限</p>
+
+<pre><code>echo &#39;rsync_backup:123456&#39; &gt;/etc/rsync.password
+chmod 600 /etc/rsync.password
+</code></pre>
+
+<p>5.创建配置文件</p>
+
+<pre><code>cat /etc/rsyncd.conf
+</code></pre>
+
+<h4 id="toc_5">客户端</h4>
+
+<p>创建密码文件并修改权限</p>
+
+<pre><code>echo &#39;123456&#39; &gt;/etc/rsync.password
+chmod 600 /etc/rsync.password
+</code></pre>
+
+<h3 id="toc_6">三 打包备份web01上面的数据</h3>
+
+<blockquote>
+<p>/var/www/html<br/>
+/etc/rc.local<br/>
+/etc/hosts<br/>
+/var/spool/cron/</p>
+</blockquote>
+
+<p><code>创建本机备份目录</code></p>
+
+<pre><code>mkdir -p /var/www/heml/ /backup
+</code></pre>
+
+<h4 id="toc_7">web01上面的备份命令</h4>
+
+<pre><code>tar zchf /backup/conf-$(date +%F -d &quot;-1day&quot;).tar.gz /etc/rc.local
+tar zchf /backup/html-$(date +%F -d &quot;-1day&quot;).tar.gz /var/www/html
+</code></pre>
+
+<h3 id="toc_8">四 验证web01-md5sum-给压缩包加上指纹</h3>
+
+<p><code>手动指定文件 创建指纹</code></p>
+
+<pre><code>md5sum conf-$(date +%F-d &quot;-1day&quot;).tar.gz
+</code></pre>
+
+<p><code>根据find命令找到的文件 创建指纹</code></p>
+
+<pre><code>find /backup/ -type f -name &quot;*.tar.gz&quot;
+
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	三、虚拟机安装与CentOS的环境部署 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">三、虚拟机安装与CentOS的环境部署</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">第1章 在虚拟机中部署CentOS环境</a>
+<ul>
+<li>
+<a href="#toc_1">1.1 安装VMware虚拟机</a>
+</li>
+<li>
+<a href="#toc_2">1.2 在VMware中建立CentOS虚拟机环境</a>
+<ul>
+<li>
+<a href="#toc_3">1.2.1 打开VMware点新建虚拟机.&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_4">1.2.2 选择自定义；然后点下一步。</a>
+</li>
+<li>
+<a href="#toc_5">1.2.3 硬件兼容选择默认&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_6">1.2.4 操作系统选择稍后安装&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_7">1.2.5 选择Linux（L）&lt;如图 &gt;</a>
+</li>
+<li>
+<a href="#toc_8">1.2.6 为虚拟机命名和选择保存途径和位置&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_9">1.2.7 为虚拟机配置CPU默认即可&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_10">1.2.8 为虚拟机配置内存.够用即可，虚拟内存不得超过本机。</a>
+</li>
+<li>
+<a href="#toc_11">1.2.9 网络类型选择，在这里我们选择NAT 方便后面Xshell连接 因为NAT模式ip不会变动&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_12">1.2.10 I/O控制类型和磁盘选择默认就好&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_13">1.2.11 磁盘容量分配 将磁盘拆分成多个文件</a>
+</li>
+<li>
+<a href="#toc_14">1.2.12 磁盘储存选择默认；保存到前面创的途径即可,&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_15">1.2.13 看好配置；点完成即可&lt;如图&gt;</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_16">第2章 CentOS的安装</a>
+<ul>
+<li>
+<a href="#toc_17">2.1 选中你创建的虚拟机 点击右侧设备界面双击CD/DVD(IDE)&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_18">2.2 选择我们要安装Centos系统镜像 选择完成并点击确定&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_19">2.3 打开虚拟机&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_20">2.4 虚拟机开启后 进入到系统安装界面 选择第一项（全新安装或升级安装） 然后回车,&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_21">2.5 系统测试提示 点击skip&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_22">2.6 点击下一步<next>如果没有next也可f12；但f12只限于装系统才代表下一步</a>
+</li>
+<li>
+<a href="#toc_23">2.7 语言与键盘选择默认英文默认美式键盘&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_24">2.8 磁盘类型选择默认&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_25">2.9 提示是否保存磁盘以前的数据 点击Yes，discard any data格式化不保留数据 因为我们以前没有数据&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_26">2.10 给系统起个名字 如：oldboyedu-01&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_27">2.11 地区选择上海 下面的勾去掉不同步 要不时间会差8个小时的 然后下一步</a>
+</li>
+<li>
+<a href="#toc_28">2.12 为root用户设置密码（root是系统最高管理员）</a>
+</li>
+<li>
+<a href="#toc_29">2.13 选择自己最后一个Create Custom Layout 自定义创建布局 再下一步&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_30">2.14 磁盘的分区&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_31">2.15 在这里 我们给/boot 分区200M /swap交换分区768剩余的都给到/ 根分区（内存的</a>
+</li>
+<li>
+<a href="#toc_32">2.16 提示是否格式化 点击确定&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_33">2.17 在这里选择mini 下面选择的现在定制&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_34">2.18 选择需要安装的软件包&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_35">2.19 点击下一步 系统开始安装&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_36">2.20 安装完成</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_37">第3章 配置CentOS</a>
+<ul>
+<li>
+<a href="#toc_38">3.1 系统登录 然后输入setup回车显示以下界面</a>
+</li>
+<li>
+<a href="#toc_39">3.2 选择Network conf iguration 再按回车&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_40">3.3 选择Device configuration回车&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_41">3.4 选择网卡 eth0&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_42">3.5 按照上图配置网卡</a>
+</li>
+<li>
+<a href="#toc_43">3.6 点击Save保存&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_44">3.7 选择Save&amp;quit保存并退出&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_45">3.8 Quit退出</a>
+</li>
+<li>
+<a href="#toc_46">3.9 启动网卡</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_47">第4章 Xshell配置</a>
+<ul>
+<li>
+<a href="#toc_48">4.1 xshell的优化</a>
+<ul>
+<li>
+<a href="#toc_49">4.1.1 选择终端 终端类型选择linux 缓冲区大小改为200000&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_50">4.1.2 选择高级 禁用更改终端标题&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_51">4.1.3 选择外观 游标300-400合适即可 字体大小调整14 可根据个人选择&lt;如图&gt;</a>
+</li>
+<li>
+<a href="#toc_52">4.1.4 VT模式键盘设置为普通 这样才能使用小键盘&lt;如图&gt;</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_53">4.2 Xshell的连接配置</a>
+<ul>
+<li>
+<a href="#toc_54">4.2.1 给这个连接起个名称</a>
+</li>
+<li>
+<a href="#toc_55">4.2.2 输入这个服务器的地址 设置完成后点击连接 中途提示输入用户名帐号与密码确认</a>
+</li>
+<li>
+<a href="#toc_56">4.2.3 此图为连接成功后</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="toc_0">第1章 在虚拟机中部署CentOS环境</h2>
+
+<h3 id="toc_1">1.1 安装VMware虚拟机</h3>
+
+<h3 id="toc_2">1.2 在VMware中建立CentOS虚拟机环境</h3>
+
+<h4 id="toc_3">1.2.1 打开VMware点新建虚拟机.&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010754168907.jpg" alt=""/></p>
+
+<h4 id="toc_4">1.2.2 选择自定义；然后点下一步。</h4>
+
+<p><img src="media/15010722570462/15010754866487.jpg" alt=""/></p>
+
+<h4 id="toc_5">1.2.3 硬件兼容选择默认&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010754963301.jpg" alt=""/></p>
+
+<h4 id="toc_6">1.2.4 操作系统选择稍后安装&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010755678758.jpg" alt=""/></p>
+
+<h4 id="toc_7">1.2.5 选择Linux（L）&lt;如图 &gt;</h4>
+
+<p><img src="media/15010722570462/15010755742521.jpg" alt=""/></p>
+
+<h4 id="toc_8">1.2.6 为虚拟机命名和选择保存途径和位置&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010755888470.jpg" alt=""/></p>
+
+<h4 id="toc_9">1.2.7 为虚拟机配置CPU默认即可&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010755971002.jpg" alt=""/></p>
+
+<h4 id="toc_10">1.2.8 为虚拟机配置内存.够用即可，虚拟内存不得超过本机。</h4>
+
+<p><img src="media/15010722570462/15010756048810.jpg" alt=""/></p>
+
+<h4 id="toc_11">1.2.9 网络类型选择，在这里我们选择NAT 方便后面Xshell连接 因为NAT模式ip不会变动&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010756116179.jpg" alt=""/></p>
+
+<h4 id="toc_12">1.2.10 I/O控制类型和磁盘选择默认就好&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010756329062.jpg" alt=""/><br/>
+<img src="media/15010722570462/15010756388072.jpg" alt=""/></p>
+
+<h4 id="toc_13">1.2.11 磁盘容量分配 将磁盘拆分成多个文件</h4>
+
+<p><img src="media/15010722570462/15010756494776.jpg" alt=""/></p>
+
+<h4 id="toc_14">1.2.12 磁盘储存选择默认；保存到前面创的途径即可,&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010756903553.jpg" alt=""/></p>
+
+<h4 id="toc_15">1.2.13 看好配置；点完成即可&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010756962605.jpg" alt=""/></p>
+
+<h2 id="toc_16">第2章 CentOS的安装</h2>
+
+<h3 id="toc_17">2.1 选中你创建的虚拟机 点击右侧设备界面双击CD/DVD(IDE)&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757037378.jpg" alt=""/></p>
+
+<h3 id="toc_18">2.2 选择我们要安装Centos系统镜像 选择完成并点击确定&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757104735.jpg" alt=""/></p>
+
+<h3 id="toc_19">2.3 打开虚拟机&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757160077.jpg" alt=""/></p>
+
+<h3 id="toc_20">2.4 虚拟机开启后 进入到系统安装界面 选择第一项（全新安装或升级安装） 然后回车,&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757226820.jpg" alt=""/><br/>
+<img src="media/15010722570462/15010757272470.jpg" alt=""/></p>
+
+<h3 id="toc_21">2.5 系统测试提示 点击skip&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757335401.jpg" alt=""/></p>
+
+<h3 id="toc_22">2.6 点击下一步<next>如果没有next也可f12；但f12只限于装系统才代表下一步</h3>
+
+<h3 id="toc_23">2.7 语言与键盘选择默认英文默认美式键盘&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757406529.jpg" alt=""/><br/>
+<img src="media/15010722570462/15010757462669.jpg" alt=""/></p>
+
+<h3 id="toc_24">2.8 磁盘类型选择默认&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757519291.jpg" alt=""/></p>
+
+<h3 id="toc_25">2.9 提示是否保存磁盘以前的数据 点击Yes，discard any data格式化不保留数据 因为我们以前没有数据&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757607190.jpg" alt=""/></p>
+
+<h3 id="toc_26">2.10 给系统起个名字 如：oldboyedu-01&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757667824.jpg" alt=""/></p>
+
+<h3 id="toc_27">2.11 地区选择上海 下面的勾去掉不同步 要不时间会差8个小时的 然后下一步</h3>
+
+<p><img src="media/15010722570462/15010757724120.jpg" alt=""/></p>
+
+<h3 id="toc_28">2.12 为root用户设置密码（root是系统最高管理员）</h3>
+
+<p><img src="media/15010722570462/15010757788571.jpg" alt=""/></p>
+
+<h3 id="toc_29">2.13 选择自己最后一个Create Custom Layout 自定义创建布局 再下一步&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757843807.jpg" alt=""/></p>
+
+<h3 id="toc_30">2.14 磁盘的分区&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010757902577.jpg" alt=""/></p>
+
+<h3 id="toc_31">2.15 在这里 我们给/boot 分区200M /swap交换分区768剩余的都给到/ 根分区（内存的</h3>
+
+<p>1.5倍 因为安装完成将内存更改为512M）&lt;如图&gt;<br/>
+<img src="media/15010722570462/15010757966670.jpg" alt=""/></p>
+
+<h3 id="toc_32">2.16 提示是否格式化 点击确定&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758019847.jpg" alt=""/></p>
+
+<h3 id="toc_33">2.17 在这里选择mini 下面选择的现在定制&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758072345.jpg" alt=""/></p>
+
+<h3 id="toc_34">2.18 选择需要安装的软件包&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758122805.jpg" alt=""/><br/>
+<img src="media/15010722570462/15010758160792.jpg" alt=""/></p>
+
+<h3 id="toc_35">2.19 点击下一步 系统开始安装&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758221787.jpg" alt=""/></p>
+
+<h3 id="toc_36">2.20 安装完成</h3>
+
+<p><img src="media/15010722570462/15010758307932.jpg" alt=""/></p>
+
+<h2 id="toc_37">第3章 配置CentOS</h2>
+
+<h3 id="toc_38">3.1 系统登录 然后输入setup回车显示以下界面</h3>
+
+<p><img src="media/15010722570462/15010758364058.jpg" alt=""/></p>
+
+<h3 id="toc_39">3.2 选择Network conf iguration 再按回车&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758409857.jpg" alt=""/></p>
+
+<h3 id="toc_40">3.3 选择Device configuration回车&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758467946.jpg" alt=""/></p>
+
+<h3 id="toc_41">3.4 选择网卡 eth0&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758518600.jpg" alt=""/></p>
+
+<h3 id="toc_42">3.5 按照上图配置网卡</h3>
+
+<p><img src="media/15010722570462/15010758567814.jpg" alt=""/></p>
+
+<h3 id="toc_43">3.6 点击Save保存&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758614615.jpg" alt=""/></p>
+
+<h3 id="toc_44">3.7 选择Save&amp;quit保存并退出&lt;如图&gt;</h3>
+
+<p><img src="media/15010722570462/15010758667246.jpg" alt=""/></p>
+
+<h3 id="toc_45">3.8 Quit退出</h3>
+
+<p><img src="media/15010722570462/15010758711070.jpg" alt=""/></p>
+
+<h3 id="toc_46">3.9 启动网卡</h3>
+
+<p>输入命令: <br/>
+ #开启网卡<br/>
+<code>ifup eth0</code><br/>
+ #重启网卡<br/>
+<code>ifdown eth0 &amp;&amp; ifup eth0</code> <br/>
+ #查看网卡信息<br/>
+ <code>ifconfig</code></p>
+
+<h2 id="toc_47">第4章 Xshell配置</h2>
+
+<h3 id="toc_48">4.1 xshell的优化</h3>
+
+<p><img src="media/15010722570462/15010758825224.jpg" alt=""/></p>
+
+<h4 id="toc_49">4.1.1 选择终端 终端类型选择linux 缓冲区大小改为200000&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010761295527.jpg" alt=""/></p>
+
+<h4 id="toc_50">4.1.2 选择高级 禁用更改终端标题&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010761371706.jpg" alt=""/></p>
+
+<h4 id="toc_51">4.1.3 选择外观 游标300-400合适即可 字体大小调整14 可根据个人选择&lt;如图&gt;</h4>
+
+<p><img src="media/15010722570462/15010761436739.jpg" alt=""/></p>
+
+<h4 id="toc_52">4.1.4 VT模式键盘设置为普通 这样才能使用小键盘&lt;如图&gt;</h4>
+
+<h3 id="toc_53">4.2 Xshell的连接配置</h3>
+
+<p><img src="media/15010722570462/15010761504457.jpg" alt=""/></p>
+
+<h4 id="toc_54">4.2.1 给这个连接起个名称</h4>
+
+<h4 id="toc_55">4.2.2 输入这个服务器的地址 设置完成后点击连接 中途提示输入用户名帐号与密码确认</h4>
+
+<p>即可&lt;如图&gt;<br/>
+<img src="media/15010722570462/15010761687034.jpg" alt=""/></p>
+
+<h4 id="toc_56">4.2.3 此图为连接成功后</h4>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

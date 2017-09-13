@@ -1,0 +1,720 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十九、期中架构NFS知识讲解 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十九、期中架构NFS知识讲解</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">期中学习过程（重要）</a>
+</li>
+<li>
+<a href="#toc_1">NFS存储服务</a>
+</li>
+<li>
+<a href="#toc_2">NFS工作原理</a>
+</li>
+<li>
+<a href="#toc_3">NFS部署过程（部署过程重点掌握）</a>
+<ul>
+<li>
+<a href="#toc_4">NFS服务端部署</a>
+<ul>
+<li>
+<a href="#toc_5">第一个里程碑：检查nfs服务相关软件是否安装部署</a>
+</li>
+<li>
+<a href="#toc_6">第二个里程碑：进行NFS服务相关软件安装</a>
+</li>
+<li>
+<a href="#toc_7">第三个里程碑：进行NFS服务配置文件编写</a>
+</li>
+<li>
+<a href="#toc_8">第四个里程碑：创建NFS服务的共享目录</a>
+</li>
+<li>
+<a href="#toc_9">第五个里程碑：创建管理NFS共享目录的用户</a>
+</li>
+<li>
+<a href="#toc_10">第六个里程碑：NFS先关安全配置</a>
+</li>
+<li>
+<a href="#toc_11">第七个里程碑：启动nfs服务</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_12">NFS客户端部署</a>
+<ul>
+<li>
+<a href="#toc_13">第一个里程碑：检查nfs服务相关软件是否安装部署</a>
+</li>
+<li>
+<a href="#toc_14">第二个里程碑：进行NFS服务相关软件安装</a>
+</li>
+<li>
+<a href="#toc_15">第三个里程碑：进行服务测试</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_16">01：检查房源信息是否可靠</a>
+</li>
+<li>
+<a href="#toc_17">02：检查共享目录信息是否存在</a>
+</li>
+<li>
+<a href="#toc_18">03：测试远程共享目录挂载</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_19">NFS共享存储服务扩展说明：</a>
+<ul>
+<li>
+<a href="#toc_20">01：NFS服务端配置文件</a>
+</li>
+<li>
+<a href="#toc_21">02：NFS服务端权限参数信息：</a>
+<ul>
+<li>
+<a href="#toc_22">01:实验all_squash</a>
+</li>
+<li>
+<a href="#toc_23">客户端测试all_squash参数</a>
+<ul>
+<li>
+<a href="#toc_24">以root用户进行数据创建</a>
+</li>
+<li>
+<a href="#toc_25">以oldboy用户进行数据创建</a>
+</li>
+<li>
+<a href="#toc_26">root_squash,no_all_squash参数实践</a>
+</li>
+<li>
+<a href="#toc_27">root_squash,no_all_squash参数实践</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_28">客户端测试root_squash,no_all_squash参数作用</a>
+<ul>
+<li>
+<a href="#toc_29">以root权限创建信息</a>
+</li>
+<li>
+<a href="#toc_30">以oldboy权限创建信息</a>
+</li>
+<li>
+<a href="#toc_31">nfs服务端默认权限参数设置文件</a>
+<ul>
+<li>
+<a href="#toc_32">客户端需要安装rpcbind和nfs-utils软件，但可以不用启动</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_33">重要的配置文件或目录信息</a>
+<ul>
+<li>
+<a href="#toc_34">NFS客户端开机自启动挂载</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h1 id="toc_0">期中学习过程（重要）</h1>
+
+<pre><code>01. 进入到迷茫，怀疑人生阶段（LNMP）
+02. 进入到兴奋，任督二脉打开状态
+03. 进入到无敌状态，期中架构利用一键自动化完成
+04. 进入觉得自己能力还有很多不足的状态（别放弃）
+05. 进入到出关阶段，开森找工作（满意的薪资）
+</code></pre>
+
+<h1 id="toc_1">NFS存储服务</h1>
+
+<pre><code>什么是NFS；
+NFS是Network File System的缩写,中文意思是网络文件系统，它的主要功能是通过网络（一般是局域网）让不同的主机系统之间可以共享文件或目录  
+如果大型网站，那么有可能还会用到更复杂的分布式文件系统，例如：Moosefs（mfs）、GlusterFS、FastDFS
+
+数据存储共享方式：
+① NFS: 实现linux系统在局域网之间的数据共享(重点理解NFS服务)
+② FTP: 实现linux系统和windows系统在局域网之间的数据共享（配置较为复杂）
+③ samba: 实现linux系统和windows系统在局域网之间的数据共享   
+
+为什么要用NFS：（重点）
+在没有NFS共享存储时，用户数据会被存储到一台web服务器上，其他web服务器需要同步数据，实现web服务上数据一致性
+在存在NFS共享存储时，用户数据不会存储到一台web服务器上，会将数据统一存储到NFS共享存储服务器中，实现web服务数据一致性
+
+实现共享存储的方式：（了解）
+01：硬件实现共享存储：IBM 存储设备（v5000 v7000） Oracle（数据库） EMC（专业做存储的）
+02：软件实现共享存储：NFS FTP 
+</code></pre>
+
+<h1 id="toc_2">NFS工作原理</h1>
+
+<pre><code>什么是RPC服  
+利用RPC服务与NFS服务结合，如果实现远程挂载
+</code></pre>
+
+<h1 id="toc_3">NFS部署过程（部署过程重点掌握）</h1>
+
+<h2 id="toc_4">NFS服务端部署</h2>
+
+<h3 id="toc_5">第一个里程碑：检查nfs服务相关软件是否安装部署</h3>
+
+<pre><code>rpm -qa|grep -E &quot;rpcbind|nfs-utils&quot;
+</code></pre>
+
+<h3 id="toc_6">第二个里程碑：进行NFS服务相关软件安装</h3>
+
+<pre><code>yum install -y rpcbind nfs-utils
+
+centos6 RPC服务软件：rpcbind
+centos5 RPC服务软件：portmap
+
+rpm -qa
+rpm -ql  rpcbind
+rpm -qf  rpcinfo   &lt;-查看一个全路径的命令/文件信息，属于哪个软件大礼包
+
+注意：进行yum下载安装软件时，一定要注意两点：
+①. 主机可以访问外网，并且dns解析没有问题
+②. yum源文件配置正确；yum源文件保存目录/etc/yum.repos.d/
+</code></pre>
+
+<h3 id="toc_7">第三个里程碑：进行NFS服务配置文件编写</h3>
+
+<pre><code>vim /etc/exports
+cat&gt;&gt;/etc/exports&lt;&lt;EOF
+#share /data by oldboy for share at 20170220
+/data 172.16.1.0/24(rw,sync)
+EOF
+</code></pre>
+
+<h3 id="toc_8">第四个里程碑：创建NFS服务的共享目录</h3>
+
+<pre><code>mkdir /data -p
+</code></pre>
+
+<h3 id="toc_9">第五个里程碑：创建管理NFS共享目录的用户</h3>
+
+<pre><code>id nfsnobody
+</code></pre>
+
+<h3 id="toc_10">第六个里程碑：NFS先关安全配置</h3>
+
+<pre><code>没有
+注意：只能在企业网络内部使用，尽量不要跨越外网（互联网）进行使用
+</code></pre>
+
+<h3 id="toc_11">第七个里程碑：启动nfs服务</h3>
+
+<pre><code>[root@nfs01 ~]# /etc/init.d/rpcbind start
+Starting rpcbind:                                          [  OK  ]
+[root@nfs01 ~]# netstat -lntup|grep rpcbind
+tcp        0      0 0.0.0.0:111                 0.0.0.0:*                   LISTEN      1832/rpcbind        
+tcp        0      0 :::111                      :::*                        LISTEN      1832/rpcbind        
+udp        0      0 0.0.0.0:735                 0.0.0.0:*                               1832/rpcbind        
+udp        0      0 0.0.0.0:111                 0.0.0.0:*                               1832/rpcbind        
+udp        0      0 :::735                      :::*                                    1832/rpcbind        
+udp        0      0 :::111                      :::*                                    1832/rpcbind        
+[root@nfs01 ~]# rpcinfo -p 172.16.1.31
+   program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100000    2   tcp    111  portmapper
+    100000    4   udp    111  portmapper
+    100000    3   udp    111  portmapper
+    100000    2   udp    111  portmapper
+# 查看房源注册信息
+# 进行房源的注册
+[root@nfs01 ~]# /etc/init.d/nfs start
+Starting NFS services:                                     [  OK  ]
+Starting NFS quotas:                                       [  OK  ]
+Starting NFS mountd:                                       [  OK  ]
+Starting NFS daemon:                                       [  OK  ]
+Starting RPC idmapd:                                       [  OK  ]
+# 再次查看房源注册信息
+[root@nfs01 ~]# rpcinfo -p 172.16.1.31
+   program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100000    2   tcp    111  portmapper
+    100000    4   udp    111  portmapper
+    100000    3   udp    111  portmapper
+    100000    2   udp    111  portmapper
+    100011    1   udp    875  rquotad
+    100011    2   udp    875  rquotad
+    100011    1   tcp    875  rquotad
+    100011    2   tcp    875  rquotad
+    100005    1   udp  61730  mountd
+    100005    1   tcp  32469  mountd
+    100005    2   udp  57148  mountd
+    100005    2   tcp  47036  mountd
+    100005    3   udp  13794  mountd
+    100005    3   tcp  60173  mountd
+    100003    2   tcp   2049  nfs
+    100003    3   tcp   2049  nfs
+    100003    4   tcp   2049  nfs
+    100227    2   tcp   2049  nfs_acl
+    100227    3   tcp   2049  nfs_acl
+    100003    2   udp   2049  nfs
+    100003    3   udp   2049  nfs
+    100003    4   udp   2049  nfs
+    100227    2   udp   2049  nfs_acl
+    100227    3   udp   2049  nfs_acl
+    100021    1   udp  55706  nlockmgr
+    100021    3   udp  55706  nlockmgr
+    100021    4   udp  55706  nlockmgr
+    100021    1   tcp   7031  nlockmgr
+    100021    3   tcp   7031  nlockmgr
+    100021    4   tcp   7031  nlockmgr
+</code></pre>
+
+<p>至此服务端配置结束</p>
+
+<h2 id="toc_12">NFS客户端部署</h2>
+
+<h3 id="toc_13">第一个里程碑：检查nfs服务相关软件是否安装部署</h3>
+
+<pre><code>rpm -qa|grep -E &quot;rpcbind|nfs-utils&quot;
+</code></pre>
+
+<h3 id="toc_14">第二个里程碑：进行NFS服务相关软件安装</h3>
+
+<pre><code>yum install -y rpcbind nfs-utils
+</code></pre>
+
+<h3 id="toc_15">第三个里程碑：进行服务测试</h3>
+
+<h5 id="toc_16">01：检查房源信息是否可靠</h5>
+
+<pre><code>rpcinfo -p 172.16.1.31
+</code></pre>
+
+<h5 id="toc_17">02：检查共享目录信息是否存在</h5>
+
+<pre><code>showmount -e 172.16.1.31
+</code></pre>
+
+<h5 id="toc_18">03：测试远程共享目录挂载</h5>
+
+<pre><code>mount -t nfs 172.16.1.31:/data /mnt
+</code></pre>
+
+<h1 id="toc_19">NFS共享存储服务扩展说明：</h1>
+
+<h2 id="toc_20">01：NFS服务端配置文件</h2>
+
+<pre><code>配置文件分为三个部分：共享目录信息  允许进行挂载共享目录的客户端网络地址信息(共享目录的权限与参数信息)
+共享目录权限设置：
+①. 与共享目录本身的权限有关
+②. 与NFS服务端配置文件中权限参数设置有关
+PS：超级root无视共享目录权限设置
+
+  企业中配置文件的常用案例
+  遗留：修改NFS默认映射用户（nfsnobody）的信息（实践操作）
+</code></pre>
+
+<h2 id="toc_21">02：NFS服务端权限参数信息：</h2>
+
+<p><strong>all_squash参数实践</strong></p>
+
+<h3 id="toc_22">01:实验all_squash</h3>
+
+<pre><code>  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.7/32(rw,sync)
+  [root@nfs01 ~]# sed -i &#39;s#sync#sync,all_squash#g&#39; /etc/exports
+  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.7/32(rw,sync,all_squash)
+  [root@nfs01 ~]# /etc/init.d/nfs reload
+  [root@nfs01 ~]# sed -ri &#39;s#7/32#0/24#g&#39; /etc/exports
+  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.0/24(rw,sync,all_squash)
+  [root@nfs01 ~]# /etc/init.d/nfs reload
+  [root@nfs01 ~]# ll /data/
+  total 4
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  [root@nfs01 ~]# ll /data/
+  total 8
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  -rw-rw-r-- 1 nfsnobody nfsnobody 8 Jul 31 10:29 test02.txt
+</code></pre>
+
+<h3 id="toc_23">客户端测试all_squash参数</h3>
+
+<pre><code>  [root@backup /]# df -h
+  Filesystem      Size  Used Avail Use% Mounted on
+  /dev/sda3       8.8G  1.8G  6.7G  21% /
+  tmpfs           931M     0  931M   0% /dev/shm
+  /dev/sda1       190M   40M  141M  22% /boot
+  [root@backup /]# mount -t nfs 172.16.1.31:/data /mnt
+  mount.nfs: access denied by server while mounting 172.16.1.31:/data
+</code></pre>
+
+<p>说明：出现此错误，是配置文件客户端地址信息设置问题；修改配置文件信息后即可进行映射</p>
+
+<pre><code>  [root@backup /]# mount -t nfs 172.16.1.31:/data /mnt
+  [root@backup /]# df -h
+  Filesystem         Size  Used Avail Use% Mounted on
+  /dev/sda3          8.8G  1.8G  6.7G  21% /
+  tmpfs              931M     0  931M   0% /dev/shm
+  /dev/sda1          190M   40M  141M  22% /boot
+  172.16.1.31:/data  8.8G  1.5G  6.9G  18% /mnt
+  [root@backup /]# cd /mnt
+  [root@backup mnt]# rm ./* -rf
+</code></pre>
+
+<h4 id="toc_24">以root用户进行数据创建</h4>
+
+<pre><code>  [root@backup mnt]# echo &quot;oldboy&quot; &gt;test01.txt
+  [root@backup mnt]# ll test01.txt 
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  [root@backup mnt]# 
+</code></pre>
+
+<h4 id="toc_25">以oldboy用户进行数据创建</h4>
+
+<pre><code>  [root@backup mnt]# id oldboy
+  uid=501(oldboy) gid=501(oldboy) groups=501(oldboy)
+  [root@backup mnt]# su - oldboy
+  su: warning: cannot change directory to /home/oldboy: No such file or directory
+  This account is currently not available.
+  [root@backup mnt]# userdel -r oldboy
+  userdel: oldboy home directory (/home/oldboy) not found
+  [root@backup mnt]# userdel -r oldboy
+  userdel: user &#39;oldboy&#39; does not exist
+  [root@backup mnt]# useradd oldboy
+  [root@backup mnt]# su - oldboy
+  [oldboy@backup ~]$ cd /mnt/
+  [oldboy@backup mnt]$ echo oldgirl &gt;test02.txt
+  [oldboy@backup mnt]$ ll
+  total 8
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  -rw-rw-r-- 1 nfsnobody nfsnobody 8 Jul 31 10:29 test02.txt
+</code></pre>
+
+<h4 id="toc_26">root_squash,no_all_squash参数实践</h4>
+
+<pre><code>  umount参数说明：（-lf）
+  -l     Lazy unmount. Detach the filesystem from the filesystem hierarchy now, and cleanup  all
+          references  to  the  filesystem  as  soon  as it is not busy anymore.  (Requires kernel
+          2.4.11 or later.)
+         不用退出目录卸载
+  -f     Force  unmount  (in  case  of  an unreachable NFS system).  (Requires kernel 2.1.116 or
+          later.)       
+</code></pre>
+
+<h4 id="toc_27">root_squash,no_all_squash参数实践</h4>
+
+<pre><code>  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.0/24(rw,sync,all_squash)
+  [root@nfs01 ~]# sed -i &#39;s#all_squash#root_squash,no_all_squash#g&#39; /etc/exports
+  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.0/24(rw,sync,root_squash,no_all_squash)
+  [root@nfs01 ~]# /etc/init.d/nfs reload
+  [root@nfs01 ~]# 
+  [root@nfs01 ~]# ll /data/
+  total 8
+  -rw-r--r-- 1 nfsnobody nfsnobody 0 Jul 31 10:39 rootinfo.txt
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  -rw-rw-r-- 1 nfsnobody nfsnobody 8 Jul 31 10:29 test02.txt
+</code></pre>
+
+<h3 id="toc_28">客户端测试root_squash,no_all_squash参数作用</h3>
+
+<pre><code>  [oldboy@backup mnt]$ cd ..
+  [oldboy@backup /]$ umount /mnt
+  umount: /mnt is not in the fstab (and you are not root)
+  [oldboy@backup /]$ exit
+  logout
+  [root@backup mnt]# umount /mnt
+  umount.nfs: /mnt: device is busy
+  umount.nfs: /mnt: device is busy
+</code></pre>
+
+<p>01: 退出挂载目录,进行卸载<br/>
+02: 强制进行目录的卸载</p>
+
+<pre><code>  [root@backup mnt]# umount -lf /mnt
+  [root@backup mnt]# df -h
+  Filesystem      Size  Used Avail Use% Mounted on
+  /dev/sda3       8.8G  1.8G  6.7G  21% /
+  tmpfs           931M     0  931M   0% /dev/shm
+  /dev/sda1       190M   40M  141M  22% /boot
+
+  [root@backup mnt]# cd ..
+  [root@backup /]# mount -t nfs 172.16.1.31:/data /mnt
+  [root@backup /]# df -h
+  Filesystem         Size  Used Avail Use% Mounted on
+  /dev/sda3          8.8G  1.8G  6.7G  21% /
+  tmpfs              931M     0  931M   0% /dev/shm
+  /dev/sda1          190M   40M  141M  22% /boot
+  172.16.1.31:/data  8.8G  1.5G  6.9G  18% /mnt
+</code></pre>
+
+<h4 id="toc_29">以root权限创建信息</h4>
+
+<pre><code>  [root@backup /]# touch /mnt/rootinfo.txt
+  [root@backup /]# ll /mnt/
+  total 8
+  -rw-r--r-- 1 nfsnobody nfsnobody 0 Jul 31 10:39 rootinfo.txt
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  -rw-rw-r-- 1 nfsnobody nfsnobody 8 Jul 31 10:29 test02.txt
+  [root@backup /]# 
+</code></pre>
+
+<h4 id="toc_30">以oldboy权限创建信息</h4>
+
+<pre><code>  [root@backup /]# su - oldboy
+  [oldboy@backup ~]$ cd /mnt/
+  [oldboy@backup mnt]$ touch oldboyinfo.txt
+  touch: cannot touch `oldboyinfo.txt&#39;: Permission denied
+
+
+  [root@nfs01 ~]# /etc/init.d/nfs reload
+  [root@nfs01 ~]# ll /data/
+  total 8
+  -rw-r--r-- 1 root      root      0 Jul 31 10:51 root_info.txt
+  -rw-r--r-- 1 nfsnobody nfsnobody 0 Jul 31 10:39 rootinfo.txt
+  -rw-r--r-- 1 nfsnobody nfsnobody 7 Jul 31 10:27 test01.txt
+  -rw-rw-r-- 1 nfsnobody nfsnobody 8 Jul 31 10:29 test02.txt
+  [root@nfs01 ~]# id nfsnobody
+  uid=65534(nfsnobody) gid=65534(nfsnobody) groups=65534(nfsnobody)
+  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.0/24(rw,sync,no_root_squash)
+</code></pre>
+
+<h4 id="toc_31">nfs服务端默认权限参数设置文件</h4>
+
+<pre><code>  [root@nfs01 ~]# cat /var/lib/nfs/etab 
+  /data 172.16.1.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,rw,no_root_squash,no_all_squash)
+  [root@nfs01 ~]# # 修改默认的映射用户
+  [root@nfs01 ~]# 
+  [root@nfs01 ~]# # 01: 确认修改后映射用户存在
+  [root@nfs01 ~]# id www
+  id: www: No such user
+  [root@nfs01 ~]# useradd www
+  [root@nfs01 ~]# id www
+  uid=500(www) gid=500(www) groups=500(www)
+  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.0/24(rw,sync,no_root_squash)
+  [root@nfs01 ~]# sed -i &#39;s#no_root_squash#all_squash,anonuid=500,anongid=500#g&#39; /etc/exports
+  [root@nfs01 ~]# cat /etc/exports 
+  #share /data by oldboy for share at 20170220
+  /data 172.16.1.0/24(rw,sync,all_squash,anonuid=500,anongid=500)
+  [root@nfs01 ~]# /etc/init.d/nfs reload
+  [root@nfs01 ~]# 
+  [root@nfs01 ~]# ll /data/ -d
+  drwxr-xr-x 2 nfsnobody nfsnobody 4096 Jul 31 10:51 /data/
+  [root@nfs01 ~]# chown -R www.www /data/
+  [root@nfs01 ~]# ll /data/ -d
+  drwxr-xr-x 2 www www 4096 Jul 31 10:51 /data/
+  [root@nfs01 ~]# cd /data/
+  [root@nfs01 data]# ll
+  total 8
+  -rw-r--r-- 1 www www 0 Jul 31 10:51 root_info.txt
+  -rw-r--r-- 1 www www 0 Jul 31 10:39 rootinfo.txt
+  -rw-r--r-- 1 www www 7 Jul 31 10:27 test01.txt
+  -rw-rw-r-- 1 www www 8 Jul 31 10:29 test02.txt
+  -rw-r--r-- 1 www www 0 Jul 31 11:03 www_info.txt
+  [root@nfs01 data]# id www
+  uid=500(www) gid=500(www) groups=500(www)
+  [root@nfs01 data]# /etc/init.d/rpc
+  rpcbind     rpcgssd     rpcidmapd   rpcsvcgssd  
+  [root@nfs01 data]# /etc/init.d/rpcidmapd reload
+  Shutting down RPC idmapd:                                  [  OK  ]
+  Starting RPC idmapd:                                       [  OK  ]
+  [root@nfs01 data]# /etc/init.d/nfs reload
+  [root@nfs01 data]# id nfsnobody
+  uid=65534(nfsnobody) gid=65534(nfsnobody) groups=65534(nfsnobody)
+</code></pre>
+
+<h5 id="toc_32">客户端需要安装rpcbind和nfs-utils软件，但可以不用启动</h5>
+
+<pre><code>  [root@backup mnt]# rpm -qf `which rpcinfo` 
+  rpcbind-0.2.0-13.el6_9.1.x86_64
+  [root@backup mnt]# rpm -qf `which showmount` 
+  nfs-utils-1.2.3-75.el6.x86_64
+</code></pre>
+
+<h3 id="toc_33">重要的配置文件或目录信息</h3>
+
+<pre><code>  /etc/exports        ---NFS服务配置文件
+  /usr/sbin/exportfs  ---NFS服务的重要管理命令
+                         /usr/sbin/exportfs -rv  == /etc/init.d/nfs reload
+
+  /var/lib/nfs/etab   ---只是一个配置信息查看文件，不能进行参数的设置修改
+                         文件中的信息生成或取消，取决于/etc/exports配置文件
+</code></pre>
+
+<h4 id="toc_34">NFS客户端开机自启动挂载</h4>
+
+<pre><code>  01：将挂载命令放在/etc/rc.local里
+  02：将挂载命令在/etc/fstab里
+      需要将netfs服务也开机启动，才能正常识别/etc/fstab文件中的网络挂载信息
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

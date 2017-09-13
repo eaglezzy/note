@@ -1,0 +1,654 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	九、定时任务 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">九、定时任务</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">闹钟与定时任务</a>
+</li>
+<li>
+<a href="#toc_1">定时任务分类</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_5">crond分类</a>
+<ul>
+<li>
+<a href="#toc_6">系统定时任务</a>
+</li>
+<li>
+<a href="#toc_7">用户定时任务</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_8">定时任务使用</a>
+<ul>
+<li>
+<a href="#toc_9">定时任务以来的软件(服务)-是否能用</a>
+</li>
+<li>
+<a href="#toc_10">crontab怎么使用</a>
+<ul>
+<li>
+<a href="#toc_11">crontab命令使用</a>
+</li>
+<li>
+<a href="#toc_12">为何使用crontab命令</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_13">定时任务相关的文件</a>
+<ul>
+<li>
+<a href="#toc_14">哪些用户禁止使用定时任务</a>
+</li>
+<li>
+<a href="#toc_15">定时任务中常用符号</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_16">定时任务书写流程</a>
+</li>
+<li>
+<a href="#toc_17">总结</a>
+<ul>
+<li>
+<a href="#toc_18">定时任务规则之前加注释</a>
+</li>
+<li>
+<a href="#toc_19">定时任务脚本中的程序命令及路径尽量用绝对路径</a>
+</li>
+<li>
+<a href="#toc_20">使用脚本替代命令行定时任务</a>
+</li>
+<li>
+<a href="#toc_21">运行脚本一定要用/bin/sh 或sh</a>
+</li>
+<li>
+<a href="#toc_22">定时任务中-命令或脚本结果(正确及错误)定向到空(/dev/null)或追加到文件中</a>
+</li>
+<li>
+<a href="#toc_23">避免不必要的程序及命令输出</a>
+</li>
+<li>
+<a href="#toc_24">打包压缩使用相对路径(切到目标目录的上一级打包目标)</a>
+</li>
+<li>
+<a href="#toc_25">定时任务中date命令的%添加转义</a>
+</li>
+<li>
+<a href="#toc_26">系统与命令位置有关的环境变量问题</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_27">开机自启动</a>
+<ul>
+<li>
+<a href="#toc_28">chkconfig</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_29">精简开机自启动服务-命令拼接</a>
+<ul>
+<li>
+<a href="#toc_30">开机需要启动的项目</a>
+</li>
+<li>
+<a href="#toc_31">我们要的结果</a>
+</li>
+<li>
+<a href="#toc_32">第一里程碑</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h1 id="toc_0">闹钟与定时任务</h1>
+
+<blockquote>
+<p>Crond是Linux系统中用拉力定期执行命令/脚本或指定程序任务的一种服务或软件.一般情况下,我们安装完了Centos5/6操作系统之后,默认便会启动Crond任务调度服务,在我们前面的系统安装及开机启动优化的设置中,我们也保留了Crond开机自启动.Crond服务会定期(默认每分钟检查一次)检查系统中是否有要执行的任务工作,如果有,便会根据其预先设定的定时任务规则自动执行该定时任务工作,这个Crond定时任务服务就相当于我们平时早起使用闹钟一样定时任务分类.</p>
+
+<blockquote>
+<p>特殊需求:Crond服务搞不定了,一般在工作鞋shell脚本守护进程执行<br/>
+程序(文件)放在磁盘里的,程序代码组成,但是没有在计算机内执行,当前没有执行<br/>
+进程所谓进程就是在计算机中正在执行的程序,运行起来的程序<br/>
+守护进程(守护进程):守护进程就是一直运行的程序.<br/>
+sshd服务</p>
+</blockquote>
+</blockquote>
+
+<h1 id="toc_1">定时任务分类</h1>
+
+<blockquote>
+<h2 id="toc_2">atd(运行一次)</h2>
+
+<blockquote>
+<p>at:适合仅执行一次就就结束的调度任务命令,列如某天晚上需要处理一个任务,仅仅是这一天的晚上,输入突发性的工作任务,执行at命令,还需要启动一个名为atd的服务才行</p>
+</blockquote>
+
+<h2 id="toc_3">crond(crontab)</h2>
+
+<blockquote>
+<p>crontab(命令):正如前面所说的这个命令可以周期性的执行工作,例如:每五分钟做一次服务器时间同步.要执行crontab这个命令,也需要启动一个服务Crond才行,这个crontab工作中常用.</p>
+</blockquote>
+
+<h2 id="toc_4">anacron(非7*24小时运行的服务器)</h2>
+
+<blockquote>
+<p>anacron:这个命令主要用于非7*24小时开机的服务器准备的,anacron并不能指定具体时间执行任务工作,而是以天威周期或者在系统每次开机后执行的任务工作.<br/>
+    他会检测服务器停机期间应该执行,但是并没有进行的任务工作,并将该任务执行一遍.</p>
+</blockquote>
+</blockquote>
+
+<h1 id="toc_5">crond分类</h1>
+
+<h2 id="toc_6">系统定时任务</h2>
+
+<pre><code>/etc/cron.hourly
+/etc/cron.daily
+/etc/cron.weekly
+/etc/cron.monthly
+/etc/cron.day
+/etc/crontab    系统定时任务的配置文件之一
+系统定时任务+logrotate命令  完成对日志的日志切割/日志轮循
+    /var/log/cron
+    /var/log/messages
+    /var/log/secure
+</code></pre>
+
+<h2 id="toc_7">用户定时任务</h2>
+
+<pre><code>crontab –l (list) 列表查看用户的定制任务
+crontab –e (edit) 编辑用户的定时任务
+/var/spool/cron/root (root是用户名 root用户的定时任务)
+</code></pre>
+
+<h1 id="toc_8">定时任务使用</h1>
+
+<h2 id="toc_9">定时任务以来的软件(服务)-是否能用</h2>
+
+<pre><code>查看当前是否正在运行
+/etc/init.d/crond status
+ps –ef |grep crond
+查看crond是否开机自启动
+chkconfig |grep crond
+</code></pre>
+
+<h2 id="toc_10">crontab怎么使用</h2>
+
+<h3 id="toc_11">crontab命令使用</h3>
+
+<pre><code>–e edit 编辑当前用户的定时任务
+vi /var/spool/cron/root
+–l list显示当前用户的定时任务
+cat /var/spool/cron/root
+–r 删除用户的定时任务
+–i 删除之前提醒
+</code></pre>
+
+<h3 id="toc_12">为何使用crontab命令</h3>
+
+<pre><code>有语法检查功能
+方便
+</code></pre>
+
+<h2 id="toc_13">定时任务相关的文件</h2>
+
+<h3 id="toc_14">哪些用户禁止使用定时任务</h3>
+
+<pre><code>/etc/cron.deny
+    ### 定时任务的额配置文件所在的目录
+/var/spool/cron/
+    ### 定时任务的日志文件
+/var/log/cron
+    ## 定时任务基本格式(分时日月周)
+### 核心:
+什么时间做什么,然后再想下一次什么时候执行什么时间,做什么事情
+</code></pre>
+
+<h3 id="toc_15">定时任务中常用符号</h3>
+
+<pre><code>*   每
+/n  */10 * * * *    每隔/每隔十分钟
+-   从哪里来到哪里去    07-08
+,   分隔      00 17,19,20 * * *
+</code></pre>
+
+<h1 id="toc_16">定时任务书写流程</h1>
+
+<pre><code>命令行测试-把你的名字显示到文件中
+把命令放入到脚本中
+测试下脚本是否可用
+写定时任务
+检查结果
+</code></pre>
+
+<h1 id="toc_17">总结</h1>
+
+<h2 id="toc_18">定时任务规则之前加注释</h2>
+
+<h2 id="toc_19">定时任务脚本中的程序命令及路径尽量用绝对路径</h2>
+
+<pre><code>* * * * * echo oldboy &gt;&gt;oldboy.log
+#存放在了用户的家目录下
+</code></pre>
+
+<h2 id="toc_20">使用脚本替代命令行定时任务</h2>
+
+<h2 id="toc_21">运行脚本一定要用/bin/sh 或sh</h2>
+
+<pre><code>f 644 rw-r--r-- oldboy.sh
+/bin/sh /server/scripts/oldboy.sh
+</code></pre>
+
+<h2 id="toc_22">定时任务中-命令或脚本结果(正确及错误)定向到空(/dev/null)或追加到文件中</h2>
+
+<pre><code># 企业案例
+如果定时任务规则结尾不加&gt;/dev/null 2&gt;&amp;1或者追加到文件中&gt;&gt;/tmp/oldboy 2&gt;&amp;1,很容易导致硬盘inode空间被沾满,从而系统服务不正常.
+定时任务中,命令或脚本的结果没有定向到空或文件中
+邮件的软件没有开启------大量小文件堆积在/var/spool/postfix/maildrop/------inode满了
+邮件软件开启了------定时任务会不断的给root用户发邮件
+you have new mail in /var/spool/mail/root
+</code></pre>
+
+<h2 id="toc_23">避免不必要的程序及命令输出</h2>
+
+<pre><code>如:tar zcf
+</code></pre>
+
+<h2 id="toc_24">打包压缩使用相对路径(切到目标目录的上一级打包目标)</h2>
+
+<pre><code>cd到被打爆目录的上一级目录
+</code></pre>
+
+<h2 id="toc_25">定时任务中date命令的%添加\转义</h2>
+
+<h2 id="toc_26">系统与命令位置有关的环境变量问题</h2>
+
+<blockquote>
+<p>Java环境变量问题</p>
+
+<blockquote>
+<p>遇到Java的内容,都是用绝对路径<br/>
+在脚本开头重新定义环境变量<br/>
+/sbin/ifconfig使用命令的绝对路径<br/>
+定时任务的脚本中认识的命令的位置只有PATH=/usr/bin:/bin</p>
+</blockquote>
+</blockquote>
+
+<h1 id="toc_27">开机自启动</h1>
+
+<pre><code> /etc/rc.local
+把你需要开机的时候启动的命令或脚本放入到这个文件中即可.
+</code></pre>
+
+<h2 id="toc_28">chkconfig</h2>
+
+<pre><code>通过chkconfig命令管理你要启动的脚本/服务
+# 你这个脚本必须放在/etc/init.d/目录下面
+要给脚本x权限
+chkconfig管理脚本 让他开机自启动
+chkconfig:2345 20 80
+description:说明
+添加到chkconfig管理
+chkconfig --add oldboyd
+检查结果
+chkconfig |grep oldboyd
+</code></pre>
+
+<h1 id="toc_29">精简开机自启动服务-命令拼接</h1>
+
+<h2 id="toc_30">开机需要启动的项目</h2>
+
+<pre><code>network sshd rsyslog Crond sysstat
+</code></pre>
+
+<h2 id="toc_31">我们要的结果</h2>
+
+<pre><code>chkconfig 服务名称 off
+[root@worksation-lianxi ~]# chkconfig |grep 3:on
+chkconfig abrt-ccpp         off
+chkconfig abrtd             off
+chkconfig acpid             off
+chkconfig atd               off
+chkconfig auditd            off
+chkconfig blk-availability  off
+chkconfig cpuspeed          off
+chkconfig crond             off
+chkconfig haldaemon         off
+chkconfig ip6tables         off
+chkconfig iptables          off
+chkconfig irqbalance        off
+chkconfig kdump             off
+chkconfig lvm2-monitor      off
+chkconfig mdmonitor         off
+chkconfig messagebus        off
+chkconfig netfs             off
+chkconfig network           off
+chkconfig postfix           off
+chkconfig rdma              off
+chkconfig rsyslog           off
+chkconfig sshd              off
+chkconfig sysstat           off
+chkconfig udev-post         off 
+</code></pre>
+
+<h2 id="toc_32">第一里程碑</h2>
+
+<blockquote>
+<p>把你想保留的排除掉`其他的都关闭<br/>
+把你想要的服务,通过排除的方法保留下来,不处理.</p>
+</blockquote>
+
+<pre><code> [root@worksation-lianxi ~]# chkconfig |egrep &quot;sshd|network|rsyslog|crond|sysstat&quot;
+crond           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+network         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+rsyslog         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+sshd            0:off   1:off   2:on    3:on    4:on    5:on    6:off
+sysstat         0:off   1:on    2:on    3:on    4:on    5:on    6:off
+</code></pre>
+
+<blockquote>
+<p>排除</p>
+</blockquote>
+
+<pre><code>[root@worksation-lianxi ~]# chkconfig |egrep -v &quot;network|sshd|rsyslog|crond|sysstst&quot;
+abrt-ccpp       0:off   1:off   2:off   3:on    4:off   5:on    6:off
+abrtd           0:off   1:off   2:off   3:on    4:off   5:on    6:off
+acpid           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+atd             0:off   1:off   2:off   3:on    4:on    5:on    6:off
+auditd          0:off   1:off   2:on    3:on    4:on    5:on    6:off
+blk-availability    0:off   1:on    2:on    3:on    4:on    5:on    6:off
+cpuspeed        0:off   1:on    2:on    3:on    4:on    5:on    6:off
+haldaemon       0:off   1:off   2:off   3:on    4:on    5:on    6:off
+ip6tables       0:off   1:off   2:on    3:on    4:on    5:on    6:off
+iptables        0:off   1:off   2:off   3:on    4:off   5:off   6:off
+irqbalance      0:off   1:off   2:off   3:on    4:on    5:on    6:off
+kdump           0:off   1:off   2:off   3:on    4:on    5:on    6:off
+lvm2-monitor    0:off   1:on    2:on    3:on    4:on    5:on    6:off
+mdmonitor       0:off   1:off   2:on    3:on    4:on    5:on    6:off
+messagebus      0:off   1:off   2:on    3:on    4:on    5:on    6:off
+netconsole      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+netfs           0:off   1:off   2:off   3:on    4:on    5:on    6:off
+nfs-rdma        0:off   1:off   2:off   3:off   4:off   5:off   6:off
+ntpd            0:off   1:off   2:off   3:off   4:off   5:off   6:off
+ntpdate         0:off   1:off   2:off   3:off   4:off   5:off   6:off
+postfix         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+psacct          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+quota_nld       0:off   1:off   2:off   3:off   4:off   5:off   6:off
+rdisc           0:off   1:off   2:off   3:off   4:off   5:off   6:off
+rdma            0:off   1:on    2:on    3:on    4:on    5:on    6:off
+restorecond     0:off   1:off   2:off   3:off   4:off   5:off   6:off
+rngd            0:off   1:off   2:off   3:off   4:off   5:off   6:off
+saslauthd       0:off   1:off   2:off   3:off   4:off   5:off   6:off
+smartd          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+svnserve        0:off   1:off   2:off   3:off   4:off   5:off   6:off
+sysstat         0:off   1:on    2:on    3:on    4:on    5:on    6:off
+udev-post       0:off   1:on    2:on    3:on    4:on    5:on    6:off
+</code></pre>
+
+<blockquote>
+<p>第二个里程碑把权健的名字取出来</p>
+</blockquote>
+
+<pre><code>[root@worksation-lianxi ~]# chkconfig |egrep -v &quot;crond|network|rsyslog|sshd|sysstat&quot;|awk &#39;{print $1}&#39;
+abrt-ccpp
+abrtd
+acpid
+atd
+auditd
+blk-availability
+cpuspeed
+haldaemon
+ip6tables
+iptables
+irqbalance
+kdump
+lvm2-monitor
+mdmonitor
+messagebus
+netconsole
+netfs
+nfs-rdma
+ntpd
+ntpdate
+postfix
+psacct
+quota_nld
+rdisc
+rdma
+restorecond
+rngd
+saslauthd
+smartd
+svnserve
+udev-post
+</code></pre>
+
+<blockquote>
+<p>第三;;里程碑 如何弄出 chkconfig iiptables off</p>
+</blockquote>
+
+<pre><code>[root@worksation-lianxi ~]# echo ipt |awk &#39;{print &quot;chkconfig &quot;$1&quot; off&quot;}&#39;
+chkconfig ipt off
+[root@worksation-lianxi ~]# #拼接处你想要的结果  拼接处你想要的目标
+</code></pre>
+
+<blockquote>
+<p>第四个里程碑-给找出来的服务都加上  chkconfig xxxx  off</p>
+</blockquote>
+
+<pre><code>[root@worksation-lianxi ~]# chkconfig |egrep -v &quot;crond|network|rsyslog|sshd|sysstat&quot;|awk &#39;{print &quot;chkconfig &quot;$1&quot; off&quot;}&#39;
+chkconfig abrt-ccpp off
+chkconfig abrtd off
+chkconfig acpid off
+chkconfig atd off
+chkconfig auditd off
+chkconfig blk-availability off
+chkconfig cpuspeed off
+chkconfig haldaemon off
+chkconfig ip6tables off
+chkconfig iptables off
+chkconfig irqbalance off
+chkconfig kdump off
+chkconfig lvm2-monitor off
+chkconfig mdmonitor off
+chkconfig messagebus off
+chkconfig netconsole off
+chkconfig netfs off
+chkconfig nfs-rdma off
+chkconfig ntpd off
+chkconfig ntpdate off
+chkconfig postfix off
+chkconfig psacct off
+chkconfig quota_nld off
+chkconfig rdisc off
+chkconfig rdma off
+chkconfig restorecond off
+chkconfig rngd off
+chkconfig saslauthd off
+chkconfig smartd off
+chkconfig svnserve off
+chkconfig udev-post off
+</code></pre>
+
+<blockquote>
+<p>第五个里程碑 :预备知识</p>
+</blockquote>
+
+<pre><code>PATH
+执行…..bash
+Linux 命令解释器   bash
+  命令   软件
+</code></pre>
+
+<blockquote>
+<p>第六个里程碑 执行--交给bash 执行</p>
+</blockquote>
+
+<pre><code>[root@worksation-lianxi ~]# chkconfig |egrep -v &quot;crond|network|rsyslog|sshd|sysstat&quot;|awk &#39;{print &quot;chkconfig &quot;$1&quot; off&quot;}&#39;|bash     交给bash执行
+[root@worksation-lianxi ~]# chkconfig |grep 3:on   查看一下
+crond           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+network         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+rsyslog         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+sshd            0:off   1:off   2:on    3:on    4:on    5:on    6:off
+sysstat         0:off   1:on    2:on    3:on    4:on    5:on    6:off
+命令的拼接小结
+命令拼接(awk/sed)=====&gt;批量====&gt;循环
+常用服务,必须开机启动的服务  Crond sshd network rsyslog sysstat
+创造形式(命令) 最后交给bash执行解释
+Echo Chkconfig iptables  off
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

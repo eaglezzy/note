@@ -1,0 +1,1075 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿二、ansible - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿二、ansible</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">ansible软件知识介绍</a>
+</li>
+<li>
+<a href="#toc_1">ansible软件特点概述(与saltstack对比)</a>
+</li>
+<li>
+<a href="#toc_2">部署ansible</a>
+</li>
+<li>
+<a href="#toc_3">ansible软件包说明</a>
+</li>
+<li>
+<a href="#toc_4">ansible 远程执行脚本模块shell</a>
+<ul>
+<li>
+<a href="#toc_5">不将脚本进行推送，让受控端执行脚本功能</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_6">ansible软件部署安装需求</a>
+</li>
+<li>
+<a href="#toc_7">ansible在没有秘钥的时候如何批量管理</a>
+<ul>
+<li>
+<a href="#toc_8">ansible测试受控端连通性方法</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_9">shell模块说明</a>
+<ul>
+<li>
+<a href="#toc_10">shell模块和command模块功能类似，但是shell模块可以识别一些特殊符号信息 &gt; &gt;&gt; | * ^</a>
+</li>
+<li>
+<a href="#toc_11">通过yum模块安装nmap软件：</a>
+</li>
+<li>
+<a href="#toc_12">通过service模块管理软件服务：</a>
+</li>
+<li>
+<a href="#toc_13">通过file模块设置文件属性信息：</a>
+</li>
+<li>
+<a href="#toc_14">expect软件介绍</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">附录01：pssh命令使用扩展</a>
+<ul>
+<li>
+<a href="#toc_16"></a>
+</li>
+<li>
+<a href="#toc_17">ansible -k 172.16.1.51 -m ping</a>
+</li>
+</ul>
+
+
+<h2 id="toc_0">ansible软件知识介绍</h2>
+
+<blockquote>
+<p>python语言是运维人员必会的语言！<br/>
+ansible是一个基于Python开发的自动化运维工具！<br/>
+其功能实现基于SSH+key远程连接服务！<br/>
+ansible可以实现批量系统配置、批量软件部署、批量文件拷贝、批量运行命令等功能</p>
+
+<p>说明信息：<br/>
+ansible软件相关参考链接信息<br/>
+<a href="http://docs.ansible.com/ansible/intro_installation.html">http://docs.ansible.com/ansible/intro_installation.html</a><br/>
+<a href="http://www.ansible.com.cn/">http://www.ansible.com.cn/</a><br/>
+<a href="http://docs.ansible.com/modules_by_category.html">http://docs.ansible.com/modules_by_category.html</a><br/>
+<a href="http://www.ansible.cn/docs/">http://www.ansible.cn/docs/</a></p>
+</blockquote>
+
+<h2 id="toc_1">ansible软件特点概述(与saltstack对比)</h2>
+
+<blockquote>
+<p>不需要单独安装客户端（no agents），基于系统自带的sshd服务，sshd就相当于ansible的客户端。<br/>
+不需要服务端(no servers)。<br/>
+需要依靠大量的模块实现批量管理。（不需要自行编写脚本了 command模型 批量管理执行命令）<br/>
+配置文件/etc/ansible/ansible.cfg</p>
+</blockquote>
+
+<h2 id="toc_2">部署ansible</h2>
+
+<pre><code>①. 将管理端服务器上的公钥确认分发给了所有受控端
+②. 管理端部署过程
+    yum install epel-release  -y  &lt;- 随意的一个epel源
+    wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+    说明：更新下载epel，ansible软件需要借助epel源进行下载安装
+    yum install -y ansible
+③. 受控端部署过程
+    yum install libselinux-python -y
+    说明：libselinux-python---在selinux中配置了，放行ansible到受控端的网络管理服务
+</code></pre>
+
+<h2 id="toc_3">ansible软件包说明</h2>
+
+<pre><code>ansible软件常用命令
+/usr/bin/ansible
+/usr/bin/ansible-doc
+/usr/bin/ansible-playbook
+
+ansible软件重要配置文件
+/etc/ansible/ansible.cfg
+/etc/ansible/hosts           ---定义主控端所能管理的受控端信息
+/etc/ansible/roles
+</code></pre>
+
+<h2 id="toc_4">ansible 远程执行脚本模块shell</h2>
+
+<pre><code>[root@m01 scripts]# ansible oldboy -m copy -a &quot;src=/server/scripts/yum.sh dest=/server/scripts/&quot;
+172.16.1.7 | SUCCESS =&gt; {
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;1f34ee1ed19732776dde2961687199d096a0da57&quot;, 
+    &quot;dest&quot;: &quot;/server/scripts/yum.sh&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;503d158b84339962adb698dc1ad57104&quot;, 
+    &quot;mode&quot;: &quot;0644&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 34, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1501735166.76-143080750592154/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
+}
+172.16.1.31 | SUCCESS =&gt; {
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;1f34ee1ed19732776dde2961687199d096a0da57&quot;, 
+    &quot;dest&quot;: &quot;/server/scripts/yum.sh&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;503d158b84339962adb698dc1ad57104&quot;, 
+    &quot;mode&quot;: &quot;0644&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 34, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1501735166.72-229091717010814/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
+}
+172.16.1.41 | SUCCESS =&gt; {
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;1f34ee1ed19732776dde2961687199d096a0da57&quot;, 
+    &quot;dest&quot;: &quot;/server/scripts/yum.sh&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;503d158b84339962adb698dc1ad57104&quot;, 
+    &quot;mode&quot;: &quot;0644&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 34, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1501735166.72-179829629838013/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
+}
+[root@m01 scripts]# ansible oldboy  -a &quot;ls /server/scripts&quot;
+172.16.1.41 | SUCCESS | rc=0 &gt;&gt;
+yum.sh
+
+172.16.1.31 | SUCCESS | rc=0 &gt;&gt;
+inotify.sh
+nohup.out
+yum.sh
+
+172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+finger.txt
+test.txt
+web01_backup.sh
+yum.sh
+
+[root@m01 scripts]# ansible oldboy -m shell -a &quot;/bin/sh /server/scripts/yum.sh&quot;
+172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+Loaded plugins: fastestmirror, security
+Setting up Install Process
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * epel: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package iftop.x86_64 0:1.0-0.14.pre4.el6 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package        Arch            Version                     Repository     Size
+ 
+================================================================================
+Installing:
+ iftop          x86_64          1.0-0.14.pre4.el6           epel           49 k
+
+Transaction Summary
+
+================================================================================
+Install       1 Package(s)
+
+Total download size: 49 k
+Installed size: 89 k
+Downloading Packages:
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : iftop-1.0-0.14.pre4.el6.x86_64                               1/1 
+  Verifying  : iftop-1.0-0.14.pre4.el6.x86_64                               1/1 
+
+Installed:
+  iftop.x86_64 0:1.0-0.14.pre4.el6                                              
+
+Complete!
+
+172.16.1.41 | SUCCESS | rc=0 &gt;&gt;
+Loaded plugins: fastestmirror, security
+Setting up Install Process
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * epel: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package iftop.x86_64 0:1.0-0.14.pre4.el6 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package        Arch            Version                     Repository     Size
+ 
+================================================================================
+Installing:
+ iftop          x86_64          1.0-0.14.pre4.el6           epel           49 k
+
+Transaction Summary
+
+================================================================================
+Install       1 Package(s)
+
+Total download size: 49 k
+Installed size: 89 k
+Downloading Packages:
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : iftop-1.0-0.14.pre4.el6.x86_64                               1/1 
+  Verifying  : iftop-1.0-0.14.pre4.el6.x86_64                               1/1 
+
+Installed:
+  iftop.x86_64 0:1.0-0.14.pre4.el6                                              
+
+Complete!
+
+172.16.1.31 | SUCCESS | rc=0 &gt;&gt;
+Loaded plugins: fastestmirror, security
+Setting up Install Process
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * epel: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package iftop.x86_64 0:1.0-0.14.pre4.el6 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package        Arch            Version                     Repository     Size
+ 
+================================================================================
+Installing:
+ iftop          x86_64          1.0-0.14.pre4.el6           epel           49 k
+
+Transaction Summary
+
+================================================================================
+Install       1 Package(s)
+
+Total download size: 49 k
+Installed size: 89 k
+Downloading Packages:
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : iftop-1.0-0.14.pre4.el6.x86_64                               1/1 
+  Verifying  : iftop-1.0-0.14.pre4.el6.x86_64                               1/1 
+
+Installed:
+  iftop.x86_64 0:1.0-0.14.pre4.el6                                              
+
+Complete!
+
+[root@m01 scripts]# ansible oldboy  -a &quot;rpm -qa iftop&quot;
+ [WARNING]: Consider using yum, dnf or zypper module rather than running rpm
+
+172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+iftop-1.0-0.14.pre4.el6.x86_64
+
+172.16.1.31 | SUCCESS | rc=0 &gt;&gt;
+iftop-1.0-0.14.pre4.el6.x86_64
+
+172.16.1.41 | SUCCESS | rc=0 &gt;&gt;
+iftop-1.0-0.14.pre4.el6.x86_64
+</code></pre>
+
+<h3 id="toc_5">不将脚本进行推送，让受控端执行脚本功能</h3>
+
+<pre><code>[root@m01 scripts]# ansible oldboy -m script -a &quot;/server/scripts/yum02.sh&quot;
+172.16.1.41 | SUCCESS =&gt; {
+    &quot;changed&quot;: true, 
+    &quot;rc&quot;: 0, 
+    &quot;stderr&quot;: &quot;Shared connection to 172.16.1.41 closed.\r\n&quot;, 
+    &quot;stdout&quot;: &quot;Loaded plugins: fastestmirror, security\r\nLoading mirror speeds from cached hostfile\r\n * base: mirrors.aliyun.com\r\n * epel: mirrors.aliyun.com\r\n * extras: mirrors.aliyun.com\r\n * updates: mirrors.aliyun.com\r\nrepo id          repo name                                                status\r\nbase             CentOS-6 - Base - mirrors.aliyun.com                      6,706\r\nepel             Extra Packages for Enterprise Linux 6 - x86_64           12,372\r\nextras           CentOS-6 - Extras - mirrors.aliyun.com                       45\r\nupdates          CentOS-6 - Updates - mirrors.aliyun.com                     447\r\nrepolist: 19,570\r\n&quot;, 
+    &quot;stdout_lines&quot;: [
+        &quot;Loaded plugins: fastestmirror, security&quot;, 
+        &quot;Loading mirror speeds from cached hostfile&quot;, 
+        &quot; * base: mirrors.aliyun.com&quot;, 
+        &quot; * epel: mirrors.aliyun.com&quot;, 
+        &quot; * extras: mirrors.aliyun.com&quot;, 
+        &quot; * updates: mirrors.aliyun.com&quot;, 
+        &quot;repo id          repo name                                                status&quot;, 
+        &quot;base             CentOS-6 - Base - mirrors.aliyun.com                      6,706&quot;, 
+        &quot;epel             Extra Packages for Enterprise Linux 6 - x86_64           12,372&quot;, 
+        &quot;extras           CentOS-6 - Extras - mirrors.aliyun.com                       45&quot;, 
+        &quot;updates          CentOS-6 - Updates - mirrors.aliyun.com                     447&quot;, 
+        &quot;repolist: 19,570&quot;
+    ]
+}
+172.16.1.7 | SUCCESS =&gt; {
+    &quot;changed&quot;: true, 
+    &quot;rc&quot;: 0, 
+    &quot;stderr&quot;: &quot;Shared connection to 172.16.1.7 closed.\r\n&quot;, 
+    &quot;stdout&quot;: &quot;Loaded plugins: fastestmirror, security\r\nLoading mirror speeds from cached hostfile\r\n * base: mirrors.aliyun.com\r\n * epel: mirrors.aliyun.com\r\n * extras: mirrors.aliyun.com\r\n * updates: mirrors.aliyun.com\r\nrepo id          repo name                                                status\r\nbase             CentOS-6 - Base - mirrors.aliyun.com                      6,706\r\nepel             Extra Packages for Enterprise Linux 6 - x86_64           12,372\r\nextras           CentOS-6 - Extras - mirrors.aliyun.com                       45\r\nupdates          CentOS-6 - Updates - mirrors.aliyun.com                     447\r\nrepolist: 19,570\r\n&quot;, 
+    &quot;stdout_lines&quot;: [
+        &quot;Loaded plugins: fastestmirror, security&quot;, 
+        &quot;Loading mirror speeds from cached hostfile&quot;, 
+        &quot; * base: mirrors.aliyun.com&quot;, 
+        &quot; * epel: mirrors.aliyun.com&quot;, 
+        &quot; * extras: mirrors.aliyun.com&quot;, 
+        &quot; * updates: mirrors.aliyun.com&quot;, 
+        &quot;repo id          repo name                                                status&quot;, 
+        &quot;base             CentOS-6 - Base - mirrors.aliyun.com                      6,706&quot;, 
+        &quot;epel             Extra Packages for Enterprise Linux 6 - x86_64           12,372&quot;, 
+        &quot;extras           CentOS-6 - Extras - mirrors.aliyun.com                       45&quot;, 
+        &quot;updates          CentOS-6 - Updates - mirrors.aliyun.com                     447&quot;, 
+        &quot;repolist: 19,570&quot;
+    ]
+}
+172.16.1.31 | SUCCESS =&gt; {
+    &quot;changed&quot;: true, 
+    &quot;rc&quot;: 0, 
+    &quot;stderr&quot;: &quot;Shared connection to 172.16.1.31 closed.\r\n&quot;, 
+    &quot;stdout&quot;: &quot;Loaded plugins: fastestmirror, security\r\nLoading mirror speeds from cached hostfile\r\n * base: mirrors.aliyun.com\r\n * epel: mirrors.aliyun.com\r\n * extras: mirrors.aliyun.com\r\n * updates: mirrors.aliyun.com\r\nrepo id          repo name                                                status\r\nbase             CentOS-6 - Base - mirrors.aliyun.com                      6,706\r\nepel             Extra Packages for Enterprise Linux 6 - x86_64           12,372\r\nextras           CentOS-6 - Extras - mirrors.aliyun.com                       45\r\nupdates          CentOS-6 - Updates - mirrors.aliyun.com                     447\r\nrepolist: 19,570\r\n&quot;, 
+    &quot;stdout_lines&quot;: [
+        &quot;Loaded plugins: fastestmirror, security&quot;, 
+        &quot;Loading mirror speeds from cached hostfile&quot;, 
+        &quot; * base: mirrors.aliyun.com&quot;, 
+        &quot; * epel: mirrors.aliyun.com&quot;, 
+        &quot; * extras: mirrors.aliyun.com&quot;, 
+        &quot; * updates: mirrors.aliyun.com&quot;, 
+        &quot;repo id          repo name                                                status&quot;, 
+        &quot;base             CentOS-6 - Base - mirrors.aliyun.com                      6,706&quot;, 
+        &quot;epel             Extra Packages for Enterprise Linux 6 - x86_64           12,372&quot;, 
+        &quot;extras           CentOS-6 - Extras - mirrors.aliyun.com                       45&quot;, 
+        &quot;updates          CentOS-6 - Updates - mirrors.aliyun.com                     447&quot;, 
+        &quot;repolist: 19,570&quot;
+    ]
+}
+</code></pre>
+
+<!--
+01：课程内容回顾
+    ①. SSH免密码(ssh key密钥认证)登录课程回顾小结
+        · 免密码登录验证是单向的，方向从私钥(钥匙)==>公钥(锁)
+        · SSH免密码登录基于用户的，最好不要跨不同的用户
+        · SSH连接慢解决；即修改sshd_config配置文件参数信息
+        · 批量分发1000台初始都需要输入一次密码，并且第一次连接要确认(expect/sshpass)
+          expect批量管理服务器参考博文---老男孩教育女学生作品
+          http://oldboy.blog.51cto.com/2561410/1206238
+
+02: 企业级生产场景批量管理-自动化管理方案
+    ①. 最简单/最常用/最强大的选择是ssh key+shell/pssh方案，一般中小型企业会用(50-100台以下规模企业)
+        a. 利用ssh key执行命令，并将命令放在脚本里面
+        b. 利用ssh key执行命令，将命令放在脚本里面，并加上相应循环语句或判断语句
+    ②. sina cfengine/puppet 较早的批量管理工具；现在基本上没有企业用
+    ③. 门户级别比较流行的，puppet批量管理工具(复杂/笨重)
+    ④. saltstack 批量管理工具；特点：简单，功能强大(配置复杂)---赶集网/小米/一些CDN公司
+    批量管理路线：ssh key==>cfengine==>puppet==>saltstack/ansible  
+    PS: 使用ansible软件的前提是ssh key公钥分发完成
+
+03：如何完成集群规模架构一键自动化实现(步骤说明)
+    ①. 5台服务器先配置好（kickstart,cobbler无人值守安装）。高级实现云计算（按需分配，动态调整）(openstack,kvm)
+    ②. linux基本优化，包括ssh服务（可以自动化实现）。
+    ③. 创建密钥信息(自动化免交互创建)
+        ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa >/dev/null 2>&1
+    ④. 进行批量分发密钥（sshpass,expect自动化实现）
+    ⑤. ansible软件安装（可以自动化实现）
+    ⑥. 网络服务自动化安装（ansible实现）
+        (搭建yum仓库，定制rpm包)
+-->
+
+<h2 id="toc_6">ansible软件部署安装需求</h2>
+
+<blockquote>
+<ol>
+<li>需要有epel源</li>
+<li>ssh+key免密码环境必须部署完成</li>
+</ol>
+</blockquote>
+
+<h2 id="toc_7">ansible在没有秘钥的时候如何批量管理</h2>
+
+<blockquote>
+<ol>
+<li>编写hosts文件
+不基于ssh+key方式使用ansible</li>
+</ol>
+</blockquote>
+
+<h3 id="toc_8">ansible测试受控端连通性方法</h3>
+
+<pre><code>[root@m01 ansible]# ansible 172.16.1.7 -m ping
+2.16.1.7 | UNREACHABLE! =&gt; {
+&quot;changed&quot;: false, 
+&quot;msg&quot;: &quot;Failed to connect to the host via ssh: Permission denied (publickey,password).\r\n&quot;, 
+&quot;unreachable&quot;: true
+}
+    
+# vim /etc/ansible/hosts
+172.16.1.7 ansible_ssh_user=root ansible_ssh_pass=123456
+[root@m01 ansible]# ansible 172.16.1.7 -m ping
+172.16.1.7 | SUCCESS =&gt; {
+&quot;changed&quot;: false, 
+&quot;ping&quot;: &quot;pong&quot;
+}
+    
+# 不在hosts文件写入密码实现ansible远程管理
+[root@m01 ansible]# ansible -k 172.16.1.7 -m ping
+SSH password: 
+172.16.1.7 | SUCCESS =&gt; {
+&quot;changed&quot;: false, 
+&quot;ping&quot;: &quot;pong&quot;
+}
+</code></pre>
+
+<h2 id="toc_9">shell模块说明</h2>
+
+<pre><code>[root@m01 ssh]# ansible 172.16.1.31 -m command -a &quot;free -m &gt;/tmp/free.txt&quot;
+172.16.1.31 | SUCCESS | rc=0 &gt;&gt;
+             total       used       free     shared    buffers     cached
+Mem:          1990        348       1642          0         30        180
+-/+ buffers/cache:        138       1852
+Swap:          767          0        767
+
+[root@m01 ssh]# ansible 172.16.1.31 -m command -a &quot;cat /tmp/free.txt&quot;
+172.16.1.31 | FAILED | rc=1 &gt;&gt;
+cat: /tmp/free.txt: No such file or directory
+
+[root@m01 ssh]# ansible 172.16.1.31 -m shell -a &quot;free -m &gt;/tmp/free.txt&quot;
+172.16.1.31 | SUCCESS | rc=0 &gt;&gt;
+
+
+[root@m01 ssh]# ansible 172.16.1.31 -m command -a &quot;cat /tmp/free.txt&quot;
+172.16.1.31 | SUCCESS | rc=0 &gt;&gt;
+             total       used       free     shared    buffers     cached
+Mem:          1990        348       1642          0         30        180
+-/+ buffers/cache:        138       1852
+Swap:          767          0        767
+</code></pre>
+
+<h3 id="toc_10">shell模块和command模块功能类似，但是shell模块可以识别一些特殊符号信息 &gt; &gt;&gt; | * ^</h3>
+
+<blockquote>
+<p><strong>可完全替代Command模块</strong></p>
+</blockquote>
+
+<h3 id="toc_11">通过yum模块安装nmap软件：</h3>
+
+<pre><code>ansible oldboy -m yum -a &quot;name=nmap state=installed&quot;
+</code></pre>
+
+<h3 id="toc_12">通过service模块管理软件服务：</h3>
+
+<pre><code>ansible oldboy -m service -a &quot;name=crond state=stop enabled=no&quot;
+</code></pre>
+
+<h3 id="toc_13">通过file模块设置文件属性信息：</h3>
+
+<pre><code>ansible oldboy -m file -a &quot;src=/etc/hosts dest=/tmp/hosts state=link own=oldboy mode=0600&quot;
+说明：表示批量创建软件
+</code></pre>
+
+<h3 id="toc_14">expect软件介绍</h3>
+
+<pre><code>ssh 连接时
+在文件中定义好：
+yes/no ：yes
+password ： 123456
+</code></pre>
+
+<p>04: ansible基础知识部分补充<br/>
+    1） ansible软件特点：<br/>
+        · 可以实现批量管理<br/>
+        · 可以实现批量部署<br/>
+        · ad-hoc(批量执行命令)---针对临时性的操作<br/>
+          ansible oldboy -m command -a &quot;hostname&quot;   &lt;- 批量执行命令举例<br/>
+        · 编写剧本-脚本(playbook)---针对重复性的操作<br/>
+    2） ansible核心功能：<br/>
+        · pyYAML-----用于ansible编写剧本所使用的语言格式<br/>
+        · paramiko---远程连接与数据传输<br/><br/>
+        · Jinja2-----用于编写ansible的模板信息<br/>
+    ======================================================================================<br/>
+    扩展说明：jinja2模板作用：<br/>
+   【for循环语句jinja模板】<br/>
+    为远程主机生成服务器列表，加入该列表info从192.168.13.201 web01.test.com 到192.168.13.211 web11.test.com 结束，<br/>
+    如果手动添加就很不科学了，这里需要使用jinja2语法的for循环通过模板批量生成对应的配置文件，如下：</p>
+
+<pre><code>ansible目录结构：
+#cd /etc/ansible/roles/test_hosts
+.
+├── meta
+│   └── main.yml
+├── tasks
+│   ├── file1.yml
+│   └── main.yml
+├── templates
+│   └── test1.j2
+└── vars
+    └── main.yml
+
+各个目录下yml文件内容：
+# cat tasks/main.yml 
+- include: file1.yml
+
+# cat tasks/file1.yml 
+- name: ansible jinja2 template for hosts config
+  template: src=test1.j2 dest=/etc/httpd/conf/httpd.conf.test
+
+# cat templates/test1.j2 
+  {% for id in range(201,211) %}
+  192.168.13.{{ id }} web{{ &quot;%02d&quot; |format(id-200) }}.test.com
+  {% endfor %}
+  解释：
+  {{ id }} 提取for循环中对应的变量id值
+  &quot;%02d&quot;   调用的是python内置的字符串格式化输出（%d格式化整数）因为是01,02这种格式，所以是保留2位，故用02
+  然后将结果通过管道符 “|” 传递给format 函数做二次处理。
+
+  执行结果： 
+  #cat httpd.conf.test
+  192.168.13.201 web01.test.com
+  192.168.13.202 web02.test.com
+  192.168.13.203 web03.test.com
+  192.168.13.204 web04.test.com
+  192.168.13.205 web05.test.com
+  192.168.13.206 web06.test.com
+  192.168.13.207 web07.test.com
+  192.168.13.208 web08.test.com
+  192.168.13.209 web09.test.com
+  192.168.13.210 web10.test.com
+  192.168.13.211 web11.test.com
+
+参考资料：http://linuxg.blog.51cto.com/4410110/1788574
+======================================================================================  
+  说明：很多ansible的报错都是和python有关，因为ansible的底层开发是利用python编写的
+</code></pre>
+
+<p>05: ansible扩展模块功能介绍<br/>
+    ①. ansible实现检查被管理服务器端网络连接是否通畅(检查道路是否通畅)<br/>
+        # ansible oldboy -m command -a &quot;hostname&quot;    &lt;-- 最开始检查道路是否通畅方法<br/>
+        # ansible oldboy -m ping                     &lt;-- 专业检查道路是否通畅方法<br/>
+        172.16.1.31 | SUCCESS =&gt; {<br/>
+        &quot;changed&quot;: false, <br/>
+        &quot;ping&quot;: &quot;pong&quot;<br/>
+        }<br/>
+        172.16.1.7 | SUCCESS =&gt; {<br/>
+            &quot;changed&quot;: false, <br/>
+            &quot;ping&quot;: &quot;pong&quot;<br/>
+        }<br/>
+        172.16.1.41 | SUCCESS =&gt; {<br/>
+            &quot;changed&quot;: false, <br/>
+            &quot;ping&quot;: &quot;pong&quot;<br/>
+        }<br/>
+        以上信息不清楚，可以通过利用ansible查看帮助信息方法获取新模块功能说明<br/>
+        # ansible-doc -s ping<br/>
+        - name: Try to connect to host, verify a usable python and return `pong&#39; on success.<br/>
+        action: ping<br/>
+        说明：尝试连接到主机，验证网络连接是否通畅，如果通畅返回pong信息表示成功<br/>
+              激活验证功能，利用ping模块</p>
+
+<pre><code>②. ansible实现定时任务功能执行相应的操作(定时任务) 
+    回顾传统的定时任务为：
+    # crontab -l
+    #time sync by oldboy at 2010-2-1
+    */5 * * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+    说明：日期格式为 分钟:minute，小时:hour，日期:day，月:month，周：weekday  
+          日期格式后面接需要执行的命令或脚本文件
+    获取ansible定时任务模块说明信息：
+    # ansible-doc -s cron
+    - name: Manage cron.d and crontab entries.
+            cron模块主要管理cron.d和crontab条目信息；即实现配置定时任务
+      action: cron    激活定时任务功能，利用cron模块
+          backup                 # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup_file&#39; variable by this module.
+          cron_file              # If specified, uses this file instead of an individual user&#39;s crontab. If this is a relative path, it is interpreted with respect to /etc/cron.d. (If it is absolute, it will
+                                   typically be /etc/crontab). To use the `cron_file&#39; parameter you must specify the `user&#39; as well.
+          day                    # Day of the month the job should run ( 1-31, *, */2, etc )
+                                   运行job任务的日期时间信息(编写方式1-31，*, */2, 等)
+          disabled               # If the job should be disabled (commented out) in the crontab. Only has effect if state=present
+                                   如果job应该关闭(被注释掉)。只能影响状态是开启状态的定时任务条目
+          env                    # If set, manages a crontab&#39;s environment variable. New variables are added on top of crontab. &quot;name&quot; and &quot;value&quot; parameters are the name and the value of environment variable.
+                                   如果设置，管理crontab的环境变量信息。新的环境变量信息会被增加到定时任务表顶部。描述或数值会被环境变得的名称或数值所定义
+          hour                   # Hour when the job should run ( 0-23, *, */2, etc )
+                                   运行job任务的小时时间信息(编写方式0-23，*, */2, 等)
+          insertafter            # Used with `state=present&#39; and `env&#39;. If specified, the environment variable will be inserted after the declaration of specified environment variable.
+          insertbefore           # Used with `state=present&#39; and `env&#39;. If specified, the environment variable will be inserted before the declaration of specified environment variable.
+          job                    # The command to execute or, if env is set, the value of environment variable. Required if state=present.
+                                   执行相应的命令，如果env被设置，将作为环境变量的值，但前提是state=present
+          minute                 # Minute when the job should run ( 0-59, *, */2, etc )
+                                   运行job任务的分钟时间信息(编写方式0-59，*，*/2,等等)
+          month                  # Month of the year the job should run ( 1-12, *, */2, etc )
+                                   运行job任务的月份时间信息(编写方式1-12，*, */2, 等)
+          name                   # Description of a crontab entry or, if env is set, the name of environment variable. Required if state=absent. Note that if name is not set and state=present, then a new crontab
+                                   entry will always be created, regardless of existing ones.
+                                   定时任务条目的描述信息；如果env被设定了，描述信息将为环境变量信息。前提是定时任务状态为关闭状态
+                                   注意：如果名称没有被指定并且定时任务状态为开启，那么新的定时任务将总被创建，不管这个定时任务是否存在
+          reboot                 # If the job should be run at reboot. This option is deprecated. Users should use special_time.
+          special_time           # Special time specification nickname.
+                                   指定时间规格绰号
+          state                  # Whether to ensure the job or environment variable is present or absent.
+                                   确认job或环境变量是开启或是关闭
+          user                   # The specific user whose crontab should be modified.
+                                   指定修改与编写定时任务的用户信息
+          weekday                # Day of the week that the job should run ( 0-6 for Sunday-Saturday, *, etc )
+                                   job任务应该在一周的哪天进行运行(编写方式0-6表示周日到周六，以及用*符号等)
+
+    # ansible 172.16.1.7 -a &quot;crontab -l&quot;                  &lt;- 查看当前被管理服务器定时任务文件信息
+      172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+      #crond-id-001:time sync by hq
+      */5 * * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+
+    参考下面编写的定时任务条目，进行编写ansible定时任务命令
+    # restart network
+    00 00 * * * /etc/init.d/network restart &gt;/dev/null 2&gt;&amp;1
+    # ansible 172.16.1.7 -m cron -a &quot;minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;&quot;
+      172.16.1.7 | SUCCESS =&gt; {
+          &quot;changed&quot;: true, 
+          &quot;envs&quot;: [], 
+          &quot;jobs&quot;: [
+              &quot;None&quot;
+          ]
+      }
+    # ansible 172.16.1.7 -a &quot;crontab -l&quot;
+      172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+      #Ansible: None
+      00 00 * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+
+    如果没有定义定时任务描述信息，每次执行ansible创建定时任务，都会被反复创建
+    # ansible 172.16.1.7 -m cron -a &quot;name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;&quot;
+      172.16.1.7 | SUCCESS =&gt; {
+          &quot;changed&quot;: true, 
+          &quot;envs&quot;: [], 
+          &quot;jobs&quot;: [
+              &quot;None&quot;, 
+              &quot;restart network&quot;
+          ]
+      }
+    # ansible 172.16.1.7 -a &quot;crontab -l&quot;
+      172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+      #Ansible: None
+      00 00 * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+      #Ansible: restart network
+      00 00 * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+
+    利用ansible的模拟检查参数-C，实现模拟检查ansible命令语法格式是否正确，但命令并不会执行产生效果       
+    # ansible 172.16.1.7 -C -m cron -a &quot;name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;&quot;
+      172.16.1.7 | SUCCESS =&gt; {
+          &quot;changed&quot;: false, 
+          &quot;envs&quot;: [], 
+          &quot;jobs&quot;: [
+              &quot;None&quot;, 
+              &quot;restart network&quot;
+          ]
+      }
+
+    删除无用的定时任务信息
+    # ansible 172.16.1.7 -C -m cron -a &quot;name=&#39;None&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39; state=absent&quot;  &lt;- 先进行测试，测试成功后再进行删除
+    # ansible 172.16.1.7  -m cron -a &quot;name=&#39;None&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39; state=absent&quot;
+      172.16.1.7 | SUCCESS =&gt; {
+          &quot;changed&quot;: true, 
+          &quot;envs&quot;: [], 
+          &quot;jobs&quot;: [
+              &quot;restart network&quot;
+          ]
+      }
+    # ansible 172.16.1.7  -m cron -a &quot;name=&#39;None&#39; state=absent&quot;   &lt;- 指定当前任务名称，即可进行删除操作
+
+    临时关闭与开启指定定时任务效果，但不删除定时任务条目
+    # ansible 172.16.1.7 -m cron -a &quot;name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39; disabled=yes&quot;
+      172.16.1.7 | SUCCESS =&gt; {
+          &quot;changed&quot;: true, 
+          &quot;envs&quot;: [], 
+          &quot;jobs&quot;: [
+              &quot;restart network&quot;
+          ]
+      }
+      [root@m01 ~]# ansible 172.16.1.7 -a &quot;crontab -l&quot;
+      172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+      #Ansible: restart network
+      #00 00 * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+
+    # ansible 172.16.1.7 -m cron -a &quot;name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39; disabled=no&quot;
+      172.16.1.7 | SUCCESS =&gt; {
+          &quot;changed&quot;: true, 
+          &quot;envs&quot;: [], 
+          &quot;jobs&quot;: [
+              &quot;restart network&quot;
+          ]
+      }
+      [root@m01 ~]# ansible 172.16.1.7 -a &quot;crontab -l&quot;
+      172.16.1.7 | SUCCESS | rc=0 &gt;&gt;
+      #Ansible: restart network
+      00 00 * * * /usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1
+
+
+      cron模块总结：
+      01：对定时任务的状态进行注释时，-a后面信息，一定要包含定时任务的name信息以及job信息
+      02：如果没有定义定时任务描述信息，每次执行ansible创建定时任务，都会被反复创建
+      03：利用ansible的模拟检查参数-C，实现模拟检查ansible命令语法格式是否正确，但命令并不会执行产生效果
+      04：指定当前任务名称，即可进行删除操作
+</code></pre>
+
+<p>06: ansible重要模块功能总结<br/><br/>
+    command （重要模块）  执行命令模块，ansible命令执行默认模块<br/>
+    shell   （重要模块）  执行shell脚本模块<br/>
+    script  （重要模块）  把脚本发到客户端，然后执行；执行脚本命令在远端服务器上<br/>
+    copy    （重要模块）  把本地文件发送到远端</p>
+
+<p>07: ansible剧本编写规则说明<br/>
+    pyYAML语法规则：<br/>
+    规则一：缩进<br/>
+    yaml使用一个固定的缩进风格表示数据层结构关系，Saltstack需要每个缩进级别由两个空格组成。一定不能使用tab键<br/>
+    规则二：冒号<br/>
+    CMD=&quot;echo&quot;<br/>
+    yaml:<br/>
+    mykey:<br/>
+    每个冒号后面一定要有一个空格（以冒号结尾不需要空格，表示文件路径的模版可以不需要空格）<br/>
+    规则三：短横线<br/>
+    想要表示列表项，使用一个短横杠加一个空格。多个项使用同样的缩进级别作为同一个列表的一部分<br/>
+    核心规则：有效的利用空格进行剧本的编写，剧本编写是不支持tab的</p>
+
+<pre><code>---
+### 剧本的开头，可以不写
+- hosts: all         &lt;- 处理所有服务器，找到所有服务器;  -(空格)hosts:(空格)all
+  task:              &lt;- 剧本所要干的事情;                (空格)(空格)task:
+    - command: echo hello oldboy linux.                  (空格)(空格)空格)(空格)-(空格)模块名称:(空格)模块中对应的功能
+
+剧本编写内容扩展：剧本任务定义名称
+- hosts: 172.16.1.7  &lt;- 处理指定服务器                   -(空格)hosts:(空格)all
+  task:                &lt;- 剧本所要干的事情;                (空格)(空格)task:
+    - name: 
+      command: echo hello oldboy linux.                  (空格)(空格)空格)(空格)-(空格)模块名称:(空格)模块中对应的功能
+
+剧本编写内容扩展：剧本任务编写定时任务
+# ansible all -m cron -a &quot;name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;&quot;
+- hosts: all
+  tasks:
+    - name: restart-network
+      cron: name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;
+# ansible-playbook -C /etc/ansible/network-restart.yml  -vvvx
+说明：测试剧本命令后面可以跟多个-v进行调试检查
+
+剧本编写内容扩展：剧本任务编写多个任务
+- hosts: all
+  tasks:
+    - name: restart-network
+      cron: name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;
+    - name: sync time
+      cron: name=&#39;sync time&#39; minute=*/5 job=&quot;/usr/sbin/ntpdate pool.ntp.com &gt;/dev/null 2&gt;&amp;1&quot;
+
+
+剧本编写内容扩展：剧本任务编写多个主机
+- hosts: 172.16.1.7
+  tasks:
+    - name: restart-network
+      cron: name=&#39;restart network&#39; minute=00 hour=00 job=&#39;/usr/sbin/ntpdate time.nist.gov &gt;/dev/null 2&gt;&amp;1&#39;
+    - name: sync time
+      cron: name=&#39;sync time&#39; minute=*/5 job=&quot;/usr/sbin/ntpdate pool.ntp.com &gt;/dev/null 2&gt;&amp;1&quot;
+- hosts: 172.16.1.31
+  tasks:
+    - name: show ip addr to file
+      shell: echo $(hostname -i) &gt;&gt; /tmp/ip.txt
+**************************************************************************************
+扩展知识说明：vim编辑器使用说明
+01：复制当前行到最后一行的内容，然后粘贴到最后一行的后面
+    :/172.16.1.31/,$copy$
+    :.,$copy$
+**************************************************************************************
+
+剧本编写方式
+01 多主机单任务编写方式
+02 多主机多任务编写方式
+03 单主机多任务编写方式
+</code></pre>
+
+<p>08: ansible剧本编写总结说明<br/>
+    找什么服务器，让服务器干写什么<br/>
+    多使用检查命令-C</p>
+
+<p>09：课后作业：<br/>
+    ①. 请总结一下mount模块是否存在，mount模块如何使用<br/>
+    ②. 利用ansible安装rsync服务器<br/>
+    ③. 利用ansible安装nfs服务器<br/>
+    ④. 利用ansible配置sersync数据同步</p>
+
+<h1 id="toc_15">附录01：pssh命令使用扩展</h1>
+
+<p>原文：<a href="http://liang3391.blog.51cto.com/178205/732100">http://liang3391.blog.51cto.com/178205/732100</a><br/>
+参考：<a href="http://www.ibm.com/developerworks/cn/aix/library/au-spunix_remoteserver/index.html">http://www.ibm.com/developerworks/cn/aix/library/au-spunix_remoteserver/index.html</a></p>
+
+<p>01：pssh命令使用场景说明<br/>
+    假如同时给上千台服务器执行一个命令,拷贝一个文件,杀一个进程等,有什么简化运维管理的工具呢?<br/>
+    在小型企业中通常使用for循环,但是数量巨大时：<br/>
+    · 一方面不确定操作是否成功一方面不确定操作是否成功<br/>
+    · 一方面for循环语句性能不好估计且是不是同步并行执行。<br/>
+    因此需要使用批量并行执行的命令，这类工具比如 pdsh，mussh，cssh，dsh等还有下面说明提到的pssh</p>
+
+<p>02：pssh软件安装部署方式 <br/>
+    ①. 通过yum安装pssh软件<br/>
+        yum install -y pssh    &lt;- pssh软件下载需要依靠epel源<br/>
+        说明：pssh是一个软件大礼包，里面有很多软件命令<br/>
+        # rpm -ql pssh<br/>
+        /usr/bin/pnuke<br/>
+        /usr/bin/prsync<br/>
+        /usr/bin/pscp.pssh<br/>
+        /usr/bin/pslurp<br/>
+        /usr/bin/pssh<br/>
+        ....省略部分信息....<br/>
+    ①. 通过编译方式安装pssh软件<br/>
+        wget <a href="http://peak.telecommunity.com/dist/ez_setup.py">http://peak.telecommunity.com/dist/ez_setup.py</a><br/>
+        python ez_setup.py<br/>
+        wget <a href="http://parallel-ssh.googlecode.com/files/pssh-2.2.2.tar.gz">http://parallel-ssh.googlecode.com/files/pssh-2.2.2.tar.gz</a><br/>
+        tar zxvf pssh-2.2.2.tar.gz<br/>
+        cd pssh-2.2.2<br/>
+        python setup.py install</p>
+
+<p>03：pssh软件使用操作说明(ssh key认证密钥配置完毕)<br/>
+    pssh工具包主要有5个程序:<br/>
+    ①. pssh  多主机并行运行命令<br/>
+        [root@server pssh-2.2.2]# vim hosts_info.txt<br/>
+        172.16.1.31:22<br/>
+        172.16.1.41:22<br/>
+        172.16.1.7:22             //注意我的端口号不仅是默认的22        </p>
+
+<pre><code>    [root@m01 tmp]# pssh -P -h /tmp/hosts_info.txt uptime
+    172.16.1.31:  00:05:58 up 3 days, 18:34,  2 users,  load average: 0.00, 0.01, 0.05
+    [1] 00:05:58 [SUCCESS] 172.16.1.31:22
+    172.16.1.41:  00:05:58 up 9 days, 22:39,  2 users,  load average: 0.00, 0.01, 0.05
+    [2] 00:05:58 [SUCCESS] 172.16.1.41:22
+    172.16.1.7:  00:05:58 up 9 days, 22:39,  2 users,  load average: 0.00, 0.01, 0.05
+    [3] 00:05:58 [SUCCESS] 172.16.1.41:22        
+    说明：如果想将执行命令的批量输出信息重定向到一个文件 加-o 目录 选项
+          -h HOST_FILE,  --hosts=HOST_FILE       hosts file (each line &quot;[user@]host[:port]&quot;)
+          -o OUTDIR,     --outdir=OUTDIR         output directory for stdout files (OPTIONAL)
+          -P,            --print                 print output as we get it
+
+②. pscp  把文件并行地复制到多个主机上
+    注意 是从服务器端给客户端传送文件:
+    [root@server pssh-2.2.2]# pscp -h test.txt /etc/sysconfig/network /tmp/network   
+    //标示将本地的/etc/sysconfig/network传到目标服务器的/tmp/network
+
+③. prsync 使用rsync协议从本地计算机同步到远程主机
+    [root@server ~]# pssh -h test.txt -P mkdir /tmp/etc
+    [root@server ~]# prsync -h test.txt -l dongwm -a -r /etc/sysconfig /tmp/etc 
+    //标示将本地的/etc/sysconfig目录递归同步到目标服务器的 /tmp/etc目录下,并保持原来的时间戳,使用用户 dongwm
+
+④. pslurp 将文件从远程主机复制到本地,和pscp方向相反:
+    [root@server ~]# pslurp -h test.txt   -L /tmp/test -l root /tmp/network test  
+    //标示将目标服务器的/tmp/network文件复制到本地的/tmp/test目录下,并更名为test
+    [1] 14:53:54 [SUCCESS] 192.168.9.102 9922
+    [2] 14:53:54 [SUCCESS] 192.168.9.104 9922
+    [root@server ~]# ll /tmp/test/192.168.9.10
+    192.168.9.102/ 192.168.9.104/
+    [root@server ~]# ll /tmp/test/192.168.9.102/
+    总计 4.0K
+    -rw-r--r-- 1 root root 60 2011-04-22 14:53 test
+    [root@server ~]# ll /tmp/test/192.168.9.104/
+    总计 4.0K
+    -rw-r--r-- 1 root root 60 2011-04-22 14:53 test
+
+⑤. pnuke 并行在远程主机杀进程:
+    [root@server ~]# pnuke -h test.txt  syslog 
+    //杀死目标服务器的syslog进程,只要ps进程中出现相关词语 都能杀死
+    [1] 15:05:14 [SUCCESS] 192.168.9.102 9922
+    [2] 15:05:14 [SUCCESS] 192.168.9.104 9922
+</code></pre>
+
+<h1 id="toc_16"></h1>
+
+<p>常见问题一：<br/><br/>
+[root@m01 ~]# ansible  -k 172.16.1.51 -m ping<br/><br/>
+SSH password: <br/>
+[WARNING]: No hosts matched, nothing to do<br/>
+原因分析：<br/>
+在ansible的hosts文件中，没有配置相应主机地址信息</p>
+
+<p>常见问题二：        </p>
+
+<h1 id="toc_17">ansible -k 172.16.1.51 -m ping</h1>
+
+<p>SSH password: <br/>
+172.16.1.51|FAILED! =&gt; {<br/>
+&quot;failed&quot;: true, <br/>
+&quot;msg&quot;: &quot;Using a SSH password instead of a key is not possible because Host Key checking is enabled and sshpass does not support this.  Please add this host&#39;s fingerprint to your known_hosts file to manage this host.&quot;<br/>
+}<br/>
+原因分析：<br/>
+因为没有受控端的指纹信息，在known_hosts文件中    </p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

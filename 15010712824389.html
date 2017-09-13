@@ -1,0 +1,484 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	一、计算机系统硬件核心知识 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">一、计算机系统硬件核心知识</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">1. 硬件</a>
+<ul>
+<li>
+<a href="#toc_1">a. 优化硬盘是运维人员的最重要的手段之一</a>
+<ul>
+<li>
+<a href="#toc_2">i. 机械硬盘</a>
+<ul>
+<li>
+<a href="#toc_3">1. IDE</a>
+</li>
+<li>
+<a href="#toc_4">2. SCSI</a>
+</li>
+<li>
+<a href="#toc_5">3. SAS</a>
+</li>
+<li>
+<a href="#toc_6">4. SATA</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_7">ii. 固态硬盘(电子器械)</a>
+<ul>
+<li>
+<a href="#toc_8">1. SSD</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_9">b. 优化时尽量不用硬盘,不找硬盘</a>
+</li>
+<li>
+<a href="#toc_10">c. 我们在做运维工程师的时候,我们会尽量做优化,让所有的数据都放到内存里面,在给用户提供服务</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">2. 运维职责</a>
+<ul>
+<li>
+<a href="#toc_12"><mark>a. 网站不当机</mark></a>
+</li>
+<li>
+<a href="#toc_13"><mark>b. 数据不能丢</mark></a>
+</li>
+<li>
+<a href="#toc_14"><mark>c. 用户体验尽量好——加快访问速度</mark></a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">3. 服务器</a>
+<ul>
+<li>
+<a href="#toc_16">a. 服务器体型</a>
+<ul>
+<li>
+<a href="#toc_17">i. 长度与宽度统一</a>
+</li>
+<li>
+<a href="#toc_18">ii. 高度单位为U（1U = 4.45cm）</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_19">b. 服务器分类</a>
+<ul>
+<li>
+<a href="#toc_20">i. 机架式服务器（最常用的服务器）</a>
+</li>
+<li>
+<a href="#toc_21">ii. 刀片式服务器</a>
+</li>
+<li>
+<a href="#toc_22">iii. 塔式服务器</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_23">4. 互联网公司常见服务器介绍</a>
+<ul>
+<li>
+<a href="#toc_24">a. 互联网公司常见服务器品牌</a>
+<ul>
+<li>
+<a href="#toc_25"><mark>i. Dell服务器（大果蔬公司，常用）</mark></a>
+</li>
+<li>
+<a href="#toc_26">ii. IBM服务器（土豪专用，如百度）</a>
+</li>
+<li>
+<a href="#toc_27">iii. HP服务器</a>
+</li>
+<li>
+<a href="#toc_28">iv. 浪潮</a>
+</li>
+<li>
+<a href="#toc_29">v. 联想</a>
+</li>
+<li>
+<a href="#toc_30">vi. 航天联志</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_31">b. Dell服务器的常用型号</a>
+</li>
+<li>
+<a href="#toc_32">c. 电脑和服务器的主要构成与主要零部件</a>
+<ul>
+<li>
+<a href="#toc_33">i. 电源</a>
+<ul>
+<li>
+<a href="#toc_34">1. 重要服务器可上AB路双电源</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_35">ii. CPU处理器</a>
+</li>
+<li>
+<a href="#toc_36">iii. 内存</a>
+<ul>
+<li>
+<a href="#toc_37">1. 临时存储器——断电后数据消失</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_38">d. 企业案例：</a>
+<ul>
+<li>
+<a href="#toc_39">i. 磁盘</a>
+<ul>
+<li>
+<a href="#toc_40">1. 高并发写入——应把数据优先写入到内存，积累一定的量或时间后，再定时或定量的写入到磁盘（减轻磁盘压力，减少磁盘IO（Input/Output）磁盘读写），最终还是会把数据加载到内存中再对外提供访问。</a>
+<ul>
+<li>
+<a href="#toc_41">1、在服务器主板安装蓄电池，能在断电瞬间把内存数据回写到磁盘</a>
+</li>
+<li>
+<a href="#toc_42">2、配备UPS（一组蓄电池）不间断电源（可以持续供电10分钟到1小时左右）。</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_43">2. 中小企业案例——高并发读取时，应先通过程序把数据读入到内存里，再对外提供访问服务</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_44">ii. 内存</a>
+</li>
+<li>
+<a href="#toc_45">iii. 小结</a>
+</li>
+<li>
+<a href="#toc_46">iv. Dell阵列卡（raid卡）</a>
+</li>
+<li>
+<a href="#toc_47">v. 光驱</a>
+</li>
+<li>
+<a href="#toc_48">vi. 主板</a>
+</li>
+<li>
+<a href="#toc_49">vii. 机房机柜里的服务器摆放</a>
+</li>
+<li>
+<a href="#toc_50">viii. 远程管理卡</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="toc_0">1. 硬件</h2>
+
+<h3 id="toc_1">a. 优化硬盘是运维人员的最重要的手段之一</h3>
+
+<h4 id="toc_2">i. 机械硬盘</h4>
+
+<h5 id="toc_3">1. IDE</h5>
+
+<h5 id="toc_4">2. SCSI</h5>
+
+<h5 id="toc_5">3. SAS</h5>
+
+<h5 id="toc_6">4. SATA</h5>
+
+<h4 id="toc_7">ii. 固态硬盘(电子器械)</h4>
+
+<h5 id="toc_8">1. SSD</h5>
+
+<h3 id="toc_9">b. 优化时尽量不用硬盘,不找硬盘</h3>
+
+<h3 id="toc_10">c. 我们在做运维工程师的时候,我们会尽量做优化,让所有的数据都放到内存里面,在给用户提供服务</h3>
+
+<p><img src="media/15010712824389/15010716729571.jpg" alt=""/></p>
+
+<h2 id="toc_11">2. 运维职责</h2>
+
+<h3 id="toc_12"><mark>a. 网站不当机</mark></h3>
+
+<h3 id="toc_13"><mark>b. 数据不能丢</mark></h3>
+
+<h3 id="toc_14"><mark>c. 用户体验尽量好——加快访问速度</mark></h3>
+
+<h2 id="toc_15">3. 服务器</h2>
+
+<h3 id="toc_16">a. 服务器体型</h3>
+
+<h4 id="toc_17">i. 长度与宽度统一</h4>
+
+<p><img src="media/15010712824389/15010720947200.jpg" alt=""/></p>
+
+<h4 id="toc_18">ii. 高度单位为U（1U = 4.45cm）</h4>
+
+<h3 id="toc_19">b. 服务器分类</h3>
+
+<h4 id="toc_20">i. 机架式服务器（最常用的服务器）</h4>
+
+<p><img src="media/15010712824389/15010721110149.jpg" alt=""/><br/>
+默认放在尺寸为19英寸机柜里面</p>
+
+<h4 id="toc_21">ii. 刀片式服务器</h4>
+
+<p><img src="media/15010712824389/15010721370207.jpg" alt=""/></p>
+
+<h4 id="toc_22">iii. 塔式服务器</h4>
+
+<p><img src="media/15010712824389/15010721429180.jpg" alt=""/></p>
+
+<h2 id="toc_23">4. 互联网公司常见服务器介绍</h2>
+
+<h3 id="toc_24">a. 互联网公司常见服务器品牌</h3>
+
+<h4 id="toc_25"><mark>i. Dell服务器（大果蔬公司，常用）</mark></h4>
+
+<h4 id="toc_26">ii. IBM服务器（土豪专用，如百度）</h4>
+
+<h4 id="toc_27">iii. HP服务器</h4>
+
+<h4 id="toc_28">iv. 浪潮</h4>
+
+<h4 id="toc_29">v. 联想</h4>
+
+<h4 id="toc_30">vi. 航天联志</h4>
+
+<h3 id="toc_31">b. Dell服务器的常用型号</h3>
+
+<p><img src="media/15010712824389/15010721720634.jpg" alt=""/></p>
+
+<p><a href="http://china.dell.com/cn/business/p/servers">Dell 服务器官网：</a><br/>
+去IOE运动————IBM        Oracle        Emc</p>
+
+<h3 id="toc_32">c. 电脑和服务器的主要构成与主要零部件</h3>
+
+<p><img src="media/15010712824389/15010721811444.jpg" alt=""/></p>
+
+<h4 id="toc_33">i. 电源</h4>
+
+<h5 id="toc_34">1. 重要服务器可上AB路双电源</h5>
+
+<h4 id="toc_35">ii. CPU处理器</h4>
+
+<h4 id="toc_36">iii. 内存</h4>
+
+<h5 id="toc_37">1. 临时存储器——断电后数据消失</h5>
+
+<p>程序——在磁盘中的静态文件<br/>
+进程——在内存中运行的文件<br/>
+守护进程（daemon）——持续保持运行的程序</p>
+
+<h3 id="toc_38">d. 企业案例：</h3>
+
+<p>——提升用户体验的网站解决方案</p>
+
+<h4 id="toc_39">i. 磁盘</h4>
+
+<h5 id="toc_40">1. 高并发写入——应把数据优先写入到内存，积累一定的量或时间后，再定时或定量的写入到磁盘（减轻磁盘压力，减少磁盘IO（Input/Output）磁盘读写），最终还是会把数据加载到内存中再对外提供访问。</h5>
+
+<p>优点：写数据到内存，性能高速度快（微博，微信，秒杀）<br/>
+缺点：肯能会丢失一部分在内存中还没有来得及存入磁盘的数据<br/>
+解决方法：</p>
+
+<h6 id="toc_41">1、在服务器主板安装蓄电池，能在断电瞬间把内存数据回写到磁盘</h6>
+
+<h6 id="toc_42">2、配备UPS（一组蓄电池）不间断电源（可以持续供电10分钟到1小时左右）。</h6>
+
+<p>UPS（UNinterruptible Power System）</p>
+
+<h5 id="toc_43">2. 中小企业案例——高并发读取时，应先通过程序把数据读入到内存里，再对外提供访问服务</h5>
+
+<p>网站优化核心  就是想办法把数据放入内存提供服务，或者让用户写数据到内存<br/>
+（尽量让用户直接对接内存，减少对接磁盘概率）<br/>
+这里提到的内存和磁盘，是由多台机器组成的集群架构环境<br/>
+memcahced（纯内存）/redis（内存加磁盘）。</p>
+
+<h4 id="toc_44">ii. 内存</h4>
+
+<p>buffer——存储写入内存数据的空间称为缓冲区（buffer），写入到内存缓冲区<br/>
+cache——存储读取内存数据的空间称为缓存区（cache），从内存读取缓存</p>
+
+<p>由于99%的网站都是以读取为主，写入为辅，读写比例至少10:1，所以并发写入一般不是问题</p>
+
+<p>了解: memcached / redis <br/>
+U 盘安装系统，网络安装（ ftp,http），无人值守批量安装系统（ pxe+kickstart）。<br/>
+参考文档：<br/>
+<a href="http://blog.oldboyedu.com/autoinstall-kickstart">KICKSTART无人值守安装</a><br/>
+<a href="http://blog.oldboyedu.com/autoinstall-cobbler">COBBLER无人值守安装</a></p>
+
+<h4 id="toc_45">iii. 小结</h4>
+
+<h4 id="toc_46">iv. Dell阵列卡（raid卡）</h4>
+
+<h4 id="toc_47">v. 光驱</h4>
+
+<h4 id="toc_48">vi. 主板</h4>
+
+<h4 id="toc_49">vii. 机房机柜里的服务器摆放</h4>
+
+<h4 id="toc_50">viii. 远程管理卡</h4>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

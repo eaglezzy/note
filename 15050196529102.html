@@ -1,0 +1,359 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卌一、CentOS 7 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卌一、CentOS 7</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li>回顾kickstart和cobbler</li>
+</ol>
+
+<p>在管理机m01安装kickstart服务端，然后用服务端自动安装了一个新的CentOS系统，然后给这个Vmware虚拟机起了个名字叫cobbler。到此，kickstart课程结束。</p>
+
+<p>第二天，需要安装cobbler服务器，顺便用了昨天我们安装的机器，安装完cobbler服务端，我们又安装一台新系统。</p>
+
+<p>cobbler二大功能：自动安装系统、创建yum仓库</p>
+
+<p>CentOS7 TFTP启动<br/>
+systemctl start tftp.socket<br/>
+systemctl start tftp.server</p>
+
+<ol>
+<li><p>开机启动流程</p>
+
+<blockquote>
+<p>init系统：Shell脚本执行的特色：串行执行，从上往下执行<br/>
+upstart系统：有依赖的关系的依然串行启动，但是没有依赖关系的就并行启动  initctl start onealert<br/>
+systemd：基本上所有服务并行启动</p>
+</blockquote></li>
+<li><p>三种启动技术对比<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/52142850.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/99741039.jpg" alt=""/></p>
+
+<blockquote>
+<p>并发启动原理之一：解决 socket 依赖/端口依赖<br/>
+并发启动原理之二：解决 D-Bus 依赖：采用了D-Bus作为程序之间的通信工具，类似消息队列，可以缓存信息。<br/>
+并发启动原理之三：解决文件系统依赖：类似autofs机制<br/>
+不用的时候就不挂载，用的时候帮你执行mount挂载<br/>
+centos7没有按照autofs软件，但是底层实现相同功能<br/>
+启动过程：磁盘自检--文件系统自检--挂载<br/>
+除了/分区是必须用的，centos7只对开机必须的文件系统进行检查然后挂载。其他非必须分区，用的时候在检查挂载</p>
+</blockquote></li>
+<li><p>文件系统</p>
+
+<blockquote>
+<p>ext2/ext3/ext4  1PB=1024T 1T=1024G<br/>
+xfs:专门为大数据设计的系统  格式化成xfs特别快<br/>
+LVM的优点：动态增加或减少分区大小，但是会消耗一定的性能</p>
+</blockquote></li>
+<li><p>CentOS7新增功能</p>
+
+<ol>
+<li><p>yum源无需优化了，因此采用mirrorlist功能，自动找到最优的yum仓库</p>
+
+<p>安装vim：</p>
+
+<pre><code>yum -y install vim
+</code></pre>
+
+<p>tab补全：</p>
+
+<pre><code>yum install -y bash-completion
+</code></pre></li>
+<li><p>网卡名称修改</p>
+
+<p>修改内核选项，net.ifnames=0 biosdevname=0</p>
+
+<p>已经安装完系统修改<br/>
+<a href="http://oldboy.blog.51cto.com/2561410/1722101">http://oldboy.blog.51cto.com/2561410/1722101</a></p></li>
+<li><p>网络管理命令</p>
+
+<p>传统派：ifconfig netstat route   yum -y install net-tools  rpm -ql net-tools<br/>
+新星派：ip ss                    yum -y install iproute</p>
+
+<p>新一代的网络管理图形工具：nmtui   (network manager text user interface)</p></li>
+<li><p>主机名等配置文件</p>
+
+<p>4.1 主机名配置文件</p>
+
+<blockquote>
+<p>CentOS6--&gt; /etc/sysconfig/network<br/>
+CentOS7--&gt; /etc/hostname</p>
+</blockquote>
+
+<p>CentOS6--&gt; 临时改hostname 主机名  + 永久改 改配置文件<br/>
+CentOS7--&gt; hostnamectl</p>
+
+<pre><code>[root@CentOS7 ~]# hostnamectl status
+   Static hostname: CentOS7
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 506a64e53f764d36bc96a5321abbf965
+           Boot ID: 2944378099d34f43a01c8052ee537bbd
+    Virtualization: vmware
+  Operating System: CentOS Linux 7 (Core)
+       CPE OS Name: cpe:/o:centos:centos:7
+            Kernel: Linux 3.10.0-327.el7.x86_64
+      Architecture: x86-64
+
+[root@CentOS7 ~]# hostnamectl set-hostname oldboyedu
+[root@oldboyedu ~]# cat /etc/hostname 
+oldboyedu
+</code></pre>
+
+<p>4.2 字符集的配置文件</p>
+
+<blockquote>
+<p>CentOS6--&gt; /etc/sysconfig/i18n<br/>
+CentOS7--&gt; /etc/locale.conf</p>
+</blockquote>
+
+<pre><code>[root@oldboyedu ~]# cat /etc/locale.conf 
+LANG=zh_CN.UTF-8
+[root@oldboyedu ~]# localectl status
+   System Locale: LANG=zh_CN.UTF-8
+       VC Keymap: us
+      X11 Layout: us
+[root@oldboyedu ~]# localectl list-locales 
+aa_DJ
+aa_DJ.iso88591
+aa_DJ.utf8
+…………
+
+[root@oldboyedu ~]# localectl set-locale LANG=en_US.UTF-8
+[root@oldboyedu ~]# localectl status
+   System Locale: LANG=en_US.UTF-8
+       VC Keymap: us
+      X11 Layout: us
+[root@oldboyedu ~]# cat /etc/locale.conf 
+LANG=en_US.UTF-8
+</code></pre>
+
+<p>4.3  系统时间事情</p>
+
+<pre><code>[root@oldboyedu ~]# timedatectl --help
+timedatectl [OPTIONS...] COMMAND ...
+
+Query or change system time and date settings.
+
+[root@oldboyedu ~]# ll -h /etc/localtime
+lrwxrwxrwx. 1 root root 35 4月  21 20:02 /etc/localtime -&gt; ../usr/share/zoneinfo/Asia/Shanghai
+</code></pre>
+
+<p>4.4 rc.local</p>
+
+<blockquote>
+<p>使用CentOS 6 shell脚本开机启动的方法</p>
+
+<pre><code>chmod +x /etc/rc.d/rc.local
+</code></pre>
+</blockquote>
+
+<p>4.5 运行级别</p>
+
+<pre><code>[root@oldboyedu ~]# systemctl get-default
+graphical.target
+[root@oldboyedu ~]# systemctl set-default multi-user.target
+Removed symlink /etc/systemd/system/default.target.
+Created symlink from /etc/systemd/system/default.target to /usr/lib/systemd/system/multi-user.target.
+[root@oldboyedu ~]# systemctl get-default
+multi-user.target
+[root@oldboyedu ~]# systemctl set-default graphical.target
+Removed symlink /etc/systemd/system/default.target.
+Created symlink from /etc/systemd/system/default.target to /usr/lib/systemd/system/graphical.target.
+</code></pre>
+
+<p>4.6 systemd一统天下</p>
+
+<blockquote>
+<p>看看从前的runlevel都变成什么样了？</p>
+
+<pre><code>ls -lh /usr/lib/systemd/system/runlevel*.target
+</code></pre>
+</blockquote>
+
+<blockquote>
+<p>所有可用的单元文件存放在/usr/lib/systemd/system/和/etc/systemd/system/目录（后者优先级更高）。</p>
+
+<pre><code>ll -h /etc/systemd/system/default.target
+</code></pre>
+</blockquote>
+
+<blockquote>
+<p>区别6：管理服务<br/>
+chkconfig：管理开机自启动<br/>
+service  ：服务的开启<br/>
+/etc/init.d/：服务的开启</p>
+</blockquote>
+
+<blockquote>
+<p>systemctl:融合service和chkconfig的功能于一体,兼容SysV和LSB的启动脚本，而且够在进程启动过程中更有效地引导加载服务。。</p>
+
+<p>启动时间优化</p>
+
+<pre><code>systemd-analyze time
+systemd-analyze blame
+systemd-analyze plot &gt; bootime.svg
+</code></pre>
+</blockquote></li>
+</ol>
+
+<p>学习文档（中文）：<br/>
+<a href="http://www.jinbuguo.com/systemd/systemd.service.html">http://www.jinbuguo.com/systemd/systemd.service.html</a><br/>
+<a href="https://access.redhat.com/documentation/zh-CN/Red_Hat_Enterprise_Linux/7/index.html">https://access.redhat.com/documentation/zh-CN/Red_Hat_Enterprise_Linux/7/index.html</a></p></li>
+<li><p>服务<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/13610704.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/38773206.jpg" alt=""/></p></li>
+</ol>
+
+<blockquote>
+<h1 id="toc_0">今日总结</h1>
+
+<ol>
+<li>安装系统</li>
+<li>复习centos7新功能</li>
+<li>熟练掌握centos7命令</li>
+</ol>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

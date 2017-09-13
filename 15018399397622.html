@@ -1,0 +1,505 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	十、用户管理 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">十、用户管理</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">用户分类</a>
+<ul>
+<li>
+<a href="#toc_1">用户相关的配置文件</a>
+<ul>
+<li>
+<a href="#toc_2">/etc/passwd(用户信息)</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_3">/etc/shadow(用户密码信息)</a>
+<ul>
+<li>
+<a href="#toc_4">/etc/group(用户组信息)</a>
+</li>
+<li>
+<a href="#toc_5">/etc/gshadow(用户组密码信息)</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_6">与用户相关的目录和文件</a>
+<ul>
+<li>
+<a href="#toc_7">/etc/skel</a>
+</li>
+<li>
+<a href="#toc_8">.*极度危险</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_9">用户管理的命令</a>
+<ul>
+<li>
+<a href="#toc_10">用户相关命令</a>
+<ul>
+<li>
+<a href="#toc_11">useradd</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_12">userdel</a>
+<ul>
+<li>
+<a href="#toc_13">usermod</a>
+</li>
+<li>
+<a href="#toc_14">passwd</a>
+</li>
+<li>
+<a href="#toc_15">企业场景:用户及密码管理</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_16">用户组相关</a>
+<ul>
+<li>
+<a href="#toc_17">groupadd</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_18">用户查询命令</a>
+<ul>
+<li>
+<a href="#toc_19">id</a>
+</li>
+<li>
+<a href="#toc_20">w</a>
+</li>
+<li>
+<a href="#toc_21">last</a>
+</li>
+<li>
+<a href="#toc_22">lastlog</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_23">sudo临时让用户获得root权限</a>
+<ul>
+<li>
+<a href="#toc_24">是什么?</a>
+</li>
+<li>
+<a href="#toc_25">怎么用</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_26">记录用户的操作 作为/日志审计</a>
+</li>
+</ul>
+
+
+<h1 id="toc_0">用户分类</h1>
+
+<blockquote>
+<p>root  UID:0   皇帝<br/>
+虚拟用户  UID:1-499   傀儡</p>
+
+<blockquote>
+<p>每个程序、服务运行的时候都需要一个用户<br/>
+傀儡用户不需要用来登录系统<br/>
+普通用户  UID:500+</p>
+</blockquote>
+</blockquote>
+
+<h2 id="toc_1">用户相关的配置文件</h2>
+
+<h3 id="toc_2">/etc/passwd(用户信息)</h3>
+
+<pre><code>[root@worksation-lianxi ~]# head -1 /etc/passwd
+/etc/passwd
+root:x:0:0:root:/root:/bin/bash
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">root</th>
+<th style="text-align: center">x</th>
+<th style="text-align: center">0</th>
+<th style="text-align: center">0</th>
+<th style="text-align: center">root</th>
+<th style="text-align: center">/root</th>
+<th style="text-align: center">/bin/bash</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">用户</td>
+<td style="text-align: center">密码</td>
+<td style="text-align: center">UID</td>
+<td style="text-align: center">GID</td>
+<td style="text-align: center">说明</td>
+<td style="text-align: center">家目录</td>
+<td style="text-align: center">命令解释器</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">字段名称</th>
+<th style="text-align: left">注释说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">账号名称</td>
+<td style="text-align: left">和用户UID对应,这是用户登录时使用的账号名称,在系统中时唯一的,不能重名.</td>
+</tr>
+<tr>
+<td style="text-align: left">账号密码</td>
+<td style="text-align: left">早起的Linux系统中,盖子段是存放账号密码的,由于安全原因后来把这个密码字段内容移到/etc/shadow 中了,这里可以看到一个字母X,表示该用户的密码实在/etc/shadow文件中保护着</td>
+</tr>
+<tr>
+<td style="text-align: left">账号UID</td>
+<td style="text-align: left">账号UID一般是有一个数字表示的,范围是0-65535 有关UID的限制请看本表格下面的表格</td>
+</tr>
+<tr>
+<td style="text-align: left">账号GID</td>
+<td style="text-align: left">账号GID一般也是有一个数字表示的,范围也是0-65535,添加账户是,默认情况下会同时建立一个与用户组同名且UID和GID相同的组</td>
+</tr>
+<tr>
+<td style="text-align: left">用户说明</td>
+<td style="text-align: left">这个字段是对账号的描述说明</td>
+</tr>
+<tr>
+<td style="text-align: left">用户家目录</td>
+<td style="text-align: left">用户登录后首先进入的目录,一般为&quot;/home/用户名&quot;这样的目录</td>
+</tr>
+<tr>
+<td style="text-align: left">shell</td>
+<td style="text-align: left">当前用户登录后所使用的shell,在centos/rhel等Linux系统中,默认的shell为bash,就是在这里设置的,如果通过usermod或者手工修改passwd配置,将改字段改为/sbin/nologin 即可,如果你仔细看PASSWD文件,会发现大部分内置系统的虚拟找好这个字段都是/dbin/nologin,表示禁止登录,这是出于安全的考虑</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>[root@worksation-lianxi ~]# echo $SHELL
+/bin/bash
+[root@worksation-lianxi ~]# cat /etc/shells 
+/bin/sh
+/bin/bash
+/sbin/nologin
+/bin/dash
+/bin/tcsh
+/bin/csh
+</code></pre>
+
+<h1 id="toc_3">/etc/shadow(用户密码信息)</h1>
+
+<pre><code>passwd 为用户设置密码会更改/et/shadow
+</code></pre>
+
+<h2 id="toc_4">/etc/group(用户组信息)</h2>
+
+<h2 id="toc_5">/etc/gshadow(用户组密码信息)</h2>
+
+<h1 id="toc_6">与用户相关的目录和文件</h1>
+
+<h2 id="toc_7">/etc/skel</h2>
+
+<pre><code>新用户的家目录的模板
+-bash-4.1$
+    出现如上登录环境故障的原理及解决办法
+    这个用户的家目录下面的环境变量文件被删除了
+        ~/.bashrc  ~/.bash_profile
+    切换到有故障的用户
+    原因:用户环境变量有关的文件被删除
+    /etc/skel/里面存放着用户家目录的模板
+    /etc/skel/.bash*复制到当前用户
+    重新登录
+</code></pre>
+
+<h2 id="toc_8">.*极度危险</h2>
+
+<pre><code>以点开头的文件或目录
+    .(当前目录)
+    ..(当前目录的上一级目录)
+    表示以点开头的文件或目录(隐藏文件)
+</code></pre>
+
+<h1 id="toc_9">用户管理的命令</h1>
+
+<h2 id="toc_10">用户相关命令</h2>
+
+<h3 id="toc_11">useradd</h3>
+
+<pre><code>-u 指定用户的UID(数字 身份证号码)
+-s 指定用户使用的shell
+            默认为/bin/bash
+            傀儡用户为/sbin/nologin 需手动添加
+-M 表示不创建家目录 一般创建傀儡用户使用
+-g 指定用户属于的组(组的名字)
+例:添加一个用户lidao,指定UID为888,并禁止用户登录系统,不创建家目录
+useradd -u 888 -s /sbin/nologin -M lidao
+</code></pre>
+
+<h2 id="toc_12">userdel</h2>
+
+<pre><code>删除用户       一般情况不用命令删除,直接在/etc/passwd中注释掉
+userdel默认不删除用户的家目录和邮箱
+-r 删除与用户有关的所有信息(家目录)
+</code></pre>
+
+<h3 id="toc_13">usermod</h3>
+
+<pre><code>修改用户的信息,这个用户已经存在
+-s 修改用户使用的shell
+-g 属于的家庭
+</code></pre>
+
+<h3 id="toc_14">passwd</h3>
+
+<pre><code>--stdin 从管道中获取用户的密码(非交互式设置密码)
+</code></pre>
+
+<h3 id="toc_15">企业场景:用户及密码管理</h3>
+
+<pre><code>    密码要复杂12位以上字母数字特殊字符
+    保存密码:
+            keepass(软件,密码存放在本地,本地保险柜)
+            lastpass(在线版本,银行的保险柜)
+    大的企业用户和密码统一管理(相当于活动目录(AD),(openLDAP域)
+    动态密码:动态口令,第三方提供自己开发也很简单
+    更安全
+        /var/log/secure日志的分析:failure
+        锁头chattr +i +a lsattr 锁定命令或文件
+        指纹(find+md4sum+定时任务)监视常用命令和文件
+            md5sum -c /--check
+</code></pre>
+
+<h2 id="toc_16">用户组相关</h2>
+
+<h3 id="toc_17">groupadd</h3>
+
+<pre><code>创建用户组
+-g 指定用户组的gid数字
+</code></pre>
+
+<h2 id="toc_18">用户查询命令</h2>
+
+<h3 id="toc_19">id</h3>
+
+<pre><code>查看用户的信息
+    一个用户是否存在
+    查询用户的UID GID
+    属于哪个组
+</code></pre>
+
+<h3 id="toc_20">w</h3>
+
+<pre><code>显示系统中已经远程登录的用户 干啥
+</code></pre>
+
+<h3 id="toc_21">last</h3>
+
+<pre><code>那个用户 在什么时候 从哪里 远程登录你的系统 用户登录信息
+</code></pre>
+
+<h3 id="toc_22">lastlog</h3>
+
+<pre><code>显示Linux中所有用户最近一次远程登录的信息
+</code></pre>
+
+<h1 id="toc_23">sudo临时让用户获得root权限</h1>
+
+<h2 id="toc_24">是什么?</h2>
+
+<blockquote>
+<p>开发人员,其他人员,想临时使用,看系统日志,删除软件的日志,人事添加用户(useradd)<br/>
+普通用户想临时成为root  尚方宝剑</p>
+</blockquote>
+
+<h2 id="toc_25">怎么用</h2>
+
+<pre><code>sudo -l 查看当前用户的尚方宝剑
+visudo 给用户授予尚方宝剑
+crontab -e (root) ==== vi /var/spool/cron/root
+    自带语法检查功能
+visudo ==== vim /etc/sudoers
+授权某一个命令 用全路径写出
+授权多个命令      用,加空格隔开
+授权某个目录下面的所有命令   用*表示
+排除某个命令      在全路径命令前加!
+授权所有命令      ALL
+授权所有命令并且不用密码
+    oldboy ALL=(ALL) NOPASSWD:ALL
+oldboy是运维人员的用户 就是你在使用
+自己用的时候  我不想输入密码(sudo)
+</code></pre>
+
+<h1 id="toc_26">记录用户的操作 作为/日志审计</h1>
+
+<blockquote>
+<p>齐治的堡垒机:商业产品<br/>
+Python开发的开源产品<br/>
+gateone web跳板机<br/>
+开源跳板机(堡垒机)jumpserver<br/>
+Alex写的crazyEYE<br/>
+shell跳板机</p>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卅一、Keepalived部署 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卅一、Keepalived部署</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>VRRP协议原理 </p>
+
+<ol>
+<li>VRRP协议，全称Virtual Router Redundancy Protocol，中文名为虚拟路由冗余协议，VRRP的出现是为了解决静态路由的单点故障。</li>
+<li>VRRP是用过IP多播的方式（默认多播地址（224.0.0.18））实现高可用对之间通信的。</li>
+<li><p>工作时主节点发包，备节点接包，当备节点接收不到主节点发的数据包的时候，就启动接管程序接管主节点的资源。备节点可以有多个，通过优先级竞选，但一般Keepalived系统运维工作中都是一对。</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/77060938.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/93570182.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>Keepalived高可用软件功能<br/>
+参考博文: <a href="http://www.cnblogs.com/pricks/p/3822232.html">http://www.cnblogs.com/pricks/p/3822232.html</a> </p>
+
+<ol>
+<li><p>管理LVS负载均衡软件<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/63547204.jpg" alt=""/></p></li>
+<li><p>实现对LVS集群节点健康检查功能--healthcheck</p>
+
+<p>keepalived可能通过在自身的keepalived.conf文件里配置LVS节点IP和相关的参数实现对LVS的直接管理,除此之外,当LVS集群中的一个甚至几个节点服务器同时发生故障无法提供服务时,keepalived服务会自启动将失效的节点服务器从LVS的正常转发队列中清除出去，并将请求调度到正常节点的服务器上，从而保证最终用户的访问不受影响，当故障的节点服务器被修复后,keepalived服务会自动把它们加入到正常的转发队列中,对客户提供服务.</p></li>
+<li><p>作为系统网络服务的高可用功能--failover</p>
+
+<p>keepalived可以实现任意两台主机之间,例如Master和Backup主机之间的故障转移和自动切换,这个主机可以是普通的不能停机的业务服务器,也可以是LVS负载均衡,nginx反向代理这样的服务器.</p>
+
+<p>keepalived高可用功能实现的简单原理为:两台主机同时安装好keepalived软件并启动服务,开始正常工作时,由角色Master的主机获得所有资源并对用户提供用户,角色为Backup的主机将自动接管Master主机的所有工作,包括接管VIP资源及相应资源服务,而当master的主机故障修复后,又会自动接管回它原来的处理的工作,角色为backup的主机则同时释放master主机失效时它按管的工作,此时,两台主机将恢复到最初启动时各自的原始角色及工作状态.</p></li>
+</ol></li>
+<li><p>简单实现web集群的高可用(单实例VIP漂移)</p>
+
+<ol>
+<li>安装依赖包, 部署nginx</li>
+<li><p>安装并启动Keepalived<br/>
+<code><br/>
+yum install -y keepalived<br/>
+rpm -qa keepalived<br/>
+rpm -ql keepalived<br/>
+/etc/init.d/keepalived start<br/>
+ip a #查看主备情况<br/>
+</code></p></li>
+<li><p>Keepalived配置文件修改: /etc/keepalived/keepalived.conf</p>
+
+<p>配置文件的组成部分<br/>
+· GLOBAL CONFIGURATION     # 全局定义（默认配置文件的01-13行）<br/>
+· VRRPD CONFIGURATION      # 虚拟ip的配置（默认配置文件15-30行）<br/>
+· LVS CONFIGURATION        # 配置与管理lvs</p>
+
+<ol>
+<li><p>lb01 Keepalived配置</p>
+
+<pre><code>global_defs {
+   router_id LVS_01
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+     10.0.0.3/24  dev eth0 label eth0:1
+    }
+}
+</code></pre></li>
+<li><p>lb02 Keepalived配置</p>
+
+<pre><code>global_defs {
+   router_id LVS_02           # 虚拟路由标识, 局域网内要唯一
+}
+
+vrrp_instance VI_1 {          # vrrp实例名
+    state BACKUP               # 主备角色
+    interface eth0             # 虚拟ip所在的网卡位置
+    virtual_router_id 51      # 虚拟路由组标识, 同一个负载集群的必须相同
+    priority 100               # 默认是100, 数值越大优先级越高
+    advert_int 1               # 主备通讯时间间隔(秒)
+    authentication {
+        auth_type PASS         # 主备通讯加密类型
+        auth_pass 1111         # 主备通讯认证密码
+    }
+    virtual_ipaddress {
+     10.0.0.3/24  dev eth0 label eth0:1   # 虚拟ip配置
+    }
+}
+</code></pre></li>
+</ol></li>
+<li><p>统一lb01/lb02的nginx配置文件nginx.conf </p>
+
+<pre><code>worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+    upstream server_pools {
+        server 10.0.0.7 ;
+        server 10.0.0.8 ;
+        server 10.0.0.9 ;
+    }
+    server {
+        listen 80;
+        server_name bbs.etiantian.org ;
+        location / {
+        proxy_pass http://server_pools ;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        }
+        access_log  logs/access_www.log   main;
+   }
+     server {
+        listen 80;
+        server_name www.etiantian.org ;
+        location / {
+        proxy_pass http://server_pools ;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        }
+       access_log  logs/access_blog.log  main;
+   }
+}
+</code></pre></li>
+<li><p>重启两个服务</p>
+
+<pre><code>nginx -t
+nginx -s reload
+/etc/init.d/keepalived reload
+</code></pre></li>
+<li><p>修改Windows hosts文件</p>
+
+<pre><code>10.0.0.3  www.etiantian.org  blog.etiantian.org bbs.etiantian.org
+</code></pre></li>
+<li><p>浏览器测试+Wireshark抓包测试</p>
+
+<h5 id="toc_0">测试实验操作</h5>
+
+<ol>
+<li>抓取vrrp协议包检查看看</li>
+<li>关闭主，测试主备切换</li>
+<li>重新开启主，测试主的抢占功能</li>
+</ol>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/59051863.jpg" alt=""/></p>
+
+<h5 id="toc_1">lb01Keepalived停掉:</h5>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/43066305.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>配置文件详解<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/68684154.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/8764913.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/2188686.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/75353371.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/44072065.jpg" alt=""/></p></li>
+<li><p>主从切换后执行的脚本</p>
+
+<p>notify_master /path/to/to_master.sh：表示当切换到master状态时，要执行的脚本<br/>
+notify_backup /path/to/to_backup.sh：表示当切换到backup状态时，要执行的脚本<br/>
+注意点: VIP漂移后, 获得VIP的主机对to_master.sh的执行会<mark>优先于</mark>另一主机执行to_backup.sh</p></li>
+<li><p>Keepalived重点故障: 脑裂</p>
+
+<p>指的是MASTER和BACKUP都获得了vip, 这种情况发生在二者的通讯发生异常中断时, BACKUP没收到MASTER的组播信号, 主动取代了MASTER</p>
+
+<p><mark>注意</mark>: 使用关网卡这种方法模拟宕机测试VIP漂移时, 也会出现脑裂, 建议使用/etc/init.d/keepalived stop模拟宕机</p>
+
+<ol>
+<li><p>原因排查</p>
+
+<p>一般来说,裂脑的问题,有以下几种原因:<br/>
+高可用服务器对之间的心跳线链接发生故障,导致无法正常通信<br/>
+心跳线坏了(包括 断了,老化)<br/>
+网卡及相关驱动坏了,IP 配置及冲突问题(网卡直接)<br/>
+心跳线连接的设备故障(网卡及交换机)<br/>
+仲裁的机器出问题(采用仲裁的方案)<br/>
+高可用服务器上开启了iptables防火墙阻挡了心跳消息传输<br/>
+高可用服务器上心跳网卡地址等信息配置不正确,导致发送心跳失败.<br/>
+其他服务器配置不当等原因,如心跳方式不同,心跳广播冲突,软件Bug等.</p>
+
+<p>排查位置: 1 防火墙 ; 2 网络线路异常<br/>
+解决方案: 1两条心跳线 ; 2 脑裂监控报警脚本</p>
+
+<pre><code>vim monitor_keepalived.sh
+#!/bin/bash
+if [ ip a|grep -c 10.0.0.3 ]
+then
+  echo &quot;master error&quot;
+fi
+</code></pre></li>
+<li><p>解决方案<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/93722011.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>实现lb只监听VIP虚拟地址</p>
+
+<ol>
+<li><p>统一修改lb01/lb02的nginx监听地址</p>
+
+<pre><code>worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+    upstream server_pools {
+        server 10.0.0.7;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+    upstream server_pools {
+        server 10.0.0.7;
+        server 10.0.0.8;
+        server 10.0.0.9;
+    }
+    server {
+        listen 10.0.0.3:80;
+        server_name bbs.etiantian.org;
+        location / {
+        proxy_pass http://server_pools;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        }
+        }
+        access_log  logs/access_www.log  main;
+    }
+    server {
+        listen 10.0.0.3:80;
+        server_name www.etiantian.org;
+        location / {
+        proxy_pass http://server_pools;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        }
+        access_log  logs/access_blog.log  main;
+    }
+}
+</code></pre>
+
+<p><mark>注意点:</mark><br/>
+在修改反向代理服务器配置文件监听地址时，多个server都需要配置监听地址，否则仍旧使用默认监听所有</p>
+
+<p>listen <mark>10.0.0.3:</mark>80; 修改后的配置,只监听10.0.0.3这一个VIP<br/>
+listen 80; 默认配置, 监听所有网络请求, 监听范围更大, 使监听VIP的限制失效</p></li>
+<li><p>配置检测nginx -t</p>
+
+<h5 id="toc_2">lb01</h5>
+
+<pre><code>[root@lb01 ~]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3//conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3//conf/nginx.conf test is successful
+</code></pre>
+
+<h5 id="toc_3">lb02</h5>
+
+<pre><code>[root@lb02 ~]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3//conf/nginx.conf syntax is ok
+nginx: [emerg] bind() to 10.0.0.3:80 failed (99: Cannot assign requested address)
+nginx: configuration file /application/nginx-1.10.3//conf/nginx.conf test failed
+</code></pre>
+
+<ol>
+<li><p>实际问题:lb02配置监听10.0.0.3失败</p>
+
+<p>原因: 因为lb01正常运行, 而lb02未获取VIP, 所以无法监听本地不存在的ip地址 <br/>
+解决方法：</p>
+
+<pre><code># 修改内核配置文件, 取消本地IP绑定
+# 永久生效
+echo &#39;net.ipv4.ip_nonlocal_bind = 1&#39; &gt;&gt;/etc/sysctl.conf
+sysctl -p #加载sysctl.conf
+# 内存临时生效
+echo &quot;1&quot; &gt;/proc/sys/net/ipv4/ip_nonlocal_bind
+</code></pre></li>
+</ol></li>
+</ol></li>
+<li><p>实现keepalived监控nginx运行状态并及时作出响应</p>
+
+<ol>
+<li><p>第一个里程碑-keepalived监控nginx条件</p>
+
+<blockquote>
+</blockquote>
+
+<ol>
+<li><p>如何得知nginx挂了?</p>
+
+<p>1）端口<br/>
+2）进程<br/>
+<code>ps -ef |grep nginx |grep -v grep |wc -l</code></p></li>
+<li><p>模拟keepalived挂了</p>
+
+<p><code>/etc/init.d/keepalived stop</code></p></li>
+</ol></li>
+<li><p>第二个里程碑-根据条件-书写脚本</p>
+
+<p>复习知识: shell脚本中的数值判断</p>
+
+<pre><code>#&gt;  -gt    greater than  
+#&gt;= -ge    greater equal 
+#&lt;  -lt    less than 
+#&lt;= -le    less equal 
+#== -eq    equal
+</code></pre>
+
+<p>统一脚本存放路径</p>
+
+<pre><code>mkdir -p /server/scripts
+cd /server/scripts
+</code></pre>
+
+<p>编写检查脚本</p>
+
+<pre><code>#!/bin/bash
+#name: check_web.sh
+#desc: check nginx and kill keepalived 
+grep_num=`ps -ef |grep -c [n]ginx`  #grep [n]ginx: 利用正则排除(grep nginx)进程
+echo $grep_num
+if [ $grep_num -eq 2 ];then
+   echo &#39;nginx is running.&#39;
+else
+   echo &#39;nginx stopped.&#39;
+   /etc/init.d/keepalived stop
+fi
+</code></pre>
+
+<p>注意:如果命名为check_nginx.sh,执行ps -ef |grep -c [n]ginx时, 结果会+1, 因为进程中临时会多出来一个 /bin/bash check_nginx.sh</p></li>
+<li><p>第三个里程碑-为脚本添加x权限(不需要修改属主)</p>
+
+<pre><code>chmod +x /server/scripts/check_web.sh #不加X权限会导致脚本不能被成功执行
+ls -l /server/scripts/check_web.sh
+</code></pre></li>
+<li><p>第四个里程碑-测试脚本</p>
+
+<pre><code>nginx -s stop
+sh /server/scripts/check_web.sh
+</code></pre></li>
+<li><p>第五个里程碑-将脚本引入到lb01的keepalived.conf </p>
+
+<pre><code>global_defs {
+   router_id LVS_01
+}
+
+vrrp_script check_web {                     # 使用一个脚本模块
+script &quot;/server/scripts/check_web.sh&quot;      # 脚本路径
+interval 2                                    # 脚本执行的时间间隔(秒)
+weight 2                                      # 脚本每运行成功一次,priority-2
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        10.0.0.3/24 dev eth0 label eth0:1
+    }
+   track_script {                              # 引用脚本
+         check_web
+   }
+}
+</code></pre></li>
+<li><p>第六个里程碑-测试</p>
+
+<pre><code>lb01
+nginx
+/etc/init.d/keepalived restart
+nginx -s stop
+ps -ef |grep [k]eep
+</code></pre></li>
+</ol></li>
+<li><p>lb01/02双主配置</p>
+
+<p>实现目标: 将用户请求压力按www与bbs分离, 实现:<br/>
+访问www.etiantian.org时, lb01为主,lb02为备<br/>
+访问bbs.etiantian.org时, lb02为主,lb01为备<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/78136168.jpg" alt=""/></p>
+
+<ol>
+<li><p>lb集群的Keepalived配置<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/461189.jpg" alt=""/></p></li>
+<li><p>lb集群的nginx配置</p>
+
+<pre><code>[root@lb01 ~]# cat /application/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+    upstream server_pools {
+        server 10.0.0.7;
+        server 10.0.0.8;
+        server 10.0.0.9;
+    }
+    server {
+        listen 10.0.0.4:80;
+        server_name bbs.etiantian.org;
+        location / {
+            proxy_pass http://server_pools;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $remote_addr;
+        }
+       access_log  logs/access_bbs.log  main;
+
+    }
+    server {
+        listen 10.0.0.3:80;
+        server_name www.etiantian.org;
+        location / {
+            proxy_pass http://server_pools;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $remote_addr;
+        }
+       access_log  logs/access_www.log  main;
+
+    }
+}
+</code></pre></li>
+<li><p>web服务器nginx配置</p>
+
+<pre><code>[root@web03 ~]# cat /application/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    server {
+        listen 80;
+        server_name  bbs.etiantian.org;
+        location / {
+            root   html/bbs;
+            index  index.html index.htm;
+        }
+    }
+    server {
+        listen 80;
+        server_name  www.etiantian.org;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+    }
+}
+</code></pre></li>
+<li><p>修改web服务器主页文件作为测试页面</p>
+
+<pre><code>[root@web01 ~]# cat /application/nginx/html/bbs/index.html
+bbs web01
+[root@web01 ~]# cat /application/nginx/html/www/index.html
+www web01
+[root@web02 ~]# cat /application/nginx/html/bbs/index.html
+bbs web02
+[root@web02 ~]# cat /application/nginx/html/www/index.html
+www web02
+[root@web03 ~]# cat /application/nginx/html/bbs/index.html
+bbs web03
+[root@web03 ~]# cat /application/nginx/html/www/index.html
+www web03
+</code></pre></li>
+<li><p>修改Windows hosts文件</p>
+
+<pre><code>10.0.0.3            bbs.etiantian.org
+10.0.0.4            www.etiantian.org
+</code></pre></li>
+<li><p>访问测试</p>
+
+<pre><code>[root@lb01 ~]# curl -H Host:bbs.etiantian.org 10.0.0.3
+bbs web02
+[root@lb01 ~]# curl -H Host:bbs.etiantian.org 10.0.0.3
+bbs web03
+[root@lb01 ~]# curl -H Host:bbs.etiantian.org 10.0.0.3
+bbs web01
+[root@lb01 ~]# curl -H Host:bbs.etiantian.org 10.0.0.4
+bbs web03
+[root@lb01 ~]# curl -H Host:bbs.etiantian.org 10.0.0.4
+bbs web01
+[root@lb01 ~]# curl -H Host:bbs.etiantian.org 10.0.0.4
+bbs web02
+[root@lb02 ~]# curl -H Host:www.etiantian.org 10.0.0.3
+www web01
+[root@lb02 ~]# curl -H Host:www.etiantian.org 10.0.0.3
+www web02
+[root@lb02 ~]# curl -H Host:www.etiantian.org 10.0.0.3
+www web03
+[root@lb02 ~]# curl -H Host:www.etiantian.org 10.0.0.4
+www web01
+[root@lb02 ~]# curl -H Host:www.etiantian.org 10.0.0.4
+www web02
+[root@lb02 ~]# curl -H Host:www.etiantian.org 10.0.0.4
+www web03
+</code></pre></li>
+</ol></li>
+<li><p>组播地址冲突</p>
+
+<p>如何解决多组Keepalived在同一个局域网中的组播地址相同导致的冲突?<br/>
+vrrp_mcast_group4 224.0.0.X (默认值是18)<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/13814683.jpg" alt=""/></p></li>
+<li><p>排错</p>
+
+<ol>
+<li>DNS是否正确解析---curl测试---检查hosts文件--ping测试</li>
+<li>浏览器缓存---隐身无痕模式----Ctrl F5强制刷新,不载入缓存</li>
+<li>修改服务配置后没有reload</li>
+</ol></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

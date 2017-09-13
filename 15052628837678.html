@@ -1,0 +1,347 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	redis简单入门及实现wordpress数据库缓存 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">redis简单入门及实现wordpress数据库缓存</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>redis简介<br/>
+Remote Dictionary Server（Redis）是一个基于 key-value 键值对的持久化数据库存储系统。支持多种数据结构，包括 string (字符串)、list (链表)、set (集合)、zset (sorted set --有序集合)和 hash（哈希类型）。<br/>
+redis和memcached的区别<br/>
+Redis和Memcache都是将数据存放在内存中，都是内存数据库。不过memcache还可用于缓存其他东西，例如图片、视频等等；<br/>
+Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，hash等数据结构的存储；<br/>
+虚拟内存--Redis当物理内存用完时，可以将一些很久没用到的value 交换到磁盘；<br/>
+过期策略--memcache在set时就指定，例如set key1 0 0 8,即永不过期。Redis可以通过例如expire 设定，例如expire name 10；<br/>
+分布式--设定memcache集群，利用magent做一主多从;redis可以做一主多从。<br/>
+存储数据安全--memcache挂掉后，数据没了；redis可以定期保存到磁盘（持久化）；<br/>
+灾难恢复--memcache挂掉后，数据不可恢复; redis数据丢失后可以恢复；<br/>
+Redis支持数据的备份，即master-slave模式的数据备份；<br/>
+应用场景不一样：Redis除了作为NoSQL数据库使用外，还能用做消息队列、数据堆栈和数据缓存等；Memcached适合于缓存SQL语句、数据集、用户临时性数据、延迟查询数据和session等<br/>
+性能对比：由于Redis只使用单核，而Memcached可以使用多核，所以平均每一个核上Redis在存储小数据时比Memcached性能更高。而在100k以上的数据中，Memcached性能要高于Redis，虽然Redis最近也在存储大数据的性能上进行优化，但是比起 Memcached，还是稍有逊色。<br/>
+内存使用效率对比：使用简单的key-value存储的话，Memcached的内存利用率更高，而如果Redis采用hash结构来做key-value存储，由于其组合式的压缩，其内存利用率会高于Memcached。<br/>
+Redis支持服务器端的数据操作：Redis相比Memcached来说，拥有更多的数据结构和并支持更丰富的数据操作，通常在Memcached 里，你需要将数据拿到客户端来进行类似的修改再set回去。这大大增加了网络IO的次数和数据体积。在Redis中，这些复杂的操作通常和一般的 GET/SET一样高效。所以，如果需要缓存能够支持更复杂的结构和操作，那么Redis会是不错的选择。<br/>
+redis服务端的安装<br/>
+中文帮助文档<br/>
+<a href="http://redisdoc.com/">http://redisdoc.com/</a><br/>
+在lb01   10.0.0.5（172.16.1.5）上操作：<br/>
+下载地址：<br/>
+wget  <a href="http://download.redis.io/releases/redis-3.2.10.tar.gz">http://download.redis.io/releases/redis-3.2.10.tar.gz</a><br/>
+安装：<br/>
+tar zxf redis-3.2.10.tar.gz <br/>
+cd redis-3.2.10<br/>
+make<br/>
+make install<br/>
+拷贝启动文件：<br/>
+cd utils/<br/>
+cp redis_init_script /etc/init.d/redis<br/>
+chmod +x /etc/init.d/redis<br/>
+拷贝配置文件：<br/>
+mkdir /etc/redis<br/>
+cd ..<br/>
+cp redis.conf /etc/redis/6379.conf<br/>
+/etc/init.d/redis start<br/>
+此时会看到redis是在前台运行需要修改配置文件让其在后台运行并且开启持久化：<br/>
+持久化有两种方式：<br/>
+1.rdb（快照默认开启）二进制文件<br/>
+2.aof（类似于mysql的binlog功能）操作语句保存在文件中<br/>
+sed -i &#39;s/daemonize no/daemonize yes/;s/appendonly no/appendonly yes/;163c logfile &quot;/var/log/redis.log&quot;&#39; /etc/redis/6379.conf<br/>
+sed -i &#39;247c dir  /tmp&#39; /etc/redis/6379.conf<br/><br/>
+sed -i &#39;s/bind 127.0.0.1/bind 127.0.0.1 172.16.1.5 /g&#39; /etc/redis/6379.conf<br/>
+/etc/init.d/redis start<br/>
+查看端口是否启动成功：<br/>
+[root@lb01 ~]# netstat -lntup|grep redis<br/>
+tcp        0      0 127.0.0.1:6379              0.0.0.0:*                   LISTEN      58534/redis-server<br/>
+测试：<br/>
+[root@lb01 ~]# redis-cli <br/>
+127.0.0.1:6379&gt; set key1 hellword<br/>
+OK<br/>
+127.0.0.1:6379&gt; get key1<br/>
+&quot;hellword&quot;<br/>
+127.0.0.1:6379&gt; quit<br/>
+查看帮助：<br/>
+redis-cli --help<br/>
+安装redis php客户端<br/>
+下载地址：<br/>
+wget <a href="http://pecl.php.net/get/redis-2.2.3.tgz">http://pecl.php.net/get/redis-2.2.3.tgz</a><br/>
+添加模块<br/>
+tar zxf redis-2.2.3.tgz<br/>
+cd redis-2.2.3<br/>
+/application/php/bin/phpize<br/>
+./configure --with-php-config=/application/php/bin/php-config<br/>
+make &amp;&amp; make install<br/>
+修改配置文件并重启<br/>
+echo &quot;extension = redis.so&quot; &gt;&gt;/application/php/lib/php.ini<br/>
+killall php-fpm<br/>
+/application/php/sbin/php-fpm<br/>
+wordpress实现redis数据库缓存<br/>
+需要一个客户端开发包以便PHP可以连接到redis服务端 ，这里推荐predis. 加入WordPress的根目录，执行下面<br/>
+cd /application/nginx/html/blog wget <a href="http://uploads.staticjw.com/ji/jim/predis.php">http://uploads.staticjw.com/ji/jim/predis.php</a>  chown nginx.nginx predis.php<br/>
+前端缓存的PHP脚本，加入WordPress的根目录，执行下面<br/>
+wget <a href="https://gist.githubusercontent.com/JimWestergren/3053250/raw/d9e279e31cbee4a1520f59108a4418ae396b2dde/index-with-redis.php">https://gist.githubusercontent.com/JimWestergren/3053250/raw/d9e279e31cbee4a1520f59108a4418ae396b2dde/index-with-redis.php</a>  chown nginx.nginx index-with-redis.php<br/>
+根据自己需求修改index-with-redis.php，修改如下：<br/>
+\(cf = 0;                // set to 1 if you are using cloudflare  \)debug = 1;              // set to 1 if you wish to see execution time and cache actions  $display_powered_by_redis = 0; // set to 1 if you want to display a powered by redis message with execution time, see below<br/>
+替换index.php<br/>
+ mv index.php index.php.bak   mv index-with-redis.php index.php<br/>
+修改predis文件信息<br/>
+sed -i &#39;s/127.0.0.1/172.16.1.5/g&#39; predis.php<br/>
+[root@web02 blog]# grep 172.16.1.5 predis.php <br/>
+    const DEFAULT_HOST = &#39;172.16.1.5&#39;;<br/>
+打开网页测试：<br/>
+在redis服务器执行：<br/>
+[root@lb01 ~]# redis-cli -h 172.16.1.5<br/>
+172.16.1.5:6379&gt; keys *<br/>
+1) &quot;count&quot;<br/>
+2) &quot;key1&quot;<br/>
+3) &quot;feaeb784f8a27e2af7166667a5f084fb&quot;<br/>
+[root@lb01 tmp]# tail -5 /tmp/appendonly.aof<br/><br/>
+<script type='text/javascript' src='http://blog.etiantian.org/wp-content/themes/twentysixteen/js/functions.js?ver=20160816'></script><br/>
+<script type='text/javascript' src='http://blog.etiantian.org/wp-includes/js/wp-embed.min.js?ver=4.8.1'></script><br/>
+</body><br/>
+</html><br/>
+redis实现session共享<br/>
+修改php的配置文件php.ini<br/>
+session.save_handler = redis<br/>
+session.save_path = &quot;tcp://172.16.1.5:6379&quot;<br/>
+重启php即可<br/>
+redis的主从复制<br/>
+Redis全量复制一般发生在Slave初始化阶段，这时Slave需要将Master上的所有数据都复制一份。具体步骤如下：</p>
+
+<p>从服务器连接主服务器，发送SYNC命令；<br/>
+ 主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令；<br/>
+ 主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令；<br/>
+ 从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；<br/>
+ 主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； <br/>
+从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；</p>
+
+<p>Redis增量复制是指Slave初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。  增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令。</p>
+
+<p>vim /etc/redis/6379.conf</p>
+
+<p>logfile &quot;/var/log/redis_6379.log&quot;<br/>
+dbfilename dump_6379.rdb<br/>
+appendfilename &quot;appendonly_6379.aof&quot;</p>
+
+<p>/etc/init.d/redis stop<br/>
+/etc/init.d/redis start<br/>
+[root@lb01 tmp]# ls /tmp<br/>
+appendonly_6379.aof  appendonly.aof  dump.rdb<br/>
+拷贝配置文件并修改<br/>
+cd /etc/redis/<br/>
+cp 6379.conf 6380.conf<br/>
+sed -i &#39;s/6379/6380/g&#39; 6380.conf<br/>
+diff 6379.conf 6380.conf </p>
+
+<p>/usr/local/bin/redis-server 6380.conf </p>
+
+<p>[root@lb01 redis]# ps aux |grep redis <br/>
+root      59357  0.1  0.7 133544  7524 ?        Ssl  11:42   0:01 /usr/local/bin/redis-server 127.0.0.1:6379<br/><br/>
+root      59379  0.0  0.7 133544  7520 ?        Ssl  11:59   0:00 /usr/local/bin/redis-server 127.0.0.1:6380</p>
+
+<p>[root@lb01 redis]# ls /tmp<br/>
+appendonly_6379.aof  appendonly_6380.aof  appendonly.aof  dump.rdb<br/>
+redis-cli -p 6380<br/>
+开启主从复制功能<br/>
+127.0.0.1:6380&gt; SLAVEOF 172.16.1.5 6379<br/>
+OK<br/>
+127.0.0.1:6380&gt; info<br/>
+......</p>
+
+<h1 id="toc_0">Replication</h1>
+
+<p>role:slave<br/>
+master_host:172.16.1.5<br/>
+master_port:6379<br/>
+master_link_status:up<br/>
+master_last_io_seconds_ago:3<br/>
+......<br/>
+查看主机状态<br/>
+172.16.1.5:6379&gt; info<br/>
+......</p>
+
+<h1 id="toc_1">Replication</h1>
+
+<p>role:master<br/>
+connected_slaves:1<br/>
+slave0:ip=127.0.0.1,port=6380,state=online,offset=169,lag=1<br/>
+master_repl_offset:169<br/>
+......<br/>
+测试主从复制功能<br/>
+主库写入<br/>
+172.16.1.5:6379&gt; set key test<br/>
+OK<br/>
+从库查询<br/>
+127.0.0.1:6380&gt; keys *<br/>
+1) &quot;count&quot;<br/>
+2) &quot;key&quot;<br/>
+redis cluster集群<br/>
+redis本身是单实例单进程的<br/>
+参考文档<br/>
+<a href="http://www.cnblogs.com/wuxl360/p/5920330.html">http://www.cnblogs.com/wuxl360/p/5920330.html</a> </p>
+
+<p>redis管理工具<br/>
+cd /application/nginx/html/blog<br/>
+git clone <a href="https://github.com/ErikDubbelboer/phpRedisAdmin.git">https://github.com/ErikDubbelboer/phpRedisAdmin.git</a> <br/>
+cd phpRedisAdmin <br/>
+git clone <a href="https://github.com/nrk/predis.git">https://github.com/nrk/predis.git</a> vendor<br/>
+更改配置文件添加多实例<br/>
+/application/nginx/html/blog/phpRedisAdmin/includes<br/>
+vim config.sample.inc.php<br/>
+......<br/>
+$config = array(<br/>
+  &#39;servers&#39; =&gt; array(<br/>
+    array(<br/>
+      &#39;name&#39;   =&gt; &#39;6379&#39;, // Optional name.<br/>
+      &#39;host&#39;   =&gt; &#39;172.16.1.5&#39;,<br/>
+      &#39;port&#39;   =&gt; 6379,<br/>
+      &#39;filter&#39; =&gt; &#39;*&#39;,<br/>
+      &#39;scheme&#39; =&gt; &#39;tcp&#39;,<br/>
+      &#39;path&#39;   =&gt; &#39;&#39;<br/>
+    ),<br/>
+    array(<br/>
+      &#39;name&#39; =&gt; &#39;6380&#39;,<br/>
+      &#39;host&#39; =&gt; &#39;172.16.1.5&#39;,<br/>
+      &#39;port&#39; =&gt; 6380<br/>
+    ),<br/>
+......<br/>
+浏览器输入<a href="http://blog.etiantian.org/phpRedisAdmin/%E5%8D%B3%E5%8F%AF%E8%AE%BF%E9%97%AE">http://blog.etiantian.org/phpRedisAdmin/即可访问</a></p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

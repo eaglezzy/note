@@ -1,0 +1,1068 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿一、远程连接 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿一、远程连接</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">SSH服务介绍说明</a>
+<ul>
+<li>
+<a href="#toc_1">01：如何部署telnet远程服务</a>
+<ul>
+<li>
+<a href="#toc_2">①: 需要安装telnet服务端软件</a>
+</li>
+<li>
+<a href="#toc_3">②: 配置telnet服务被xinetd所管理</a>
+</li>
+<li>
+<a href="#toc_4">③: 启动telnet服务</a>
+</li>
+<li>
+<a href="#toc_5">④: 检查telnet服务是否正常启动</a>
+</li>
+<li>
+<a href="#toc_6">⑤: 进行telnet远程连接服务器主机</a>
+</li>
+<li>
+<a href="#toc_7">⑥: 创建telnet远程登录的用户</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_8">远程登录出现异常的时候如何进行排错</a>
+<ul>
+<li>
+<a href="#toc_9">检查链路是否通畅</a>
+</li>
+<li>
+<a href="#toc_10">检查服务端口有没有正常开启</a>
+</li>
+<li>
+<a href="#toc_11">SSH加密算法</a>
+</li>
+<li>
+<a href="#toc_12">SSH服务认证类型</a>
+</li>
+<li>
+<a href="#toc_13">SSH配置文件说明</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_14">sftp：</a>
+</li>
+<li>
+<a href="#toc_15">第二部分：SSH服务知识介绍说明部分</a>
+<ul>
+<li>
+<a href="#toc_16">01：SSH服务简介说明</a>
+</li>
+<li>
+<a href="#toc_17">02：远程连接方法(常见两种)</a>
+<ul>
+<li>
+<a href="#toc_18">①. 通过SSH服务进行远程连接</a>
+</li>
+<li>
+<a href="#toc_19">②. 通过Telnet服务进行远程连接</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">03：SSH远程连接异常排查思路</a>
+<ul>
+<li>
+<a href="#toc_21">①. 确认网络通讯链路是否正常（客户端执行）</a>
+</li>
+<li>
+<a href="#toc_22">②. 检查SSH进程，确认服务是否运行良好（客户端执行）</a>
+</li>
+<li>
+<a href="#toc_23">③. 安全机制进行了连接建立阻止</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_24">04：SSH服务软件知识介绍</a>
+<ul>
+<li>
+<a href="#toc_25">①. 软件安装包介绍</a>
+</li>
+<li>
+<a href="#toc_26">②. 软件大礼包重要信息说明</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_27">05：SSH服务远程连接登录过程</a>
+</li>
+<li>
+<a href="#toc_28">06：SSH服务软件版本区别说明(了解)</a>
+</li>
+<li>
+<a href="#toc_29">07：SSH服务认证类型：</a>
+</li>
+<li>
+<a href="#toc_30">08：SSH服务企业案例说明：(重点必会)</a>
+</li>
+<li>
+<a href="#toc_31">09：SSH服务配置文件修改：(重点必会)</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_32">ssh+key共享密钥部署流程说明</a>
+<ul>
+<li>
+<a href="#toc_33">1. 熟悉部署流程 架构图</a>
+</li>
+<li>
+<a href="#toc_34">2. 部署环境准备：（4台虚拟主机）</a>
+</li>
+<li>
+<a href="#toc_35">3. 部署步骤概述</a>
+</li>
+<li>
+<a href="#toc_36">4. 生成 钥匙 锁头（密钥对） m01</a>
+</li>
+<li>
+<a href="#toc_37">5. 锁头如何放过去（传送到远端服务器）</a>
+</li>
+<li>
+<a href="#toc_38">扩展知识说明：</a>
+<ul>
+<li>
+<a href="#toc_39">01：ssh服务特殊端口情况进行分发公钥</a>
+</li>
+<li>
+<a href="#toc_40">02：ssh-copy-id命令脚本简单说明</a>
+</li>
+<li>
+<a href="#toc_41">03：ssh服务如何识别公钥文件</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_42">5. 操作后检查！！！！！</a>
+</li>
+<li>
+<a href="#toc_43">6. ssh服务分发公钥实质执行过程</a>
+</li>
+<li>
+<a href="#toc_44">编写批量分发公钥脚本三个阻碍因素</a>
+<ul>
+<li>
+<a href="#toc_45">01: 有一个需要进行确认的位置（yes/no）</a>
+</li>
+<li>
+<a href="#toc_46">02: 有需要输入密码的位置</a>
+</li>
+<li>
+<a href="#toc_47">03: 实现秘钥对创建免交互</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_48">ssh+key公钥批量分发步骤</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_49">1.【手动】发送锁头到所有服务器（backup nfs01 web01)</a>
+</li>
+<li>
+<a href="#toc_50">2.【脚本】发送锁头到所有服务器（backup nfs01 web01)</a>
+</li>
+<li>
+<a href="#toc_51">3. 分发密钥阻碍因素处理办法</a>
+<ul>
+<li>
+<a href="#toc_52">01: ssh+key密钥对生成免交互方式生成</a>
+</li>
+<li>
+<a href="#toc_53">02：ssh连接密码信息阻碍问题解决方式</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_54">03：ssh连接确认信息阻碍问题解决方式</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_55">ssh+key公钥批量管理实现</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_56">1. 编写批量管理脚本信息</a>
+</li>
+</ul>
+
+
+<h2 id="toc_0">SSH服务介绍说明</h2>
+
+<h3 id="toc_1">01：如何部署telnet远程服务</h3>
+
+<h4 id="toc_2">①: 需要安装telnet服务端软件</h4>
+
+<pre><code>    yum install -y telnet-server telnet
+</code></pre>
+
+<h4 id="toc_3">②: 配置telnet服务被xinetd所管理</h4>
+
+<pre><code>    grep disable /etc/xinetd.d/telnet 
+    disable     = yes
+    sed -i &#39;s#yes#no#g&#39; /etc/xinetd.d/telnet
+    grep disable /etc/xinetd.d/telnet 
+    disable     = no
+</code></pre>
+
+<h4 id="toc_4">③: 启动telnet服务</h4>
+
+<pre><code>    /etc/init.d/xinetd start
+    xinetd:                                           [  OK  ]
+</code></pre>
+
+<h4 id="toc_5">④: 检查telnet服务是否正常启动</h4>
+
+<pre><code>    ss -lntup|grep 23
+    LISTEN     0      64                    :::23                   :::*      users:((&quot;xinetd&quot;,24628,5))
+    ps -ef|grep telnet
+    24637   1733  0 09:13 pts/1    00:00:00 grep telnet
+    ps -ef|grep xinetd
+    24628      1  0 09:12 ?        00:00:00 xinetd -stayalive -pidfile /var/run/xinetd.pid
+    24639   1733  0 09:13 pts/1    00:00:00 grep xinetd
+</code></pre>
+
+<h4 id="toc_6">⑤: 进行telnet远程连接服务器主机</h4>
+
+<pre><code>    telnet 10.0.0.61
+    Connecting to 10.0.0.61:23...
+    Connection established.
+    To escape to local shell, press Ctrl+Alt+].
+    CentOS release 6.9 (Final)
+    Kernel 2.6.32-696.el6.x86_64 on an x86_64
+    m01 login: root
+    Password: 
+    Login incorrect
+    说明：默认telnet远程登录不允许root用户远程
+</code></pre>
+
+<h4 id="toc_7">⑥: 创建telnet远程登录的用户</h4>
+
+<pre><code>    useradd alex
+    echo 123456|passwd --stdin alex
+    Changing password for user alex.
+    passwd: all authentication tokens updated successfully.
+</code></pre>
+
+<h2 id="toc_8">远程登录出现异常的时候如何进行排错</h2>
+
+<h3 id="toc_9">检查链路是否通畅</h3>
+
+<blockquote>
+<p>01：ping<br/>
+  02：tracert---windows traceroute---linux（-n 禁止反向解析）</p>
+</blockquote>
+
+<pre><code>-n     Do not try to map IP addresses to host names when displaying them.
+[g:\~]$ tracert -d www.baidu.com   （-d 禁止反向解析）
+</code></pre>
+
+<blockquote>
+<p>通过最多 30 个跃点跟踪<br/>
+  到 <a href="http://www.baidu.com">www.baidu.com</a> [61.135.169.121] 的路由:</p>
+</blockquote>
+
+<pre><code>1    &lt;1 毫秒   &lt;1 毫秒   &lt;1 毫秒 192.168.14.254 
+2   266 ms   159 ms     8 ms  61.149.236.1 
+3     7 ms     3 ms     3 ms  61.148.162.57 
+4     7 ms     7 ms     4 ms  202.106.34.57 
+5     6 ms     4 ms     4 ms  61.148.152.18 
+6     4 ms     4 ms     5 ms  123.125.248.122 
+7     *        *        *     请求超时。
+8     3 ms     3 ms     3 ms  61.135.169.121
+</code></pre>
+
+<h3 id="toc_10">检查服务端口有没有正常开启</h3>
+
+<pre><code>[root@m01 ~]## ss -lntup|grep 22
+tcp    LISTEN     0      128                   :::22                   :::*      users:((&quot;sshd&quot;,1171,4))
+tcp    LISTEN     0      128                    *:22                    *:*      users:((&quot;sshd&quot;,1171,3))
+[root@m01 ~]## netstat -lntup|grep 22
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      1171/sshd           
+tcp        0      0 :::22                       :::*                        LISTEN      1171/sshd           
+[root@m01 ~]## lsof -i:22
+COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+sshd    1171 root    3u  IPv4  10390      0t0  TCP *:ssh (LISTEN)
+sshd    1171 root    4u  IPv6  10392      0t0  TCP *:ssh (LISTEN)
+sshd    1731 root    3r  IPv4  11180      0t0  TCP 10.0.0.61:ssh-&gt;10.0.0.1:vpad (ESTABLISHED)
+[root@m01 ~]## nmap -p 22 10.0.0.61
+
+Starting Nmap 5.51 ( http://nmap.org ) at 2017-08-02 10:21 CST
+Nmap scan report for 10.0.0.61
+Host is up (0.000076s latency).
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap done: 1 IP address (1 host up) scanned in 13.10 seconds
+[root@m01 ~]## nc 10.0.0.61 22
+SSH-2.0-OpenSSH_5.3
+
+Protocol mismatch.
+[root@m01 ~]## nc 10.0.0.61 23456
+[root@m01 ~]## telnet 10.0.0.61 22
+Trying 10.0.0.61...
+Connected to 10.0.0.61.
+Escape character is &#39;^]&#39;.
+SSH-2.0-OpenSSH_5.3
+^]  
+telnet&gt; quit
+Connection closed.
+
+[root@m01 ~]## rpm -ql openssh-clients
+/etc/ssh/ssh_config
+/usr/bin/.ssh.hmac
+/usr/bin/scp
+/usr/bin/sftp
+/usr/bin/slogin
+/usr/bin/ssh
+/usr/bin/ssh-add
+/usr/bin/ssh-agent
+/usr/bin/ssh-copy-id
+/usr/bin/ssh-keyscan
+</code></pre>
+
+<h3 id="toc_11">SSH加密算法</h3>
+
+<blockquote>
+<p>01：加密算法采用了公钥（锁头）和私钥（钥匙）的使用<br/>
+02：SSH分为两种版本，v1和v2，v2版本更安全</p>
+</blockquote>
+
+<h3 id="toc_12">SSH服务认证类型</h3>
+
+<blockquote>
+<p>01：基于密码的认证类型<br/>
+02：基于秘钥的认证类型</p>
+</blockquote>
+
+<h3 id="toc_13">SSH配置文件说明</h3>
+
+<blockquote>
+<p>01：#号后面有空格表示表述信息 #号后面没有空格表示配置参数信息<br/>
+02：类似SSH配置文件，默认井号后面跟的配置参数为默认值<br/>
+03：涉及到修改SSH的配置文件，尽量多开一个xshell连接窗口</p>
+</blockquote>
+
+<pre><code>[root@backup ~]## ssh 10.0.0.61
+ssh: connect to host 10.0.0.61 port 22: Connection refused
+[root@backup ~]## ping 10.0.0.61
+PING 10.0.0.61 (10.0.0.61) 56(84) bytes of data.
+64 bytes from 10.0.0.61: icmp_seq=1 ttl=64 time=1.32 ms
+64 bytes from 10.0.0.61: icmp_seq=2 ttl=64 time=1.79 ms
+64 bytes from 10.0.0.61: icmp_seq=3 ttl=64 time=1.38 ms
+64 bytes from 10.0.0.61: icmp_seq=4 ttl=64 time=1.74 ms
+^C
+--- 10.0.0.61 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3691ms
+rtt min/avg/max/mdev = 1.325/1.564/1.797/0.211 ms
+[root@backup ~]## traceroute 10.0.0.61
+traceroute to 10.0.0.61 (10.0.0.61), 30 hops max, 60 byte packets
+ 1  10.0.0.61 (10.0.0.61)  0.539 ms  0.267 ms  0.770 ms
+[root@backup ~]## telnet 10.0.0.61 22
+Trying 10.0.0.61...
+telnet: connect to address 10.0.0.61: Connection refused
+[root@backup ~]## nmap -p 1-1024 10.0.0.61
+</code></pre>
+
+<pre><code>Starting Nmap 5.51 ( http://nmap.org ) at 2017-08-02 11:38 CST
+Nmap scan report for 10.0.0.61
+Host is up (0.00037s latency).
+Not shown: 1023 closed ports
+PORT   STATE SERVICE
+23/tcp open  telnet
+MAC Address: 00:0C:29:5F:A7:8F (VMware)
+</code></pre>
+
+<pre><code>Nmap done: 1 IP address (1 host up) scanned in 0.73 seconds
+[root@backup ~]## nmap -p 1-65535 10.0.0.61
+</code></pre>
+
+<pre><code>Starting Nmap 5.51 ( http://nmap.org ) at 2017-08-02 11:38 CST
+Nmap scan report for 10.0.0.61
+Host is up (0.00048s latency).
+Not shown: 65533 closed ports
+PORT      STATE SERVICE
+23/tcp    open  telnet
+52113/tcp open  unknown
+MAC Address: 00:0C:29:5F:A7:8F (VMware)
+</code></pre>
+
+<pre><code>Nmap done: 1 IP address (1 host up) scanned in 13.82 seconds
+[root@backup ~]## ssh 10.0.0.61 -p 52113
+The authenticity of host &#39;[10.0.0.61]:52113 ([10.0.0.61]:52113)&#39; can&#39;t be established.
+RSA key fingerprint is 82:d7:80:62:c0:db:c9:9a:d5:d0:8f:66:94:53:8b:9f.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;[10.0.0.61]:52113&#39; (RSA) to the list of known hosts.
+root@10.0.0.61&#39;s password: 
+Last login: Wed Aug  2 11:35:17 2017 from 10.0.0.1        
+</code></pre>
+
+<h2 id="toc_14">sftp：</h2>
+
+<blockquote>
+<p>pwd ls cd 表示操作远程主机<br/>
+所有命令前面l 表示操作本地主机<br/>
+get 表示从远程主机下载数据<br/>
+put 表示本地主机上传数据信息        </p>
+</blockquote>
+
+<!--
+思考题：
+1. 如何使用root用户，利用telnet方式远程登录主机
+2. 如何让没有外网卡的服务，访问外网（期中架构扩展知识点）
+
+01：本次SSH课程知识大纲
+    ①. SSH服务简介说明(服务的两个重要功能)
+    -->
+
+<h2 id="toc_15">第二部分：SSH服务知识介绍说明部分</h2>
+
+<h3 id="toc_16">01：SSH服务简介说明</h3>
+
+<pre><code>SSH是Secure Shell Protocol的简写，   
+SSH服务的两个重要功能
+· 提供类似telnet远程联机服务器的服务，即上面提到的SSH服务；
+· 提供类似FTP服务的sftp-server，借助SSH协议来传输数据的，提供更安全的SFTP服务(vsftp,proftp)。
+</code></pre>
+
+<h3 id="toc_17">02：远程连接方法(常见两种)</h3>
+
+<h4 id="toc_18">①. 通过SSH服务进行远程连接</h4>
+
+<h4 id="toc_19">②. 通过Telnet服务进行远程连接</h4>
+
+<pre><code>    a. 服务端下载安装telnet软件
+       yum install -y telnet telnet-server
+    b. 设置telnet服务可以允许被xinetd服务进行管理启动
+       vim /etc/xinetd.d/telnet 
+       disable         = no
+    c. 启动xinetd服务同时开启telnet服务
+       /etc/init.d/xinetd start
+       netstat -lntup|grep 23
+       tcp        0      0 :::23       :::*     LISTEN      43374/xinetd 
+    d. telnet客户端连接测试
+       [c:\~]$ telnet 10.0.0.61
+       Connecting to 10.0.0.61:23...
+       Connection established.
+       To escape to local shell, press Ctrl+Alt+].
+       CentOS release 6.8 (Final)
+       Kernel 2.6.32-642.el6.x86_64 on an x86_64
+       login: 
+</code></pre>
+
+<h3 id="toc_20">03：SSH远程连接异常排查思路</h3>
+
+<h4 id="toc_21">①. 确认网络通讯链路是否正常（客户端执行）</h4>
+
+<pre><code>    ping 服务器ip地址
+    tracert -d 服务器ip地址(windows下操作)
+    traceroute -n 服务器ip地址(linux下操作)
+</code></pre>
+
+<h4 id="toc_22">②. 检查SSH进程，确认服务是否运行良好（客户端执行）</h4>
+
+<pre><code>    telnet ip 22
+    nmap ip -p 22 &lt;- 此命令属于linux命令，只能在linux上执行
+</code></pre>
+
+<h4 id="toc_23">③. 安全机制进行了连接建立阻止</h4>
+
+<pre><code>    iptables:/etc/init.d/iptables stop
+    selinux功能开启
+</code></pre>
+
+<h3 id="toc_24">04：SSH服务软件知识介绍</h3>
+
+<h4 id="toc_25">①. 软件安装包介绍</h4>
+
+<pre><code>    rpm -qf  `which ssh`
+</code></pre>
+
+<h4 id="toc_26">②. 软件大礼包重要信息说明</h4>
+
+<pre><code>    客户端大礼包重要信息
+    /etc/ssh/ssh_config
+    /usr/bin/scp
+    /usr/bin/sftp
+    /usr/bin/ssh
+    服务端大礼包重要信息
+    /etc/rc.d/init.d/sshd
+    /etc/ssh/sshd_config
+</code></pre>
+
+<h3 id="toc_27">05：SSH服务远程连接登录过程</h3>
+
+<pre><code>ssh 10.0.0.31 ---yes---输入密码---登录成功  
+</code></pre>
+
+<h3 id="toc_28">06：SSH服务软件版本区别说明(了解)</h3>
+
+<pre><code>sshv1：密钥对信息保持不变
+sshv2：密钥对信息经常变化
+</code></pre>
+
+<h3 id="toc_29">07：SSH服务认证类型：</h3>
+
+<pre><code>· 基于口令的安全验证：利用密码认证进行登录
+· 基于密钥的安全验证：利用密钥认证进行登录 == 利用钥匙和锁头的方式进行认证    
+基于密钥热证的方式：
+利用钥匙和锁头的方式进行验证，
+a. 将钥匙放在管理服务器端(远程登录服务器端)
+b. 将锁头放在被管理服务器端(远程被登录服务器端)
+钥匙和锁头的使用过程：
+①. 连接服务的ssh客户端，创建出密钥和锁头
+②. 连接服务的ssh客户端，将锁头发送给ssh服务端
+③. 连接服务的ssh客户端，发出连接请求
+④. ssh服务端收到连接请求后，会发出质询信息，你想连接我，你能打开我的锁头吗
+⑤. ssh客户端利用钥匙解密了质询，至此钥匙和锁头就匹配了，将匹配后的结果告知服务器端
+⑥. ssh服务端认可匹配结果，连接请求建立
+</code></pre>
+
+<h3 id="toc_30">08：SSH服务企业案例说明：(重点必会)</h3>
+
+<blockquote>
+<p>【企业面试题】：给你一个端口，如何命令行查出对应的服务是什么?<br/>
+   【企业面试题】：如果给你一个进程名oldboy，如何查看对应的端口是什么？</p>
+</blockquote>
+
+<h3 id="toc_31">09：SSH服务配置文件修改：(重点必会)</h3>
+
+<pre><code>相关参数理解概念与作用
+</code></pre>
+
+<h1 id="toc_32">ssh+key共享密钥部署流程说明</h1>
+
+<h3 id="toc_33">1. 熟悉部署流程 架构图</h3>
+
+<blockquote>
+<p>a. 锁头和钥匙概念<br/>
+   b. 钥匙放在哪里？   ---&gt; m01上<br/>
+   c. 锁头放在哪里？   backup web01 nfs01</p>
+</blockquote>
+
+<h3 id="toc_34">2. 部署环境准备：（4台虚拟主机）</h3>
+
+<blockquote>
+<p>NFS backup web --- 受控端<br/>
+   m01            --- 主控端</p>
+</blockquote>
+
+<h3 id="toc_35">3. 部署步骤概述</h3>
+
+<blockquote>
+<p>第一个里程碑：生成私钥和公钥（生成密钥对）<br/>
+   第二个里程碑：将锁头（公钥）发送到相应服务器上（分发公钥）<br/>
+   第三个里程碑：进行检查测试（验证是否实现基于密钥访问服务器，即实现非交互方式）</p>
+</blockquote>
+
+<h3 id="toc_36">4. 生成 钥匙 锁头（密钥对） m01</h3>
+
+<pre><code>[root@m01 ~]## ssh-keygen -t dsa 
+Generating public/private dsa key pair.                        ####生成一对dsa类型的秘钥对（公钥和私钥）
+Enter file in which to save the key (/root/.ssh/id_dsa):       ###想要把你的密钥对放在哪里 默认即可
+Enter passphrase (empty for no passphrase):                    ###给你的钥匙锁头 加上个密码把。 回车
+Enter same passphrase again:                                   #确认   
+Your identification has been saved in /root/.ssh/id_dsa.      #私钥放置的位置（钥匙）
+Your public key has been saved in /root/.ssh/id_dsa.pub.       #公钥放置的位置（锁头）
+The key fingerprint is:
+e8:26:51:ba:ed:f0:00:37:a7:3a:ab:ab:34:83:0a:9e root@m01
+The key’s randomart image is:
+</code></pre>
+
+<p><code>+--[ DSA 1024]----+<br/>
+   |                 |<br/>
+   |                  |<br/>
+   |      .           |<br/>
+   |     o .          |<br/>
+   |  . = o S         |<br/>
+   |.  o O            |<br/>
+   |o+  * +           |<br/>
+   |= =. B            |<br/>
+   |*Eoo  o           |<br/>
+   +-----------------+<br/>
+</code></p>
+
+<pre><code>[root@m01 ~]## ll ~/.ssh -d
+drwx------ 2 root root 4096 2017-04-18 09:42 /root/.ssh
+[root@m01 ~]## ls -l /root/.ssh/
+total 12
+-rw------- 1 root root  668 Jan  5 16:37 id_dsa                     ###私钥 钥匙 
+-rw-r--r-- 1 root root  598 Jan  5 16:37 id_dsa.pub                 ####公钥 锁头 ; .pub  public  公共的 公钥
+-rw-r--r-- 1 root root 1576 Jan  5 14:58 known_hosts
+</code></pre>
+
+<h3 id="toc_37">5. 锁头如何放过去（传送到远端服务器）</h3>
+
+<pre><code>[root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub 172.16.1.41                 #ip地址前没有指定用户信息，表示用当前用户进行传送公钥
+[root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.41            #表示将公钥id信息进行复制传送
+The authenticity of host &#39;172.16.1.41 (172.16.1.41)&#39; can’t be established.
+RSA key fingerprint is 6e:85:f3:ce:58:f2:dd:4f:3c:0d:60:4e:3c:ef:79:ce.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;172.16.1.41&#39; (RSA) to the list of known hosts.
+root@172.16.1.41’s password: 
+Now try logging into the machine, with &quot;ssh &#39;root@172.16.1.41&#39;&quot;, and check in:
+
+.ssh/authorized_keys
+
+to make sure we haven’t added extra keys that you weren’t expecting.
+
+测试远程登录
+## ssh 172.16.1.41
+Last login: Wed Aug  2 12:56:30 2017 from 10.0.0.1
+## ll ~/.ssh/
+total 8
+-rw------- 1 root root  598 Aug  3 09:33 authorized_keys
+-rw-r--r-- 1 root root 1185 Aug  2 11:58 known_hosts
+
+## ssh 172.16.1.41 &quot;ll ~/.ssh/&quot;
+bash: ll: command not found
+## ssh 172.16.1.41 &quot;ls -l ~/.ssh/&quot;
+total 8
+-rw------- 1 root root  598 Aug  3 09:33 authorized_keys
+-rw-r--r-- 1 root root 1185 Aug  2 11:58 known_hosts
+说明：ssh远程执行命令,不支持别名功能
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_38">扩展知识说明：</h3>
+
+<h4 id="toc_39">01：ssh服务特殊端口情况进行分发公钥</h4>
+
+<pre><code>[root@rsync-server ~]## netstat -lntup|grep sshd
+tcp        0      0 0.0.0.0:52113               0.0.0.0:*                   LISTEN      67538/sshd          
+tcp        0      0 :::52113                    :::*                        LISTEN      67538/sshd 
+说明：修改远程主机ssh服务连接端口信息，从22端口改为52113端口
+
+   [root@m01 ~]## ssh -p 52113 172.16.1.41 hostname
+   rsync-server
+   说明：已经发送过公钥服务器，修改端口后，指定端口连接即可
+
+   [root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub 172.16.1.41
+   ssh: connect to host 172.16.1.41 port 22: Connection refused
+   说明：修改端口后，采用默认分发公钥方式会出现报错“连接拒绝”，主要和ssh-copy-id命令机制有关
+
+   [root@m01 ~]## which ssh-copy-id
+   /usr/bin/ssh-copy-id
+   [root@m01 ~]## file /usr/bin/ssh-copy-id
+   /usr/bin/ssh-copy-id: POSIX shell script text executable       ## ssh-copy-id命令实际上是一个脚本文件
+   [root@rsync-server ~]## ll ~/.ssh/authorized_keys 
+   -rw------- 1 root root 1196 2017-04-18 10:55 /root/.ssh/authorized_keys
+   [root@rsync-server ~]## rm -f ~/.ssh/authorized_keys            ## 删除远端服务器的公钥文件
+   [root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub &quot;-p52113 root@172.16.1.41&quot;
+   说明：根据命令脚本，修改$1传参信息，从而实现根据ssh不同端口传送公钥文件    
+   ============================================
+   #!/bin/bash
+   until [ $## -eq 0 ]
+   do
+        echo $*
+        shift
+   done
+   ============================================
+</code></pre>
+
+<h4 id="toc_40">02：ssh-copy-id命令脚本简单说明</h4>
+
+<pre><code>ssh-copy-id 指定端口号--脚本---ssh
+【了解】ssh-copy-id 执行过程
+ssh  $1 &quot;exec sh -c &#39;umask 077; test -d ~/.ssh || mkdir ~/.ssh ; 
+cat &gt;&gt; ~/.ssh/authorized_keys &amp;&amp; (test -x /sbin/restorecon &amp;&amp; /sbin/restorecon ~/.ssh ~/.ssh/authorized_keys &gt;/dev/null 2&gt;&amp;1 || true)’&quot;
+①. 临时设置了一下umask 077 
+②. 看目标服务器是否存在 ~/.ssh 目录
+③. 如果目录不存在，则创建 mkdir ~/.ssh 
+④. 把id_dsa.pub内容 放到了受控端服务器 ~/.ssh/authorized_keys   
+说明：根据以上脚本分析内容可以
+创建生成.ssh目录，权限是700
+创建生成authorized_keys文件，权限是600
+authorized_keys文件内容实质上等于id_dsa.pub公钥文件内容
+</code></pre>
+
+<h4 id="toc_41">03：ssh服务如何识别公钥文件</h4>
+
+<pre><code>[root@m01 ~]## vim /etc/ssh/sshd_config               
+49 #AuthorizedKeysFile     .ssh/authorized_keys
+说明：利用ssh服务配置文件，识别公钥文件信息   
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_42">5. 操作后检查！！！！！</h3>
+
+<pre><code>[root@m01 ~]## ssh 172.16.1.41                ## 基于密钥方式登录远程主机
+[root@m01 ~]## ssh 172.16.1.41 hostname       ## 不登录远程主机，在远程主机上执行命令
+说明：远程连接backup服务，以及远程在backup服务器上执行命令，从而验证基于密钥登录远程主机是否得以实现
+</code></pre>
+
+<h3 id="toc_43">6. ssh服务分发公钥实质执行过程</h3>
+
+<pre><code>①. 管理服务器创建私钥和公钥（密钥对）
+②. 将公钥文件远程传送复制到被管理服务器相应用户~/.ssh下，并修改.ssh目录权限为700
+③. 修改公钥文件文件名称为authorized_keys，授权权限为600
+④. 利用ssh服务配置文件的配置参数，进行识别公钥文件authorized_keys
+⑤. 进而实现基于密钥远程登录服务器（免密码登录/非交互方式登录）   
+
+
+
+-f filename
+        Specifies the filename of the key file.   ---指定秘钥信息
+-P passphrase
+        Provides the (old) passphrase.
+-N new_passphrase
+        Provides the new passphrase.
+</code></pre>
+
+<h3 id="toc_44">编写批量分发公钥脚本三个阻碍因素</h3>
+
+<h4 id="toc_45">01: 有一个需要进行确认的位置（yes/no）</h4>
+
+<h4 id="toc_46">02: 有需要输入密码的位置</h4>
+
+<pre><code>sshpass -p123456 ssh-copy-id -i ~/.ssh/id_dsa.pub root@172.16.1.7
+</code></pre>
+
+<h4 id="toc_47">03: 实现秘钥对创建免交互</h4>
+
+<pre><code>ssh-keygen -t dsa -f /root/.ssh/id_dsa -P &quot;&quot;
+</code></pre>
+
+<h1 id="toc_48">ssh+key公钥批量分发步骤</h1>
+
+<h3 id="toc_49">1.【手动】发送锁头到所有服务器（backup nfs01 web01)</h3>
+
+<pre><code>[root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.41
+[root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.31
+[root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.8
+
+[root@m01 ~]## ssh 172.16.1.8 hostname
+web01
+[root@m01 ~]## ssh 172.16.1.31 hostname
+nfs01
+[root@m01 ~]## ssh 172.16.1.41 hostname
+backup
+说明：手工批量验证基于密钥登录远程主机是否成功
+思考：如何提高效率，哪里较低了部署效率
+密钥对生成过程阻碍因素：需要交互方式生成密钥对
+分发公钥的过程阻碍因素：需要交互方式传送公钥
+</code></pre>
+
+<h3 id="toc_50">2.【脚本】发送锁头到所有服务器（backup nfs01 web01)</h3>
+
+<pre><code>[root@m01 ~]## mkdir /server/scripts                 ## 创建管理脚本目录
+[root@m01 ~]## vim /server/scripts/distribute.sh     ## 编辑公钥分发脚本
+#!/bin/bash
+## distribute pub_key to remote_hosts
+ssh-copy -i /root/.ssh/id_dsa.pub root@172.16.1.41
+ssh-copy -i /root/.ssh/id_dsa.pub root@172.16.1.31
+ssh-copy -i /root/.ssh/id_dsa.pub root@172.16.1.8
+说明：以上脚本信息会有阻碍因素，影响脚本执行
+</code></pre>
+
+<blockquote>
+<p>01：创建密钥对过程需要交互完成<br/>
+02：确认信息阻碍脚本运行（yes/no）<br/>
+03：ssh连接密码信息阻碍（第一次分发公钥需要输入密码信息）</p>
+</blockquote>
+
+<h3 id="toc_51">3. 分发密钥阻碍因素处理办法</h3>
+
+<h4 id="toc_52">01: ssh+key密钥对生成免交互方式生成</h4>
+
+<pre><code>   利用ssh-keygen命令参数实现免交互方式生成
+   rm -f /root/.ssh/id_dsa*
+   ssh-keygen -t dsa -f /root/.ssh/id_dsa -P &quot;&quot; &gt;/dev/null 2&gt;&amp;1   ## 非交互式生成秘钥对
+   ssh-keygen -t dsa -f /root/.ssh/id_dsa -N &#39;&#39; &gt;/dev/null 2&gt;&amp;1   ## 非交互式生成秘钥对
+   ssh-keygen -t dsa -f ~/.ssh/id_dsa  -P &#39;&#39; -q
+</code></pre>
+
+<h4 id="toc_53">02：ssh连接密码信息阻碍问题解决方式</h4>
+
+<pre><code>******************************************************************************************************************
+  
+扩展知识说明：
+①. sshpass命令说明介绍
+实现在命令行中输入密码；sshpass 专门用来给ssh提供密码
+sshpass----expect 
+[root@m01 ~]## ssh 172.16.1.7 hostname            ## 默认没有分发公钥文件时，连接远程主机执行命令总是提示输入密码
+root@172.16.1.7’s password: 
+web02
+[root@m01 ~]## sshpass -p123456 ssh 172.16.1.41 hostname   ## 利用sshpass命令的-p参数，实现对后面执行的命令给予密码信息
+rsync-server                                              ## 结果返回是 backup
+  
+实现在命令行中处理确认消息问题
+&gt;/root/.ssh/known_hosts                          ## 清空known_hosts文件信息，还原确认信息效果
+rm -f /root/.ssh/*                               ## 直接清空.ssh目录，还原确认信息和密码认证
+## ssh 172.16.1.7 hostname
+The authenticity of host &#39;172.16.1.7 (172.16.1.7)&#39; can’t be established.
+RSA key fingerprint is 0e:47:58:8c:cc:31:ca:2e:ae:94:f0:45:eb:51:30:60.
+Are you sure you want to continue connecting (yes/no)?    ## 确认ssh连接已经还原成默认状态
+## sshpass -p123456 ssh -o StrictHostKeyChecking=no  172.16.1.7 hostname 
+Warning: Permanently added &#39;172.16.1.7&#39; (RSA) to the list of known hosts.
+web02                                            ## 解决确认信息交互问题
+The StrictHostKeyChecking option can be used to control logins to machines whose host key is not known or has changed.
+StrictHostKeyChecking参数能被用于控制登录机器，在主机key是没有known信息或被改变的时候
+******************************************************************************************************************   
+[root@m01 ~]## ssh-copy-id -i /root/.ssh/id_dsa.pub 172.16.1.7
+root@172.16.1.7’s password: 
+[root@m01 ~]## sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.7     ## 非交换（免密码方式）分发密钥
+[root@m01 ~]## sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.31
+[root@m01 ~]## sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub root@172.16.1.41
+[root@m01 ~]## ssh 172.16.1.41 hostname          ## 验证密钥是否分发成功
+rsync-server
+[root@m01 ~]## ssh 172.16.1.31 hostname
+nfs-server
+[root@m01 ~]## ssh 172.16.1.7 hostname
+web02
+</code></pre>
+
+<h3 id="toc_54">03：ssh连接确认信息阻碍问题解决方式</h3>
+
+<pre><code>非交互式 非一台服务器发送锁头（公钥）
+sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub &quot;-o StrictHostKeyChecking=no 172.16.1.41&quot;
+sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub &quot;-o StrictHostKeyChecking=no 172.16.1.8&quot;
+sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub &quot;-o StrictHostKeyChecking=no 172.16.1.31&quot;   
+[root@m01 ~]## ssh 172.16.1.31 hostname          ## 验证密钥是否分发成功
+nfs-server
+[root@m01 ~]## ssh 172.16.1.41 hostname
+rsync-server
+[root@m01 ~]## ssh 172.16.1.7 hostname
+web02
+ 
+阻碍因素问题得以解决，继续编写脚本实现批量分发公钥
+## vim /server/scripts/distribute.sh 
+for ip in 7 31 41
+do
+sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub &quot;-o StrictHostKeyChecking=no 172.16.1.$ip&quot;
+done
+## sh /server/scripts/distribute.sh
+## sh -x  /server/scripts/distribute.sh           ## 检测脚本执行过程时会有+号信息，表示脚本执行的信息，多个+号表示执行信息的层级关系
+                                              ## 没有+的信息表示输出到屏幕上的信息
+说明：此脚本已经实现了批量免交互方式进行分发公钥，但是如果有新增主机需要对脚本文件进行修改
+BTW：编写脚本的时候注意变量名称的指定，例如PATH一些特殊名称，不要作为变量名称进行指定
+  
+编写脚本利用传参方式执行，使脚本执行方式更加灵活
+for ip in $*
+do
+ sshpass -p123456 ssh-copy-id -i /root/.ssh/id_dsa.pub &quot;-o StrictHostKeyChecking=no $ip&quot;
+done
+## sh /server/scripts/distribute.sh 172.16.1.31 172.16.1.41 172.16.1.7        ## 利用快捷键ctrl+w（剪切）和ctrl+y(粘贴)，实现快速编写传参参数
+说明：利用$*(包含所有传输参数信息；man bash可以获取得知)循环实现传参批量分发公钥
+  
+编写批量检查公钥分发是否正确
+## vim /server/scripts/check_distribute.sh
+for ip in $*
+do
+ ssh $ip hostname
+done
+## sh  /server/scripts/check_distribute.sh 172.16.1.31 172.16.1.41 172.16.1.7   ## 检查脚本执行确认无误，批量分发公钥脚本执行成功
+nfs-server
+rsync-server
+web02
+PS：如果对以上脚本的编写内容还是不熟悉，可以查看翻译系统服务的启动脚本(/etc/init.d/nfs /etc/init.d/functions)，提升脚本编写能力
+</code></pre>
+
+<h1 id="toc_55">ssh+key公钥批量管理实现</h1>
+
+<h3 id="toc_56">1. 编写批量管理脚本信息</h3>
+
+<pre><code>[root@m01 scripts]## cat check-v587.sh 
+#!/bin/bash
+#filename :check-v587.sh
+for ip  in  8 31 41
+do
+    ssh 172.16.1.$ip $1
+done
+[root@m01 scripts]## sh check-v587.sh &quot;ifconfig eth0&quot;
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:45:5E:1D  
+          inet addr:10.0.0.8  Bcast:10.0.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe45:5e1d/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:584 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:467 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:59453 (58.0 KiB)  TX bytes:40039 (39.1 KiB)
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:FB:27:33  
+          inet addr:10.0.0.31  Bcast:10.0.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fefb:2733/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:79116 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:39323 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:79932709 (76.2 MiB)  TX bytes:3487552 (3.3 MiB)
+     
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:36:C1:3B  
+          inet addr:10.0.0.41  Bcast:10.0.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe36:c13b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:17889 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:15415 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+                    RX bytes:4679291 (4.4 MiB)  TX bytes:2691255 (2.5 MiB)
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

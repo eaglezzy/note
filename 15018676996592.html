@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿十、实时同步服务知识介绍(inotify+rsync) - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿十、实时同步服务知识介绍(inotify+rsync)</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">①. 实时同步方式环境准备(绘图说明)</a>
+</li>
+<li>
+<a href="#toc_1">②. rsync+inotify服务组合的起源</a>
+</li>
+<li>
+<a href="#toc_2">已经学习过的企业项目案例：</a>
+</li>
+</ul>
+
+
+<h2 id="toc_0">①. 实时同步方式环境准备(绘图说明)</h2>
+
+<blockquote>
+<p>a. 准备rsync守护进程服务，实现通过网络推送数据信息到rsync服务端(自行回忆rsync守护进程模式配置过程)<br/>
+b. 准备inotify服务部署</p>
+</blockquote>
+
+<h2 id="toc_1">②. rsync+inotify服务组合的起源</h2>
+
+<blockquote>
+<p>a. inotify软件服务介绍</p>
+
+<blockquote>
+<p>异步的文件系统事件监控机制;监控文件系统中添加、删除，修改、移动等各种事件</p>
+</blockquote>
+
+<p>b. inotify软件同步原理(绘图说明)<br/>
+c. inotify软件部署步骤</p>
+
+<blockquote>
+<p>yum源信息变更调整，准备epel源<br/>
+inotify软件yum下载安装</p>
+</blockquote>
+</blockquote>
+
+<pre><code>yum install inotify-tools
+inotify软件确认系统是否支持
+ll /proc/sys/fs/inotify
+</code></pre>
+
+<blockquote>
+<blockquote>
+<p>检查是否存在inotify的软件包<br/>
+常用参数说明</p>
+</blockquote>
+</blockquote>
+
+<h2 id="toc_2">已经学习过的企业项目案例：</h2>
+
+<ol>
+<li>集权分治的权限管理及日志审计</li>
+<li>全网数据备份解决方案</li>
+<li>共享存储实时备份（共享存储的单点解决方案）</li>
+</ol>
+
+<blockquote>
+<p>①. 第一个里程碑：</p>
+
+<blockquote>
+<p>1） 实现从NFS客户端到rsync服务端的rsync服务部署（给学生时间进行部署）</p>
+</blockquote>
+
+<p>②. 第二个里程碑：</p>
+
+<blockquote>
+<p>2） 实现从nfs客户端对nfs目录文件系统事件的实时监控</p>
+</blockquote>
+
+<p>③. 第三个里程碑：</p>
+
+<blockquote>
+<p>3） 当监控到nfs目录文件系统事件变化后，触发rsync推送变化的文件。利用脚本进行实现</p>
+</blockquote>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿九、数据库迁移--NFS迁移 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿九、数据库迁移--NFS迁移</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p><strong>迁移目的</strong></p>
+
+<blockquote>
+<p>将部署在web01中的数据库完整迁移到db01, 使数据库服务器和web服务器各司其职<br/>
+将web01上www用户上传的文件统一存放到nfs01上</p>
+</blockquote>
+
+<p>========MySQL数据库迁移========</p>
+
+<ol>
+<li><p>db01的准备工作</p>
+
+<ol>
+<li><p>添加系统虚拟用户mysql</p>
+
+<pre><code>useradd -s /sbin/nologin  -M mysql
+</code></pre></li>
+<li><p>安装MySQL</p>
+
+<pre><code>cd /server/tools/
+tar xf mysql-5.6.34-linux-glibc2.5-x86_64.tar.gz
+mv /server/tools/mysql-5.6.34-linux-glibc2.5-x86_64 /application/mysql-5.6.34
+ln -s /application/mysql-5.6.34/ /application/mysql
+chown -R mysql.mysql /application/mysql/data/
+/application/mysql/scripts/mysql_install_db --basedir=/application/mysql --datadir=/application/mysql/data --user=mysql
+cp /application/mysql/support-files/mysql.server  /etc/init.d/mysqld
+chmod +x /etc/init.d/mysqld
+chkconfig --add mysqld
+chkconfig mysqld on
+sed -i &#39;s#/usr/local/mysql#/application/mysql#g&#39; /application/mysql/bin/mysqld_safe /etc/init.d/mysqld
+\cp /application/mysql/support-files/my-default.cnf /etc/my.cnf
+/etc/init.d/mysqld start
+echo &#39;export PATH=/application/mysql/bin:$PATH&#39; &gt;&gt;/etc/profile
+source /etc/profile
+which mysql
+/application/mysql/bin/mysqladmin -u root password &#39;oldboy123&#39;
+mysql -uroot -poldboy123
+quit
+</code></pre></li>
+</ol></li>
+<li><p>web01上进行数据库备份并推送到db01</p>
+
+<ol>
+<li><p>mysqldump命令</p>
+
+<pre><code>Dumping structure and contents of MySQL databases and tables.
+Usage: mysqldump [OPTIONS] database [tables]
+OR     mysqldump [OPTIONS] --databases [OPTIONS] DB1 [DB2 DB3...]
+OR     mysqldump [OPTIONS] --all-databases [OPTIONS]
+-A --all-databases 备份所有数据库
+</code></pre>
+
+<pre><code>mysqldump -uroot -p -A|gzip &gt;/tmp/alldb-bak.gz #不使用明文密码的安全操作
+ll /tmp/alldb-bak.gz
+</code></pre></li>
+<li><p>scp推送到db01</p>
+
+<pre><code>scp /tmp/alldb-bak.gz db01:/tmp        #需要hosts文件中有对应的ip解析
+</code></pre></li>
+</ol></li>
+<li><p>db01上解压并使用root账号导入备份</p>
+
+<pre><code>gzip -d /tmp/alldb-bak.gz
+mysql -uroot -p &lt;/tmp/alldb-bak         #不使用明文密码的安全操作
+mysql -uroot -poldboy123                 #使用管理账号登录
+flush privileges;                 #刷新账号信息使之生效
+quit
+mysql -uwordpress -p                     # WordPress测试账号登录是否成功(迁移成功)
+</code></pre></li>
+<li><p>修改web01配合文件</p>
+
+<pre><code>grep &#39;localhost&#39; /application/nginx/html/blog/wp-config.php
+define(&#39;DB_HOST&#39;, &#39;localhost&#39;);
+sed -i &#39;s#localhost#172.16.1.51#g&#39; /application/nginx/html/blog/wp-config.php /application/nginx/html/blog/test_mysql.php
+grep &#39;172&#39; /application/nginx/html/blog/wp-config.php
+define(&#39;DB_HOST&#39;, &#39;172.16.1.51&#39;);
+</code></pre></li>
+<li><p>停掉web01数据库并设置开机不启动</p>
+
+<pre><code>/etc/init.d/mysqld stop
+chkconfig  mysqld off
+</code></pre></li>
+<li><p>修改web01的php与db01的mysql连通性测试文件</p>
+
+<pre><code>vim /application/nginx/html/blog/test_mysql.php
+</code></pre>
+
+<pre><code>&lt;?php
+     //$link_id=mysql_connect(&#39;主机名&#39;,&#39;用户&#39;,&#39;密码&#39;);
+     //mysql -u用户 -p密码 -h 主机
+     $link_id=mysql_connect(&#39;172.16.1.51&#39;,&#39;wordpress&#39;,&#39;123456&#39;) or mysql_error();
+     if($link_id){
+         echo &quot;mysql successful by oldboy !\n&quot;;
+      }else{
+         echo mysql_error();
+       }
+?&gt;
+</code></pre></li>
+<li><p>排错</p>
+
+<ol>
+<li><p>test_mysql.php测试时账号认证错误</p>
+
+<blockquote>
+<p>db01中缺少了少了同网段的认证信息</p>
+</blockquote>
+
+<pre><code>mysql -uroot -poldboy123
+grant all on wordpress.* to &#39;wordpress&#39;@&#39;localhost&#39; identified by &#39;123456&#39;;
+grant all on wordpress.* to &#39;wordpress&#39;@&#39;172.16.1.0/255.255.255.0&#39; identified by &#39;123456&#39;;
+flush privileges;
+</code></pre></li>
+</ol>
+
+<p>========NFS迁移========</p>
+
+<blockquote>
+<p>如何找到用户上传的文件路径?</p>
+
+<ol>
+<li><p>复制blog中的图片地址</p>
+
+<p><a href="http://blog.etiantian.org/wp-content/uploads/2017/08/nginx-320x320-300x300.jpg">http://blog.etiantian.org/wp-content/uploads/2017/08/nginx-320x320-300x300.jpg</a></p></li>
+<li><p>找到blog目录下最新的文件</p>
+
+<pre><code>find /application/nginx/html/blog/ -mmin -10
+</code></pre></li>
+</ol>
+</blockquote></li>
+<li><p>在nfs01上确认nfs服务是否启动</p>
+
+<pre><code>/etc/init.d/nfs status
+/etc/init.d/rpcbind stop
+/etc/init.d/nfs stop
+</code></pre>
+
+<blockquote>
+<p>启动顺序</p>
+</blockquote>
+
+<pre><code>/etc/init.d/rpcbind start
+/etc/init.d/nfs start
+/etc/init.d/nfs status
+</code></pre></li>
+<li><p>nfs01准备共享目录</p>
+
+<pre><code>mkdir /blog-data
+chown nfsnobody. nfsnobody /blog-data/
+echo &#39;#blog-data 20170811&#39; &gt;&gt;/etc/exports
+echo &#39;/blog-data/ 172.16.1.0/24(rw,sync,all_squash)&#39; &gt;&gt;/etc/exports
+/etc/init.d/nfs reload             # == exportsfs -rv
+showmount -e nfs01
+</code></pre></li>
+<li><p>web01挂载前的准备(需要关闭网站,不让用户创建新博客)</p>
+
+<pre><code>yum install -y rpcbind nfs-utils
+showmount -e nfs01
+mkdir /tmp/blog-tmp/
+mv /application/nginx/html/blog/wp-content/uploads/* /tmp/blog-tmp/
+</code></pre></li>
+<li><p>web01挂载共享目录并在nfs01上测试结果</p>
+
+<pre><code>mount -t nfs 172.16.1.31:/blog-data /application/nginx/html/blog/wp-content/uploads/
+echo &#39;mount -t nfs 172.16.1.31:/blog-data /application/nginx/html/blog/wp-content/uploads/&#39; &gt;&gt;/etc/profile #设置开机挂载
+touch /application/nginx/html/blog/wp-content/uploads/test.txt
+</code></pre></li>
+<li><p>将用户上传的••文件转移回来</p>
+
+<pre><code>mv /tmp/blog-tmp/* /application/nginx/html/blog/wp-content/uploads/
+</code></pre>
+
+<blockquote>
+<p>注意: 这一步操作会出现告警信息, 因为挂载后www用户会被压缩, 文件属主会有变化<br/>
+注意: web01和nfs01时间上要保持一致同步, 否则按时间查找用户上传的文件时会有坑</p>
+</blockquote></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

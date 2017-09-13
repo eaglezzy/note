@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卅九、自动批量的安装操作系统 -- kickstart - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卅九、自动批量的安装操作系统 -- kickstart</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>以前是怎么安装系统的</p>
+
+<blockquote>
+<ul>
+<li>光盘（ISO文件，光盘的镜像文件）===》每一台物理机都得给一个光驱，如果用外置光驱的话，是不是每台机器都需要插一下</li>
+<li>U盘：ISO镜像刻录到U盘==》需要每台机器都需要插一下</li>
+<li>并行安装==》网络安装</li>
+<li>自动化安装</li>
+</ul>
+</blockquote>
+
+<blockquote>
+<p>备注：（WDS，需要安装在Windows Server 2008）</p>
+</blockquote></li>
+<li><p>Linux系统批量安装</p>
+
+<blockquote>
+<p>kickstart是RedHat公司开源的软件，所以对CentOS兼容性最好。</p>
+</blockquote>
+
+<blockquote>
+<p>原理：我们将手动安装的所有的详细步骤记录到一个文件中，然后kickstart通过读取这个文件就可以实现自动化安装系统。</p>
+</blockquote>
+
+<blockquote>
+<p>kickstart是一个项目的名称。没有这个软件。使用者水平是高中以上</p>
+</blockquote>
+
+<blockquote>
+<p>cobbler是对kickstart的所有组件的封装。使用者水平是初中以上。本质上就是网页版本的kickstart。</p>
+</blockquote></li>
+<li><p>kickstart的原理及组件<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/52469894.jpg" alt=""/></p></li>
+<li><p>安装DHCP服务<br/>
+环境准备</p>
+
+<pre><code>[root@m01 ~]# cat /etc/redhat-release 
+CentOS release 6.9 (Final)
+[root@m01 ~]# uname -r
+2.6.32-696.el6.x86_64
+[root@m01 ~]# getenforce 
+Disabled
+[root@m01 ~]# /etc/init.d/iptables status
+iptables: Firewall is not running.
+[root@m01 ~]# hostname -I
+10.0.0.61 172.16.1.61 
+[root@m01 ~]# netstat -tunlp|grep 80  #==&gt; 没有80端口占用
+[root@m01 ~]# echo &quot;192.168.14.200 mirrors.aliyun.com&quot; &gt;&gt;/etc/hosts
+</code></pre>
+
+<p>安装DHCP</p>
+
+<pre><code>[root@m01 ~]#  yum -y install dhcp
+</code></pre>
+
+<p>配置DHCP</p>
+
+<pre><code>cat &gt;&gt;/etc/dhcp/dhcpd.conf&lt;&lt;EOF
+subnet 172.16.1.0 netmask 255.255.255.0 {
+        range 172.16.1.120 172.16.1.200;
+        option subnet-mask 255.255.255.0;
+        default-lease-time 21600;
+        max-lease-time 43200;
+        next-server 172.16.1.61;
+        filename &quot;/pxelinux.0&quot;;
+}
+EOF
+</code></pre>
+
+<p>启动dhcp查看日志</p>
+
+<pre><code>[root@m01 ~]# /etc/init.d/dhcpd start
+Starting dhcpd:                                            [  OK  ]
+[root@m01 ~]# netstat -tunlp|grep dhcp
+udp        0      0 0.0.0.0:67                  0.0.0.0:*                               88874/dhcpd         
+[root@m01 ~]#
+
+[root@m01 ~]# tailf /var/log/messages
+</code></pre>
+
+<p>DHCP服务对kickstart系统的影响程度</p>
+
+<p>新建空白虚拟机，建完后做快照。<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/33358046.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/88796927.jpg" alt=""/></p>
+
+<p>TFTP没有最终报错<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/36984203.jpg" alt=""/></p></li>
+<li><p>安装TFTP服务</p>
+
+<p>安装</p>
+
+<pre><code>[root@m01 ~]# yum -y install tftp-server
+</code></pre>
+
+<p>配置</p>
+
+<pre><code>sed -i &#39;14s#yes#no#&#39; /etc/xinetd.d/tftp
+</code></pre>
+
+<p>启动</p>
+
+<pre><code>/etc/init.d/xinetd restart
+[root@m01 ~]# netstat -tunlp|grep 69
+udp        0      0 0.0.0.0:69                  0.0.0.0:*                               90419/xinetd  
+</code></pre>
+
+<p>TFTP服务对kickstart系统的影响程度<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/55045879.jpg" alt=""/></p>
+
+<p>上面报错是在TFTP服务的根目录找不到启动文件pxelinux.0</p>
+
+<pre><code>[root@m01 ~]# cd /var/lib/tftpboot/ # TFTP服务的根目录
+[root@m01 tftpboot]# ls
+[root@m01 tftpboot]#
+[root@m01 ~]# yum -y install syslinux  # 为了找到pxelinux.0所以下载这个包
+[root@m01 ~]# cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/
+</code></pre>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/13240529.jpg" alt=""/></p>
+
+<blockquote>
+<p>上面的错误是因为pxelinux.0这个小系统的配置文件（default）不存在，或者文件名不对</p>
+</blockquote>
+
+<p>如何找到这个配置文件</p>
+
+<blockquote>
+<p>第一步：挂载镜像</p>
+</blockquote>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/63390276.jpg" alt=""/></p>
+
+<blockquote>
+<p>第二步</p>
+</blockquote>
+
+<pre><code>[root@m01 ~]# mkdir -p /var/www/html/CentOS6.9
+[root@m01 ~]# mount /dev/cdrom /var/www/html/CentOS6.9
+mount: block device /dev/sr0 is write-protected, mounting read-only
+</code></pre>
+
+<blockquote>
+<p>第三步：从镜像中找到相关的配置文件</p>
+</blockquote>
+
+<pre><code>cp -a /var/www/html/CentOS6.9/isolinux/* /var/lib/tftpboot/
+mkdir -p /var/lib/tftpboot/pxelinux.cfg
+cp /var/www/html/CentOS6.9/isolinux/isolinux.cfg /var/lib/tftpboot/pxelinux.cfg/default
+</code></pre></li>
+<li><p>手动网络安装系统</p>
+
+<p>自动化安装操作系统，如果弹出下面图片，属于一种错误<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/46803619.jpg" alt=""/><br/>
+你得某个配置文件有没有指明选择哪块</p>
+
+<p>在配置DHCP获取IP地址时<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/63278413.jpg" alt=""/></p>
+
+<p>碰到错误2<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/87541235.jpg" alt=""/><br/>
+核心：找不到DHCP服务端<br/>
+情况1：选择网卡错了，选成eth0<br/>
+情况2：<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/58027147.jpg" alt=""/>颠倒</p></li>
+<li><p>安装HTTP服务<br/>
+作用1：提供自动应答文件下载<br/>
+作用2：提供安装系统所需的所有rpm包下载</p>
+
+<pre><code>[root@m01 ~]# yum -y install httpd
+[root@m01 ~]# /etc/init.d/httpd restart
+</code></pre>
+
+<p>检查步骤</p>
+
+<pre><code>http://10.0.0.61/CentOS6.9/
+curl http://172.16.1.61/CentOS6.9/
+</code></pre>
+
+<p>web服务不正常或者URL地址不正确会出现下面的问题<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/24466191.jpg" alt=""/></p>
+
+<p>如果自动化安装出现上面的报错</p></li>
+<li><p>补充知识点：default配置文件</p>
+
+<pre><code>[root@m01 tftpboot]# pwd
+/var/lib/tftpboot
+[root@m01 tftpboot]# cd pxelinux.cfg/
+[root@m01 pxelinux.cfg]# vim default
+</code></pre></li>
+<li><p>不该出现的错误<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/41992775.jpg" alt=""/><br/>
+报错原因：selinux没关<br/>
+<a href="http://blog.oldboyedu.com/autoinstall-kickstart/">http://blog.oldboyedu.com/autoinstall-kickstart/</a></p></li>
+</ol>
+
+<blockquote>
+<p>今日总结：<br/>
+1. kickstart的三大组件的作用，能描述图片内容<br/>
+2. 安装3大组件，配置<br/>
+3. 重点是掌握排错技能<br/>
+4. 具体的配置文件的说明见<a href="http://blog.oldboyedu.com/autoinstall-kickstart/">http://blog.oldboyedu.com/autoinstall-kickstart/</a></p>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

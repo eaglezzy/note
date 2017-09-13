@@ -1,0 +1,580 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	Linux命令总结 (持续更新中) - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">Linux命令总结 (持续更新中)</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p><a href="command.html">Linux常用命令简明列表</a></p>
+
+<ul>
+<li>
+<a href="#toc_0">线上查询及帮助命令(3个)</a>
+</li>
+<li>
+<a href="#toc_1">文件和目录操作命令(19个)</a>
+</li>
+<li>
+<a href="#toc_2">查看文件及内容处理命令(19个)</a>
+</li>
+<li>
+<a href="#toc_3">文件压缩及解压缩命令(4个)</a>
+</li>
+<li>
+<a href="#toc_4">信息显示命令(12个)</a>
+</li>
+<li>
+<a href="#toc_5">搜索文件命令(4个)</a>
+</li>
+<li>
+<a href="#toc_6">用户管理命令(10个)</a>
+</li>
+<li>
+<a href="#toc_7">基础网络操作命令(10个)</a>
+</li>
+<li>
+<a href="#toc_8">深入网络操作命令(6个)</a>
+</li>
+<li>
+<a href="#toc_9">有关磁盘与文件系统的命令(10几个)</a>
+</li>
+<li>
+<a href="#toc_10">关机和查看系统信息的命令(3个)</a>
+</li>
+<li>
+<a href="#toc_11">系统管理相关命令(8个)</a>
+</li>
+<li>
+<a href="#toc_12">系统安全相关命令(10个)</a>
+</li>
+<li>
+<a href="#toc_13">查看系统用户登陆信息的命令(7个)</a>
+</li>
+<li>
+<a href="#toc_14">其它(19个)</a>
+</li>
+<li>
+<a href="#toc_15">系统性能监视高级命令(12个)</a>
+<ul>
+<li>
+<a href="#toc_16">内存:</a>
+</li>
+<li>
+<a href="#toc_17">CPU:</a>
+</li>
+<li>
+<a href="#toc_18">I/O:</a>
+</li>
+<li>
+<a href="#toc_19">进程:</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">关机/重启/注销命令(7)</a>
+<ul>
+<li>
+<a href="#toc_21">关机重启:</a>
+</li>
+<li>
+<a href="#toc_22">注销退出:</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_23">进程管理:(16个)</a>
+</li>
+<li>
+<a href="#toc_24">非常危险的系统命令(5个):</a>
+</li>
+<li>
+<a href="#toc_25">linux系统三剑客(3个)</a>
+</li>
+</ul>
+
+
+<h2 id="toc_0">线上查询及帮助命令(3个)</h2>
+
+<ol>
+<li><strong>man</strong></li>
+<li><strong>help</strong></li>
+<li><strong>info</strong></li>
+</ol>
+
+<h2 id="toc_1">文件和目录操作命令(19个)</h2>
+
+<ol>
+<li><p><strong>ls 显示目录列表</strong></p>
+
+<p><em>-l 显示详细列表<br/>
+-d  只显示目录<br/>
+-a  显示所有</em></p></li>
+<li><p><strong>cd 切换目录</strong></p>
+
+<p><em>.  当前目录<br/>
+. .     当前目录的上一级目录<br/>
+~   家目录<br/>
+-  上一次目录<br/>
+/   根目录</em></p></li>
+<li><p><strong>cp 复制</strong></p></li>
+<li><p><strong>find   查找</strong></p></li>
+<li><p><strong>mkdir  创建目录</strong></p></li>
+<li><p><strong>mv 移动</strong></p></li>
+<li><p><strong>pwd   显示当前路径</strong></p></li>
+<li><p><strong>rename    重命名</strong></p></li>
+<li><p><strong>rm    删除</strong></p></li>
+<li><p><strong>rmdir 删除目录</strong></p></li>
+<li><p><strong>touch 更改时间戳</strong></p></li>
+<li><p><strong>tree  树状显示目录列表</strong></p></li>
+<li><p><strong>basename</strong></p></li>
+<li><p><strong>dirname</strong></p></li>
+<li><p><strong>chattr    修改超级权限</strong></p></li>
+<li><p><strong>lsattr    查看超级权限</strong></p></li>
+<li><p><strong>file  查看文件类型</strong></p></li>
+<li><p><strong>md5sum    查看指纹信息</strong></p></li>
+</ol>
+
+<h2 id="toc_2">查看文件及内容处理命令(19个)</h2>
+
+<ol>
+<li><strong>cat   查看文件内容</strong></li>
+<li><strong>tac   反向查看文件内容</strong></li>
+<li><strong>more  分页查看文件内容</strong></li>
+<li><strong>less</strong></li>
+<li><strong>head</strong></li>
+<li><strong>tail  查看文件头,尾10行</strong></li>
+<li><strong>cut   awk阉割版</strong></li>
+<li><strong>paste</strong></li>
+<li><strong>sort</strong></li>
+<li><strong>uniq</strong></li>
+<li><strong>wc        计算文件信息</strong></li>
+<li><strong>iconv</strong></li>
+<li><strong>dos2unix  转换文件格式</strong></li>
+<li><strong>file  查看文件类型</strong></li>
+<li><strong>diff</strong></li>
+<li><strong>vimdiff</strong></li>
+<li><strong>rev</strong></li>
+<li><strong>grep(egrep)   筛查三剑客老三</strong></li>
+<li><strong>split</strong></li>
+<li><strong>join</strong></li>
+<li><strong>tr</strong></li>
+<li><strong>vi/vim</strong></li>
+</ol>
+
+<h2 id="toc_3">文件压缩及解压缩命令(4个)</h2>
+
+<ol>
+<li><strong>tar</strong></li>
+<li><strong>unzip</strong></li>
+<li><strong>gzip</strong></li>
+<li><strong>zip</strong></li>
+</ol>
+
+<h2 id="toc_4">信息显示命令(12个)</h2>
+
+<ol>
+<li><strong>uname</strong></li>
+<li><strong>hostname</strong></li>
+<li><strong>dmesg</strong></li>
+<li><strong>uptime</strong></li>
+<li><strong>file</strong></li>
+<li><strong>stat</strong></li>
+<li><strong>du</strong></li>
+<li><strong>df</strong></li>
+<li><strong>top</strong></li>
+<li><strong>free</strong></li>
+<li><strong>date</strong></li>
+<li><strong>cal</strong></li>
+</ol>
+
+<h2 id="toc_5">搜索文件命令(4个)</h2>
+
+<ol>
+<li><strong>which</strong></li>
+<li><strong>find</strong></li>
+<li><strong>whereis</strong></li>
+<li><strong>locate</strong></li>
+</ol>
+
+<h2 id="toc_6">用户管理命令(10个)</h2>
+
+<ol>
+<li><strong>useradd</strong></li>
+<li><strong>usermod</strong></li>
+<li><strong>userdel</strong></li>
+<li><strong>groupadd</strong></li>
+<li><strong>passwd</strong></li>
+<li><strong>chage</strong></li>
+<li><strong>id</strong></li>
+<li><strong>su</strong></li>
+<li><strong>visudo</strong></li>
+<li><strong>sudo</strong></li>
+</ol>
+
+<h2 id="toc_7">基础网络操作命令(10个)</h2>
+
+<ol>
+<li><strong>telnet</strong></li>
+<li><strong>ssh</strong></li>
+<li><strong>scp</strong></li>
+<li><strong>wget</strong></li>
+<li><strong>ping</strong></li>
+<li><strong>route</strong></li>
+<li><strong>ifconfig</strong></li>
+<li><strong>ifup</strong></li>
+<li><strong>ifdown</strong></li>
+<li><strong>netstat</strong></li>
+</ol>
+
+<h2 id="toc_8">深入网络操作命令(6个)</h2>
+
+<ol>
+<li><strong>nmap</strong></li>
+<li><strong>lsof</strong></li>
+<li><strong>route</strong></li>
+<li><strong>mail</strong></li>
+<li><strong>mutt</strong></li>
+<li><strong>nslookup</strong></li>
+<li><strong>dig</strong></li>
+<li><strong>host</strong></li>
+<li><strong>traceroute</strong></li>
+<li><strong>tcpdump</strong></li>
+</ol>
+
+<h2 id="toc_9">有关磁盘与文件系统的命令(10几个)</h2>
+
+<ol>
+<li><strong>mount</strong></li>
+<li><strong>umount</strong></li>
+<li><strong>df</strong></li>
+<li><strong>du</strong></li>
+<li><strong>fsck</strong></li>
+<li><strong>dd</strong></li>
+<li><strong>dumpe2fs</strong></li>
+<li><strong>dump</strong></li>
+<li><strong>fdisk</strong></li>
+<li><strong>parted</strong></li>
+<li><strong>mkfs</strong></li>
+<li><strong>partprobe</strong></li>
+<li><strong>e2fsck</strong></li>
+<li><strong>mkswap</strong></li>
+<li><strong>swapon</strong></li>
+<li><strong>sync</strong></li>
+<li><strong>resize2fs</strong></li>
+</ol>
+
+<h2 id="toc_10">关机和查看系统信息的命令(3个)</h2>
+
+<ol>
+<li><strong>shutdown</strong></li>
+<li><strong>halt</strong></li>
+<li><strong>init</strong></li>
+</ol>
+
+<h2 id="toc_11">系统管理相关命令(8个)</h2>
+
+<ol>
+<li><strong>uptime</strong></li>
+<li><strong>top</strong></li>
+<li><strong>free</strong></li>
+<li><strong>vmstat</strong></li>
+<li><strong>mpstat</strong></li>
+<li><strong>iostat</strong></li>
+<li><strong>sar(sysstats)</strong></li>
+<li><strong>chkconfig</strong></li>
+</ol>
+
+<h2 id="toc_12">系统安全相关命令(10个)</h2>
+
+<ol>
+<li><strong>chmod</strong></li>
+<li><strong>chown</strong></li>
+<li><strong>chgrp</strong></li>
+<li><strong>chage</strong></li>
+<li><strong>passwd</strong></li>
+<li><strong>su</strong></li>
+<li><strong>sudo</strong></li>
+<li><strong>umask</strong></li>
+<li><strong>chattr</strong></li>
+<li><strong>lsattr</strong></li>
+</ol>
+
+<h2 id="toc_13">查看系统用户登陆信息的命令(7个)</h2>
+
+<ol>
+<li><strong>whoami</strong></li>
+<li><strong>who</strong></li>
+<li><strong>w</strong></li>
+<li><strong>last</strong></li>
+<li><strong>lastlog</strong></li>
+<li><strong>users</strong></li>
+<li><strong>finger</strong></li>
+</ol>
+
+<h2 id="toc_14">其它(19个)</h2>
+
+<ol>
+<li><strong>echo</strong></li>
+<li><strong>printf</strong></li>
+<li><strong>rpm</strong></li>
+<li><strong>yum</strong></li>
+<li><strong>watch</strong></li>
+<li><strong>alias</strong></li>
+<li><strong>unalias</strong></li>
+<li><strong>date</strong></li>
+<li><strong>clear</strong></li>
+<li><strong>history</strong></li>
+<li><strong>eject</strong></li>
+<li><strong>time</strong></li>
+<li><strong>nohup</strong></li>
+<li><strong>nc</strong></li>
+<li><strong>xargs</strong></li>
+<li><strong>exec</strong></li>
+<li><strong>export</strong></li>
+<li><strong>unset</strong></li>
+<li><strong>type</strong></li>
+<li><strong>bc</strong></li>
+</ol>
+
+<h2 id="toc_15">系统性能监视高级命令(12个)</h2>
+
+<h3 id="toc_16">内存:</h3>
+
+<ol>
+<li><strong>top</strong></li>
+<li><strong>free</strong></li>
+<li><strong>vmstat</strong></li>
+<li><strong>mpstat</strong></li>
+<li><strong>iostat</strong></li>
+<li><strong>sar</strong></li>
+</ol>
+
+<h3 id="toc_17">CPU:</h3>
+
+<ol>
+<li><strong>top</strong></li>
+<li><strong>vmstat</strong></li>
+<li><strong>mpstat</strong></li>
+<li><strong>iostat</strong></li>
+<li><strong>sar</strong></li>
+</ol>
+
+<h3 id="toc_18">I/O:</h3>
+
+<ol>
+<li><strong>vmstat</strong></li>
+<li><strong>mpstat</strong></li>
+<li><strong>iostat</strong></li>
+<li><strong>sar</strong></li>
+</ol>
+
+<h3 id="toc_19">进程:</h3>
+
+<ol>
+<li><strong>ipcs</strong></li>
+<li><strong>ipcrm</strong></li>
+<li><strong>lsof</strong></li>
+<li><strong>strace</strong></li>
+<li><strong>lstrace</strong></li>
+</ol>
+
+<h2 id="toc_20">关机/重启/注销命令(7)</h2>
+
+<h3 id="toc_21">关机重启:</h3>
+
+<ol>
+<li><strong>shutdown</strong></li>
+<li><strong>init</strong></li>
+<li><strong>halt</strong></li>
+<li><strong>poweroff</strong></li>
+<li><strong>reboot</strong></li>
+</ol>
+
+<h3 id="toc_22">注销退出:</h3>
+
+<ol>
+<li><strong>logout</strong></li>
+<li><strong>exit</strong></li>
+<li><strong>ctl+d        快捷键(生产常用)</strong></li>
+</ol>
+
+<h2 id="toc_23">进程管理:(16个)</h2>
+
+<ol>
+<li><strong>bg       后台运行</strong></li>
+<li><strong>fg       挂起程序</strong></li>
+<li><strong>jobs     显示后台程序</strong></li>
+<li><strong>kill,killall,pkill   杀掉进程</strong></li>
+<li><strong>crontab      设置定时</strong></li>
+<li><strong>ps       查看进程</strong></li>
+<li><strong>pstree   显示进程状态树</strong></li>
+<li><strong>top      显示进程</strong></li>
+<li><strong>nice     改变优先权</strong></li>
+<li><strong>nohup        用户退出系统之后继续工作</strong></li>
+<li><strong>pgrep        查找匹配条件的进程</strong></li>
+<li><strong>strace       跟踪一个进程的系统调用</strong></li>
+<li><strong>ltrace       跟踪进程调用库函数的情</strong></li>
+<li><strong>vmstat   报告虚拟内存统计信息</strong></li>
+<li><strong>runlevel</strong></li>
+<li><strong>init</strong></li>
+<li><strong>service</strong></li>
+</ol>
+
+<h2 id="toc_24">非常危险的系统命令(5个):</h2>
+
+<ol>
+<li><strong>mv</strong></li>
+<li><strong>rm</strong></li>
+<li><strong>fdisk</strong></li>
+<li><strong>parted</strong></li>
+<li><strong>dd</strong></li>
+</ol>
+
+<h2 id="toc_25">linux系统三剑客(3个)</h2>
+
+<ol>
+<li><strong>grep(egrep)</strong></li>
+<li><strong>sed</strong></li>
+<li><strong>awk</strong></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

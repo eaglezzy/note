@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卌二、KVM - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卌二、KVM</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>为什么需要KVM</p>
+
+<blockquote>
+<p>云计算，OpenStack， 亚马逊<br/>
+底层采用KVM，其他xen、docker，esxi<br/>
+openstack类似cobbler，</p>
+
+<blockquote>
+<p>cobbler给kickstart提供web界面<br/>
+    OpenStack给KVM提供web界面管理</p>
+</blockquote>
+
+<p>企业使用虚拟化要么就是kvm要么就是docker</p>
+</blockquote>
+
+<blockquote>
+<p>最开始：没钱，全都用软件<br/>
+公司有钱：买硬件<br/>
+特别有钱：大部分使用软件</p>
+</blockquote></li>
+<li><p>技术演变</p>
+
+<ol>
+<li><p>软件模拟</p>
+
+<blockquote>
+<p>软件模拟，理论上可以模拟任何硬件，甚至是不存在的硬件。但是因为这种方式全部是软件模拟硬件，所以非常低效，一般只用于研究测试的场景。采用这种技术的典型产品有Bochs、 QEMU等。</p>
+</blockquote></li>
+<li><p>虚拟化层翻译</p>
+
+<blockquote>
+<p>1.2.1  软件全虚拟化：软件捕获翻译    ========》你和美国人说话需要一个翻译官<br/>
+    VMware，有一个专门虚拟化引擎。通过虚拟化引擎，捕获虚拟机的指令，并进行处理，这也是为什么在虚拟机上虽然使用的是物理机一样的指令，但是虚拟机不能对硬件进行操作的原因，比如重启虚拟机不会引起宿主机的重启。这种解决方案也叫软件全虚拟化方案。</p>
+</blockquote>
+
+<blockquote>
+<p>1.2.2  半虚拟化：改造虚拟机系统内核加虚拟化层翻译  ====》你学了英语和美国人说话<br/>
+    xen，对虚拟机的操作系统内核进行改造，使虚拟机自己对特殊的指令进   行更改，然后和虚拟化层一起配合工作，这也是Xen早期一直要使用一个特殊内核的原因，并且不支持Windows系统虚拟化。改造的虚拟机虽然使用上有限制，配置比较麻烦，但是这种方式效率非常高，这种方式也被称为半虚拟化方案。</p>
+</blockquote>
+
+<blockquote>
+<p>1.2.3  硬件支持的全虚拟化： 硬件支持的虚拟化层翻译 ==》你重生到美国然后和美国人说话<br/>
+    2005年， Intel推出了硬件的方案，对CPU指令进行改造，即VT-x。 这种方案因为是基于硬件的，所以效率非常高，这种方案也称为硬件支持的全虚拟化方案。</p>
+</blockquote></li>
+<li><p>容器虚拟化</p>
+
+<blockquote>
+<p>kvm是在操作系统上安装了另外一个操作系统<br/>
+docker是在操作系统上启动一个程序</p>
+</blockquote>
+
+<blockquote>
+<p>容器虚拟化的原理是基于CGroups、 Namespace等技术将进程隔离，每个进程就像一台单独的虚拟机一样，有自己被隔离出来的资源，也有自己的根目录、独立的进程编号、被隔离的内存空间。基于容器的虚拟化可以实现在单一内核上运行多个实例，因此是一个更高效率的虚拟化方式。目前最热的容器虚拟化技术就是Docker。</p>
+</blockquote>
+
+<blockquote>
+<p>比喻：一个新建的大楼的某层，如果将他改建成住宅，那就需要每个房间都要有厨房，浴室等正常人家必备设施，一层楼估计能做出3户人家；但是改建成宿舍，什么厨房，浴室就建一个就可以，然后每个宿舍的墙可以打个隔断，很节省资源，基本可以隔出20个。</p>
+</blockquote></li>
+<li><p>使用场景：</p>
+
+<blockquote>
+<p>虚拟化使用场景：对资源要求不高的服务，负载均衡，web服务</p>
+
+<p>数据库，NFS存储对IO资源强烈需求的不建议使用虚拟化</p>
+</blockquote></li>
+</ol></li>
+<li><p>KVM简介</p>
+
+<ol>
+<li><p>KVM简介<br/>
+<strong><mark>KVM(Kernel-based Virtual Machine)</mark></strong></p>
+
+<blockquote>
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/4181648.jpg" alt=""/></p>
+</blockquote>
+
+<p>虚拟化嵌套</p>
+
+<blockquote>
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/92932098.jpg" alt=""/><br/>
+KVM虚拟机=KVM内核模块+QEMU模拟器</p>
+
+<p>KVM只是个内核模块，只提供CPU和内存。所以还使用qemu模拟器模拟IO设备如磁盘、网卡。</p>
+</blockquote>
+
+<blockquote>
+<p>Libvirt是一套开源的虚拟化的管理工具，主要由3部分组成：<br/>
+    一套API的lib库，支持主流的编程语言，包括C、Python、Ruby 等<br/>
+    Libvirtd服务<br/>
+    命令行工具virsh<br/>
+Libvirt可以实现对虚拟机的管理，比如虚拟机的创建、启动、关闭、暂停、恢复、迁移、销毁，以及虚拟机网卡、硬盘、 CPU、内存等多种设备的热添加。</p>
+</blockquote></li>
+</ol></li>
+<li><p>KVM安装</p>
+
+<ol>
+<li><p>环境检查</p>
+
+<blockquote>
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-10/56943339.jpg" alt=""/></p>
+
+<pre><code>[root@oldboyedu ~]# cat /etc/redhat-release
+CentOS Linux release 7.2.1511 (Core) 
+[root@oldboyedu ~]# uname -r
+3.10.0-327.el7.x86_64
+[root@oldboyedu ~]# systemctl status firewalld.service 
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+[root@oldboyedu ~]# getenforce 
+Disabled
+[root@oldboyedu ~]# hostname -I
+10.0.0.201 172.16.1.201 192.168.122.1 
+[root@oldboyedu ~]# lsmod |grep kvm
+kvm_intel             162153  0 
+kvm                   525259  1 kvm_intel
+[root@oldboyedu ~]# grep -Eo &#39;(vmx|svm)&#39; /proc/cpuinfo
+vmx
+</code></pre>
+</blockquote></li>
+<li><p>安装管理工具</p>
+
+<blockquote>
+<pre><code>wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+yum -y install qemu-kvm qemu-kvm-tools virt-manager libvirt virt-install 
+</code></pre>
+
+<p>安装软件包详细说明</p>
+
+<pre><code>[root@KVM ~]# rpm -qa|grep -E &#39;qemu|libvirt|virt&#39;
+python-virtinst-0.600.0-29.el6.noarch   # 一套Python的虚拟机安装工具
+gpxe-roms-qemu-0.9.7-6.14.el6.noarch    # 虚拟机iPXE的启动固件，支持虚拟机从网络启动
+virt-manager-0.9.0-29.el6.x86_64        # 基于Libvirt的图像化虚拟机管理软件，需要图形界面操作系统
+qemu-img-0.12.1.2-2.479.el6.x86_64      # 用于操作虚拟机硬盘镜像的创建、查看和格式转化
+libvirt-python-0.10.2-54.el6.x86_64     # libvirt为Python提供的API
+qemu-kvm-0.12.1.2-2.479.el6.x86_64      # KVM在用户空间运行的程序
+qemu-kvm-tools-0.12.1.2-2.479.el6.x86_64
+libvirt-0.10.2-54.el6.x86_64            # 用于管理虚拟机，它提供了一套虚拟机操作API
+libvirt-client-0.10.2-54.el6.x86_64     # Libvirt的客户端，最重要的功能之一就是就在宿主机关机时可以通知虚拟机也关机，使虚拟机系统正常关机，而不是被强制关机，造成数据丢失
+virt-top-1.0.4-3.15.el6.x86_64          # 类似于top命令，查看虚拟机的资源使用情况
+virt-what-1.11-1.2.el6.x86_64           # 在虚拟机内部执行，查看虚拟机运行的虚拟化平台
+virt-viewer-0.5.6-8.el6.x86_64          # 显示虚拟机的控制台console
+</code></pre>
+</blockquote></li>
+</ol></li>
+<li><p>安装KVM虚拟机</p>
+
+<ol>
+<li><p>创建磁盘文件</p>
+
+<pre><code>mkdir -p /application/kvm_data
+cd /application/kvm_data
+qemu-img create -f qcow2 /application/kvm_data/moban.qcow2 20G
+</code></pre>
+
+<p>查看虚拟机磁盘的信息</p>
+
+<pre><code>[root@oldboyedu kvm_data]# qemu-img info /application/kvm_data/moban.qcow2
+image: /application/kvm_data/moban.qcow2
+file format: qcow2
+virtual size: 20G (21474836480 bytes)
+disk size: 196K
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+</code></pre></li>
+<li><p>执行安装命令（包括上传系统镜像）</p>
+
+<pre><code>virt-install --virt-type=kvm --name=c72-moban --vcpus=1 -r 1024 -c /application/tools/CentOS7_2.iso --network network=default --graphics vnc,listen=0.0.0.0 --noautoconsole --os-type=linux --os-variant=rhel7 --disk path=/application/kvm_data/moban.qcow2,size=20,format=qcow2
+</code></pre>
+
+<p>安装其他虚拟机需要变动的两处：</p>
+
+<pre><code>virt-install --virt-type=kvm --name=xxxxxx --vcpus=1 -r 1024 -c /application/tools/CentOS7_2.iso --network network=default --graphics vnc,listen=0.0.0.0 --noautoconsole --os-type=linux --os-variant=rhel7 --disk path=/application/kvm_data/xxxx.qcow2,size=20,format=qcow2
+</code></pre>
+
+<p><em>小知识：</em><br/>
+<em>KVM网络默认是NAT模式</em></p>
+
+<p><em>dnsmasq既提供dns解析服务还提供DHCP服务</em></p></li>
+<li><p>管理KVM的操作命令</p>
+
+<p>5.3.1 查看KVM虚拟机</p>
+
+<pre><code>[root@oldboyedu kvm_data]# virsh list
+ Id    名称                         状态
+----------------------------------------------------
+
+[root@oldboyedu kvm_data]# virsh list --all
+ Id    名称                         状态
+----------------------------------------------------
+ -     c72-moban                      关闭
+</code></pre>
+
+<p>5.3.2 启动、关闭</p>
+
+<pre><code>[root@oldboyedu kvm_data]# virsh start c72-moban 
+域 c72-moban 已开始
+
+正常关闭：virsh shutdown c72-moban 
+暴力关机：virsh destroy c72-moban
+
+当然还可以在kvm虚拟机里面执行poweroff
+</code></pre>
+
+<p>5.3.3 连接端口</p>
+
+<pre><code>vnc的默认端口5900
+如果再安装或者启动一台新的虚拟机，端口就是5901  ==10.0.0.201:5901
+如果再安装或者启动一台新的虚拟机，端口就是5902  ==10.0.0.201:5902
+…………
+
+[root@oldboyedu kvm_data]# netstat -tunlp|grep 5900
+tcp        0      0 0.0.0.0:5900            0.0.0.0:*               LISTEN      3838/qemu-kvm       
+[root@oldboyedu kvm_data]# ps -ef|grep 3838
+qemu       3838      1 16 11:39 ?        00:01:02 /usr/libexec/qemu-kvm -name c72-moban -S -machine pc-i440fx-rhel7.0.0,accel=kvm,usb=off -cpu Haswell,-hle,-rtm -m 1024 -realtime mlock=off -smp 1,sockets=1,cores=1,threads=1 -uuid 4453daa6-14d3-4a4c-93e1-ccfced1340f4 -no-user-config …………nc 0.0.0.0:0 -vga cirrus -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x7 -msg timestamp=on
+</code></pre>
+
+<p>5.3.4 查看虚拟机的信息</p>
+
+<pre><code>lscpu查看虚拟机的cpu信息
+
+L1d  一级数据缓存
+L1i  一级指令缓存
+</code></pre>
+
+<p>5.3.5 查看宿主机网卡桥接信息</p>
+
+<pre><code>[root@oldboyedu kvm_data]# brctl show
+bridge name bridge id       STP enabled interfaces
+virbr0      8000.fe5400b37bac   yes     vnet0
+</code></pre>
+
+<p>5.3.6 常用命令汇总    </p>
+
+<blockquote>
+<p>生成kvm虚拟机：virt-install<br/>
+查看在运行的虚拟机：virsh list<br/>
+查看所有虚拟机：virsh list --all<br/>
+查看kvm虚拟机配置文件：virsh dumpxml name<br/>
+启动kvm虚拟机：virsh start name<br/>
+正常关机：virsh shutdown name <br/>
+非正常关机（相当于物理机直接拔掉电源）：virsh destroy name<br/>
+删除：virsh undefine name（彻底删除，找不回来了，如果想找回来，需要备份/etc/libvirt/qemu的xml文件）<br/>
+根据配置文件定义虚拟机：virsh define file-name.xml<br/>
+挂起，终止：virsh suspend name<br/>
+恢复挂起状态:virsh resume name</p>
+</blockquote></li>
+</ol></li>
+<li><p>磁盘文件格式介绍</p>
+
+<p><a href="http://www.cnblogs.com/feisky/archive/2012/07/03/2575167.html">http://www.cnblogs.com/feisky/archive/2012/07/03/2575167.html</a></p>
+
+<p>主流使用qcow2</p></li>
+<li><p>克隆</p>
+
+<ol>
+<li><p>复制磁盘文件</p>
+
+<pre><code>[root@oldboyedu kvm_data]# pwd
+/application/kvm_data
+[root@oldboyedu kvm_data]# ls
+moban.qcow2
+[root@oldboyedu kvm_data]# cp moban.qcow2 clone.qcow2
+</code></pre></li>
+<li><p>导出模板机的配置文件并修改</p>
+
+<p>导出模板机的配置</p>
+
+<pre><code>virsh dumpxml c72-moban &gt; clone.xml
+cp clone.xml{,.ori}
+</code></pre>
+
+<p>第2,3,37,82修改</p>
+
+<pre><code>[root@oldboyedu ~]# diff clone.xml{,.ori}
+2,3c2,3
+&lt;   &lt;name&gt;c72-clone&lt;/name&gt;
+&lt;   &lt;uuid&gt;4453daf6-14d3-4a4c-93e1-ccfced1340f4&lt;/uuid&gt;
+---
+&gt;   &lt;name&gt;c72-moban&lt;/name&gt;
+&gt;   &lt;uuid&gt;4453daa6-14d3-4a4c-93e1-ccfced1340f4&lt;/uuid&gt;
+37c37
+&lt;       &lt;source file=&#39;/application/kvm_data/clone.qcow2&#39;/&gt;
+---
+&gt;       &lt;source file=&#39;/application/kvm_data/moban.qcow2&#39;/&gt;
+82c82
+&lt;       &lt;mac address=&#39;52:54:00:b3:72:ac&#39;/&gt;
+---
+&gt;       &lt;mac address=&#39;52:54:00:b3:7b:ac&#39;/&gt;
+</code></pre></li>
+<li><p>导入新的克隆机器</p>
+
+<p>默认kvm的配置文件</p>
+
+<pre><code>[root@oldboyedu ~]# ls /etc/libvirt/qemu
+c72-moban.xml  networks
+</code></pre>
+
+<p>导入</p>
+
+<pre><code>[root@oldboyedu ~]# virsh define clone.xml
+Domain c72-clone defined from clone.xml
+</code></pre>
+
+<p>再次查看</p>
+
+<pre><code>[root@oldboyedu ~]# ls /etc/libvirt/qemu
+c72-clone.xml  c72-moban.xml  networks
+[root@oldboyedu ~]# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 2     c72-moban                      running
+ -     c72-clone                      shut off
+</code></pre></li>
+</ol></li>
+<li><p>快照</p>
+
+<ol>
+<li>创建快照注意事项</li>
+</ol>
+
+<blockquote>
+<p>磁盘格式要为qcow2<br/>
+关机做快照最好，开机也能做快照</p>
+</blockquote>
+
+<ol>
+<li><p>快照命令</p>
+
+<p>创建快照</p>
+
+<pre><code>virsh snapshot-create-as c72-clone    kuaizhao1
+命令   创建快照指令         虚拟机名称     快照名称
+</code></pre>
+
+<p>查看快照列表</p>
+
+<pre><code>virsh snapshot-list      c72-clone
+命令   查看快照列表指令      虚拟机名称
+</code></pre>
+
+<p>查看快照信息</p>
+
+<pre><code>virsh snapshot-info       c72-clone    kuaizhao1
+命令   查看指定快照信息指令   虚拟机名称      快照名称
+</code></pre>
+
+<p>还原</p>
+
+<pre><code>virsh snapshot-revert     c72-clone    kuaizhao1
+命令   还原指定快照指令       虚拟机名称     快照名称
+</code></pre>
+
+<p>删除快照</p>
+
+<pre><code>virsh snapshot-delete     c72-clone    kuaizhao1
+命令   删除指定快照指令       虚拟机名称     快照名称
+</code></pre></li>
+</ol></li>
+<li><p>图形化管理KVM</p></li>
+</ol>
+
+<blockquote>
+<h1 id="toc_0">今日总结：</h1>
+
+<ol>
+<li>KVM安装</li>
+<li>克隆</li>
+<li>快照</li>
+</ol>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

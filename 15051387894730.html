@@ -1,0 +1,755 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	廿六、Nginx应用--Web服务 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">廿六、Nginx应用--Web服务</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>nginx多虚拟主机--server{}标签</p>
+
+<blockquote>
+<p>在Web服务里独立的网站站点, 对应的是独立的域名或IP或端口</p>
+</blockquote>
+
+<ol>
+<li><p>测试页面请求响应</p>
+
+<ol>
+<li><p>推荐用Linux的curl命令测试</p>
+
+<blockquote>
+<p>重启服务后立即生效, 比较准确,不受浏览器缓存的干扰</p>
+</blockquote></li>
+<li><p>用chrome浏览器查看修改</p>
+
+<blockquote>
+<p>需要注意浏览器缓存的干扰导致测试不准确,最好用&quot;隐身窗口&quot;,不进行页面缓存<br/>
+<mark>说明：nginx配置文件修改之后，需要重启nginx服务；nginx站点目录内容变更，无需重启nginx服务</mark></p>
+</blockquote></li>
+</ol></li>
+<li><p>基于域名的多虚拟主机配置--多个server{}标签</p>
+
+<ol>
+<li><p>环境准备</p>
+
+<blockquote>
+<p>模拟环境: <a href="http://www.etiantian.org">www.etiantian.org</a> bbs.etiantian.org blog.etiantian.org</p>
+</blockquote>
+
+<pre><code>[root@web01 ~]# mkdir /application/nginx/html/{www,bbs,blog}
+[root@web01 ~]# ls /application/nginx/html/
+50x.html  bbs  blog  index.html  index.html.bak  pic1.jpg  www
+[root@web01 ~]# cd /application/nginx/html/
+[root@web01 html]# for name in www bbs blog ; do echo $name `hostname` &gt;/application/nginx/html/$name/index.html;done
+[root@web01 html]# for name in www bbs blog ; do cat /application/nginx/html/$name/index.html;done
+www web01
+bbs web01
+blog web01
+</code></pre></li>
+<li><p>修改配置文件</p>
+
+<pre><code>[root@web01 html]# cd /application/nginx/conf/
+[root@web01 conf]# cp nginx.conf{,.ori.www.only}
+[root@web01 conf]# vim nginx.conf
+:set nu
+:10,17co17
+:10,17co25
+</code></pre>
+
+<blockquote>
+<p>修改虚拟主机名, 修改虚拟主机各自的站点目录</p>
+</blockquote>
+
+<pre><code>server {
+    listen       80;
+    server_name  www.etiantian.org;
+    location / {
+        root   html/www;
+        index  index.html index.htm;
+    }
+}
+server {
+    listen       80;
+    server_name  bbs.etiantian.org;
+    location / {
+        root   html/blog;
+        index  index.html index.htm;
+    }
+}
+server {
+    listen       80;
+    server_name  blog.etiantian.org;
+    location / {
+        root   html/bbs;
+        index  index.html index.htm;
+    }
+}
+</code></pre></li>
+<li><p>配置文件语法检查与重载</p>
+
+<pre><code>[root@web01 conf]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3/conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3/conf/nginx.conf test is successful
+[root@web01 conf]# nginx -s reload
+</code></pre></li>
+<li><p>修改Windows hosts文件</p></li>
+</ol>
+
+<pre><code>C:\Windows\System32\drivers\etc\hosts
+10.0.0.8   www.etiantian.org bbs.etiantian.org blog.etiantian.org
+</code></pre></li>
+<li><p>基于端口的多虚拟主机配置</p>
+
+<blockquote>
+<p>一般用于只想给内部用户访问, 不对外公开(即:不使用默认80端口)</p>
+</blockquote>
+
+<ol>
+<li><p>修改配置文件</p>
+
+<pre><code>[root@web01 conf]# cp nginx.conf{,.multi-hosts}
+[root@web01 conf]# vim nginx.conf
+</code></pre>
+
+<blockquote>
+<p>修改www端口</p>
+</blockquote>
+
+<pre><code>    server {
+        listen       8080;
+        server_name  www.etiantian.org;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+}
+</code></pre></li>
+<li><p>语法检查并重载配置</p>
+
+<pre><code>[root@web01 conf]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3/conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3/conf/nginx.conf test is successful
+[root@web01 conf]# nginx -s reload
+[root@web01 conf]# ss -lntup|grep nginx
+tcp    LISTEN     0      511                    *:8080                  *:*      users:((&quot;nginx&quot;,1440,10),(&quot;nginx&quot;,6059,10))
+tcp    LISTEN     0      511                    *:80                    *:*      users:((&quot;nginx&quot;,1440,6),(&quot;nginx&quot;,6059,6))
+</code></pre></li>
+</ol></li>
+<li><p>基于IP的多虚拟主机配置</p>
+
+<pre><code>    server {
+        listen       10.0.0.8:80;
+        server_name  www.etiantian.org;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+}
+</code></pre>
+
+<blockquote>
+<p><mark>注意:基于IP修改配置,用平滑重启不能起效, 需要先stop再启动</mark></p>
+</blockquote></li>
+<li><p>规范化的nginx配置</p>
+
+<ol>
+<li><p>将不同页面的配置分别存放在对应的配置文件中</p>
+
+<pre><code>[root@web01 conf]# cp nginx.conf{,.bak.port}
+[root@web01 conf]# cat -n nginx.conf
+[root@web01 conf]# mkdir extra
+[root@web01 conf]# sed -n &#39;10,17p&#39; nginx.conf &gt;extra/www.conf
+[root@web01 conf]# sed -n &#39;18,25p&#39; nginx.conf &gt;extra/bbs.conf
+[root@web01 conf]# sed -n &#39;26,33p&#39; nginx.conf &gt;extra/blog.conf
+[root@web01 conf]# cat extra/*
+</code></pre></li>
+<li><p>在主配置文件中引入这些配置</p>
+
+<pre><code>[root@web01 conf]# vim nginx.conf
+:10,33delete
+[root@web01 conf]# cat nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    include extra/www.conf;
+    include extra/*;
+}
+[root@web01 conf]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3/conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3/conf/nginx.conf test is successful
+[root@web01 conf]# nginx -s reload
+</code></pre>
+
+<blockquote>
+<p><mark>注意: 不可以全都用&quot;extra/*;&quot;代替, *会按字母顺序先匹配到bbs.conf, 但可以先指定www.conf,其他用*代替</mark></p>
+</blockquote></li>
+</ol></li>
+</ol></li>
+<li><p>nginx虚拟主机的别名</p>
+
+<ol>
+<li><p>修改主页配置</p>
+
+<pre><code>[root@web01 conf]# vim extra/www.conf
+    server {
+        listen       80;
+        server_name  www.etiantian.org etiantian.org;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+    }
+</code></pre>
+
+<ol>
+<li><p>修改Windows hosts解析</p>
+
+<pre><code>10.0.0.8   www.etiantian.org bbs.etiantian.org blog.etiantian.org etiantian.org
+</code></pre></li>
+</ol></li>
+</ol></li>
+<li><p>nginx处理请求的过程</p>
+
+<blockquote>
+<p>不指定端口, 只通过域名访问站点时, nginx会通过DNS解析出的IP, 寻找主机80端口在nginx.conf中相对应的第一个网址响应给浏览器(即使不能对应用户想要的域名), 即:配置文件中基于端口的设置优先于基于域名的设置.</p>
+</blockquote></li>
+<li><p>nginx状态信息功能模块</p>
+
+<blockquote>
+<p>nginx -V  ---查看nginx<mark>配置参数和版本</mark></p>
+</blockquote>
+
+<ol>
+<li><p>编辑状态信息页面配置</p>
+
+<pre><code>[root@web01 conf]# vim extra/status.conf
+server {
+    listen       80;
+    server_name status.etiantian.org;
+    location / {
+        stub_status on;
+        access_log off;
+    }
+}
+</code></pre></li>
+<li><p>修改主配置文件</p>
+
+<pre><code>[root@web01 conf]# sed -i.bak.status &#39;/include.*blog/ a include extra/status.conf;&#39; nginx.conf
+[root@web01 conf]# cat nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    include extra/www.conf;
+    include extra/bbs.conf;
+    include extra/blog.conf;
+include extra/status.conf;
+}
+</code></pre></li>
+<li><p>配置文件语法检查与重载</p>
+
+<pre><code>[root@web01 conf]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3/conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3/conf/nginx.conf test is successful
+[root@web01 conf]# nginx -s reload
+</code></pre></li>
+<li><p>修改Windows hosts解析</p>
+
+<pre><code>10.0.0.8   status.etiantian.org etiantian.org www.etiantian.org bbs.etiantian.org blog.etiantian.org
+</code></pre></li>
+</ol></li>
+<li><p>nginx如何查看并发数?</p>
+
+<ol>
+<li><p>使用状态模块</p>
+
+<blockquote>
+<p>官方手册:<a href="http://nginx.org/en/docs/http/ngx_http_stub_status_module.html">http://nginx.org/en/docs/http/ngx_http_stub_status_module.html</a><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/57823511.jpg" alt=""/></p>
+
+<pre><code>Active connections
+The current number of active client connections including Waiting connections.
+accepts
+The total number of accepted client connections.
+handled
+The total number of handled connections. Generally, the parameter value is the same as accepts unless some resource limits have been reached (for example, the worker_connections limit).
+requests
+The total number of client requests.
+Reading
+The current number of connections where nginx is reading the request header.
+Writing
+The current number of connections where nginx is writing the response back to the client.
+Waiting
+The current number of idle client connections waiting for a request.
+</code></pre>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/10186457.jpg" alt=""/></p>
+</blockquote></li>
+<li><p>ss -ant|grep -ic estab</p>
+
+<pre><code>[root@web01 conf]# ss -ant|grep -i estab
+ESTAB      0      64                 10.0.0.8:22                10.0.0.1:50152
+ESTAB      0      0                  10.0.0.8:22                10.0.0.1:50923
+[root@web01 conf]# ss -ant|grep -ic estab
+2
+</code></pre></li>
+</ol></li>
+<li><p>nginx访问日志</p>
+
+<ol>
+<li><p>定义日志的格式与使用方法</p>
+
+<pre><code>[root@web01 conf]# grep -A4 &#39;log_format&#39; nginx.conf.default
+    #log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+    #                  &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+    #                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    #access_log  logs/access.log  main;
+[root@web01 conf]#
+</code></pre>
+
+<ol>
+<li><p>编辑主配置文件</p>
+
+<pre><code>[root@web01 conf]# vim nginx.conf
+[root@web01 conf]# cat nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  logs/access.log  main; 
+    include extra/www.conf;
+    include extra/bbs.conf;
+    include extra/blog.conf;
+    include extra/status.conf;
+}
+</code></pre>
+
+<blockquote>
+<p><mark>说明: 在配置文件中正确定义了日志文件并成功启动nginx之后, 即使日志文件以前不存在也会被创建出来</mark></p>
+</blockquote></li>
+<li><p>语法检查与重载</p>
+
+<pre><code>[root@web01 conf]# nginx -t
+nginx: the configuration file /application/nginx-1.10.3/conf/nginx.conf syntax is ok
+nginx: configuration file /application/nginx-1.10.3/conf/nginx.conf test is successful
+[root@web01 conf]# nginx -s reload
+</code></pre></li>
+<li><p>刷新页面并检查日志</p></li>
+</ol>
+
+<pre><code>[root@web01 conf]# tail ../logs/access.log
+</code></pre></li>
+<li><p>日志格式分析</p>
+
+<blockquote>
+<p>$remote_addr 远端用户ip地址<br/>
+$remote_user 远端用户,默认为空,需要指定<br/>
+[$time_local] 服务器本地时间<br/>
+$request 请求的起始行---(http请求方法  URI  http协议版本)<br/>
+注意:nginx中的URI指的是一个完整网址的顶级域名后面的部分<br/>
+$status 状态码<br/>
+$body_bytes_sent 响应主体大小--byte<br/>
+$http_referer 访问方式(连接跳转 或 域名访问)<br/>
+$http_x_forwarded_for 反向代理相关<br/>
+$http_user_agent 浏览器软件版本<br/>
+说明=====浏览器UA 字串的标准格式为:<br/>
+浏览器标识 (操作系统标识; 加密等级标识; 浏览器语言) 渲染引擎标识 版本信息<br/>
+在chrome浏览器中, 使用F12打开调试模式, 可以模拟智能终端访问</p>
+</blockquote>
+
+<pre><code>10.0.0.1 - - [09/Aug/2017:12:02:52 +0800] &quot;GET / HTTP/1.1&quot; 200 10 &quot;-&quot; &quot;Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Mobile Safari/537.36&quot; &quot;-&quot;
+10.0.0.1 - - [09/Aug/2017:01:51:16 +0800] &quot;GET / HTTP/1.1&quot; 304 0 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36&quot; &quot;-&quot;
+10.0.0.1 - - [09/Aug/2017:09:27:15 +0800] &quot;GET /favicon.ico HTTP/1.1&quot; 404 571 &quot;http://www.etiantian.org/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36&quot; &quot;-&quot;
+</code></pre></li>
+</ol></li>
+<li><p>日志操作</p>
+
+<ol>
+<li><p>压缩日志</p>
+
+<pre><code>access_log  logs/access.log  main gzip buffer=32k flush=5s;
+</code></pre>
+
+<blockquote>
+<p>查看日志内容命令 zcat zgrep zless</p>
+</blockquote></li>
+<li><p>手动切割</p>
+
+<blockquote>
+<p>注意切割周期</p>
+</blockquote>
+
+<pre><code>[root@web01 logs]# mv access.log access_`date -d &quot;-1day&quot; +%F`.log
+[root@web01 logs]# ls
+access_2017-07-29.log  error.log  nginx.pid
+[root@web01 logs]# /application/nginx/sbin/nginx -s reload
+[root@web01 logs]# ls
+access_2017-07-29.log access.log  error.log  nginx.pid
+</code></pre></li>
+<li><p>定时任务脚本切割</p>
+
+<blockquote>
+<p>通过脚本的方式来实现切割。通过计划任务</p>
+
+<pre><code>vim /server/scripts/cut_nginx_log.sh
+#!bin/sh
+#nginx目录
+Basedir=&quot;/application/nginx&quot;
+#日志目录
+Nginxlogdir=&quot;$Basedir/logs&quot;
+#当天日志文件名前缀
+Logname=&quot;access&quot;
+#切割后的文件名中的时间格式
+Dateformat=`date -d &quot;yesterday&quot; +%Y-%m-%d`
+#判断nginx目录是否存在
+[ -d $Nginxlogdir ]&amp;&amp; cd $Nginxlogdir||exit 1
+#判断nginx是否启动
+[ -f ${Nginxlogdir}/nginx.pid ]||exit 1
+#判断日志文件是否存在
+[ -f ${Logname}.log ]||exit 1
+#重命名日志文件==切割
+/bin/mv ${Logname}.log ${Dateformat}_${Logname}.log
+#向 Nginx 的进程发送 USR1 信号以重新打开日志文件
+kill -USR1 $(cat ${Nginxlogdir}/nginx.pid)
+</code></pre>
+
+<p>必须向 Nginx 的进程发送 USR1 信号以重新打开日志文件，如果不写的话，Nginx 会继续将日志信息写入 access_[yyyy-MM-dd].log 的那个文件中，这显然是不正确的。</p>
+</blockquote>
+
+<pre><code>#nginx日志切割
+0 0 * * * /bin/bash /server/scripts/cut_nginx_log.sh &amp;&gt;/dev/null
+</code></pre></li>
+<li><p>loglocate日志轮询切割</p>
+
+<pre><code>[root@web01 nginx]# vim /etc/logrotate.d/nginx
+/application/nginx/logs/access.log /application/nginx/logs/error.log{
+notifempty
+daily
+sharedscripts;
+postrotate
+/bin/kill -USR1 `/bin/cat /application/nginx/logs/nginx.pid`
+endscript
+}
+</code></pre></li>
+</ol></li>
+<li><p>location请求定位</p>
+
+<blockquote>
+<p>作用是<br/>
+官方文档: <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">http://nginx.org/en/docs/http/ngx_http_core_module.html#location</a><br/>
+语法location [ = | ~ | ~* | <sup>~</sup> ] uri { ... }<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/83152961.jpg" alt=""/></p>
+</blockquote>
+
+<ol>
+<li><p>匹配字符串</p>
+
+<blockquote>
+<p>&quot;=&quot; 完全匹配(精确)<br/>
+&quot;<sup>~&quot;</sup> 常规匹配, 不检查正则表达式<br/>
+&quot;~<em>&quot; 不区分大小写, 可以用正则和!取反<br/>
+&quot;~&quot; 区分大小写, 可以用正则!取反<br/>
+&quot; &quot; 不指定表示匹配不到有效位置时最后的匹配<br/>
+优先级: &quot;=&quot; &gt; &quot;<sup>~&quot;</sup> &gt; &quot;~</em>&quot; &gt; &quot;~&quot; &gt; &quot; &quot;(默认)</p>
+</blockquote></li>
+<li><p>匹配变量</p>
+
+<blockquote>
+<p>官网: <a href="http://nginx.org/en/docs/varindex.html">http://nginx.org/en/docs/varindex.html</a><br/>
+常见变量: $request_uri</p>
+</blockquote></li>
+<li><p>allow和deny</p>
+
+<pre><code>        location ~* /AV/ {
+            root   html/www/AV/;
+            index  index.html index.htm;
+            allow  172.16.1.31/32;
+            deny   all;
+        }
+</code></pre></li>
+</ol></li>
+<li><p>rewrite重写URI(用于伪静态)</p>
+
+<ol>
+<li><p>用途</p>
+
+<blockquote>
+<p><a href="http://oldboy.blog.51cto.com/2561410/1774260">http://oldboy.blog.51cto.com/2561410/1774260</a><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/49779301.jpg" alt=""/></p>
+</blockquote></li>
+<li><p>用法</p>
+
+<blockquote>
+<p>语法格式: rewrite RegEx replacement [flag];<br/>
+相当于: sed &#39;s#RegEx#replacement#g&#39;<br/>
+应用位置: server区块 location区块 if区块</p>
+</blockquote></li>
+<li><p>Perl正则: (.*)--$n<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/2480791.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/98781645.jpg" alt=""/></p></li>
+<li><p>if区块用法</p>
+
+<blockquote>
+<p><a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if">http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if</a><br/>
+Example:<br/>
+if ($slow) {<br/>
+    limit_rate 10k;<br/>
+    break;<br/>
+}<br/>
+Syntax: if (condition) { ... }<br/>
+Default:    —<br/>
+Context:    server, location</p>
+</blockquote></li>
+<li><p><a href="http://www.conf%E7%AC%AC%E4%B8%80%E7%A7%8D%E5%86%99%E6%B3%95">www.conf第一种写法</a></p>
+
+<pre><code>   server {
+        listen         80;
+        server_name  www.etiantian.org  etiantian.org ;
+        if ($host ~* &quot;^etiantian.org$&quot;) {
+        rewrite ^/(.*) http://www.etiantian.org/$1 permanent;
+        }
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+}
+</code></pre></li>
+<li><p><a href="http://www.conf%E7%AC%AC%E4%BA%8C%E7%A7%8D%E5%86%99%E6%B3%95">www.conf第二种写法</a></p>
+
+<pre><code>   server {
+        listen   80;
+        server_name etiantian.org ;
+        rewrite ^/(.*) http://www.etiantian.org/$1 permanent;
+         }
+   server {
+        listen   80;
+        server_name  www.etiantian.org;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+}
+</code></pre></li>
+</ol></li>
+<li><p>Nginx基本认证功能</p>
+
+<pre><code>yum install -y httpd-tools
+htpasswd -bc /application/nginx/conf/htpasswd oldboy 123456
+chmod 400 /application/nginx/conf/htpasswd
+chown www.www /application/nginx/conf/htpasswd
+</code></pre>
+
+<blockquote>
+<p>有效的配置代码:<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/42809116.jpg" alt=""/></p>
+</blockquote>
+
+<blockquote>
+<p>修改status.conf作为测试</p>
+</blockquote>
+
+<pre><code>server{
+    listen  80;
+    server_name  status.etiantian.org;
+    location / {
+
+    ## status module
+    stub_status on;
+    access_log   off;
+
+    ## auth module
+    auth_basic &quot;root only&quot;;
+    auth_basic_user_file /application/nginx/conf/htpasswd;
+    }
+}
+</code></pre>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-11/38166362.jpg" alt=""/></p></li>
+<li><p>补充:</p>
+
+<ol>
+<li><p>403错误的两种可能情况</p>
+
+<blockquote>
+<p>首页文件名不正确<br/>
+配置文件阻止策略</p>
+</blockquote></li>
+<li><p>autoindex自动索引</p>
+
+<blockquote>
+<p>首页文件不存在时,如果设置 autoindex on;浏览器就会将站点目录结构解析出来</p>
+</blockquote></li>
+<li><p>304的含义</p>
+
+<pre><code>10.0.0.1 - - [10/Aug/2017:11:19:38 +0800] &quot;GET / HTTP/1.1&quot; 304 0 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36&quot; &quot;-&quot;
+</code></pre>
+
+<blockquote>
+<p>意味着浏览器使用了缓存来访问站点<br/>
+使用Ctrl+F5强制刷新,不使用缓存记录</p>
+</blockquote></li>
+</ol></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

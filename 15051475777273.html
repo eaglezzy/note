@@ -1,0 +1,684 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	三十、Nginx应用--反向代理--负载均衡 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">三十、Nginx应用--反向代理--负载均衡</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>集群的</p>
+
+<ol>
+<li>相同功能的服务器的集合</li>
+<li>高可用性能更好--对用户请求的处理能力更强</li>
+<li>安全稳定--避免单点故障</li>
+</ol>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/6167401.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/92263812.jpg" alt=""/></p></li>
+<li><p>集群的实现---反向代理</p>
+
+<ol>
+<li><p>反向代理</p>
+
+<p>====指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。其目的是使用户可就近取得所需内容，解决 Internet网络拥挤的状况，提高用户访问网站的响应速度。</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/91531825.jpg" alt=""/></p></li>
+<li><p>负载均衡<br/>
+====对访问请求进行调度, 使各个web服务器一起分担压力</p>
+
+<ol>
+<li>硬件实现----F5/A10</li>
+<li><p>软件实现</p>
+
+<p>Nginx (4/7层) 反向代理+负载均衡<br/>
+LVS (4层) 数据转发+负载均衡<br/>
+haproxy (4/7层) 反向代理</p></li>
+</ol></li>
+</ol></li>
+<li><p>nginx负载均衡部署<br/>
+<a href="http://nginx.org/en/docs/http/load_balancing.html">http://nginx.org/en/docs/http/load_balancing.html</a><br/>
+<a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass</a><br/>
+<a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html">http://nginx.org/en/docs/http/ngx_http_upstream_module.html</a></p>
+
+<ol>
+<li><p>准备工作</p>
+
+<p>lb01 lb02: 安装Nginx<br/>
+准备3台web服务器: web01 web02 web03</p></li>
+<li><p>lb01 lb02 安装部署Nginx</p></li>
+<li><p>web01 web02 修改nginx.conf</p>
+
+<pre><code>worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+    server {
+        listen       80;
+        server_name  bbs.etiantian.org;
+        location / {
+            root   html/bbs;
+            index  index.html index.htm;
+        }
+          access_log  logs/access_bbs.log  main;
+    }
+    server {
+        listen       80;
+        server_name  www.etiantian.org;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+        access_log  logs/access_www.log  main;
+    }
+}
+</code></pre></li>
+<li><p>lb01修改nginx.conf</p>
+
+<pre><code>[root@lb01 ~]# vim /application/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+
+    # upstream模块
+    upstream server_pools {
+      server 10.0.0.7:80 weight=3;
+      server 10.0.0.8:80 weight=2;
+    # server 10.0.0.9:80 weight=2 down;
+    # server 10.0.0.9:80 weight=2 backup;
+    }
+    server {
+        listen       80;
+        server_name  bbs.etiantian.org;
+        location / {
+    # proxypass模块
+            proxy_pass http://server_pools;
+        }
+    }
+    ```
+</code></pre></li>
+</ol>
+
+<ol>
+<li><p>重载所有Linux服务器中nginx服务</p>
+
+<pre><code>nginx -t
+nginx -s reload
+</code></pre></li>
+<li><p>修改/etc/hosts文件</p>
+
+<pre><code>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+172.16.1.5      lb01
+172.16.1.6      lb02
+172.16.1.7      web02 www.etiantian.org blog.etiantian.org bbs.etiantian.org etiantian.org
+172.16.1.8      web01 www.etiantian.org blog.etiantian.org bbs.etiantian.org etiantian.org
+172.16.1.9      web03
+172.16.1.51     db01 db01.etiantian.org
+172.16.1.31     nfs01
+172.16.1.41     backup
+172.16.1.61     m01
+</code></pre></li>
+<li><p>修改Windows的hosts文件</p>
+
+<pre><code>10.0.0.5      status.etiantian.org etiantian.org www.etiantian.org bbs.etiantian.org blog.etiantian.org
+</code></pre></li>
+<li><p>负载均衡测试</p>
+
+<pre><code>[root@lb02 nginx-1.10.3]# curl 10.0.0.5/oldboy.html
+bbs web01
+[root@lb02 nginx-1.10.3]# curl 10.0.0.5/oldboy.html
+bbs web02
+[root@lb02 nginx-1.10.3]# curl 10.0.0.5/oldboy.html
+bbs web01
+[root@lb02 nginx-1.10.3]# curl 10.0.0.5/oldboy.html
+bbs web02
+[root@lb02 nginx-1.10.3]# curl 10.0.0.5/oldboy.html
+bbs web02
+[root@lb02 nginx-1.10.3]# curl 10.0.0.5/oldboy.html
+bbs web01
+</code></pre></li>
+</ol></li>
+<li><p>upstream负载均衡模块ngx_http_upstream_module</p>
+
+<ol>
+<li><p>模块参数<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/61658316.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/51578229.jpg" alt=""/></p></li>
+<li><p>调度算法</p>
+
+<ol>
+<li><p>rr轮询调度算法(round robin)--默认算法</p>
+
+<p>将用户访问请求周期性轮流地平均分配给池中的性能相近的web服务器</p></li>
+<li><p>wrr权重调度算法</p>
+
+<p>将用户访问请求按权重值分配给池中的不同性能的web服务器</p></li>
+<li><p>least_conn 最小连接数优先算法</p>
+
+<p>将用户访问请求按各个服务器的实时负载压力(连接数)来分配, 优先分配给连接数最小的.</p></li>
+<li><p>IP_hash算法</p>
+
+<p>将用户访问请求按照不同的源IP计算出不同的hash值并分别对应到各个web服务器上,再将hash值相同的请求分配给同一台web服务器</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/70294491.jpg" alt=""/></p>
+
+<p>可能导致的问题: 一个公网IP多个子网用户的情况下,访问请求会集中在一台web服务器上,导致负载不均</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/12213651.jpg" alt=""/></p>
+
+<p>解决方案: memcached/redis 缓存服务器 (缓存用户浏览数据和会话信息)</p></li>
+<li><p>补充:fair 动态调度算法</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/33408704.jpg" alt=""/></p></li>
+</ol></li>
+</ol></li>
+<li><p>proxy反向代理模块ngx_http_proxy_module</p>
+
+<ol>
+<li><p>保留用户请求的主机名</p>
+
+<p>核心代码: <mark>proxy_set_header Host $host;</mark><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/92469971.jpg" alt=""/></p>
+
+<p>客户端访问（host:<a href="http://www.etiantian.org">www.etiantian.org</a> ）---&gt;代理端（不关心客户端的host信息，直接用IP访问节点）---&gt;节点收到IP地址的请求（将第一个server主机信息进行回复）</p>
+
+<p>proxy_set_header（host:<a href="http://www.etiantian.org">www.etiantian.org</a> ）---&gt;代理端（关心客户端的host信息，利用客户端请求host访问节点）---&gt;节点收到host的请求（将相应主机信息进行响应）</p>
+
+<p>proxy反向代理模块中的proxy_set_header能保留用户的请求报文头部信息(即保留用户请求的URL, 使负载池中IP指向设置失效)所以www.etiantian.org/oldboy.html会被保留,web服务器就能正确响应返回www.etiantian.org而不是默认第一个bbs.etiantian.org</p>
+
+<p>说明:curl -H Host: 将自定义的请求头信息传递给服务器</p>
+
+<pre><code>[root@lb01 conf]# curl www.etiantian.org/oldboy.html
+www web02
+[root@lb01 conf]# curl 10.0.0.8/oldboy.html
+bbs web01
+[root@lb01 conf]# curl -H Host:www.etiantian.org 10.0.0.8/oldboy.html 
+www web01
+</code></pre></li>
+<li><p>保留用户的真实IP</p>
+
+<p>核心代码: <mark>proxy_set_header X-Forwarded-For $remote_addr;</mark></p>
+
+<p>负载均衡配置</p>
+
+<pre><code>[root@lb01 ~]# cat /application/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    upstream server_pools {
+    #ip_hash;
+    server 10.0.0.7:80 ;
+    server 10.0.0.8:80 ;
+    } 
+    server {
+        listen       80;
+        server_name  bbs.etiantian.org;
+        location / {
+          proxy_pass http://server_pools;
+          proxy_set_header Host $host; 
+          proxy_set_header X-Forwarded-For $remote_addr; 
+        }
+    }
+    server {
+        listen       80;
+        server_name  www.etiantian.org ;
+        location / {
+          proxy_pass http://server_pools ;
+          proxy_set_header Host $host;         
+          proxy_set_header X-Forwarded-For $remote_addr; 
+        }
+    }
+}
+</code></pre>
+
+<p>web服务器配置</p>
+
+<pre><code>[root@web02 ~]# cat /application/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+    server {
+        listen       80;
+        server_name  bbs.etiantian.org 
+
+;
+        location / {
+            root   html/bbs;
+            index  index.html index.htm;
+        }
+  access_log  logs/access_bbs.log  main;
+    }
+    server {
+        listen       80;
+        server_name  www.etiantian.org 
+
+;
+        location / {
+            root   html/www;
+            index  index.html index.htm;
+        }
+   access_log  logs/access_www.log   main;
+    }
+}
+</code></pre>
+
+<p>查看web服务器上的日志</p>
+
+<pre><code>10.0.0.5 - - [13/Aug/2017:22:25:07 +0800] &quot;GET /oldboy.html HTTP/1.0&quot; 304 0 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36&quot; &quot;10.0.0.1&quot;
+</code></pre></li>
+</ol></li>
+<li><p>区别cookie和session</p>
+
+<p>都可以存放用户的访问信息, 但是存放位置和功能不同</p>
+
+<ol>
+<li><p>cookie 客户端--浏览器</p>
+
+<p>1）变量名字和变量的内容<br/>
+2）由开发人员制定<br/>
+3）每个网站（域名）对应着 cookie是相同 </p></li>
+<li><p>session会话服务端<br/>
+存放用户登录信息 ----打包/加密----不用重新登录</p></li>
+</ol></li>
+<li><p>负载均衡部署实战</p>
+
+<ol>
+<li><p>反向代理的三种应用场景</p>
+
+<p>01：根据URL中的目录地址实现代理转发<br/>
+02：根据客户端的设备（user_agent）转发实践<br/>
+03：根据文件扩展名实现代理转发</p></li>
+<li><p>动静分离--根据用户请求的uri类型(动态/静态)分配给不同集群<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/30387209.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/58402715.jpg" alt=""/></p>
+
+<ol>
+<li><p>环境模拟</p>
+
+<blockquote>
+<p>web01</p>
+</blockquote>
+
+<pre><code>mkdir /application/nginx/html/www/upload/
+cd /application/nginx/html/www/upload/
+echo &quot;upload_info web01&quot; &gt;oldgirl.html
+</code></pre>
+
+<blockquote>
+<p>web02</p>
+</blockquote>
+
+<pre><code>mkdir /application/nginx/html/www/static/
+cd /application/nginx/html/www/static/
+echo &quot;static_info web02&quot; &gt;oldgirl.html
+</code></pre>
+
+<blockquote>
+<p>web03</p>
+</blockquote>
+
+<pre><code>cd /application/nginx/html/www/
+echo &quot;default_info web03&quot; &gt;oldgirl.html
+</code></pre></li>
+<li><p>主配置修改</p>
+
+<blockquote>
+<p>lb01 nginx.conf</p>
+</blockquote>
+
+<pre><code>worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+upstream upload_pools {
+  server 10.0.0.8:80;
+}
+
+upstream static_pools {
+  server 10.0.0.7:80;
+}
+
+upstream default_pools {
+  server 10.0.0.9:80;
+}
+  server {
+    listen 80;
+server_name www.etiantian.org;
+
+    location /static/ { 
+    proxy_pass http://static_pools;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+}
+
+    location /upload/ { 
+    proxy_pass http://upload_pools;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+}
+
+    location / { 
+    proxy_pass http://default_pools;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    }
+    access_log  logs/access_www.log  main;
+  }
+}
+</code></pre>
+
+<blockquote>
+<p>web123 nginx.conf</p>
+</blockquote>
+
+<pre><code>```
+</code></pre>
+
+<p>worker_processes  1;<br/>
+events {<br/>
+    worker_connections  1024;<br/>
+}<br/>
+http {<br/>
+    include       mime.types;<br/>
+    default_type  application/octet-stream;<br/>
+    sendfile        on;<br/>
+    keepalive_timeout  65;<br/>
+    server {<br/>
+        listen       80;<br/>
+        server_name  bbs.etiantian.org;<br/>
+        location / {<br/>
+            root   html/bbs;<br/>
+            index  index.html index.htm;<br/>
+        }<br/>
+    }<br/>
+    server {<br/>
+        listen       80;<br/>
+        server_name  <a href="http://www.etiantian.org">www.etiantian.org</a>;<br/>
+        location / {<br/>
+            root   html/www;<br/>
+            index  index.html index.htm;<br/>
+        }<br/>
+    }<br/>
+}<br/>
+```</p></li>
+</ol>
+
+<ol>
+<li><p>所有主机: 重启nginx服务</p>
+
+<pre><code>nginx -t
+nginx -s stop
+nginx
+</code></pre></li>
+<li><p>浏览器测试</p>
+
+<p>浏览器分别访问<br/>
+<a href="http://www.etiantian.org/oldgirl.html">http://www.etiantian.org/oldgirl.html</a><br/>
+<a href="http://www.etiantian.org/static/oldgirl.html">http://www.etiantian.org/static/oldgirl.html</a><br/>
+<a href="http://www.etiantian.org/upload/oldgirl.html">http://www.etiantian.org/upload/oldgirl.html</a></p></li>
+</ol></li>
+<li><p>基于用户使用的客户端类型($http_user_agent)分配访问请求</p>
+
+<ol>
+<li><p>环境模拟</p>
+
+<blockquote>
+<p>web01接受chrome浏览器访问请求</p>
+</blockquote>
+
+<pre><code>echo &quot;Chrome web01&quot; &gt; /application/nginx/html/www/liulanqi.html
+</code></pre>
+
+<blockquote>
+<p>web02 接受IE浏览器访问请求</p>
+</blockquote>
+
+<pre><code>echo &quot;MSIE web02&quot; &gt; /application/nginx/html/www/liulanqi.html
+</code></pre>
+
+<blockquote>
+<p>web03 接受其他浏览器访问请求</p>
+</blockquote>
+
+<pre><code>echo &quot;Default web03&quot; &gt; /application/nginx/html/www/liulanqi.html
+</code></pre></li>
+</ol></li>
+<li><p>lb01主配置文件修改</p>
+
+<pre><code>[root@lb01 conf]# cat nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+upstream upload_pools {
+  server 10.0.0.8:80;
+}
+
+upstream static_pools {
+  server 10.0.0.7:80;
+}
+
+upstream default_pools {
+  server 10.0.0.9:80;
+}
+
+    server {
+        listen 80;
+        server_name www.etiantian.org;
+        location / {
+         if ($http_user_agent ~* &quot;MSIE&quot;)
+          {
+            proxy_pass http://static_pools;
+          }
+         if ($http_user_agent ~* &quot;Chrome&quot;)
+          {
+            proxy_pass http://upload_pools;
+          }
+            proxy_pass http://default_pools;
+               }
+         proxy_set_header HOST $host;
+         proxy_set_header X-Forwarded-For $remote_addr;
+         access_log  logs/access_www.log  main;
+   }
+}
+</code></pre></li>
+<li><p>使用不同浏览器测试</p>
+
+<p>chrome浏览器模拟手机访问测试页面: <a href="http://www.etiantian.org/liulanqi.html">http://www.etiantian.org/liulanqi.html</a></p></li>
+</ol></li>
+<li><p>反向代理访问异常排错思路</p>
+
+<ol>
+<li>确认访问代理服务器网络是否正确       客户端---代理服务器是否正常   ping telnet</li>
+<li>代理服务器访问节点网络链路是否正常   代理服务器---web节点         ping telnet</li>
+<li>客户端直接访问web节点，确认是否节点访问有异常</li>
+<li>负载均衡反向代理服务器配置有问题</li>
+</ol></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

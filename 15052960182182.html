@@ -1,0 +1,785 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卅四、openvpn安装与使用 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卅四、openvpn安装与使用</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>openvpn原理</p>
+
+<blockquote>
+<p>openvpn通过使用公开密钥（非对称密钥，加密解密使用不同的key，一个称为Publice key，另外一个是Private key）对数据进行加密，这种方式称为TLS加密。</p>
+</blockquote>
+
+<blockquote>
+<p>openvpn使用TLS加密的工作过程是，首先VPN Sevrver端和VPN Client端要有相同的CA证书，双方通过交换证书验证双方的合法性，用于决定是否建立VPN连接。</p>
+</blockquote>
+
+<blockquote>
+<p>然后使用对方的CA证书，把自己目前使用的数据加密方法加密后发送给对方，由于使用的是对方CA证书加密，所以只有对方CA证书对应的Private key才能解密该数据，这样就保证了此密钥的安全性，并且此密钥是定期改变的，对于窃听者来说，可能还没有破解出此密钥，VPN通信双方可能就已经更换密钥了。</p>
+</blockquote></li>
+<li><p>安装openvpn</p>
+
+<ol>
+<li><p>环境准备</p>
+
+<p>yum方式安装，此处统一使用aliyun的base和epel源</p>
+
+<pre><code>wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+</code></pre>
+
+<p>为避免出现错误关闭selinux</p>
+
+<pre><code>[root@centos7 ~]# cat /etc/redhat-release 
+CentOS Linux release 7.2.1511 (Core) 
+[root@centos7 ~]# getenforce 
+Disabled
+[root@centos7 ~]#
+</code></pre></li>
+<li><p>安装openvpn server</p>
+
+<pre><code>yum install -y openvpn
+#查看版本
+[root@centos7 yum.repos.d]# openvpn --version
+OpenVPN 2.4.3 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Jun 21 2017
+library versions: OpenSSL 1.0.1e-fips 11 Feb 2013, LZO 2.06
+Originally developed by James Yonan
+</code></pre></li>
+<li><p>安装easy-rsa用来制作openvpn相关证书</p>
+
+<pre><code>yum install -y easy-rsa
+#查看easy-rsa安装的详细信息
+[root@centos7 ~]# rpm -qa easy-rsa
+easy-rsa-2.2.2-1.el7.noarch
+[root@centos7 ~]# rpm -ql easy-rsa
+/usr/share/doc/easy-rsa-2.2.2
+/usr/share/doc/easy-rsa-2.2.2/COPYING
+/usr/share/doc/easy-rsa-2.2.2/COPYRIGHT.GPL
+/usr/share/doc/easy-rsa-2.2.2/doc
+/usr/share/doc/easy-rsa-2.2.2/doc/Makefile.am
+/usr/share/doc/easy-rsa-2.2.2/doc/README-2.0
+/usr/share/easy-rsa
+/usr/share/easy-rsa/2.0
+/usr/share/easy-rsa/2.0/build-ca
+/usr/share/easy-rsa/2.0/build-dh
+/usr/share/easy-rsa/2.0/build-inter
+/usr/share/easy-rsa/2.0/build-key
+/usr/share/easy-rsa/2.0/build-key-pass
+/usr/share/easy-rsa/2.0/build-key-pkcs12
+/usr/share/easy-rsa/2.0/build-key-server
+/usr/share/easy-rsa/2.0/build-req
+/usr/share/easy-rsa/2.0/build-req-pass
+/usr/share/easy-rsa/2.0/clean-all
+/usr/share/easy-rsa/2.0/inherit-inter
+/usr/share/easy-rsa/2.0/list-crl
+/usr/share/easy-rsa/2.0/openssl-0.9.6.cnf
+/usr/share/easy-rsa/2.0/openssl-0.9.8.cnf
+/usr/share/easy-rsa/2.0/openssl-1.0.0.cnf
+/usr/share/easy-rsa/2.0/pkitool
+/usr/share/easy-rsa/2.0/revoke-full
+/usr/share/easy-rsa/2.0/sign-req
+/usr/share/easy-rsa/2.0/vars
+/usr/share/easy-rsa/2.0/whichopensslcnf
+</code></pre></li>
+</ol></li>
+<li><p>制作相关证书</p>
+
+<ol>
+<li><p>生成CA证书</p>
+
+<blockquote>
+<p>openvpn与easy-rsa安装完毕后，我们可以直接在/usr/share/easy-rsa/2.0 制作相关的证书，但是为了后续的管理证书的方便，我们需要在/etc/openvpn/目录下创建easy-rsa文件夹， 然后把/usr/share/easy-rsa/目录下的所有文件全部复制到/etc/openvpn/easy-rsa/下：</p>
+</blockquote>
+
+<pre><code>[root@centos7 ~]# mkdir /etc/openvpn/easy-rsa
+[root@centos7 ~]# cp -a /usr/share/easy-rsa/2.0/* /etc/openvpn/easy-rsa/
+[root@centos7 ~]# ls -l /etc/openvpn/easy-rsa/
+总用量 112
+-rwxr-xr-x 1 root root   119 11月  9 2013 build-ca
+-rwxr-xr-x 1 root root   352 11月  9 2013 build-dh
+-rwxr-xr-x 1 root root   188 11月  9 2013 build-inter
+-rwxr-xr-x 1 root root   163 11月  9 2013 build-key
+-rwxr-xr-x 1 root root   157 11月  9 2013 build-key-pass
+-rwxr-xr-x 1 root root   249 11月  9 2013 build-key-pkcs12
+-rwxr-xr-x 1 root root   268 11月  9 2013 build-key-server
+-rwxr-xr-x 1 root root   213 11月  9 2013 build-req
+-rwxr-xr-x 1 root root   158 11月  9 2013 build-req-pass
+-rwxr-xr-x 1 root root   449 11月  9 2013 clean-all
+-rwxr-xr-x 1 root root  1471 11月  9 2013 inherit-inter
+-rwxr-xr-x 1 root root   302 11月  9 2013 list-crl
+-rw-r--r-- 1 root root  7791 11月  9 2013 openssl-0.9.6.cnf
+-rw-r--r-- 1 root root  8348 11月  9 2013 openssl-0.9.8.cnf
+-rw-r--r-- 1 root root  8245 11月  9 2013 openssl-1.0.0.cnf
+-rwxr-xr-x 1 root root 12966 11月  9 2013 pkitool
+-rwxr-xr-x 1 root root   928 11月  9 2013 revoke-full
+-rwxr-xr-x 1 root root   178 11月  9 2013 sign-req
+-rw-r--r-- 1 root root  2077 11月  9 2013 vars
+-rwxr-xr-x 1 root root   740 11月  9 2013 whichopensslcnf
+#编辑vars文件，修改生成证书需要的信息
+[root@centos7 ~]# cd /etc/openvpn/easy-rsa/
+[root@centos7 easy-rsa]# cp vars{,.bak}
+[root@centos7 easy-rsa]# vim vars
+...
+export KEY_COUNTRY=&quot;CN&quot;            #国家
+export KEY_PROVINCE=&quot;BJ&quot;           #省
+export KEY_CITY=&quot;Beijing&quot;          #市
+export KEY_ORG=&quot;user&quot;              #组织
+export KEY_EMAIL=&quot;123@qq.com&quot;      #邮件
+export KEY_CN=oldboy
+export KEY_NAME=beyond
+export KEY_OU=beyond
+...
+#用source命令使配置生效
+[root@centos7 easy-rsa]# source vars
+NOTE: If you run ./clean-all, I will be doing a rm -rf on /etc/openvpn/easy-rsa/keys
+[root@centos7 easy-rsa]# ./clean-all    #清除所有证书相关内容
+[root@centos7 easy-rsa]# #开始生成CA证书 一路回车即可
+[root@centos7 easy-rsa]# ./build-ca
+Generating a 2048 bit RSA private key
+..........................................+++
+.................................+++
+writing new private key to &#39;ca.key&#39;
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter &#39;.&#39;, the field will be left blank.
+-----
+Country Name (2 letter code) [CN]:
+State or Province Name (full name) [BJ]:
+Locality Name (eg, city) [Beijing]:
+Organization Name (eg, company) [user]:
+Organizational Unit Name (eg, section) [beyond]:
+Common Name (eg, your name or your server&#39;s hostname) [oldboy]:
+Name [beyond]:
+Email Address [123@qq.com]:
+#查看生成的证书
+[root@centos7 easy-rsa]# ll keys/
+总用量 12
+-rw-r--r-- 1 root root 1635 9月  10 18:31 ca.crt
+-rw------- 1 root root 1704 9月  10 18:31 ca.key
+-rw-r--r-- 1 root root    0 9月  10 18:30 index.txt
+-rw-r--r-- 1 root root    3 9月  10 18:30 serial
+#我们可以看到已经生成了ca.crt和ca.key两个文件，其中ca.crt就是我们所说的CA证书，把该CA证书的ca.crt文件复制到openvpn的启动目录/etc/openvpn下：
+[root@centos7 easy-rsa]# cp keys/ca.crt /etc/openvpn/
+[root@centos7 easy-rsa]# ll /etc/openvpn/
+总用量 8
+-rw-r--r-- 1 root root 1635 9月  10 18:37 ca.crt
+drwxr-x--- 2 root root    6 6月  21 18:23 client
+drwxr-xr-x 3 root root 4096 9月  10 18:30 easy-rsa
+drwxr-x--- 2 root root    6 6月  21 18:23 server
+</code></pre></li>
+<li><p>生成server端证书和秘钥</p>
+
+<pre><code>[root@centos7 easy-rsa]# ./build-key-server vpnserver
+Generating a 2048 bit RSA private key
+.........+++
+.......................................................................................................................................................................................................................................................................................................................................................................+++
+writing new private key to &#39;vpnserver.key&#39;
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter &#39;.&#39;, the field will be left blank.
+-----
+Country Name (2 letter code) [CN]:
+State or Province Name (full name) [BJ]:
+Locality Name (eg, city) [Beijing]:
+Organization Name (eg, company) [user]:
+Organizational Unit Name (eg, section) [beyond]:
+Common Name (eg, your name or your server&#39;s hostname) [vpnserver]:
+Name [beyond]:
+Email Address [123@qq.com]:
+
+Please enter the following &#39;extra&#39; attributes
+to be sent with your certificate request
+A challenge password []:123456                #发送证书请求需要的密码 可以为空
+An optional company name []:oldboy            #可选的组织名   可以为空
+Using configuration from /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+Check that the request matches the signature
+Signature ok
+The Subject&#39;s Distinguished Name is as follows
+countryName           :PRINTABLE:&#39;CN&#39;
+stateOrProvinceName   :PRINTABLE:&#39;BJ&#39;
+localityName          :PRINTABLE:&#39;Beijing&#39;
+organizationName      :PRINTABLE:&#39;user&#39;
+organizationalUnitName:PRINTABLE:&#39;beyond&#39;
+commonName            :PRINTABLE:&#39;vpnserver&#39;
+name                  :PRINTABLE:&#39;beyond&#39;
+emailAddress          :IA5STRING:&#39;123@qq.com&#39;
+Certificate is to be certified until Sep  8 10:46:28 2027 GMT (3650 days)
+Sign the certificate? [y/n]:y
+
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated
+[root@centos7 easy-rsa]# #查看生成的证书
+[root@centos7 easy-rsa]# ll keys/
+总用量 48
+-rw-r--r-- 1 root root 5337 9月  10 18:46 01.pem
+-rw-r--r-- 1 root root 1635 9月  10 18:31 ca.crt
+-rw------- 1 root root 1704 9月  10 18:31 ca.key
+-rw-r--r-- 1 root root  116 9月  10 18:46 index.txt
+-rw-r--r-- 1 root root   21 9月  10 18:46 index.txt.attr
+-rw-r--r-- 1 root root    0 9月  10 18:30 index.txt.old
+-rw-r--r-- 1 root root    3 9月  10 18:46 serial
+-rw-r--r-- 1 root root    3 9月  10 18:30 serial.old
+-rw-r--r-- 1 root root 5337 9月  10 18:46 vpnserver.crt
+-rw-r--r-- 1 root root 1119 9月  10 18:46 vpnserver.csr
+-rw------- 1 root root 1704 9月  10 18:46 vpnserver.key
+</code></pre></li>
+<li><p>创建迪菲・赫尔曼密钥 生成传输进行秘钥交换时用到的交换秘钥协议文件</p>
+
+<pre><code>[root@centos7 easy-rsa]# ./build-dh 
+Generating DH parameters, 2048 bit long safe prime, generator 2
+This is going to take a long time
+...................................................................................................................................................................+..............................................................................
+#查看生成的文件
+[root@centos7 easy-rsa]# ll keys/
+总用量 52
+-rw-r--r-- 1 root root 5337 9月  10 18:46 01.pem
+-rw-r--r-- 1 root root 1635 9月  10 18:31 ca.crt
+-rw------- 1 root root 1704 9月  10 18:31 ca.key
+-rw-r--r-- 1 root root  424 9月  10 18:54 dh2048.pem
+-rw-r--r-- 1 root root  116 9月  10 18:46 index.txt
+-rw-r--r-- 1 root root   21 9月  10 18:46 index.txt.attr
+-rw-r--r-- 1 root root    0 9月  10 18:30 index.txt.old
+-rw-r--r-- 1 root root    3 9月  10 18:46 serial
+-rw-r--r-- 1 root root    3 9月  10 18:30 serial.old
+-rw-r--r-- 1 root root 5337 9月  10 18:46 vpnserver.crt
+-rw-r--r-- 1 root root 1119 9月  10 18:46 vpnserver.csr
+-rw------- 1 root root 1704 9月  10 18:46 vpnserver.key
+
+已经生成了dh文件dh2048.pem。 把vpnserver.crt、vpnserver.key、dh2048.pem复制到/etc/openvpn/目录下
+[root@centos7 easy-rsa]# cp keys/dh2048.pem keys/vpnserver.crt keys/vpnserver.key /etc/openvpn/
+</code></pre></li>
+<li><p>生成client客户端证书和key</p>
+
+<pre><code>[root@centos7 easy-rsa]# ./build-key vpnclient      #拨号时不需要密码
+Generating a 2048 bit RSA private key
+....................................................................+++
+.....................................+++
+writing new private key to &#39;vpnclient.key&#39;
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter &#39;.&#39;, the field will be left blank.
+-----
+Country Name (2 letter code) [CN]:
+State or Province Name (full name) [BJ]:
+Locality Name (eg, city) [Beijing]:
+Organization Name (eg, company) [user]:
+Organizational Unit Name (eg, section) [beyond]:
+Common Name (eg, your name or your server&#39;s hostname) [vpnclient]:
+Name [beyond]:
+Email Address [123@qq.com]:
+
+Please enter the following &#39;extra&#39; attributes
+to be sent with your certificate request
+A challenge password []:123456               #此处密码与服务端一致即可
+An optional company name []:oldboy
+Using configuration from /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+Check that the request matches the signature
+Signature ok
+The Subject&#39;s Distinguished Name is as follows
+countryName           :PRINTABLE:&#39;CN&#39;
+stateOrProvinceName   :PRINTABLE:&#39;BJ&#39;
+localityName          :PRINTABLE:&#39;Beijing&#39;
+organizationName      :PRINTABLE:&#39;user&#39;
+organizationalUnitName:PRINTABLE:&#39;beyond&#39;
+commonName            :PRINTABLE:&#39;vpnclient&#39;
+name                  :PRINTABLE:&#39;beyond&#39;
+emailAddress          :IA5STRING:&#39;123@qq.com&#39;
+Certificate is to be certified until Sep  8 11:44:26 2027 GMT (3650 days)
+Sign the certificate? [y/n]:y
+
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated
+#查看生成的文件
+[root@centos7 easy-rsa]# ll keys/
+总用量 84
+-rw-r--r-- 1 root root 5337 9月  10 18:46 01.pem
+-rw-r--r-- 1 root root 5219 9月  10 19:44 02.pem
+-rw-r--r-- 1 root root 1635 9月  10 18:31 ca.crt
+-rw------- 1 root root 1704 9月  10 18:31 ca.key
+-rw-r--r-- 1 root root  424 9月  10 18:54 dh2048.pem
+-rw-r--r-- 1 root root  232 9月  10 19:44 index.txt
+-rw-r--r-- 1 root root   21 9月  10 19:44 index.txt.attr
+-rw-r--r-- 1 root root   21 9月  10 18:46 index.txt.attr.old
+-rw-r--r-- 1 root root  116 9月  10 18:46 index.txt.old
+-rw-r--r-- 1 root root    3 9月  10 19:44 serial
+-rw-r--r-- 1 root root    3 9月  10 18:46 serial.old
+-rw-r--r-- 1 root root 5219 9月  10 19:44 vpnclient.crt
+-rw-r--r-- 1 root root 1119 9月  10 19:44 vpnclient.csr
+-rw------- 1 root root 1704 9月  10 19:44 vpnclient.key
+-rw-r--r-- 1 root root 5337 9月  10 18:46 vpnserver.crt
+-rw-r--r-- 1 root root 1119 9月  10 18:46 vpnserver.csr
+-rw------- 1 root root 1704 9月  10 18:46 vpnserver.key
+
+#生成拨号时需要密码的客户端文件和证书，和上面两者选择一种就可以
+
+[root@centos7 easy-rsa]# ./build-key-pass vpnbeyond
+Generating a 2048 bit RSA private key
+....................................................................+++
+............+++
+writing new private key to &#39;vpnbeyond.key&#39;
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter &#39;.&#39;, the field will be left blank.
+-----
+Country Name (2 letter code) [CN]:
+State or Province Name (full name) [BJ]:
+Locality Name (eg, city) [Beijing]:
+Organization Name (eg, company) [user]:
+Organizational Unit Name (eg, section) [beyond]:
+Common Name (eg, your name or your server&#39;s hostname) [vpnbeyond]:
+Name [beyond]:
+Email Address [123@qq.com]:
+
+Please enter the following &#39;extra&#39; attributes
+to be sent with your certificate request
+A challenge password []:123456
+An optional company name []:oldboy
+Using configuration from /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+Check that the request matches the signature
+Signature ok
+The Subject&#39;s Distinguished Name is as follows
+countryName           :PRINTABLE:&#39;CN&#39;
+stateOrProvinceName   :PRINTABLE:&#39;BJ&#39;
+localityName          :PRINTABLE:&#39;Beijing&#39;
+organizationName      :PRINTABLE:&#39;user&#39;
+organizationalUnitName:PRINTABLE:&#39;beyond&#39;
+commonName            :PRINTABLE:&#39;vpnbeyond&#39;
+name                  :PRINTABLE:&#39;beyond&#39;
+emailAddress          :IA5STRING:&#39;123@qq.com&#39;
+Certificate is to be certified until Sep  8 11:48:10 2027 GMT (3650 days)
+Sign the certificate? [y/n]:y
+
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated
+#查看生成的文件
+[root@centos7 easy-rsa]# ll keys/
+总用量 108
+-rw-r--r-- 1 root root 5337 9月  10 18:46 01.pem
+-rw-r--r-- 1 root root 5219 9月  10 19:44 02.pem
+-rw-r--r-- 1 root root 5219 9月  10 19:48 03.pem
+-rw-r--r-- 1 root root 1635 9月  10 18:31 ca.crt
+-rw------- 1 root root 1704 9月  10 18:31 ca.key
+-rw-r--r-- 1 root root  424 9月  10 18:54 dh2048.pem
+-rw-r--r-- 1 root root  348 9月  10 19:48 index.txt
+-rw-r--r-- 1 root root   21 9月  10 19:48 index.txt.attr
+-rw-r--r-- 1 root root   21 9月  10 19:44 index.txt.attr.old
+-rw-r--r-- 1 root root  232 9月  10 19:44 index.txt.old
+-rw-r--r-- 1 root root    3 9月  10 19:48 serial
+-rw-r--r-- 1 root root    3 9月  10 19:44 serial.old
+-rw-r--r-- 1 root root 5219 9月  10 19:48 vpnbeyond.crt
+-rw-r--r-- 1 root root 1119 9月  10 19:48 vpnbeyond.csr
+-rw------- 1 root root 1834 9月  10 19:48 vpnbeyond.key
+-rw-r--r-- 1 root root 5219 9月  10 19:44 vpnclient.crt
+-rw-r--r-- 1 root root 1119 9月  10 19:44 vpnclient.csr
+-rw------- 1 root root 1704 9月  10 19:44 vpnclient.key
+-rw-r--r-- 1 root root 5337 9月  10 18:46 vpnserver.crt
+-rw-r--r-- 1 root root 1119 9月  10 18:46 vpnserver.csr
+-rw------- 1 root root 1704 9月  10 18:46 vpnserver.key
+</code></pre>
+
+<p>已经生成了vpnclient.csr、vpnclient.crt和vpnclient.key这个三个文件, vpnclient.crt和vpnclient.key两个文件是我们要使用的。至此，Client端E证书就制作完毕。</p></li>
+</ol></li>
+<li><p>配置server端</p>
+
+<pre><code>[root@centos7 easy-rsa]# cp /usr/share/doc/openvpn-2.4.3/sample/sample-config-files/server.conf /etc/openvpn/server.conf.bak
+[root@centos7 easy-rsa]# cd /etc/openvpn/
+[root@centos7 openvpn]# grep -Ev &quot;^;|^#|^$&quot; server.conf.bak &gt;server.conf
+[root@centos7 openvpn]# vim server.conf
+port 1194
+proto tcp
+dev tun
+ca ca.crt
+cert vpnserver.crt
+key vpnserver.key  # This file should be kept secret
+dh dh2048.pem
+server 10.8.0.0 255.255.255.0
+push &quot;route 172.16.1.0 255.255.255.0&quot;
+ifconfig-pool-persist ipp.txt
+keepalive 10 120
+comp-lzo
+persist-key
+persist-tun
+status openvpn-status.log
+verb 3
+client-to-client
+duplicate-cn
+log /var/log/openvpn.log
+~                                                                                  
+~                                                                                  
+&quot;server.conf&quot; 19L, 360C 已写入  
+#启动服务
+[root@centos7 openvpn]# systemctl start openvpn@server   
+[root@centos7 openvpn]# ss -lntup |grep openvpn
+tcp    LISTEN     0      1         *:1194                  *:*                   users:((&quot;openvpn&quot;,pid=19333,fd=6))
+</code></pre></li>
+<li><p>client端配置</p>
+
+<ol>
+<li><p>在server端操作 </p>
+
+<p>创建客户端文件夹并拷贝客户端文件到该文件夹配置完成后打包压缩下载到本地Windows端</p>
+
+<pre><code>[root@centos7 openvpn]# mkdir vpnclient
+[root@centos7 openvpn]# cp /usr/share/doc/openvpn-2.4.3/sample/sample-config-files/client.conf ./vpnclient/vpnclient.ovpn
+[root@centos7 openvpn]# pwd
+/etc/openvpn
+[root@centos7 openvpn]# cp easy-rsa/keys/vpnclient.crt easy-rsa/keys/vpnclient.key easy-rsa/keys/ca.crt easy-rsa/keys/ca.key ./vpnclient/
+[root@centos7 openvpn]# ls -l vpnclient/
+总用量 24
+-rw-r--r-- 1 root root 1635 9月  10 21:22 ca.crt
+-rw------- 1 root root 1704 9月  10 21:22 ca.key
+-rw-r--r-- 1 root root 5219 9月  10 21:22 vpnclient.crt
+-rw------- 1 root root 1704 9月  10 21:22 vpnclient.key
+-rw-r--r-- 1 root root 3584 9月  10 21:17 vpnclient.ovpn
+[root@centos7 openvpn]# cp vpnclient/vpnclient.ovpn{,.bak}
+[root@centos7 openvpn]# vim vpnclient/vpnclient.ovpn
+ns-cert-type server
+client
+dev tun
+proto tcp
+remote 10.0.0.201 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert vpnclient.crt
+key vpnclient.key
+ns-cert-type server
+comp-lzo
+verb 3
+~                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+&quot;vpnclient/vpnclient.ovpn&quot; 14L, 184C 已写入
+
+[root@centos7 openvpn]# zip -r vpnclient.zip ./vpnclient/
+  adding: vpnclient/ (stored 0%)
+  adding: vpnclient/vpnclient.crt (deflated 47%)
+  adding: vpnclient/vpnclient.key (deflated 23%)
+  adding: vpnclient/ca.crt (deflated 35%)
+  adding: vpnclient/ca.key (deflated 23%)
+  adding: vpnclient/vpnclient.ovpn.bak (deflated 54%)
+  adding: vpnclient/vpnclient.ovpn (deflated 30%)
+[root@centos7 openvpn]# ls
+ca.crt      easy-rsa            server           vpnclient      vpnserver.key
+client      ipp.txt             server.conf      vpnclient.zip
+dh2048.pem  openvpn-status.log  server.conf.bak  vpnserver.crt
+[root@centos7 openvpn]# sz vpnclient.zip -y
+rz
+ zmodem trl+C ȡ
+  100%       9 KB    9 KB/s 00:00:01       0 Errors
+  ```
+</code></pre></li>
+<li><p>Windows客户端上操作</p>
+
+<p>在windows的Client端，安装完毕Openvpn后，程序安装路径是：D:\ProgramFiles\OpenVPN\，如下图解压sz下载的压缩包到config目录下：<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/13093217.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/8858594.jpg" alt=""/></p>
+
+<p>双击桌面openvpn图标如上图点击连接后会成功拨号如下所示：分配的ip地址是10.8.0.6</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/50805201.jpg" alt=""/></p>
+
+<p>在vpnserver端查看IP地址如下图分配的IP地址是10.8.0.1，然后在Windows端ping10.8.0.6即可ping通，当然用crt或者xshell也可连接上</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/82462584.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/52340472.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>实现访问内网网段</p>
+
+<pre><code>#开启ipv4转发
+[root@centos7 openvpn]# echo &#39;net.ipv4.ip_forward =1&#39; &gt;&gt; /etc/sysctl.conf                  [root@centos7 openvpn]# sysctl -p
+net.ipv4.ip_forward = 1
+[root@centos7 openvpn]# grep net.ip /etc/sysctl.conf                      
+net.ipv4.ip_forward =1
+#抓包
+[root@centos7 openvpn]# tcpdump -i eth1
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+22:41:22.362365 ARP, Request who-has 172.16.1.62 tell 172.16.1.201, length 28
+22:41:22.362767 ARP, Reply 172.16.1.62 is-at 00:0c:29:e7:44:c0 (oui Unknown), length 46
+22:41:22.362778 IP 10.8.0.6 &gt; 172.16.1.62: ICMP echo request, id 1, seq 329, length 40
+22:41:27.032841 IP 10.8.0.6 &gt; 172.16.1.62: ICMP echo request, id 1, seq 330, length 40
+22:41:32.032299 IP 10.8.0.6 &gt; 172.16.1.62: ICMP echo request, id 1, seq 331, length 40
+22:41:37.032198 IP 10.8.0.6 &gt; 172.16.1.62: ICMP echo request, id 1, seq 332, length 40
+#通过抓包可以发现数据包到达vpn的内部机器上没有返回
+
+#解决方法1：在vpn的内部机器上添加返回路由或干脆把vpn server作为vpn内部机器的网关
+
+#在vpn内部机器172.16.1.62上配置
+[root@localhost ~]# ip a
+3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 00:0c:29:e7:44:c0 brd ff:ff:ff:ff:ff:ff
+    inet 172.16.1.62/24 brd 172.16.1.255 scope global eth1
+    inet6 fe80::20c:29ff:fee7:44c0/64 scope link 
+       valid_lft forever preferred_lft forever
+[root@localhost ~]# route add -net 10.8.0.0/24 gw 172.16.1.201
+[root@localhost ~]# tcpdump -i eth1
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+22:52:47.063020 IP 10.8.0.6 &gt; 172.16.1.62: ICMP echo request, id 1, seq 366, length 40
+22:52:47.063044 IP 172.16.1.62 &gt; 10.8.0.6: ICMP echo reply, id 1, seq 366, length 40
+22:52:48.063590 ARP, Request who-has 172.16.1.62 tell 172.16.1.201, length 46
+22:52:48.063605 ARP, Reply 172.16.1.62 is-at 00:0c:29:e7:44:c0 (oui Unknown), length 28
+22:52:48.065214 IP 10.8.0.6 &gt; 172.16.1.62: ICMP echo request, id 1, seq 367, length 40
+22:52:48.065231 IP 172.16.1.62 &gt; 10.8.0.6: ICMP echo reply, id 1, seq 367, length 40
+[root@localhost ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
+10.8.0.0        172.16.1.201    255.255.255.0   UG    0      0        0 eth1
+172.16.1.0      0.0.0.0         255.255.255.0   U     0      0        0 eth1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1002   0        0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1003   0        0 eth1
+0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0
+#或者：
+route add default gw 172.16.1.201
+
+#此方法虽然实现了访问vpn内部机器的功能，但是当vpn内部机器有很多台的时候此方法就不好了，所以有第二种方法：在vpn服务器上配置防火墙转发
+
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth1 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth1 -j SNAT --to-source 172.16.1.201
+iptables -F
+iptables -t nat -L -n
+iptables -t filter -L -n
+/etc/init.d/iptables save
+/etc/init.d/iptables restart
+
+[root@localhost ~]# tcpdump -i eth1
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+23:51:59.411144 IP 172.16.1.201 &gt; 172.16.1.62: ICMP echo request, id 1, seq 393, length 40
+23:51:59.411190 IP 172.16.1.62 &gt; 172.16.1.201: ICMP echo reply, id 1, seq 393, length 40
+23:52:00.412799 IP 172.16.1.201 &gt; 172.16.1.62: ICMP echo request, id 1, seq 394, length 40
+23:52:00.412819 IP 172.16.1.62 &gt; 172.16.1.201: ICMP echo reply, id 1, seq 394, length 40
+</code></pre></li>
+<li><p>openvpn客户端证书的撤销</p>
+
+<ol>
+<li><p>撤销单个证书</p>
+
+<pre><code>[root@centos7 sample-config-files]# cd /etc/openvpn/easy-rsa/
+[root@centos7 easy-rsa]# ls
+build-ca        build-key-pkcs12  inherit-inter      openssl-1.0.0.cnf  vars.bak
+build-dh        build-key-server  keys               pkitool            whichopensslcnf
+build-inter     build-req         list-crl           revoke-full
+build-key       build-req-pass    openssl-0.9.6.cnf  sign-req
+build-key-pass  clean-all         openssl-0.9.8.cnf  vars
+[root@centos7 easy-rsa]# source vars
+NOTE: If you run ./clean-all, I will be doing a rm -rf on /etc/openvpn/easy-rsa/keys
+[root@centos7 easy-rsa]# ./revoke-full vpnclient
+Using configuration from /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+Revoking Certificate 02.
+Data Base Updated
+Using configuration from /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+vpnclient.crt: C = CN, ST = BJ, L = Beijing, O = user, OU = beyond, CN = vpnclient, name = beyond, emailAddress = 123@qq.com
+error 23 at 0 depth lookup:certificate revoked
+[root@centos7 easy-rsa]# ll keys/crl.pem 
+-rw-r--r-- 1 root root 715 9月  11 00:42 keys/crl.pem
+[root@centos7 easy-rsa]# cat keys/crl.pem 
+-----BEGIN X509 CRL-----
+MIIB5jCBzzANBgkqhkiG9w0BAQsFADCBiTELMAkGA1UEBhMCQ04xCzAJBgNVBAgT
+AkJKMRAwDgYDVQQHEwdCZWlqaW5nMQ0wCwYDVQQKEwR1c2VyMQ8wDQYDVQQLEwZi
+ZXlvbmQxDzANBgNVBAMTBm9sZGJveTEPMA0GA1UEKRMGYmV5b25kMRkwFwYJKoZI
+hvcNAQkBFgoxMjNAcXEuY29tFw0xNzA5MTAxNjQyMDBaFw0xNzEwMTAxNjQyMDBa
+MBQwEgIBAhcNMTcwOTEwMTY0MjAwWjANBgkqhkiG9w0BAQsFAAOCAQEAFPEKfUoF
+wayBHlI1FE3prhAN53C0wJm0IUpwBuRDC8XbPLPMTX3dzps1Jmatw0BVX++IlvGJ
+z7lrxZpFXPbCr44m9rDpOMHdbwgrqchMCpyBX4N3qRAd1rDXbeahb/n0GhRbPudD
+EeRodU07aT9AQ5kpp0occPZsiSFuypwemegdan3l2KNus4vdABrE6bRpCfE1Xizb
+NqKDNIf44ewvelP8m9XGR8o84hD5jgJtL2Cqx5Hfc7vxm8PIIn4Ne1KfdgT6U0pB
+ssyXsAAMfTTrDiiazcu8PFaomMBhtDJghZLs1td5bkYSLbkpgT4hKQumcZgZqj9V
+F4aCaqe6+wQjXA==
+-----END X509 CRL-----
+[root@centos7 easy-rsa]# cat keys/index.txt
+V       270908104628Z           01      unknown /C=CN/ST=BJ/L=Beijing/O=user/OU=beyond/CN=vpnserver/name=beyond/emailAddress=123@qq.com
+R       270908114426Z   170910164200Z   02      unknown /C=CN/ST=BJ/L=Beijing/O=user/OU=beyond/CN=vpnclient/name=beyond/emailAddress=123@qq.com
+V       270908114810Z           03      unknown /C=CN/ST=BJ/L=Beijing/O=user/OU=beyond/CN=vpnbeyond/name=beyond/emailAddress=123@qq.com
+
+#编辑vpn服务端配置文件增加如下配置
+crl-verify /etc/openvpn/easy-rsa/keys/crl.pem
+#重启服务
+[root@centos7 easy-rsa]# systemctl restart openvpn@server.service 
+[root@centos7 easy-rsa]# systemctl stop openvpn@server.service        
+[root@centos7 easy-rsa]# ss -lntup|grep openvpn
+[root@centos7 easy-rsa]# systemctl start openvpn@server.service   
+[root@centos7 easy-rsa]# ss -lntup|grep openvpn                 
+tcp    LISTEN     0      1         *:1194                  *:*                   users:((&quot;openvpn&quot;,pid=22972,fd=6))
+</code></pre>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/83356688.jpg" alt=""/></p>
+
+<p>此时会发现证书已吊销无法登陆。</p></li>
+<li><p>取消撤销<br/>
+如果发现撤销错误需要回退的时候只需要将配置文件中加的内容注释掉然后再重启服务即可。</p></li>
+</ol></li>
+<li><p>配置linux下vpn客户端<br/>
+安装过程和linux下vpn server端一样</p></li>
+</ol>
+
+<hr/>
+
+<h5 id="toc_0">启动：</h5>
+
+<p>openvpn /etc/openvpn/vpnclient.ovpn</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

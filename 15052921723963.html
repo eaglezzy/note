@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卅二、NTP时间服务 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卅二、NTP时间服务</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>为什么需要NTP时间服务器</p>
+
+<p>NTP 是提供一个时间标准, 系统软件对时间的精度要求非常严格, 相差个几秒或者几分钟, 会导致服务无法启动, 各种各样的报错</p>
+
+<p>系统优化方面: 参加工作以后，把自己管理的服务器全部要排查时间同步<br/>
+企业服务器:<br/>
+同步公网的时间服务器的延迟：10ms-xxx秒<br/>
+局域网时间服务器的延迟：&lt;1ms</p></li>
+<li><p>服务端搭建ntpd</p>
+
+<p>正确安装软件的理论：<br/>
+①安装 ②配置 ③启动 ④使用软件<br/>
+能够yum安装就yum安装；不能yum安装的，先编译安装然后自己打一个rpm包，然后yum安装</p>
+
+<pre><code>[root@m01 ~]# yum -y install ntp
+[root@m01 ~]# rpm -qa ntp
+ntp-4.2.6p5-10.el6.centos.2.x86_64
+</code></pre>
+
+<p>ntp旧版本有漏洞，企业环境将他升级到最新版本，更简单方法，不给ntp时间服务器公网地址</p>
+
+<ol>
+<li><p>防火墙设置</p>
+
+<pre><code>iptables -I INPUT -p udp -m udp --sport 123 -j ACCEPT  #对外开放123端口
+</code></pre>
+
+<p><mark>最好的办法</mark>是将所有linux系统的防火墙都关闭：</p>
+
+<pre><code>chkconfig --level 2345 ip6tables off
+chkconfig --level 2345 iptables off
+service ip6tables stop
+service iptables stop
+</code></pre></li>
+<li><p>配置/etc/ntp.conf</p>
+
+<p>参考资料: <a href="http://jingyan.baidu.com/article/3c48dd347b3b75e10be35892.html">http://jingyan.baidu.com/article/3c48dd347b3b75e10be35892.html</a> </p>
+
+<pre><code>cp /etc/ntp.conf{,.ori} 
+cat&gt;/etc/ntp.conf&lt;&lt;EOF
+driftfile /var/lib/ntp/drift
+restrict default nomodify
+restrict 127.0.0.1
+restrict -6 ::1
+server ntp1.aliyun.com
+fudge ntp1.aliyun.com stratum 8
+includefile /etc/ntp/crypto/pw
+keys /etc/ntp/keys
+EOF
+</code></pre>
+
+<ol>
+<li><p>第一种配置：允许任何IP的客户机都可以进行时间同步</p>
+
+<pre><code>restrict default nomodify notrap
+</code></pre></li>
+<li><p>第二种配置：只允许172.16.1.***网段的客户机进行时间同步</p>
+
+<pre><code>restrict 172.16.1.0 mask 255.255.255.0 nomodify notrap
+</code></pre></li>
+</ol></li>
+<li><p>启动</p>
+
+<p>NTP时间服务器也有时间同步功能，发现自己系统时间不对，也会自己把自己的系统时间更新</p>
+
+<pre><code>/etc/init.d/ntpd start
+chkconfig --level 35 ntpd on
+</code></pre>
+
+<p>ntpd服务重启后,查看时间同步过程(如果服务是刚重启,需要等待几秒钟就能看到动态结果)</p>
+
+<pre><code>[root@m01 ~]# watch ntpq -p
+Every 2.0s: ntpq -p                                    Mon Aug 28 09:22:59 2017
+remote             refid           st t when poll reach   delay   offset  jitter
+==============================================================================
+*time5.aliyun.co 10.137.38.86     2 u   55   64  377   10.240  1983.55 1043.58
+</code></pre></li>
+</ol></li>
+<li><p>客户端同步时间</p>
+
+<pre><code>[root@m01 ~]# ntpdate 10.0.0.61
+25 Aug 09:41:00 ntpdate[37476]: the NTP socket is in use, exiting
+</code></pre>
+
+<p>在m01使用ntpdate命令会和ntp服务进程冲突，不能同时使用<br/>
+客户端能正常同步的情况:</p>
+
+<pre><code>[root@web02 ~]# ntpdate 172.16.1.61
+25 Aug 09:44:03 ntpdate[29612]: adjust time server 10.0.0.61 offset -0.010470 sec
+</code></pre>
+
+<p>所有客户端加入定时任务</p>
+
+<pre><code>[root@lb02 ~]# crontab -l
+*/5 * * * * /usr/sbin/ntpdate 10.0.0.61 &gt;/dev/null 2&gt;&amp;1
+</code></pre></li>
+<li><p>无法同步的情况</p>
+
+<pre><code>[root@lb02 ~]# ntpdate 172.16.1.61
+15 Aug 16:35:02 ntpdate[29611]: no server suitable for synchronization found
+</code></pre>
+
+<p>使用-d debug调试</p>
+
+<pre><code>[root@web02 ~]# ntpdate -d 172.16.1.61
+30 Aug 00:41:45 ntpdate[73624]: ntpdate 4.2.6p5@1.2349-o Mon Feb  6 07:22:46 UTC 2017 (1)
+Looking for host 172.16.1.61 and service ntp
+host found : m01
+transmit(172.16.1.61)
+receive(172.16.1.61)
+transmit(172.16.1.61)
+receive(172.16.1.61)
+transmit(172.16.1.61)
+receive(172.16.1.61)
+transmit(172.16.1.61)
+receive(172.16.1.61)
+172.16.1.61: Server dropped: strata too high
+server 172.16.1.61, port 123
+stratum 16, precision -23, leap 11, trust 000
+refid [172.16.1.61], delay 0.02571, dispersion 0.00000
+transmitted 4, in filter 4
+reference time:    00000000.00000000  Mon, Jan  1 1900  8:05:43.000
+originate timestamp: dd5017d3.378721d8  Wed, Aug 30 2017  0:41:55.216
+transmit timestamp:  dd5017c9.6a0d13f1  Wed, Aug 30 2017  0:41:45.414
+filter delay:  0.02588  0.02576  0.02577  0.02571
+         0.00000  0.00000  0.00000  0.00000
+filter offset: 9.802604 9.802566 9.802544 9.802574
+         0.000000 0.000000 0.000000 0.000000
+delay 0.02571, dispersion 0.00000
+offset 9.802574
+
+30 Aug 00:41:45 ntpdate[73624]: no server suitable for synchronization found
+[root@web02 ~]#
+</code></pre>
+
+<p>以下内容引自: <a href="http://www.blogjava.net/spray/archive/2008/07/10/213964.html">http://www.blogjava.net/spray/archive/2008/07/10/213964.html</a></p>
+
+<ol>
+<li><p>错误1.Server dropped: Strata too high</p>
+
+<p>在ntp客户端用ntpdate –d serverIP查看，发现有“Server dropped: strata too high”的错误，并且显示“stratum 16”。而正常情况下stratum这个值得范围是“0~15”。这是因为NTP server还没有和其自身或者它的上级server同步上。</p>
+
+<p>以下的定义是让NTP Server和其自身保持同步，如果在/ntp.conf中定义的server都不可用时，将使用local时间作为ntp服务提供给ntp客户端。</p>
+
+<pre><code>server 127.127.1.0
+fudge 127.127.1.0 stratum 8 
+</code></pre>
+
+<p>在ntp server上重新启动ntp服务后，ntp server自身或者与其server的同步的需要一个时间段，这个过程可能是5分钟，在这个时间之内在客户端运行ntpdate命令时会产生no server suitable for synchronization found的错误。</p>
+
+<p>那么如何知道何时ntp server完成了和自身同步的过程呢？<br/>
+在ntp server上使用命令：</p>
+
+<pre><code>watch ntpq -p
+</code></pre>
+
+<p>出现画面：</p>
+
+<pre><code>Every 2.0s: ntpq -p                                     Thu Jul 10 02:28:32 2008
+     remote           refid      st t when poll reach   delay   offset jitter
+==============================================================================
+ 192.168.30.22   LOCAL(0)         8 u   22   64    1    2.113 179133.   0.001
+  LOCAL(0)        LOCAL(0)        10 l   21   64    1    0.000   0.000  0.001
+  ```
+
+注意LOCAL的这个就是与自身同步的ntp server。
+注意reach这个值，在启动ntp server服务后，这个值就从0开始不断增加，当增加到17的时候，从0到17是5次的变更，每一次是poll的值的秒数，是64秒*5=320秒的时间。
+如果之后从ntp客户端同步ntp server还失败的话，用ntpdate –d来查询详细错误信息，再做判断。
+</code></pre></li>
+<li><p>错误2.Server dropped: no data<br/>
+从客户端执行netdate –d时有错误信息如下：</p>
+
+<pre><code>transmit(192.168.30.22)
+transmit(192.168.30.22)
+transmit(192.168.30.22)
+transmit(192.168.30.22)
+transmit(192.168.30.22)
+192.168.30.22: Server dropped: no data
+server 192.168.30.22, port 123
+.....
+28 Jul 17:42:24 ntpdate[14148]: no server suitable for synchronization found
+</code></pre>
+
+<p>出现这个问题的原因可能有2：</p>
+
+<ol>
+<li><p>检查ntp的版本，如果你使用的是ntp4.2（包括4.2）之后的版本，在restrict的定义中使用了notrust的话，会导致以上错误。解决：把notrust去掉。</p>
+
+<pre><code>rpm -qa ntp #检查版本命令, 也可使用 ntpq -c version
+</code></pre></li>
+<li><p>检查ntp server的防火墙。可能是server的防火墙屏蔽了upd 123端口。</p>
+
+<pre><code>service iptables stop
+</code></pre></li>
+</ol></li>
+</ol></li>
+<li><p>ntpd与ntpdate的区别</p></li>
+</ol>
+
+<blockquote>
+<p>以下内容源自: <a href="http://www.cnblogs.com/liuyou/archive/2012/07/29/2614330.html">http://www.cnblogs.com/liuyou/archive/2012/07/29/2614330.html</a><br/>
+之前配置ntpd的时候搜到一句话，印象很深刻，也觉得很有标题党的效果，就借鉴为标题了：<br/>
+“我认为有几种人是必须不招聘/裁掉的： 1 用ntpdate代替ntpd的人”<br/>
+但具体原因不太懂，总觉得还是用ntpdate比较方便。<br/>
+今天问了红帽技术支持，对方的解释是：<br/>
+ntpd在实际同步时间时是一点点的校准过来时间的，最终把时间慢慢的校正对。而ntpdate不会考虑其他程序是否会阵痛，直接调整时间。<br/>
+一个是校准时间，一个是调整时间。<br/>
+以下是一个形象的假设：<br/>
+linuxtone限制用户注册1小时才能发帖。<br/>
+数据库服务器在 10：00分接受了我的注册邀请；<br/>
+10：03分，ntpdate将数据库时间强行改成9：35分；<br/>
+然后10：05分（9：37分）我尝试发帖，系统判断我注册时间是否满一小时会使用：9：37 - 10：00<br/>
+最后电脑就逻辑混乱了。。。<br/>
+类似的帖子网上也有很详细的说明，贴出来给大家看看：<br/>
+时钟的跃变，有时候会导致很严重的问题。许多应用程序依赖连续的时钟??毕竟，这是一项常见的假定，即，取得的时间是线性的，一些操作，例如数据库事务，通常会地依赖这样的事实：时间不会往回跳跃。<br/>
+不幸的是，ntpdate调整时间的方式就是我们所说的”跃变“：在获得一个时间之后，ntpdate使用settimeofday(2)设置系统时间，这有几个非常明显的问题：<br/>
+第一，这样做不安全。ntpdate的设置依赖于ntp服务器的安全性，攻击者可以利用一些软件设计上的缺陷，拿下ntp服务器并令与其同步的服务器执行某些消耗性的任务。由于ntpdate采用的方式是跳变，跟随它的服务器无法知道是否发生了异常（时间不一样的时候，唯一的办法是以服务器为准）。<br/>
+第二，这样做不精确。一旦ntp服务器宕机，跟随它的服务器也就会无法同步时间。与此不同，ntpd不仅能够校准计算机的时间，而且能够校准计算机的时钟。<br/>
+第三，这样做不够优雅。由于是跳变，而不是使时间变快或变慢，依赖时序的程序会出错（例如，如果ntpdate发现你的时间快了，则可能会经历两个相同的时刻，对某些应用而言，这是致命的）。<br/>
+因而，唯一一个可以令时间发生跳变的点，是计算机刚刚启动，但还没有启动很多服务的那个时候。其余的时候，理想的做法是使用ntpd来校准时钟，而不是调整计算机时钟上的时间。<br/>
+NTPD 在和时间服务器的同步过程中，会把 BIOS 计时器的振荡频率偏差??或者说 Local Clock 的自然漂移(drift)??记录下来。这样即使网络有问题，本机仍然能维持一个相当精确的走时。<br/>
+最后提醒一下使用vmware的各位，因为虚拟机的时钟不太正常，比正常速度慢好多秒，所以在虚拟机上测试ntpd很难得到理想的结果，我当年就是为这个问题耽搁了好几天。。</p>
+</blockquote>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

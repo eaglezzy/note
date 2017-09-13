@@ -1,0 +1,356 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	八、Linux权限体系 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">八、Linux权限体系</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ul>
+<li>
+<a href="#toc_0">rwx是什么</a>
+</li>
+<li>
+<a href="#toc_1">rwx对应的数字及计算方法</a>
+</li>
+<li>
+<a href="#toc_2">对于文件与目录来说rwx是什么含义</a>
+<ul>
+<li>
+<a href="#toc_3">文件</a>
+</li>
+<li>
+<a href="#toc_4">目录</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_5">文件删除原理</a>
+<ul>
+<li>
+<a href="#toc_6">硬连接数为0</a>
+</li>
+<li>
+<a href="#toc_7">进程调用数为0</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_8">chmod命令的使用</a>
+</li>
+<li>
+<a href="#toc_9">网站权限</a>
+<ul>
+<li>
+<a href="#toc_10">Linux系统默认权限</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">Linux系统默认权限控制命令--umask</a>
+<ul>
+<li>
+<a href="#toc_12">是什么</a>
+</li>
+<li>
+<a href="#toc_13">怎么计算</a>
+</li>
+<li>
+<a href="#toc_14">如何修改</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">了解特殊权限</a>
+<ul>
+<li>
+<a href="#toc_16">suid setuid passwd 命令</a>
+</li>
+<li>
+<a href="#toc_17">sticky粘滞位 1777 /tmp 目录</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_18">文件系统的权限</a>
+<ul>
+<li>
+<a href="#toc_19">chattr</a>
+</li>
+<li>
+<a href="#toc_20">lsattr</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h1 id="toc_0">rwx是什么</h1>
+
+<pre><code> r ---- 读
+ w ---- 写
+ x ---- 执行
+</code></pre>
+
+<h1 id="toc_1">rwx对应的数字及计算方法</h1>
+
+<pre><code>读(read) 写(write)    执行(xecute)  简写(r,w,x)       也可用数字(4,2,1)表示
+ 权限项            r   w   x       r   w   x       r  w  x
+数字表示            4   2   1       4   2   1       4  2  1
+权限分配            文件所有者       文件所属组       其他用户
+例:权限为7则代表可读可写可执行(4+2+1),若为6(4+2)则代表可读,可写
+</code></pre>
+
+<h1 id="toc_2">对于文件与目录来说rwx是什么含义</h1>
+
+<h2 id="toc_3">文件</h2>
+
+<pre><code>r 可读 
+w 可写  w需要r的可读
+x 可执行 x 需要r的可读
+</code></pre>
+
+<h2 id="toc_4">目录</h2>
+
+<pre><code>r 查看书包中的内容 sl
+w 在书包里面可以放内容 (文件) 是否可以再 目录下创建文件
+x 是否可以进去这个目录 cd 是否可以访问目录里面的属性信息
+</code></pre>
+
+<h1 id="toc_5">文件删除原理</h1>
+
+<h2 id="toc_6">硬连接数为0</h2>
+
+<pre><code> 删除文件需要看文件所在目录的w权限
+ 实际删除的是商及目录的block里面的内容
+</code></pre>
+
+<h2 id="toc_7">进程调用数为0</h2>
+
+<pre><code>lsof |grep messages
+排错: lsof |grep delete
+</code></pre>
+
+<h1 id="toc_8">chmod命令的使用</h1>
+
+<pre><code> change mode(改变权限)
+ 字母形式表示权限
+ 用户的表示方法
+ u -- user (文件的所有者)
+ g -- group (用户属于的组)
+ o -- others (其他人)
+ 属于权限
+ + 添加权限
+ - 去掉某一个权限
+ = 先去掉原有的权限,然后再赋予新的权限
+ 例:
+ chmod +x test.sh ==== chmod ugo+x test.sh ==== chmod a+x test.sh
+ chmod u+x test.sh
+ 数字形式表示权限
+ 权限对应的数字
+ r ---- 4
+ w ---- 2
+ x ---- 1
+ - ---- 0
+ 使用数字授予权限
+rwxr-xr-x 755
+chmod 755 test.sh
+</code></pre>
+
+<h1 id="toc_9">网站权限</h1>
+
+<h2 id="toc_10">Linux系统默认权限</h2>
+
+<pre><code>对于文件来说默认什么权限比较好?
+所有者 家庭 隔壁老王
+rw-r--r--  644
+对于目录来说默认什么权限比较好?
+所有者 家庭 隔壁老王
+rwxr-xr-x  755
+网站比较安全的权限
+</code></pre>
+
+<h1 id="toc_11">Linux系统默认权限控制命令--umask</h1>
+
+<h2 id="toc_12">是什么</h2>
+
+<pre><code>控制Linux里面创建文件或目录的默认的权限
+</code></pre>
+
+<h2 id="toc_13">怎么计算</h2>
+
+<h2 id="toc_14">如何修改</h2>
+
+<pre><code>临时: umask 022
+永久: /etc/profile
+</code></pre>
+
+<h1 id="toc_15">了解特殊权限</h1>
+
+<h2 id="toc_16">suid setuid passwd 命令</h2>
+
+<pre><code>作用:运行某一个命令的时候相当于这个命令的所有者(root)
+S/s: -rwsr-xr-x
+设置方法: chmod u+s /bin/rm 或chmod 4755 /bin/rm
+</code></pre>
+
+<h2 id="toc_17">sticky粘滞位 1777 /tmp 目录</h2>
+
+<pre><code>任何人都可以在这个目录里面创建文件
+每个人只能管理自己的文件,其他人的处理不了
+sgid locate
+</code></pre>
+
+<h1 id="toc_18">文件系统的权限</h1>
+
+<h2 id="toc_19">chattr</h2>
+
+<pre><code>a(append只能追加)如果设置了这个权限 只能追加 不能删除 不能修改
+i(immutable无敌)无法修改 无法删除
++a -a
+</code></pre>
+
+<h2 id="toc_20">lsattr</h2>
+
+<pre><code>查看文件系统权限
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

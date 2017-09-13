@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卅六、zabbix自定义监控 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卅六、zabbix自定义监控</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>自定义监控</p>
+
+<p>一台主机可以添加多个模板, 一个模板中可以包含多个应用集, 一个应用集中可以包含多个监控项</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/66952784.jpg" alt=""/></p>
+
+<ol>
+<li><p>自定义监控项键值</p>
+
+<p>客户端添加自定义的监控项--在自定义的监控项配置文件中添加键值</p>
+
+<pre><code>echo &quot;UserParameter=login-user,who|wc -l&quot; \
+&gt;&gt;/etc/zabbix/zabbix_agentd.d/userparameter_oldboy.conf
+cat /etc/zabbix/zabbix_agentd.d/userparameter_oldboy.conf
+/etc/init.d/zabbix-agent restart
+</code></pre>
+
+<p>服务端检查键值</p>
+
+<pre><code>[root@m01 x86_64]# zabbix_get -s 172.16.1.41 -p 10050 -k &quot;login-user&quot;
+1
+[root@m01 x86_64]# zabbix_get -s 172.16.1.61 -p 10050 -k &quot;login-user&quot;
+1
+</code></pre></li>
+<li><p>添加模板<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/80986302.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/27564849.jpg" alt=""/></p>
+
+<ol>
+<li><p>添加应用集</p>
+
+<p>（监控项的存放的文件夹）：相同功能的监控项放在一起，这个地方起个名字叫做应用集</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/73557311.jpg" alt=""/></p></li>
+<li><p>添加监控项</p>
+
+<p>实现一个你需要监控的功能<br/>
+名称：自己起个有意义名字<br/>
+键值：填入自己定义的key<br/>
+数据更新间隔(秒)：服务端去客户端抓取数据的时间间隔<br/>
+历史数据保留时长(单位天)：收集到的数据保留时长；机器越多，时间越长，占用的数据库空间越大<br/>
+趋势数据存储周期(单位天)</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/12658311.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/8244268.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/60424906.jpg" alt=""/></p></li>
+<li><p>添加触发器</p>
+
+<p>可选项，触发器就像地雷的引信，一旦收集到的数据达到预定值，就会触发报警</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/49792766.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/9281037.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/82820812.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/80286061.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/48522185.jpg" alt=""/></p></li>
+<li><p>添加图形<br/>
+将枯燥的数字转成图形，易于理解<br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/60646548.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/93138961.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>使用模板--关联模板</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/97664828.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/11737030.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/62097666.jpg" alt=""/></p>
+
+<ol>
+<li><p>测试告警</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/68284788.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>使用自定义监控MySQL</p>
+
+<p>因为mysql有密码，所以我们首先得改userparameter_mysql.conf 的用户密码</p>
+
+<pre><code>[root@m01 ~]# vim /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf 
+UserParameter=mysql.ping,/application/mysql/bin/mysqladmin -uroot -poldboy123 ping 2&gt;/dev/null| grep -c alive
+</code></pre>
+
+<pre><code>/etc/init.d/zabbix-agent restart
+</code></pre>
+
+<pre><code>[root@mysql-db01 ~]# mysqladmin -uroot -poldboy123 ping 2&gt;/dev/null | grep -c alive
+1
+</code></pre></li>
+</ol></li>
+<li><p>集群监控--多模板</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/99826767.jpg" alt=""/></p></li>
+<li><p>WEB监控</p>
+
+<p>监控你们网站指定URL地址，打开网页，能够看到指定内容，就可以确信我们网站是正常。</p>
+
+<p>因为我们是使用服务端的系统监控所有内网主机的url地址，因此我们需要在m01机器做hosts解析</p>
+
+<p>第一步：确保web01的Nginx服务正常访问<br/>
+第二步：修改m01的hosts解析</p>
+
+<pre><code>[root@m01 ~]# tail -2 /etc/hosts
+10.0.0.8 bbs.etiantian.org blog.etiantian.org www.etiantian.org status.etiantian.org
+[root@m01 ~]# curl http://www.etiantian.org/oldboy.html
+www web01
+</code></pre>
+
+<p>第三步，网页上配置</p>
+
+<p>web检测本质：是在服务端这台机器上执行了类似“curl 网站地址”的功能</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/64356140.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/79279633.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/62076512.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/22728563.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/43706920.jpg" alt=""/></p>
+
+<blockquote>
+<p>实现监控三个站点的效果</p>
+</blockquote>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/8580229.jpg" alt=""/></p></li>
+<li><p>主机、模版共享</p>
+
+<p>导出主机设置的作用：共享、备份<br/>
+<a href="https://share.zabbix.com/">https://share.zabbix.com/</a> </p></li>
+<li><p>监控可视化</p>
+
+<ol>
+<li><p>聚合图形</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/3967639.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/27500446.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/78426135.jpg" alt=""/></p>
+
+<p>添加至首页</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/65378452.jpg" alt=""/></p></li>
+<li><p>幻灯片演示</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/78282733.jpg" alt=""/><br/>
+<img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/81138038.jpg" alt=""/></p></li>
+</ol></li>
+<li><p>监控告警</p>
+
+<ol>
+<li><p>zabbix报警媒介</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/23771636.jpg" alt=""/></p></li>
+<li><p>onealert第三方报警工具</p>
+
+<p>zabbix监控其他主机，但是onealert监控zabbix的报警信息，一旦有报警，onealert会将报警内容发送给onealert服务器，然后onealert服务器通过你设置的报警方式进行报警<br/>
+触发报警原理：状态改变才会触发----好变坏，坏变好</p></li>
+<li><p>安装</p>
+
+<pre><code>AppKey=???? Plugin=zabbix sh -c &quot;$(curl -L https://raw.githubusercontent.com/oneapm/onealert-agent-installer/master/onealert-zabbix-install-centos6.sh)&quot;
+</code></pre>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/58919326.jpg" alt=""/></p></li>
+<li><p>在zabbix中检查</p>
+
+<p><img src="http://ovt17vn7k.bkt.clouddn.com/17-9-13/56546116.jpg" alt=""/></p>
+
+<p>补充: 重启onealert</p>
+
+<pre><code>initctl restart onealert
+</code></pre></li>
+</ol></li>
+<li><p>排错</p>
+
+<ol>
+<li><p>防火墙没关导致m01的客户端无法连接</p></li>
+<li><p>中文字符乱码问题解决</p>
+
+<pre><code>wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+yum -y install wqy-microhei-fonts
+\cp /usr/share/fonts/wqy-microhei/wqy-microhei.ttc /usr/share/fonts/dejavu/DejaVuSans.ttf
+</code></pre></li>
+<li><p>备份自定义配置文件后,服务启动失败<br/>
+故障重现</p>
+
+<pre><code>cd /etc/zabbix/zabbix_agentd.d/
+cp userparameter_mysql.conf{,.bak}
+</code></pre>
+
+<pre><code>[root@db01 zabbix_agentd.d]# /etc/init.d/zabbix-agent restart
+Shutting down Zabbix agent:                                [FAILED]
+Starting Zabbix agent: zabbix_agentd [8667]: ERROR: cannot add user parameter &quot;mysql.status[*],echo &quot;show global status where Variable_name=&#39;$1&#39;;&quot; | HOME=/var/lib/zabbix mysql -N | awk &#39;{print $$2}&#39;&quot;: key &quot;mysql.status&quot; already exists
+</code></pre>
+
+<p>解决方法：修改 /etc/zabbix/zabbix_agentd.conf<br/>
+将：</p>
+
+<pre><code>Include=/etc/zabbix/zabbix_agentd.d/
+</code></pre>
+
+<p>修改为：</p>
+
+<pre><code>Include=/etc/zabbix/zabbix_agentd.d/*.conf
+</code></pre></li>
+<li><p>普通用户使用netstat -lntup取值失败</p>
+
+<pre><code>[laowang@db01 ~]$ netstat -lntup
+(No info could be read for &quot;-p&quot;: geteuid()=503 but you should be root.)
+Active Internet connections (only servers)
+</code></pre>
+
+<p>解决办法：</p>
+
+<pre><code>chmod u+s /bin/netstat
+</code></pre></li>
+<li><p>数据类型不一致的</p>
+
+<p>如果自定义监控项取出的值为字符串，然后在添加监控项的时候，信息类型如果不是字符串类型，则会报错</p>
+
+<pre><code>Received value [lixxxxx] is not suitable for value type [Numeric (unsigned)] and data type [Decimal]
+```
+</code></pre></li>
+<li><p>监控mysql</p>
+
+<p>第一步：<br/>
+在db01:监控mysql，自定义监控项的配置文件</p>
+
+<pre><code>[root@db01 zabbix_agentd.d]# cat userparameter_mysql.conf
+UserParameter=mysql.status[*],echo &quot;show global status where Variable_name=&#39;$1&#39;;&quot; | HOME=/var/lib/zabbix /application/mysql/bin/mysql -uroot -poldboy123 -N 2&gt;/dev/null| awk &#39;{print $$2}&#39;
+UserParameter=mysql.ping,/application/mysql/bin/mysqladmin -uroot -poldboy123 ping 2&gt;/dev/null| grep -c alive
+UserParameter=mysql.version,mysql -V
+</code></pre>
+
+<p>第二步：</p>
+
+<pre><code>[root@oldboyedu38 ~]# zabbix_get -s 10.0.0.51 -k &quot;mysql.ping&quot;
+1
+</code></pre>
+
+<p>第三步：<br/>
+添加db01的主机，并连接Template App MySQL</p></li>
+</ol></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>
