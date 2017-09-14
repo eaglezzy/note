@@ -1,148 +1,414 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>  
-	  
-  	3.命令总结 - 笔记仓库
-  	
-	</title>
-
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
-
-	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<script src="asset/javascripts/jquery.min.js"></script>
-	<script src="asset/highlightjs/highlight.pack.js"></script>
-	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
-<script>hljs.initHighlightingOnLoad();</script>
-
-	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
-	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
-	<style type="text/css">
-/* latin */
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
-/* latin */
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
-/* latin */
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
-	</style>
-	
-	<style type="text/css">
-	.container .left-col{ opacity: 1;}
-	#pagenavi a{ font-size: 1.3em;}
-	#pagenavi .next:before{ top: 3px;}
-	#pagenavi .prev:before{ top: 3px;}
-	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
-	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
-	#header .subtitle {
-		line-height: 1.2em;
-		padding-top: 8px;
-	}
-	article pre{ background: none; border: none; padding: 0;}
-	article .entry-content{text-align: left;}
-	.share-comment{ padding: 25px 0px; clear: both;}
-	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
-	</style>
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  3.命令总结 - 笔记仓库
   
+  </title>
+ <meta name="description" content="">
+ <link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
 
-</head>
-
-
-<body>
-	<div class="container">
-		<div class="left-col">
-			<div class="intrude-less">
-				<header id="header" class="inner">
-				 
-					
-					<h1><a href="index.html">笔记仓库</a></h1>
-					<p class="subtitle"></p>
-					<nav id="main-nav">
-						<ul class="main">
-						
-						  <li id=""><a target="_self" href="index.html">主页</a></li>
-						
-						  <li id=""><a target="_self" href="note.html">学习笔记</a></li>
-						
-						  <li id=""><a target="_self" href="Principle.html">十五个必会的原理知识</a></li>
-						
-						  <li id=""><a target="_self" href="command.html">Linux常用命令简明列表</a></li>
-						
-						  <li id=""><a target="_self" href="archives.html">最近更新</a></li>
-						
-						  <li id=""><a target="_self" href="love.html">甜蜜回忆</a></li>
-						
-						</ul>
-					</nav>
-
-					<nav id="sub-nav">
-						<div class="social">
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+    <script src="asset/highlightjs/highlight.pack.js"></script>
+    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
 
 
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+<div id="header">
+    <h1><a href="index.html">笔记仓库</a></h1>
+</div>
+
+</nav>
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 笔记仓库</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+      <li><a href="index.html">Home</a></li>
+      
+        <li class="divider"></li>
+        <li><label>1.老男孩学习笔记</label></li>
+
+          
+            <li><a title="卅七、zabbix自主监控与分布式监控" href="15053046720339.html">卅七、zabbix自主监控与分布式监控</a></li>
+          
+            <li><a title="卅六、zabbix自定义监控" href="15053033256965.html">卅六、zabbix自定义监控</a></li>
+          
+            <li><a title="卅五、centOS6.9部署zabbix" href="15053026350545.html">卅五、centOS6.9部署zabbix</a></li>
+          
+            <li><a title="卅三、PPTP实现VPN" href="15052974923145.html">卅三、PPTP实现VPN</a></li>
+          
+            <li><a title="卅四、openvpn安装与使用" href="15052960182182.html">卅四、openvpn安装与使用</a></li>
+          
+            <li><a title="卅二、NTP时间服务" href="15052921723963.html">卅二、NTP时间服务</a></li>
+          
+            <li><a title="卅一、Keepalived部署" href="15051477961930.html">卅一、Keepalived部署</a></li>
+          
+            <li><a title="三十、Nginx应用--反向代理--负载均衡" href="15051475777273.html">三十、Nginx应用--反向代理--负载均衡</a></li>
+          
+            <li><a title="廿九、数据库迁移--NFS迁移" href="15051466954965.html">廿九、数据库迁移--NFS迁移</a></li>
+          
+            <li><a title="廿八、MySQL基本操作" href="15051459212797.html">廿八、MySQL基本操作</a></li>
+          
+            <li><a title="廿七、单台服务器LNMP搭建" href="15051418147758.html">廿七、单台服务器LNMP搭建</a></li>
+          
+            <li><a title="廿六、Nginx应用--Web服务" href="15051387894730.html">廿六、Nginx应用--Web服务</a></li>
+          
+            <li><a title="卌二、KVM" href="15050197248657.html">卌二、KVM</a></li>
+          
+            <li><a title="卌一、CentOS 7" href="15050196529102.html">卌一、CentOS 7</a></li>
+          
+            <li><a title="四十、自动化安装 (二) -- cobbler" href="15050165021812.html">四十、自动化安装 (二) -- cobbler</a></li>
+          
+            <li><a title="卅九、自动批量的安装操作系统 -- kickstart" href="15050152527420.html">卅九、自动批量的安装操作系统 -- kickstart</a></li>
+          
+            <li><a title="卅八、memcache及session共享" href="15049674009290.html">卅八、memcache及session共享</a></li>
+          
+            <li><a title="廿五、Nginx入门" href="15047113618478.html">廿五、Nginx入门</a></li>
+          
+            <li><a title="廿四、网站访问相关命令" href="15046800151297.html">廿四、网站访问相关命令</a></li>
+          
+            <li><a title="廿三、http协议==超文本传输协议" href="15045988807012.html">廿三、http协议==超文本传输协议</a></li>
+          
+            <li><a title="廿二、ansible" href="15018692235223.html">廿二、ansible</a></li>
+          
+            <li><a title="廿一、远程连接" href="15018686711597.html">廿一、远程连接</a></li>
+          
+            <li><a title="廿十、实时同步服务知识介绍(inotify+rsync)" href="15018676996592.html">廿十、实时同步服务知识介绍(inotify+rsync)</a></li>
+          
+            <li><a title="十五、awk命令精讲" href="15018659093989.html">十五、awk命令精讲</a></li>
+          
+            <li><a title="十四、网络基础" href="15018658919010.html">十四、网络基础</a></li>
+          
+            <li><a title="十三、shell编程入门" href="15018640937342.html">十三、shell编程入门</a></li>
+          
+            <li><a title="十二、sed命令精讲" href="15018613071828.html">十二、sed命令精讲</a></li>
+          
+            <li><a title="十一、磁盘管理" href="15018474773088.html">十一、磁盘管理</a></li>
+          
+            <li><a title="十、用户管理" href="15018399397622.html">十、用户管理</a></li>
+          
+            <li><a title="九、定时任务" href="15018075128546.html">九、定时任务</a></li>
+          
+            <li><a title="七、文件属性" href="15017626488369.html">七、文件属性</a></li>
+          
+            <li><a title="五、Linux基础优化" href="15017614116406.html">五、Linux基础优化</a></li>
+          
+            <li><a title="八、Linux权限体系" href="15017603199663.html">八、Linux权限体系</a></li>
+          
+            <li><a title="十九、期中架构NFS知识讲解" href="15013159711138.html">十九、期中架构NFS知识讲解</a></li>
+          
+            <li><a title="十八、全网备份" href="15013155594594.html">十八、全网备份</a></li>
+          
+            <li><a title="十七、rsync课程讲解" href="15012425054241.html">十七、rsync课程讲解</a></li>
+          
+            <li><a title="十六、期中架构" href="15012368281486.html">十六、期中架构</a></li>
+          
+            <li><a title="六、目录结构" href="15010772533002.html">六、目录结构</a></li>
+          
+            <li><a title="四、远程连接排错" href="15010763542152.html">四、远程连接排错</a></li>
+          
+            <li><a title="一、计算机系统硬件核心知识" href="15010712824389.html">一、计算机系统硬件核心知识</a></li>
+          
+            <li><a title="二、Linux的发展过程与核心知识" href="15010697787307.html">二、Linux的发展过程与核心知识</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>2.十五个必会的原理知识</label></li>
+
+          
+            <li><a title="15. 描述你维护过的大规模集群网站架构的设计原理" href="15010702959683.html">15. 描述你维护过的大规模集群网站架构的设计原理</a></li>
+          
+            <li><a title="14. 详细描述Linux权限管理体系" href="15010702850667.html">14. 详细描述Linux权限管理体系</a></li>
+          
+            <li><a title="13. 描述Linux下磁盘读写数据的原理，磁盘分区原理，默认文件系统工作原理" href="15010702778892.html">13. 描述Linux下磁盘读写数据的原理，磁盘分区原理，默认文件系统工作原理</a></li>
+          
+            <li><a title="12. 一致性哈西算法作用及原理" href="15010702692268.html">12. 一致性哈西算法作用及原理</a></li>
+          
+            <li><a title="11. RAID 0 1 5 10原理、特点、性能区别，集群各角色如何选择" href="15010702612275.html">11. RAID 0 1 5 10原理、特点、性能区别，集群各角色如何选择</a></li>
+          
+            <li><a title="10. Linux默认文件系统,文件删除原理" href="15010702550739.html">10. Linux默认文件系统,文件删除原理</a></li>
+          
+            <li><a title="09. 详细描述CDN工作原理以及购买服务后解析操作步骤" href="15010702488190.html">09. 详细描述CDN工作原理以及购买服务后解析操作步骤</a></li>
+          
+            <li><a title="08. keepalive高可用服务工作原理" href="15010702422822.html">08. keepalive高可用服务工作原理</a></li>
+          
+            <li><a title="07. memcached工作原理(内存管理机制)" href="15010702209182.html">07. memcached工作原理(内存管理机制)</a></li>
+          
+            <li><a title="06. lvs的4种模式工作原理" href="15010702152705.html">06. lvs的4种模式工作原理</a></li>
+          
+            <li><a title="05. Nginx配合PHP工作fastcgi工作原理" href="15010702085430.html">05. Nginx配合PHP工作fastcgi工作原理</a></li>
+          
+            <li><a title="04. MySQL主从同步原理" href="15010701999479.html">04. MySQL主从同步原理</a></li>
+          
+            <li><a title="03. TCP/IP的三次握手和四次挥手原理" href="15010701936255.html">03. TCP/IP的三次握手和四次挥手原理</a></li>
+          
+            <li><a title="02. http协议通信原理" href="15010701867065.html">02. http协议通信原理</a></li>
+          
+            <li><a title="01. DNS系统架构与解析原理" href="15010701752650.html">01. DNS系统架构与解析原理</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>3.命令总结</label></li>
+
+          
+            <li><a title="inotifywait" href="15017603290224.html">inotifywait</a></li>
+          
+            <li><a title="Linux命令总结 (持续更新中)" href="15013198329902.html">Linux命令总结 (持续更新中)</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>零散笔记</label></li>
+
+          
+            <li><a title="redis简单入门及实现wordpress数据库缓存" href="15052628837678.html">redis简单入门及实现wordpress数据库缓存</a></li>
+          
+            <li><a title="Linux下获取公网IP地址的方法" href="15051981760993.html">Linux下获取公网IP地址的方法</a></li>
+          
+            <li><a title="附录: 502和504错误" href="15051451335516.html">附录: 502和504错误</a></li>
+          
+            <li><a title="HTTP状态码列表" href="15021542293136.html">HTTP状态码列表</a></li>
+          
+            <li><a title="Ansible常用模块汇总" href="15021011169868.html">Ansible常用模块汇总</a></li>
+          
+            <li><a title="web服务基础" href="15020372614069.html">web服务基础</a></li>
+          
+            <li><a title="全网备份案例" href="15010886029579.html">全网备份案例</a></li>
+          
+            <li><a title="xinetd服务管理器" href="15010578989827.html">xinetd服务管理器</a></li>
+          
+            <li><a title="服务器简单优化" href="15010516186972.html">服务器简单优化</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>考试题</label></li>
+
+          
+            <li><a title="期中架构之前复习考试" href="15013178849284.html">期中架构之前复习考试</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>心情随笔</label></li>
+
+          
+            <li><a title="鸡汤" href="15050925305457.html">鸡汤</a></li>
+          
+
+      
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+        <section id="main-content" role="main" class="scroll-container">
+
+          <div class="row">
+            <div class="large-3 medium-3 columns">
+              <div class="hide-for-small">
+                <div class="sidebar">
+                <nav>
+                  <ul id="side-nav" class="side-nav">
+
+                    
+                      <li class="side-title"><span>1.老男孩学习笔记</span></li>
+                        
+                          <li><a title="卅七、zabbix自主监控与分布式监控" href="15053046720339.html">卅七、zabbix自主监控与分布式监控</a></li>
+                        
+                          <li><a title="卅六、zabbix自定义监控" href="15053033256965.html">卅六、zabbix自定义监控</a></li>
+                        
+                          <li><a title="卅五、centOS6.9部署zabbix" href="15053026350545.html">卅五、centOS6.9部署zabbix</a></li>
+                        
+                          <li><a title="卅三、PPTP实现VPN" href="15052974923145.html">卅三、PPTP实现VPN</a></li>
+                        
+                          <li><a title="卅四、openvpn安装与使用" href="15052960182182.html">卅四、openvpn安装与使用</a></li>
+                        
+                          <li><a title="卅二、NTP时间服务" href="15052921723963.html">卅二、NTP时间服务</a></li>
+                        
+                          <li><a title="卅一、Keepalived部署" href="15051477961930.html">卅一、Keepalived部署</a></li>
+                        
+                          <li><a title="三十、Nginx应用--反向代理--负载均衡" href="15051475777273.html">三十、Nginx应用--反向代理--负载均衡</a></li>
+                        
+                          <li><a title="廿九、数据库迁移--NFS迁移" href="15051466954965.html">廿九、数据库迁移--NFS迁移</a></li>
+                        
+                          <li><a title="廿八、MySQL基本操作" href="15051459212797.html">廿八、MySQL基本操作</a></li>
+                        
+                          <li><a title="廿七、单台服务器LNMP搭建" href="15051418147758.html">廿七、单台服务器LNMP搭建</a></li>
+                        
+                          <li><a title="廿六、Nginx应用--Web服务" href="15051387894730.html">廿六、Nginx应用--Web服务</a></li>
+                        
+                          <li><a title="卌二、KVM" href="15050197248657.html">卌二、KVM</a></li>
+                        
+                          <li><a title="卌一、CentOS 7" href="15050196529102.html">卌一、CentOS 7</a></li>
+                        
+                          <li><a title="四十、自动化安装 (二) -- cobbler" href="15050165021812.html">四十、自动化安装 (二) -- cobbler</a></li>
+                        
+                          <li><a title="卅九、自动批量的安装操作系统 -- kickstart" href="15050152527420.html">卅九、自动批量的安装操作系统 -- kickstart</a></li>
+                        
+                          <li><a title="卅八、memcache及session共享" href="15049674009290.html">卅八、memcache及session共享</a></li>
+                        
+                          <li><a title="廿五、Nginx入门" href="15047113618478.html">廿五、Nginx入门</a></li>
+                        
+                          <li><a title="廿四、网站访问相关命令" href="15046800151297.html">廿四、网站访问相关命令</a></li>
+                        
+                          <li><a title="廿三、http协议==超文本传输协议" href="15045988807012.html">廿三、http协议==超文本传输协议</a></li>
+                        
+                          <li><a title="廿二、ansible" href="15018692235223.html">廿二、ansible</a></li>
+                        
+                          <li><a title="廿一、远程连接" href="15018686711597.html">廿一、远程连接</a></li>
+                        
+                          <li><a title="廿十、实时同步服务知识介绍(inotify+rsync)" href="15018676996592.html">廿十、实时同步服务知识介绍(inotify+rsync)</a></li>
+                        
+                          <li><a title="十五、awk命令精讲" href="15018659093989.html">十五、awk命令精讲</a></li>
+                        
+                          <li><a title="十四、网络基础" href="15018658919010.html">十四、网络基础</a></li>
+                        
+                          <li><a title="十三、shell编程入门" href="15018640937342.html">十三、shell编程入门</a></li>
+                        
+                          <li><a title="十二、sed命令精讲" href="15018613071828.html">十二、sed命令精讲</a></li>
+                        
+                          <li><a title="十一、磁盘管理" href="15018474773088.html">十一、磁盘管理</a></li>
+                        
+                          <li><a title="十、用户管理" href="15018399397622.html">十、用户管理</a></li>
+                        
+                          <li><a title="九、定时任务" href="15018075128546.html">九、定时任务</a></li>
+                        
+                          <li><a title="七、文件属性" href="15017626488369.html">七、文件属性</a></li>
+                        
+                          <li><a title="五、Linux基础优化" href="15017614116406.html">五、Linux基础优化</a></li>
+                        
+                          <li><a title="八、Linux权限体系" href="15017603199663.html">八、Linux权限体系</a></li>
+                        
+                          <li><a title="十九、期中架构NFS知识讲解" href="15013159711138.html">十九、期中架构NFS知识讲解</a></li>
+                        
+                          <li><a title="十八、全网备份" href="15013155594594.html">十八、全网备份</a></li>
+                        
+                          <li><a title="十七、rsync课程讲解" href="15012425054241.html">十七、rsync课程讲解</a></li>
+                        
+                          <li><a title="十六、期中架构" href="15012368281486.html">十六、期中架构</a></li>
+                        
+                          <li><a title="六、目录结构" href="15010772533002.html">六、目录结构</a></li>
+                        
+                          <li><a title="四、远程连接排错" href="15010763542152.html">四、远程连接排错</a></li>
+                        
+                          <li><a title="一、计算机系统硬件核心知识" href="15010712824389.html">一、计算机系统硬件核心知识</a></li>
+                        
+                          <li><a title="二、Linux的发展过程与核心知识" href="15010697787307.html">二、Linux的发展过程与核心知识</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>2.十五个必会的原理知识</span></li>
+                        
+                          <li><a title="15. 描述你维护过的大规模集群网站架构的设计原理" href="15010702959683.html">15. 描述你维护过的大规模集群网站架构的设计原理</a></li>
+                        
+                          <li><a title="14. 详细描述Linux权限管理体系" href="15010702850667.html">14. 详细描述Linux权限管理体系</a></li>
+                        
+                          <li><a title="13. 描述Linux下磁盘读写数据的原理，磁盘分区原理，默认文件系统工作原理" href="15010702778892.html">13. 描述Linux下磁盘读写数据的原理，磁盘分区原理，默认文件系统工作原理</a></li>
+                        
+                          <li><a title="12. 一致性哈西算法作用及原理" href="15010702692268.html">12. 一致性哈西算法作用及原理</a></li>
+                        
+                          <li><a title="11. RAID 0 1 5 10原理、特点、性能区别，集群各角色如何选择" href="15010702612275.html">11. RAID 0 1 5 10原理、特点、性能区别，集群各角色如何选择</a></li>
+                        
+                          <li><a title="10. Linux默认文件系统,文件删除原理" href="15010702550739.html">10. Linux默认文件系统,文件删除原理</a></li>
+                        
+                          <li><a title="09. 详细描述CDN工作原理以及购买服务后解析操作步骤" href="15010702488190.html">09. 详细描述CDN工作原理以及购买服务后解析操作步骤</a></li>
+                        
+                          <li><a title="08. keepalive高可用服务工作原理" href="15010702422822.html">08. keepalive高可用服务工作原理</a></li>
+                        
+                          <li><a title="07. memcached工作原理(内存管理机制)" href="15010702209182.html">07. memcached工作原理(内存管理机制)</a></li>
+                        
+                          <li><a title="06. lvs的4种模式工作原理" href="15010702152705.html">06. lvs的4种模式工作原理</a></li>
+                        
+                          <li><a title="05. Nginx配合PHP工作fastcgi工作原理" href="15010702085430.html">05. Nginx配合PHP工作fastcgi工作原理</a></li>
+                        
+                          <li><a title="04. MySQL主从同步原理" href="15010701999479.html">04. MySQL主从同步原理</a></li>
+                        
+                          <li><a title="03. TCP/IP的三次握手和四次挥手原理" href="15010701936255.html">03. TCP/IP的三次握手和四次挥手原理</a></li>
+                        
+                          <li><a title="02. http协议通信原理" href="15010701867065.html">02. http协议通信原理</a></li>
+                        
+                          <li><a title="01. DNS系统架构与解析原理" href="15010701752650.html">01. DNS系统架构与解析原理</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>3.命令总结</span></li>
+                        
+                          <li><a title="inotifywait" href="15017603290224.html">inotifywait</a></li>
+                        
+                          <li><a title="Linux命令总结 (持续更新中)" href="15013198329902.html">Linux命令总结 (持续更新中)</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>零散笔记</span></li>
+                        
+                          <li><a title="redis简单入门及实现wordpress数据库缓存" href="15052628837678.html">redis简单入门及实现wordpress数据库缓存</a></li>
+                        
+                          <li><a title="Linux下获取公网IP地址的方法" href="15051981760993.html">Linux下获取公网IP地址的方法</a></li>
+                        
+                          <li><a title="附录: 502和504错误" href="15051451335516.html">附录: 502和504错误</a></li>
+                        
+                          <li><a title="HTTP状态码列表" href="15021542293136.html">HTTP状态码列表</a></li>
+                        
+                          <li><a title="Ansible常用模块汇总" href="15021011169868.html">Ansible常用模块汇总</a></li>
+                        
+                          <li><a title="web服务基础" href="15020372614069.html">web服务基础</a></li>
+                        
+                          <li><a title="全网备份案例" href="15010886029579.html">全网备份案例</a></li>
+                        
+                          <li><a title="xinetd服务管理器" href="15010578989827.html">xinetd服务管理器</a></li>
+                        
+                          <li><a title="服务器简单优化" href="15010516186972.html">服务器简单优化</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>考试题</span></li>
+                        
+                          <li><a title="期中架构之前复习考试" href="15013178849284.html">期中架构之前复习考试</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>心情随笔</span></li>
+                        
+                          <li><a title="鸡汤" href="15050925305457.html">鸡汤</a></li>
+                        
+
+                    
+                  </ul>
+                </nav>
+                </div>
+              </div>
+            </div>
+            <div class="large-9 medium-9 columns">
+
+ 
 
 
+	
+		<div class="markdown-body">
+		<h1>inotifywait</h1>
 
-
-
-
-
-
-
-
-
-								
-
-								<a class="rss" href="atom.xml" title="RSS">RSS</a>
-							
-						</div>
-					</nav>
-				</header>				
-			</div>
-		</div>	
-		<div class="mid-col">
-			<div class="mid-col-container"> <div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-		<div class="meta">
-			<div class="date">
-				<time datetime="2017-08-03T19:38:49+08:00" itemprop="datePublished">2017/8/3</time>
-			</div>
-			<div class="tags">posted in 
-			
-			    <a class='category' href='3.%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93.html'>3.命令总结</a>&nbsp;
-			 
-			</div>
-		</div>
-		<h1 class="title" itemprop="name"><a href="15017603290224.html" itemprop="url">
-		inotifywait</a></h1>
-		<div class="entry-content" itemprop="articleBody">
-			
-			<p>等待文件或文件集上的特定事件。</p>
+		<p>等待文件或文件集上的特定事件。</p>
 
 <p>用法：inotifywait [options] file1 [file2] [file3] [...]</p>
 
@@ -207,492 +473,46 @@ delete_self         文件或目录已被删除<br/>
 unmount             包含已卸载文件或目录的文件系统</p>
 
 
-			
-			
 		</div>
-
-	</article>
- 
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-		<div class="meta">
-			<div class="date">
-				<time datetime="2017-07-29T17:17:12+08:00" itemprop="datePublished">2017/7/29</time>
-			</div>
-			<div class="tags">posted in 
-			
-			    <a class='category' href='3.%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93.html'>3.命令总结</a>&nbsp;
-			 
-			</div>
-		</div>
-		<h1 class="title" itemprop="name"><a href="15013198329902.html" itemprop="url">
-		Linux命令总结 (持续更新中)</a></h1>
-		<div class="entry-content" itemprop="articleBody">
-			
-			<p><a href="command.html">Linux常用命令简明列表</a></p>
-
-<ul>
-<li>
-<a href="#toc_0">线上查询及帮助命令(3个)</a>
-</li>
-<li>
-<a href="#toc_1">文件和目录操作命令(19个)</a>
-</li>
-<li>
-<a href="#toc_2">查看文件及内容处理命令(19个)</a>
-</li>
-<li>
-<a href="#toc_3">文件压缩及解压缩命令(4个)</a>
-</li>
-<li>
-<a href="#toc_4">信息显示命令(12个)</a>
-</li>
-<li>
-<a href="#toc_5">搜索文件命令(4个)</a>
-</li>
-<li>
-<a href="#toc_6">用户管理命令(10个)</a>
-</li>
-<li>
-<a href="#toc_7">基础网络操作命令(10个)</a>
-</li>
-<li>
-<a href="#toc_8">深入网络操作命令(6个)</a>
-</li>
-<li>
-<a href="#toc_9">有关磁盘与文件系统的命令(10几个)</a>
-</li>
-<li>
-<a href="#toc_10">关机和查看系统信息的命令(3个)</a>
-</li>
-<li>
-<a href="#toc_11">系统管理相关命令(8个)</a>
-</li>
-<li>
-<a href="#toc_12">系统安全相关命令(10个)</a>
-</li>
-<li>
-<a href="#toc_13">查看系统用户登陆信息的命令(7个)</a>
-</li>
-<li>
-<a href="#toc_14">其它(19个)</a>
-</li>
-<li>
-<a href="#toc_15">系统性能监视高级命令(12个)</a>
-<ul>
-<li>
-<a href="#toc_16">内存:</a>
-</li>
-<li>
-<a href="#toc_17">CPU:</a>
-</li>
-<li>
-<a href="#toc_18">I/O:</a>
-</li>
-<li>
-<a href="#toc_19">进程:</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_20">关机/重启/注销命令(7)</a>
-<ul>
-<li>
-<a href="#toc_21">关机重启:</a>
-</li>
-<li>
-<a href="#toc_22">注销退出:</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_23">进程管理:(16个)</a>
-</li>
-<li>
-<a href="#toc_24">非常危险的系统命令(5个):</a>
-</li>
-<li>
-<a href="#toc_25">linux系统三剑客(3个)</a>
-</li>
-</ul>
-
-
-<h2 id="toc_0">线上查询及帮助命令(3个)</h2>
-
-<ol>
-<li><strong>man</strong></li>
-<li><strong>help</strong></li>
-<li><strong>info</strong></li>
-</ol>
-
-<h2 id="toc_1">文件和目录操作命令(19个)</h2>
-
-<ol>
-<li><p><strong>ls 显示目录列表</strong></p>
-
-<p><em>-l 显示详细列表<br/>
--d  只显示目录<br/>
--a  显示所有</em></p></li>
-<li><p><strong>cd 切换目录</strong></p>
-
-<p><em>.  当前目录<br/>
-. .     当前目录的上一级目录<br/>
-~   家目录<br/>
--  上一次目录<br/>
-/   根目录</em></p></li>
-<li><p><strong>cp 复制</strong></p></li>
-<li><p><strong>find   查找</strong></p></li>
-<li><p><strong>mkdir  创建目录</strong></p></li>
-<li><p><strong>mv 移动</strong></p></li>
-<li><p><strong>pwd   显示当前路径</strong></p></li>
-<li><p><strong>rename    重命名</strong></p></li>
-<li><p><strong>rm    删除</strong></p></li>
-<li><p><strong>rmdir 删除目录</strong></p></li>
-<li><p><strong>touch 更改时间戳</strong></p></li>
-<li><p><strong>tree  树状显示目录列表</strong></p></li>
-<li><p><strong>basename</strong></p></li>
-<li><p><strong>dirname</strong></p></li>
-<li><p><strong>chattr    修改超级权限</strong></p></li>
-<li><p><strong>lsattr    查看超级权限</strong></p></li>
-<li><p><strong>file  查看文件类型</strong></p></li>
-<li><p><strong>md5sum    查看指纹信息</strong></p></li>
-</ol>
-
-<h2 id="toc_2">查看文件及内容处理命令(19个)</h2>
-
-<ol>
-<li><strong>cat   查看文件内容</strong></li>
-<li><strong>tac   反向查看文件内容</strong></li>
-<li><strong>more  分页查看文件内容</strong></li>
-<li><strong>less</strong></li>
-<li><strong>head</strong></li>
-<li><strong>tail  查看文件头,尾10行</strong></li>
-<li><strong>cut   awk阉割版</strong></li>
-<li><strong>paste</strong></li>
-<li><strong>sort</strong></li>
-<li><strong>uniq</strong></li>
-<li><strong>wc        计算文件信息</strong></li>
-<li><strong>iconv</strong></li>
-<li><strong>dos2unix  转换文件格式</strong></li>
-<li><strong>file  查看文件类型</strong></li>
-<li><strong>diff</strong></li>
-<li><strong>vimdiff</strong></li>
-<li><strong>rev</strong></li>
-<li><strong>grep(egrep)   筛查三剑客老三</strong></li>
-<li><strong>split</strong></li>
-<li><strong>join</strong></li>
-<li><strong>tr</strong></li>
-<li><strong>vi/vim</strong></li>
-</ol>
-
-<h2 id="toc_3">文件压缩及解压缩命令(4个)</h2>
-
-<ol>
-<li><strong>tar</strong></li>
-<li><strong>unzip</strong></li>
-<li><strong>gzip</strong></li>
-<li><strong>zip</strong></li>
-</ol>
-
-<h2 id="toc_4">信息显示命令(12个)</h2>
-
-<ol>
-<li><strong>uname</strong></li>
-<li><strong>hostname</strong></li>
-<li><strong>dmesg</strong></li>
-<li><strong>uptime</strong></li>
-<li><strong>file</strong></li>
-<li><strong>stat</strong></li>
-<li><strong>du</strong></li>
-<li><strong>df</strong></li>
-<li><strong>top</strong></li>
-<li><strong>free</strong></li>
-<li><strong>date</strong></li>
-<li><strong>cal</strong></li>
-</ol>
-
-<h2 id="toc_5">搜索文件命令(4个)</h2>
-
-<ol>
-<li><strong>which</strong></li>
-<li><strong>find</strong></li>
-<li><strong>whereis</strong></li>
-<li><strong>locate</strong></li>
-</ol>
-
-<h2 id="toc_6">用户管理命令(10个)</h2>
-
-<ol>
-<li><strong>useradd</strong></li>
-<li><strong>usermod</strong></li>
-<li><strong>userdel</strong></li>
-<li><strong>groupadd</strong></li>
-<li><strong>passwd</strong></li>
-<li><strong>chage</strong></li>
-<li><strong>id</strong></li>
-<li><strong>su</strong></li>
-<li><strong>visudo</strong></li>
-<li><strong>sudo</strong></li>
-</ol>
-
-<h2 id="toc_7">基础网络操作命令(10个)</h2>
-
-<ol>
-<li><strong>telnet</strong></li>
-<li><strong>ssh</strong></li>
-<li><strong>scp</strong></li>
-<li><strong>wget</strong></li>
-<li><strong>ping</strong></li>
-<li><strong>route</strong></li>
-<li><strong>ifconfig</strong></li>
-<li><strong>ifup</strong></li>
-<li><strong>ifdown</strong></li>
-<li><strong>netstat</strong></li>
-</ol>
-
-<h2 id="toc_8">深入网络操作命令(6个)</h2>
-
-<ol>
-<li><strong>nmap</strong></li>
-<li><strong>lsof</strong></li>
-<li><strong>route</strong></li>
-<li><strong>mail</strong></li>
-<li><strong>mutt</strong></li>
-<li><strong>nslookup</strong></li>
-<li><strong>dig</strong></li>
-<li><strong>host</strong></li>
-<li><strong>traceroute</strong></li>
-<li><strong>tcpdump</strong></li>
-</ol>
-
-<h2 id="toc_9">有关磁盘与文件系统的命令(10几个)</h2>
-
-<ol>
-<li><strong>mount</strong></li>
-<li><strong>umount</strong></li>
-<li><strong>df</strong></li>
-<li><strong>du</strong></li>
-<li><strong>fsck</strong></li>
-<li><strong>dd</strong></li>
-<li><strong>dumpe2fs</strong></li>
-<li><strong>dump</strong></li>
-<li><strong>fdisk</strong></li>
-<li><strong>parted</strong></li>
-<li><strong>mkfs</strong></li>
-<li><strong>partprobe</strong></li>
-<li><strong>e2fsck</strong></li>
-<li><strong>mkswap</strong></li>
-<li><strong>swapon</strong></li>
-<li><strong>sync</strong></li>
-<li><strong>resize2fs</strong></li>
-</ol>
-
-<h2 id="toc_10">关机和查看系统信息的命令(3个)</h2>
-
-<ol>
-<li><strong>shutdown</strong></li>
-<li><strong>halt</strong></li>
-<li><strong>init</strong></li>
-</ol>
-
-<h2 id="toc_11">系统管理相关命令(8个)</h2>
-
-<ol>
-<li><strong>uptime</strong></li>
-<li><strong>top</strong></li>
-<li><strong>free</strong></li>
-<li><strong>vmstat</strong></li>
-<li><strong>mpstat</strong></li>
-<li><strong>iostat</strong></li>
-<li><strong>sar(sysstats)</strong></li>
-<li><strong>chkconfig</strong></li>
-</ol>
-
-<h2 id="toc_12">系统安全相关命令(10个)</h2>
-
-<ol>
-<li><strong>chmod</strong></li>
-<li><strong>chown</strong></li>
-<li><strong>chgrp</strong></li>
-<li><strong>chage</strong></li>
-<li><strong>passwd</strong></li>
-<li><strong>su</strong></li>
-<li><strong>sudo</strong></li>
-<li><strong>umask</strong></li>
-<li><strong>chattr</strong></li>
-<li><strong>lsattr</strong></li>
-</ol>
-
-<h2 id="toc_13">查看系统用户登陆信息的命令(7个)</h2>
-
-<ol>
-<li><strong>whoami</strong></li>
-<li><strong>who</strong></li>
-<li><strong>w</strong></li>
-<li><strong>last</strong></li>
-<li><strong>lastlog</strong></li>
-<li><strong>users</strong></li>
-<li><strong>finger</strong></li>
-</ol>
-
-<h2 id="toc_14">其它(19个)</h2>
-
-<ol>
-<li><strong>echo</strong></li>
-<li><strong>printf</strong></li>
-<li><strong>rpm</strong></li>
-<li><strong>yum</strong></li>
-<li><strong>watch</strong></li>
-<li><strong>alias</strong></li>
-<li><strong>unalias</strong></li>
-<li><strong>date</strong></li>
-<li><strong>clear</strong></li>
-<li><strong>history</strong></li>
-<li><strong>eject</strong></li>
-<li><strong>time</strong></li>
-<li><strong>nohup</strong></li>
-<li><strong>nc</strong></li>
-<li><strong>xargs</strong></li>
-<li><strong>exec</strong></li>
-<li><strong>export</strong></li>
-<li><strong>unset</strong></li>
-<li><strong>type</strong></li>
-<li><strong>bc</strong></li>
-</ol>
-
-<h2 id="toc_15">系统性能监视高级命令(12个)</h2>
-
-<h3 id="toc_16">内存:</h3>
-
-<ol>
-<li><strong>top</strong></li>
-<li><strong>free</strong></li>
-<li><strong>vmstat</strong></li>
-<li><strong>mpstat</strong></li>
-<li><strong>iostat</strong></li>
-<li><strong>sar</strong></li>
-</ol>
-
-<h3 id="toc_17">CPU:</h3>
-
-<ol>
-<li><strong>top</strong></li>
-<li><strong>vmstat</strong></li>
-<li><strong>mpstat</strong></li>
-<li><strong>iostat</strong></li>
-<li><strong>sar</strong></li>
-</ol>
-
-<h3 id="toc_18">I/O:</h3>
-
-<ol>
-<li><strong>vmstat</strong></li>
-<li><strong>mpstat</strong></li>
-<li><strong>iostat</strong></li>
-<li><strong>sar</strong></li>
-</ol>
-
-<h3 id="toc_19">进程:</h3>
-
-<ol>
-<li><strong>ipcs</strong></li>
-<li><strong>ipcrm</strong></li>
-<li><strong>lsof</strong></li>
-<li><strong>strace</strong></li>
-<li><strong>lstrace</strong></li>
-</ol>
-
-<h2 id="toc_20">关机/重启/注销命令(7)</h2>
-
-<h3 id="toc_21">关机重启:</h3>
-
-<ol>
-<li><strong>shutdown</strong></li>
-<li><strong>init</strong></li>
-<li><strong>halt</strong></li>
-<li><strong>poweroff</strong></li>
-<li><strong>reboot</strong></li>
-</ol>
-
-<h3 id="toc_22">注销退出:</h3>
-
-<ol>
-<li><strong>logout</strong></li>
-<li><strong>exit</strong></li>
-<li><strong>ctl+d        快捷键(生产常用)</strong></li>
-</ol>
-
-<h2 id="toc_23">进程管理:(16个)</h2>
-
-<ol>
-<li><strong>bg       后台运行</strong></li>
-<li><strong>fg       挂起程序</strong></li>
-<li><strong>jobs     显示后台程序</strong></li>
-<li><strong>kill,killall,pkill   杀掉进程</strong></li>
-<li><strong>crontab      设置定时</strong></li>
-<li><strong>ps       查看进程</strong></li>
-<li><strong>pstree   显示进程状态树</strong></li>
-<li><strong>top      显示进程</strong></li>
-<li><strong>nice     改变优先权</strong></li>
-<li><strong>nohup        用户退出系统之后继续工作</strong></li>
-<li><strong>pgrep        查找匹配条件的进程</strong></li>
-<li><strong>strace       跟踪一个进程的系统调用</strong></li>
-<li><strong>ltrace       跟踪进程调用库函数的情</strong></li>
-<li><strong>vmstat   报告虚拟内存统计信息</strong></li>
-<li><strong>runlevel</strong></li>
-<li><strong>init</strong></li>
-<li><strong>service</strong></li>
-</ol>
-
-<h2 id="toc_24">非常危险的系统命令(5个):</h2>
-
-<ol>
-<li><strong>mv</strong></li>
-<li><strong>rm</strong></li>
-<li><strong>fdisk</strong></li>
-<li><strong>parted</strong></li>
-<li><strong>dd</strong></li>
-</ol>
-
-<h2 id="toc_25">linux系统三剑客(3个)</h2>
-
-<ol>
-<li><strong>grep(egrep)</strong></li>
-<li><strong>sed</strong></li>
-<li><strong>awk</strong></li>
-</ol>
-
-
-			
-			
-		</div>
-
-	</article>
-  
-
-</div>
-<nav id="pagenavi">
-	 
 	
-	<div class="center"><a href="archives.html">Blog Archives</a></div>
 
-</nav>
-
-</div>
-
-
-
-        </div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
-Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
-      </footer>
-		</div>
-	</div>
+ 
+	
 
   
+  
+</div></div>
+
+
+<div class="page-bottom">
+  <div class="row">
+  <hr />
+  <div class="small-9 columns">
+  <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+  <div class="small-3 columns">
+  <p class="copyright text-right"><a href="#header">TOP</a></p>
+  </div>
+   
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+    
+    
+    <script src="asset/js/foundation.min.js"></script>
+    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
+    <script>
+      $(document).foundation();
+
+     
+    </script>
     
 
 
-
-</body>
+  </body>
 </html>
