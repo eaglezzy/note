@@ -1,0 +1,479 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卌四、tomcat配置优化 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="_self" href="index.html">主页</a></li>
+						
+						  <li id=""><a target="_self" href="note.html">基础学习笔记</a></li>
+						
+						  <li id=""><a target="_self" href="other.html">扩展笔记</a></li>
+						
+						  <li id=""><a target="_self" href="Principle.html">十五个必会的原理知识</a></li>
+						
+						  <li id=""><a target="_self" href="command.html">Linux常用命令简明列表</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">最近更新</a></li>
+						
+						  <li id=""><a target="_self" href="love.html">甜蜜回忆</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卌四、tomcat配置优化</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<blockquote>
+<p>度，适度；抓重点<br/>
+KVM：深度实践KVM<br/>
+及时止损</p>
+</blockquote>
+
+<ol>
+<li><p>Tomcat配置文件</p>
+
+<p>修改tomcat的端口号，网站根目录等信息</p>
+
+<pre><code>[root@oldboyedu ~]# vim /application/tomcat/conf/server.xml
+&lt;!--
+这里放注释的，然后可以多行注释
+--&gt;
+</code></pre>
+
+<p>控制关闭tomcat的端口号及&quot;暗号&quot;</p>
+
+<pre><code>&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+  &lt;Listener className=&quot;org.apache.catalina.startup.VersionLoggerListener&quot; /&gt;
+</code></pre>
+
+<p>配置tomcat监听的端口号</p>
+
+<pre><code>    &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+defaultHost 设置默认的主机名  bbs.etiantian.org
+    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot;&gt;
+</code></pre>
+
+<p>指定主机的配置信息，name配置虚拟主机名称   appBase配置应用站点存放目录</p>
+
+<p>unpackWARs 设置为true表示自动解压war包，为了避免风险，不自动解压，设置为false</p>
+
+<p>autoDeploy  自动部署，如果设置为false，那么想要让新增的代码生效需要重启tomcat</p>
+
+<pre><code>    &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;
+            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+</code></pre>
+
+<p><a href="http://blog.oldboyedu.com/java-tomcat/">http://blog.oldboyedu.com/java-tomcat/</a></p>
+
+<p>3.3.3 配置文件注释</p>
+
+<p>补充：如果不开启自动解压，那怎么解压war包？<br/>
+使用jar命令解压war包</p>
+
+<pre><code>cd /data/www/www/ROOT
+jar xf /application/tools/jpress-web-newest.war
+</code></pre></li>
+<li><p>自定义网站目录</p>
+
+<p>现在访问网址为<a href="http://10.0.0.201:8080/jpress/">http://10.0.0.201:8080/jpress/</a></p>
+
+<p>但是想用<a href="http://10.0.0.201:8080/%E8%AE%BF%E9%97%AE%E5%88%B0%E5%90%8C%E4%B8%80%E4%B8%AA%E5%86%85%E5%AE%B9">http://10.0.0.201:8080/访问到同一个内容</a></p>
+
+<blockquote>
+<p>方法1：将webapps/jpress的内容复制到webapps/ROOT</p>
+
+<p>方法2：常规不用，但是在特殊场合是必杀技</p>
+
+<pre><code>[root@oldboyedu ~]# vim /application/tomcat/conf/server.xml  # 第126行加入，一定要在Host标签内
+</code></pre>
+
+<pre><code>&lt;Context path=&quot;&quot; docBase=&quot;/application/tomcat/webapps/jpress/&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
+</code></pre>
+
+<p>==》<a href="http://10.0.0.201:8080/">http://10.0.0.201:8080/</a>  ==》只要访问url有/,就把程序目录定向到/application/tomcat/webapps/jpress/</p>
+
+<pre><code>&lt;Context path=&quot;/38/&quot; docBase=&quot;/application/tomcat/webapps/jpress/&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
+</code></pre>
+
+<p>==》<a href="http://10.0.0.201:8080/38/">http://10.0.0.201:8080/38/</a>   ==》只要访问url有/38/,就把程序目录定向到/application/tomcat/webapps/jpress/</p>
+</blockquote>
+
+<p>改完配置文件重启tomcat</p>
+
+<p>类比：nginx的location规则</p>
+
+<pre><code>location /static/ {
+   root /data/static/;
+}
+</code></pre>
+
+<p>案例：</p>
+
+<p>官网程序代码的图片地址为：<a href="http://www.oldboyedu.com/Public/Uploads/nav/5971b3375e1d9.jpg">http://www.oldboyedu.com/Public/Uploads/nav/5971b3375e1d9.jpg</a></p>
+
+<p>但是一旦访问图片，你就发现地址为<a href="http://cdn2.oldboyedu.com/Public/Uploads/nav/5971b3375e1d9.jpg">http://cdn2.oldboyedu.com/Public/Uploads/nav/5971b3375e1d9.jpg</a></p>
+
+<pre><code> location ~ .*\.(gif|GIF|jpg|JPG|jpeg|JPEG|png|PNG|bmp|BMP)$
+ {
+    return 301 $scheme://cdn2.oldboyedu.com$request_uri;
+    access_log off;
+ }
+</code></pre></li>
+<li><p>Tomcat多实例</p>
+
+<p>企业常用  nginx+tomcat+tomcat+tomcat</p>
+
+<p>3.1 安装</p>
+
+<pre><code>cd /application/tools/
+tar xf apache-tomcat-8.0.27.tar.gz
+cp -a  apache-tomcat-8.0.27 /application/tomcat8_1
+cp -a  apache-tomcat-8.0.27 /application/tomcat8_2
+</code></pre>
+
+<p>3.2 配置</p>
+
+<blockquote>
+<p># 多实例的关键一步：修改配置的端口</p>
+
+<p># 默认规则：关闭端口8005改成8011,8012,8013,8014<br/>
+                访问端口8080改成8081,8082,8083,8084</p>
+</blockquote>
+
+<pre><code>sed -i &#39;22s#8005#8011#;69s#8080#8081#&#39; /application/tomcat8_1/conf/server.xml
+sed -i &#39;22s#8005#8012#;69s#8080#8082#&#39; /application/tomcat8_2/conf/server.xml
+</code></pre>
+
+<blockquote>
+<p># 对比</p>
+</blockquote>
+
+<pre><code>diff /application/tomcat/conf/server.xml  /application/tomcat8_1/conf/server.xml
+diff /application/tomcat/conf/server.xml  /application/tomcat8_2/conf/server.xml
+</code></pre>
+
+<p>3.3 启动</p>
+
+<blockquote>
+<pre><code>/application/tomcat8_1/bin/startup.sh
+/application/tomcat8_2/bin/startup.sh
+echo &quot;8081&quot; &gt;&gt;/application/tomcat8_1/webapps/ROOT/index.jsp
+echo &quot;8082&quot; &gt;&gt;/application/tomcat8_2/webapps/ROOT/index.jsp
+</code></pre>
+
+<p><a href="http://10.0.0.201:8081/">http://10.0.0.201:8081/</a><br/>
+    <a href="http://10.0.0.201:8082/">http://10.0.0.201:8082/</a></p>
+</blockquote>
+
+<p>多实例本质：将程序执行多遍，变成多个进程，此谓之多实例</p>
+
+<p>最终目标：提高资源利用率，提高网站负载能力</p></li>
+<li><p>Tomcat反向代理集群</p>
+
+<pre><code>[root@lb01 ~]# vim /application/nginx/conf/nginx.conf
+
+ upstream web_pools {
+        server 10.0.0.201:8081;
+        server 10.0.0.201:8082;
+        }
+
+ server {
+        listen       80;
+        server_name  localhost;
+        location / {
+            root   html;
+            index  index.jsp index.html index.htm;
+            proxy_pass http://web_pools;
+        }
+     }
+</code></pre>
+
+<p>改完后<mark>重启nginx</mark></p></li>
+<li><p>Tomcat监控</p>
+
+<p>5.0 远程监控tomcat必备步骤--开启远程监控功能</p>
+
+<pre><code>[root@oldboyedu application]# vim /application/tomcat/bin/catalina.sh +97
+CATALINA_OPTS=&quot;$CATALINA_OPTS
+-Dcom.sun.management.jmxremote 
+-Dcom.sun.management.jmxremote.port=12345  
+-Dcom.sun.management.jmxremote.authenticate=false 
+-Dcom.sun.management.jmxremote.ssl=false 
+-Djava.rmi.server.hostname=10.0.0.201&quot;
+
+[root@oldboyedu application]# grep 10.0.0.201 /etc/hosts
+10.0.0.201 oldboyedu
+
+/application/tomcat/bin/shutdown.sh
+/application/tomcat/bin/startup.sh
+</code></pre>
+
+<p>5.1 使用脚本监控<br/>
+    想要<a href="15054635416623.html">查看当前占用cpu、内存高的进程或java代码</a></p>
+
+<pre><code>sh show-busy-java-threads.sh
+</code></pre>
+
+<p>5.2 使用Windows的图形工具监控</p>
+
+<pre><code>C:\Program Files\Java\jdk1.8.0_31\bin
+jconsole.exe
+</code></pre>
+
+<p>5.3 使用zabbix监控</p>
+
+<blockquote>
+<p>zabbix通过jmx协议监控java进程<br/>
+tomcat开启远程监控功能(5.0已经做过了)<br/>
+            ||<br/>
+            ||<br/>
+            ||<br/>
+        发送消息<br/>
+                ||<br/>
+            ||<br/>
+            ||<br/>
+zabbix_java_gateway（java网关，本质上这个软件也是一个java代码，启动后就是java进程）<br/>
+            ||<br/>
+            ||<br/>
+            ||<br/>
+        发送消息<br/>
+                ||<br/>
+            ||<br/>
+            ||<br/>
+zabbix  server</p>
+</blockquote>
+
+<p>5.3.1 安装zabbix-java-gateway</p>
+
+<p>有便捷tar包的快速安装方法，但是只适合CentOs6机器</p>
+
+<pre><code>tar xfP zabbix3.0.9_yum.tar.gz
+yum -y --nogpgcheck -C install  zabbix-java-gateway
+</code></pre>
+
+<p>常规方法</p>
+
+<pre><code># 6
+rpm -ivh http://repo.zabbix.com/zabbix/3.0/rhel/6/x86_64/zabbix-release-3.0-1.el6.noarch.rpm
+yum -y install zabbix-java-gateway
+
+# 7
+yum localinstall http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-java-gateway-3.0.10-1.el7.x86_64.rpm 
+</code></pre>
+
+<p>5.3.2 配置zabbix server </p>
+
+<p>StartJavaPollers 开启java进程数（服务员）</p>
+
+<pre><code>sed -i -e &#39;217a JavaGateway=127.0.0.1&#39; -e &#39;225a JavaGatewayPort=10052&#39;  -e &#39;235a StartJavaPollers=5&#39; /etc/zabbix/zabbix_server.conf
+
+egrep -n &#39;^J|^St&#39; /etc/zabbix/zabbix_server.conf
+</code></pre>
+
+<p>5.3.3 启动所有服务</p>
+
+<pre><code>[root@m01 ~]# /etc/init.d/zabbix-java-gateway start
+Starting zabbix java gateway:                              [  OK  ]
+[root@m01 ~]# netstat -tunlp|grep java
+tcp        0      0 :::10052                    :::*                        LISTEN      7628/java 
+
+[root@m01 ~]# /etc/init.d/zabbix-server restart
+Shutting down Zabbix server:                               [  OK  ]
+Starting Zabbix server:                                    [  OK  ]
+</code></pre></li>
+<li><p>Tomcat优化</p>
+
+<p>6.1 安全优化</p>
+
+<blockquote>
+<p>①禁用管理端：host-manager，manager等自带的测试目录，删掉即可<br/>
+②telnet管理（关闭）端口保护：shutdown 8005 SHUTDOWN  改成不常用的端口及字符即可<br/>
+③ajp连接端口保护=====方法：一切不需要的端口都一律关闭，必须开放的端口也要找一个随机端口，不要使用默认的。<br/>
+<code>&lt;!-- &lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt; --&gt;</code></p>
+
+<p>④降权启动：降低程序运行的用户的权限===因此，使用一个普通用户运行tomcat</p>
+</blockquote>
+
+<pre><code>useradd tomcat
+cp -a /application/tomcat8_1 /home/tomcat/
+chown -R tomcat.tomcat /home/tomcat/tomcat8_1/
+su - tomcat -c &quot;/home/tomcat/tomcat8_1/bin/startup.sh&quot;
+ps -ef|grep java
+</code></pre>
+
+<p>6.2 性能优化</p>
+
+<blockquote>
+<p>Tomcat最吃内存，只要内存足够，这只猫就跑的很快。</p>
+
+<p>如果系统资源有限，那就需要进行调优，提高资源使用率。</p>
+</blockquote>
+
+<pre><code>vim /home/tomcat/tomcat8_1/bin/catalina.sh +97
+
+# 分配1G内存的配置文件模板
+JAVA_OPTS=&quot;-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m&quot;
+
+# 分配2G内存的配置文件模板
+JAVA_OPTS=&quot;-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms2048m -Xmx2048m -XX:NewSize=1024m -XX:MaxNewSize=1024m&quot;
+
+su - tomcat -c &quot;/home/tomcat/tomcat8_1/bin/shutdown.sh&quot;
+su - tomcat -c &quot;/home/tomcat/tomcat8_1/bin/startup.sh&quot;
+</code></pre>
+
+<p>给tomcat多少内存，tomcat就会全部用完。</p>
+
+<p>一旦tomcat觉得内存不够用，它就会进行垃圾回收（内存回收，GC）</p>
+
+<p>一旦执行GC，会导致当前tomcat不提供服务</p>
+
+<p>一定要避免频繁的执行GC操作<br/>
+①更多的内存<br/>
+②为什么会占据很多内存呢？ 那是因为大量的垃圾代码---只能优化代码<br/>
+③定期的分批重启tomcat，业务低峰期。</p></li>
+</ol>
+
+<p>今日总结：</p>
+
+<ol>
+<li>tomcat多实例，企业必备</li>
+<li>tomcat集群，反向代理，企业必备</li>
+<li>tomcat监控</li>
+<li>tomcat优化</li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

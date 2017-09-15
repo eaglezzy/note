@@ -1,0 +1,452 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	卌三、tomcat安装部署 - 笔记仓库
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="笔记仓库" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+					
+					<h1><a href="index.html">笔记仓库</a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="_self" href="index.html">主页</a></li>
+						
+						  <li id=""><a target="_self" href="note.html">基础学习笔记</a></li>
+						
+						  <li id=""><a target="_self" href="other.html">扩展笔记</a></li>
+						
+						  <li id=""><a target="_self" href="Principle.html">十五个必会的原理知识</a></li>
+						
+						  <li id=""><a target="_self" href="command.html">Linux常用命令简明列表</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">最近更新</a></li>
+						
+						  <li id=""><a target="_self" href="love.html">甜蜜回忆</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">卌三、tomcat安装部署</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<ol>
+<li><p>前言</p>
+
+<p>php解释器处理的是php网页  xxx.php<br/>
+tomcat软件处理的是jsp网页（Java）  xxx.jsp  </p></li>
+<li><p>Tomcat简介</p>
+
+<p>Tomcat是一个web服务器，他能够处理html文件（静态文件），也能够处理jsp文件（动态文件，从后端数据库等地方获取）  支持不到1千并发<br/>
+PHP不是web服务器，他只是动态文件php的解释器</p>
+
+<p>nginx是一个web服务器，但是只能处理静态文件。（支持上万并发）</p>
+
+<p>企业常用架构：Nginx（静态）+Tomcat（动态）+Tomcat（动态）+Tomcat（动态）+Tomcat（动态）</p>
+
+<p>横向扩展</p>
+
+<p>企业选型tomcat版本，是由开发以及公司以前使用的Tomcat决定</p></li>
+<li><p>Tomcat安装</p>
+
+<p>需要的软件<br/>
+JDK（Java虚拟机）</p>
+
+<p>Java  一处编译，处处使用</p>
+
+<p>Java代码不是直接运行在系统上的，而是先运行在Java虚拟机,Java虚拟机将你的代码转换成系统适合的执行程序</p>
+
+<p>解释性语言（java php Python）<br/>
+编译型（nginx）</p>
+
+<p>Tomcat（可选）</p>
+
+<ol>
+<li><p>环境准备</p>
+
+<pre><code>[root@oldboyedu ~]# cat /etc/redhat-release 
+CentOS Linux release 7.2.1511 (Core) 
+[root@oldboyedu ~]# uname -r
+3.10.0-327.el7.x86_64
+[root@oldboyedu ~]# getenforce 
+Disabled
+[root@oldboyedu ~]# systemctl status firewalld.service 
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+[root@oldboyedu ~]# hostname -I
+10.0.0.201 172.16.1.201 192.168.122.1 
+</code></pre></li>
+<li><p>部署java环境（安装JDK）</p>
+
+<pre><code>mkdir -p /application/tools
+cd /application/tools
+</code></pre>
+
+<p>rz上传apache-maven-3.3.9-bin.tar.gz  apache-tomcat-8.0.27.tar.gz jdk-8u60-linux-x64.tar.gz</p>
+
+<pre><code>tar xf jdk-8u60-linux-x64.tar.gz -C /application/
+
+ln -s /application/jdk1.8.0_60 /application/jdk
+
+sed -i.ori &#39;$a export JAVA_HOME=/application/jdk\nexport PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH\nexport CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar&#39; /etc/profile
+
+source /etc/profile
+
+[root@oldboyedu tools]# java -version
+java version &quot;1.8.0_60&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
+Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
+</code></pre></li>
+<li><p>安装Tomcat</p>
+
+<pre><code>tar xf apache-tomcat-8.0.27.tar.gz -C /application/
+ln -s /application/apache-tomcat-8.0.27 /application/tomcat
+echo &#39;export TOMCAT_HOME=/application/tomcat&#39;&gt;&gt;/etc/profile
+source /etc/profile
+chown -R root.root /application/jdk/ /application/tomcat/
+tail -4 /etc/profile
+</code></pre></li>
+</ol></li>
+<li><p>tomcat目录结构</p>
+
+<pre><code>[root@oldboyedu tomcat]# pwd
+/application/tomcat
+[root@oldboyedu tomcat]# tree -L 1
+.
+├── bin     执行程序存放目录
+│   ├── catalina.sh 这是下面2个开启关闭脚本调用的脚本   *****
+│   ├── shutdown.sh 关闭  *****
+│   └── startup.sh  开启  *****
+├── conf    配置文件
+│   ├── server.xml         tomcat主配置文件  *****
+│   └── tomcat-users.xml   不常用，测试功能所需文件
+├── lib     库文件，存放java程序所需的lib库
+├── LICENSE
+├── logs    日志，存放了tomcat访问日志，错误日志，实时日志 *****
+├── NOTICE
+├── RELEASE-NOTES
+├── RUNNING.txt
+├── temp    缓存目录
+├── webapps web applications  存放站点目录，程序，就好像一个个app  *****
+└── work     
+
+7 directories, 4 files
+</code></pre>
+
+<p>扩展：<br/>
+.bat 是Windows系统批处理脚本   .sh是Linux Shell脚本<br/>
+.xml 一种标志语言，类似HTML<br/>
+json  数据类型，结构简单，逻辑清晰，适合作为配置文件的格式<br/>
+yaml  ansible的playbook使用这个语言，saltstack的配置文件</p></li>
+<li><p>启动tomcat</p>
+
+<p>启动：<br/>
+<code>/application/tomcat/bin/startup.sh</code><br/>
+访问：<br/>
+<code>http://10.0.0.201:8080/</code></p>
+
+<pre><code>[root@oldboyedu tomcat]# /application/tomcat/bin/startup.sh 
+Using CATALINA_BASE:   /application/tomcat
+Using CATALINA_HOME:   /application/tomcat
+Using CATALINA_TMPDIR: /application/tomcat/temp
+Using JRE_HOME:        /application/jdk
+Using CLASSPATH:       /application/tomcat/bin/bootstrap.jar:/application/tomcat/bin/tomcat-juli.jar
+Tomcat started.
+[root@oldboyedu tomcat]# netstat -tunlp|grep java
+tcp6       0      0 :::8009                 :::*                    LISTEN      2970/java           
+tcp6       0      0 :::8080                 :::*                    LISTEN      2970/java           
+tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      2970/java    
+</code></pre></li>
+<li><p>查看日志，读懂日志</p>
+
+<p><code>tailf /application/tomcat/logs/catalina.out</code></p>
+
+<p>catalina.out是tomcat的实时日志，非常重要，当前运行的所有信息都会显示在这个文件中</p>
+
+<p>catalina.out会自动按天切割日志，但是catalina.out这个文件会<mark>越来越大</mark>，可以定期清空日志</p>
+
+<p>怎么判断tomcat启动成功---<code>startup in 1151 ms</code><br/>
+    <code>11-Sep-2017 10:45:52.754 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 1151 ms</code></p>
+
+<p>排查错误要点：<br/>
+    抓住关键字：mysql、sql（和数据库有关）、hostname、、、<br/>
+    出现java相关错误--给开发</p></li>
+<li><p>Tomcat在CentOS7启动慢的原因</p>
+
+<ol>
+<li><p>现象</p>
+
+<p>在CentOS启动Tomcat时，启动过程很慢，需要几分钟，经过查看日志，发现耗时在这里：是session引起的随机数问题导致的。Tocmat的Session ID是通过SHA1算法计算得到的，计算Session ID的时候必须有一个密钥。为了提高安全性Tomcat在启动的时候回通过随机生成一个密钥。 </p>
+
+<pre><code>22-Apr-2017 19:33:07.623 INFO [localhost-startStop-1] org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom Creation of
+ SecureRandom instance for session ID generation using [SHA1PRNG] took [55,507] milliseconds.
+22-Apr-2017 19:33:07.653 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web appli
+cation directory /application/apache-tomcat-8.0.27/webapps/ROOT has finished in 55,935 ms
+</code></pre>
+
+<p>主要原因是生成随机数的时候卡住了,导致tomcat启动不了。</p>
+
+<p>是否有足够的熵来用于产生随机数，可以通过如下命令来查看</p>
+
+<pre><code>[root@oldboy tools]# cat /proc/sys/kernel/random/entropy_avail
+7
+</code></pre>
+
+<p>为了加速/dev/random提供随机数的速度，你可以通过操作设备的外设，让其产生大量的中断（如网络传输数据，按键，移动鼠标，在命令行敲几个不同的命令，俗称聚气。<br/>
+cat /dev/random 会消耗能量</p></li>
+<li><p>方法</p>
+
+<h5 id="toc_0">方法1：</h5>
+
+<pre><code>vim $JAVA_HOME/jre/lib/security/java.security
+securerandom.source=file:/dev/random
+</code></pre>
+
+<p>改为</p>
+
+<pre><code>securerandom.source=file:/dev/urandom
+</code></pre>
+
+<h5 id="toc_1">方法2：</h5>
+
+<pre><code>vim $TOMCAT_HOME/bin/catalina.sh
+if [[ &quot;$JAVA_OPTS&quot; != *-Djava.security.egd=* ]]; then
+    JAVA_OPTS=&quot;$JAVA_OPTS -Djava.security.egd=file:/dev/urandom&quot;
+fi
+</code></pre>
+
+<blockquote>
+<p>这个系统属性egd表示熵收集守护进程(entropy gathering daemon)</p>
+</blockquote>
+
+<h5 id="toc_2">方法3：</h5>
+
+<pre><code>yum install rng-tools # 安装rngd服务（熵服务，增大熵池）
+systemctl start rngd  # 启动服务
+</code></pre></li>
+</ol></li>
+<li><p>通过web管理tomcat</p>
+
+<p><strong><mark>tomcat自带功能，但是属于测试功能，不要在公网上使用。</mark></strong></p>
+
+<pre><code>sed -i.ori &#39;$i &lt;role rolename=&quot;manager-gui&quot;/&gt;\n&lt;role rolename=&quot;admin-gui&quot;/&gt;\n&lt;user username=&quot;tomcat&quot; password=&quot;tomcat&quot; roles=&quot;manager-gui,admin-gui&quot;/&gt;&#39;  /application/tomcat/conf/tomcat-users.xml
+</code></pre>
+
+<pre><code>/application/tomcat/bin/shutdown.sh
+/application/tomcat/bin/startup.sh
+</code></pre>
+
+<ol>
+<li><p>tomcat的虚拟主机模式</p>
+
+<p>①不建议使用tomcat的虚拟主机模式，是因为tomcat的并发小，所以一旦使用虚拟主机，那么本来不多的并发又被分摊<br/>
+②nginx可以使用多虚拟主机模式（servername bbs.etiantian.org） nginx + php多个实例<br/>
+③主流架构 nginx+tomcat多个实例</p>
+
+<p>tomcat是单进程，每个虚拟主机就是这个进程中的线程</p>
+
+<blockquote>
+<p>进程和线程：<a href="http://lidao.blog.51cto.com/3388056/1914576">http://lidao.blog.51cto.com/3388056/1914576</a></p>
+
+<p>进程：</p>
+
+<blockquote>
+<p>优点：多进程可以同时利用多个CPU，能够同时进行多个操作。<br/>
+    缺点：耗费资源（创建一个进程重新开辟内存空间）。<br/>
+    进程不是越多越好，一般进程个数等于cpu个数。</p>
+</blockquote>
+
+<p>线程：</p>
+
+<blockquote>
+<p>优点：共享内存，尤其是进行IO操作（网络、磁盘）的时候（IO操作很少用cpu），可以使用多线程执行并发操作。<br/>
+    缺点：抢占资源。<br/>
+    线程也不是越多越好，具体案例具体分析，切换线程关系到请求上下文切换耗时。<br/>
+    计算机中执行任务的最小单元：线程。</p>
+</blockquote>
+</blockquote>
+
+<p>IO密集型（不用cpu）：多线程<br/>
+计算密集型（用cpu）：多进程</p></li>
+</ol></li>
+<li><p>搭建jpress--java版本的wordpress</p>
+
+<blockquote>
+<p>第一步：上传jpress-web-newest.war到/application/tomcat/webapps<br/>
+第二步：改名</p>
+
+<pre><code>mv jpress-web-newest jpress
+</code></pre>
+
+<p>第三步：访问<a href="http://10.0.0.201:8080/jpress/">http://10.0.0.201:8080/jpress/</a><br/>
+第四步：安装mysql（mariadb）</p>
+
+<pre><code>echo &quot;192.168.14.200 mirrors.aliyun.com&quot; &gt;&gt;/etc/hosts
+wget -O /etc/yum.repos.d/CentOS-Base.repo  http://192.168.14.200/repo/Centos-7.repo
+wget -O /etc/yum.repos.d/epel.repo  http://192.168.14.200/repo/epel-7.repo
+</code></pre>
+
+<pre><code>yum clean all       # 清除缓存
+</code></pre>
+
+<p>从CentOS7开始，默认的yum仓库不在提供mysql软件<br/>
+<code>No package mysql-server available.</code><br/>
+建议使用mariadb<br/>
+<code>yum -y install mariadb-server</code><br/>
+第五步：启动mysql，并创建相关信息<br/>
+<code>systemctl start mariadb.service</code><br/>
+使用了mysql命令进入的mysql的命令行</p>
+
+<pre><code>create database jpress DEFAULT CHARACTER SET utf8;
+grant all on jpress.* to jpress@&#39;localhost&#39; identified by &#39;123456&#39;;
+</code></pre>
+
+<p><code>最后Ctrl+D退出mysql界面</code><br/>
+第六步：网页上的操作<br/>
+第七步：重启tomcat</p>
+
+<pre><code> /application/tomcat/bin/shutdown.sh
+ /application/tomcat/bin/startup.sh
+</code></pre>
+
+<p>访问后台<a href="http://10.0.0.201:8080/jpress/admin/login">http://10.0.0.201:8080/jpress/admin/login</a><br/>
+其他帮助文档：<br/>
+<a href="https://git.oschina.net/fuhai/jpress">https://git.oschina.net/fuhai/jpress</a><br/>
+<a href="https://github.com/JpressProjects/jpress/blob/master/DOC.md">https://github.com/JpressProjects/jpress/blob/master/DOC.md</a></p>
+</blockquote></li>
+<li><p>今日总结：</p>
+
+<ol>
+<li>tomcat架构模型：tomcat处于什么地位</li>
+<li>安装tomcat及tomcat使用</li>
+<li>jpress安装</li>
+</ol></li>
+</ol>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>

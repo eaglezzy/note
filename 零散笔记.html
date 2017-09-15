@@ -133,7 +133,7 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
-				<time datetime="2017-09-13T08:34:43+08:00" itemprop="datePublished">2017/9/13</time>
+				<time datetime="2017-07-26T16:31:38+08:00" itemprop="datePublished">2017/7/26</time>
 			</div>
 			<div class="tags">posted in 
 			
@@ -141,209 +141,66 @@
 			 
 			</div>
 		</div>
-		<h1 class="title" itemprop="name"><a href="15052628837678.html" itemprop="url">
-		redis简单入门及实现wordpress数据库缓存</a></h1>
+		<h1 class="title" itemprop="name"><a href="15010578989827.html" itemprop="url">
+		xinetd服务管理器</a></h1>
 		<div class="entry-content" itemprop="articleBody">
 			
-			<p>redis简介<br/>
-Remote Dictionary Server（Redis）是一个基于 key-value 键值对的持久化数据库存储系统。支持多种数据结构，包括 string (字符串)、list (链表)、set (集合)、zset (sorted set --有序集合)和 hash（哈希类型）。<br/>
-redis和memcached的区别<br/>
-Redis和Memcache都是将数据存放在内存中，都是内存数据库。不过memcache还可用于缓存其他东西，例如图片、视频等等；<br/>
-Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，hash等数据结构的存储；<br/>
-虚拟内存--Redis当物理内存用完时，可以将一些很久没用到的value 交换到磁盘；<br/>
-过期策略--memcache在set时就指定，例如set key1 0 0 8,即永不过期。Redis可以通过例如expire 设定，例如expire name 10；<br/>
-分布式--设定memcache集群，利用magent做一主多从;redis可以做一主多从。<br/>
-存储数据安全--memcache挂掉后，数据没了；redis可以定期保存到磁盘（持久化）；<br/>
-灾难恢复--memcache挂掉后，数据不可恢复; redis数据丢失后可以恢复；<br/>
-Redis支持数据的备份，即master-slave模式的数据备份；<br/>
-应用场景不一样：Redis除了作为NoSQL数据库使用外，还能用做消息队列、数据堆栈和数据缓存等；Memcached适合于缓存SQL语句、数据集、用户临时性数据、延迟查询数据和session等<br/>
-性能对比：由于Redis只使用单核，而Memcached可以使用多核，所以平均每一个核上Redis在存储小数据时比Memcached性能更高。而在100k以上的数据中，Memcached性能要高于Redis，虽然Redis最近也在存储大数据的性能上进行优化，但是比起 Memcached，还是稍有逊色。<br/>
-内存使用效率对比：使用简单的key-value存储的话，Memcached的内存利用率更高，而如果Redis采用hash结构来做key-value存储，由于其组合式的压缩，其内存利用率会高于Memcached。<br/>
-Redis支持服务器端的数据操作：Redis相比Memcached来说，拥有更多的数据结构和并支持更丰富的数据操作，通常在Memcached 里，你需要将数据拿到客户端来进行类似的修改再set回去。这大大增加了网络IO的次数和数据体积。在Redis中，这些复杂的操作通常和一般的 GET/SET一样高效。所以，如果需要缓存能够支持更复杂的结构和操作，那么Redis会是不错的选择。<br/>
-redis服务端的安装<br/>
-中文帮助文档<br/>
-<a href="http://redisdoc.com/">http://redisdoc.com/</a><br/>
-在lb01   10.0.0.5（172.16.1.5）上操作：<br/>
-下载地址：<br/>
-wget  <a href="http://download.redis.io/releases/redis-3.2.10.tar.gz">http://download.redis.io/releases/redis-3.2.10.tar.gz</a><br/>
-安装：<br/>
-tar zxf redis-3.2.10.tar.gz <br/>
-cd redis-3.2.10<br/>
-make<br/>
-make install<br/>
-拷贝启动文件：<br/>
-cd utils/<br/>
-cp redis_init_script /etc/init.d/redis<br/>
-chmod +x /etc/init.d/redis<br/>
-拷贝配置文件：<br/>
-mkdir /etc/redis<br/>
-cd ..<br/>
-cp redis.conf /etc/redis/6379.conf<br/>
-/etc/init.d/redis start<br/>
-此时会看到redis是在前台运行需要修改配置文件让其在后台运行并且开启持久化：<br/>
-持久化有两种方式：<br/>
-1.rdb（快照默认开启）二进制文件<br/>
-2.aof（类似于mysql的binlog功能）操作语句保存在文件中<br/>
-sed -i &#39;s/daemonize no/daemonize yes/;s/appendonly no/appendonly yes/;163c logfile &quot;/var/log/redis.log&quot;&#39; /etc/redis/6379.conf<br/>
-sed -i &#39;247c dir  /tmp&#39; /etc/redis/6379.conf<br/><br/>
-sed -i &#39;s/bind 127.0.0.1/bind 127.0.0.1 172.16.1.5 /g&#39; /etc/redis/6379.conf<br/>
-/etc/init.d/redis start<br/>
-查看端口是否启动成功：<br/>
-[root@lb01 ~]# netstat -lntup|grep redis<br/>
-tcp        0      0 127.0.0.1:6379              0.0.0.0:*                   LISTEN      58534/redis-server<br/>
-测试：<br/>
-[root@lb01 ~]# redis-cli <br/>
-127.0.0.1:6379&gt; set key1 hellword<br/>
-OK<br/>
-127.0.0.1:6379&gt; get key1<br/>
-&quot;hellword&quot;<br/>
-127.0.0.1:6379&gt; quit<br/>
-查看帮助：<br/>
-redis-cli --help<br/>
-安装redis php客户端<br/>
-下载地址：<br/>
-wget <a href="http://pecl.php.net/get/redis-2.2.3.tgz">http://pecl.php.net/get/redis-2.2.3.tgz</a><br/>
-添加模块<br/>
-tar zxf redis-2.2.3.tgz<br/>
-cd redis-2.2.3<br/>
-/application/php/bin/phpize<br/>
-./configure --with-php-config=/application/php/bin/php-config<br/>
-make &amp;&amp; make install<br/>
-修改配置文件并重启<br/>
-echo &quot;extension = redis.so&quot; &gt;&gt;/application/php/lib/php.ini<br/>
-killall php-fpm<br/>
-/application/php/sbin/php-fpm<br/>
-wordpress实现redis数据库缓存<br/>
-需要一个客户端开发包以便PHP可以连接到redis服务端 ，这里推荐predis. 加入WordPress的根目录，执行下面<br/>
-cd /application/nginx/html/blog wget <a href="http://uploads.staticjw.com/ji/jim/predis.php">http://uploads.staticjw.com/ji/jim/predis.php</a>  chown nginx.nginx predis.php<br/>
-前端缓存的PHP脚本，加入WordPress的根目录，执行下面<br/>
-wget <a href="https://gist.githubusercontent.com/JimWestergren/3053250/raw/d9e279e31cbee4a1520f59108a4418ae396b2dde/index-with-redis.php">https://gist.githubusercontent.com/JimWestergren/3053250/raw/d9e279e31cbee4a1520f59108a4418ae396b2dde/index-with-redis.php</a>  chown nginx.nginx index-with-redis.php<br/>
-根据自己需求修改index-with-redis.php，修改如下：<br/>
-\(cf = 0;                // set to 1 if you are using cloudflare  \)debug = 1;              // set to 1 if you wish to see execution time and cache actions  $display_powered_by_redis = 0; // set to 1 if you want to display a powered by redis message with execution time, see below<br/>
-替换index.php<br/>
- mv index.php index.php.bak   mv index-with-redis.php index.php<br/>
-修改predis文件信息<br/>
-sed -i &#39;s/127.0.0.1/172.16.1.5/g&#39; predis.php<br/>
-[root@web02 blog]# grep 172.16.1.5 predis.php <br/>
-    const DEFAULT_HOST = &#39;172.16.1.5&#39;;<br/>
-打开网页测试：<br/>
-在redis服务器执行：<br/>
-[root@lb01 ~]# redis-cli -h 172.16.1.5<br/>
-172.16.1.5:6379&gt; keys *<br/>
-1) &quot;count&quot;<br/>
-2) &quot;key1&quot;<br/>
-3) &quot;feaeb784f8a27e2af7166667a5f084fb&quot;<br/>
-[root@lb01 tmp]# tail -5 /tmp/appendonly.aof<br/><br/>
-<script type='text/javascript' src='http://blog.etiantian.org/wp-content/themes/twentysixteen/js/functions.js?ver=20160816'></script><br/>
-<script type='text/javascript' src='http://blog.etiantian.org/wp-includes/js/wp-embed.min.js?ver=4.8.1'></script><br/>
-</body><br/>
-</html><br/>
-redis实现session共享<br/>
-修改php的配置文件php.ini<br/>
-session.save_handler = redis<br/>
-session.save_path = &quot;tcp://172.16.1.5:6379&quot;<br/>
-重启php即可<br/>
-redis的主从复制<br/>
-Redis全量复制一般发生在Slave初始化阶段，这时Slave需要将Master上的所有数据都复制一份。具体步骤如下：</p>
+			<blockquote>
+<p>xinetd服务，这个就相当于一个大管家<br/>
+```<br/>
+[root@backup ~]# cat /etc/xinetd.d/rsync </p>
 
-<p>从服务器连接主服务器，发送SYNC命令；<br/>
- 主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令；<br/>
- 主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令；<br/>
- 从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；<br/>
- 主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； <br/>
-从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；</p>
+<h1 id="toc_0">default: off</h1>
 
-<p>Redis增量复制是指Slave初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。  增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令。</p>
+<h1 id="toc_1">description: The rsync server is a good addition to an ftp server, as it \</h1>
 
-<p>vim /etc/redis/6379.conf</p>
+<h1 id="toc_2">allows crc checksumming etc.</h1>
 
-<p>logfile &quot;/var/log/redis_6379.log&quot;<br/>
-dbfilename dump_6379.rdb<br/>
-appendfilename &quot;appendonly_6379.aof&quot;</p>
+<p>service rsync<br/>
+{<br/>
+    disable = yes<br/>
+    flags       = IPv6<br/>
+    socket_type     = stream<br/>
+    wait            = no<br/>
+    user            = root<br/>
+    server          = /usr/bin/rsync<br/>
+    server_args     = --daemon<br/>
+    log_on_failure  += USERID<br/>
+}<br/>
+[root@backup ~]# sed -i &#39;s#yes#no#g&#39; /etc/xinetd.d/rsync<br/>
+[root@backup ~]# cat /etc/xinetd.d/rsync </p>
 
-<p>/etc/init.d/redis stop<br/>
-/etc/init.d/redis start<br/>
-[root@lb01 tmp]# ls /tmp<br/>
-appendonly_6379.aof  appendonly.aof  dump.rdb<br/>
-拷贝配置文件并修改<br/>
-cd /etc/redis/<br/>
-cp 6379.conf 6380.conf<br/>
-sed -i &#39;s/6379/6380/g&#39; 6380.conf<br/>
-diff 6379.conf 6380.conf </p>
+<h1 id="toc_3">default: off</h1>
 
-<p>/usr/local/bin/redis-server 6380.conf </p>
+<h1 id="toc_4">description: The rsync server is a good addition to an ftp server, as it \</h1>
 
-<p>[root@lb01 redis]# ps aux |grep redis <br/>
-root      59357  0.1  0.7 133544  7524 ?        Ssl  11:42   0:01 /usr/local/bin/redis-server 127.0.0.1:6379<br/><br/>
-root      59379  0.0  0.7 133544  7520 ?        Ssl  11:59   0:00 /usr/local/bin/redis-server 127.0.0.1:6380</p>
+<h1 id="toc_5">allows crc checksumming etc.</h1>
 
-<p>[root@lb01 redis]# ls /tmp<br/>
-appendonly_6379.aof  appendonly_6380.aof  appendonly.aof  dump.rdb<br/>
-redis-cli -p 6380<br/>
-开启主从复制功能<br/>
-127.0.0.1:6380&gt; SLAVEOF 172.16.1.5 6379<br/>
-OK<br/>
-127.0.0.1:6380&gt; info<br/>
-......</p>
-
-<h1 id="toc_0">Replication</h1>
-
-<p>role:slave<br/>
-master_host:172.16.1.5<br/>
-master_port:6379<br/>
-master_link_status:up<br/>
-master_last_io_seconds_ago:3<br/>
-......<br/>
-查看主机状态<br/>
-172.16.1.5:6379&gt; info<br/>
-......</p>
-
-<h1 id="toc_1">Replication</h1>
-
-<p>role:master<br/>
-connected_slaves:1<br/>
-slave0:ip=127.0.0.1,port=6380,state=online,offset=169,lag=1<br/>
-master_repl_offset:169<br/>
-......<br/>
-测试主从复制功能<br/>
-主库写入<br/>
-172.16.1.5:6379&gt; set key test<br/>
-OK<br/>
-从库查询<br/>
-127.0.0.1:6380&gt; keys *<br/>
-1) &quot;count&quot;<br/>
-2) &quot;key&quot;<br/>
-redis cluster集群<br/>
-redis本身是单实例单进程的<br/>
-参考文档<br/>
-<a href="http://www.cnblogs.com/wuxl360/p/5920330.html">http://www.cnblogs.com/wuxl360/p/5920330.html</a> </p>
-
-<p>redis管理工具<br/>
-cd /application/nginx/html/blog<br/>
-git clone <a href="https://github.com/ErikDubbelboer/phpRedisAdmin.git">https://github.com/ErikDubbelboer/phpRedisAdmin.git</a> <br/>
-cd phpRedisAdmin <br/>
-git clone <a href="https://github.com/nrk/predis.git">https://github.com/nrk/predis.git</a> vendor<br/>
-更改配置文件添加多实例<br/>
-/application/nginx/html/blog/phpRedisAdmin/includes<br/>
-vim config.sample.inc.php<br/>
-......<br/>
-$config = array(<br/>
-  &#39;servers&#39; =&gt; array(<br/>
-    array(<br/>
-      &#39;name&#39;   =&gt; &#39;6379&#39;, // Optional name.<br/>
-      &#39;host&#39;   =&gt; &#39;172.16.1.5&#39;,<br/>
-      &#39;port&#39;   =&gt; 6379,<br/>
-      &#39;filter&#39; =&gt; &#39;*&#39;,<br/>
-      &#39;scheme&#39; =&gt; &#39;tcp&#39;,<br/>
-      &#39;path&#39;   =&gt; &#39;&#39;<br/>
-    ),<br/>
-    array(<br/>
-      &#39;name&#39; =&gt; &#39;6380&#39;,<br/>
-      &#39;host&#39; =&gt; &#39;172.16.1.5&#39;,<br/>
-      &#39;port&#39; =&gt; 6380<br/>
-    ),<br/>
-......<br/>
-浏览器输入<a href="http://blog.etiantian.org/phpRedisAdmin/%E5%8D%B3%E5%8F%AF%E8%AE%BF%E9%97%AE">http://blog.etiantian.org/phpRedisAdmin/即可访问</a></p>
+<p>service rsync<br/>
+{<br/>
+    disable = no<br/>
+    flags       = IPv6<br/>
+    socket_type     = stream<br/>
+    wait            = no<br/>
+    user            = root<br/>
+    server          = /usr/bin/rsync<br/>
+    server_args     = --daemon<br/>
+    log_on_failure  += USERID<br/>
+}<br/>
+[root@backup ~]# killall rsync<br/>
+rsync: no process killed<br/>
+[root@backup ~]# netstat -lntup|grep 873<br/>
+[root@backup ~]# yum install xinetd -y<br/>
+[root@backup ~]# /etc/init.d/xinetd start<br/>
+Starting xinetd:                                           [  OK  ]<br/>
+[root@backup ~]# netstat -lntup|grep 873<br/>
+tcp        0      0 :::873                      :::*                        LISTEN      2296/xinetd<br/><br/>
+[root@backup ~]# /etc/init.d/xinetd stop<br/>
+Stopping xinetd:                                           [  OK  ]<br/>
+[root@backup ~]# netstat -lntup|grep 873<br/>
+[root@backup ~]# <br/>
+```</p>
+</blockquote>
 
 
 			
@@ -355,7 +212,7 @@ $config = array(<br/>
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
-				<time datetime="2017-09-12T14:36:16+08:00" itemprop="datePublished">2017/9/12</time>
+				<time datetime="2017-07-27T01:03:22+08:00" itemprop="datePublished">2017/7/27</time>
 			</div>
 			<div class="tags">posted in 
 			
@@ -363,482 +220,252 @@ $config = array(<br/>
 			 
 			</div>
 		</div>
-		<h1 class="title" itemprop="name"><a href="15051981760993.html" itemprop="url">
-		Linux下获取公网IP地址的方法</a></h1>
+		<h1 class="title" itemprop="name"><a href="15010886029579.html" itemprop="url">
+		全网备份案例</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<h2 id="toc_0">备份全网服务器数据生产架构方案案例模型</h2>
+
+<pre><code>做一个周期性定时备份,要求如下:
+每天网上00点整在web服务器A(web01)上打包备份网站程序目录,并通过rsync命令推送到服务器B(backup)上备份保留(备份思路:可以是先在本地按日期打包,然后再利用rsync推送到备份服务器上)
+</code></pre>
+
+<pre><code>具体要求如下:
+1)web服务器A和备份服务器B的备份目录必须都为/backup
+2)web服务器A站点目录假定为(/var/www/html)
+3)web服务器A本地仅保留7天内的备份
+4)备份服务器上[每周六的数据都保留],其他备份仅保留180天备份
+5)备份服务器上检查备份结果是否正常,并将每天的备份结果发给管理员信箱
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_1">backup+web01</h2>
+
+<h3 id="toc_2">一 backup是服务端</h3>
+
+<pre><code>谁是rsync的服务端和客户端
+</code></pre>
+
+<hr/>
+
+<h3 id="toc_3">二 搭建好rsync服务端和客户端,并且测试</h3>
+
+<pre><code>服务端 -- backup   172.16.1.41
+客户端 -- web01    172.16.1.8
+</code></pre>
+
+<hr/>
+
+<h4 id="toc_4">服务端</h4>
+
+<p>1.检查是否安装</p>
+
+<pre><code>rpm -qa rsync
+</code></pre>
+
+<p>2.添加虚拟用户 rsync</p>
+
+<pre><code>useradd -s /sbin/nologin -M rsync
+id rsync        #检查是否添加成功
+</code></pre>
+
+<p>3.创建目录,并修改目录的属主与属组</p>
+
+<pre><code>mkdir /backup
+chown rsync.rsync /backup
+</code></pre>
+
+<p>4.创建密码文件并修改权限</p>
+
+<pre><code>echo &#39;rsync_backup:123456&#39; &gt;/etc/rsync.password
+chmod 600 /etc/rsync.password
+</code></pre>
+
+<p>5.创建配置文件</p>
+
+<pre><code>cat /etc/rsyncd.conf
+</code></pre>
+
+<h4 id="toc_5">客户端</h4>
+
+<p>创建密码文件并修改权限</p>
+
+<pre><code>echo &#39;123456&#39; &gt;/etc/rsync.password
+chmod 600 /etc/rsync.password
+</code></pre>
+
+<h3 id="toc_6">三 打包备份web01上面的数据</h3>
+
+<blockquote>
+<p>/var/www/html<br/>
+/etc/rc.local<br/>
+/etc/hosts<br/>
+/var/spool/cron/</p>
+</blockquote>
+
+<p><code>创建本机备份目录</code></p>
+
+<pre><code>mkdir -p /var/www/heml/ /backup
+</code></pre>
+
+<h4 id="toc_7">web01上面的备份命令</h4>
+
+<pre><code>tar zchf /backup/conf-$(date +%F -d &quot;-1day&quot;).tar.gz /etc/rc.local
+tar zchf /backup/html-$(date +%F -d &quot;-1day&quot;).tar.gz /var/www/html
+</code></pre>
+
+<h3 id="toc_8">四 验证web01-md5sum-给压缩包加上指纹</h3>
+
+<p><code>手动指定文件 创建指纹</code></p>
+
+<pre><code>md5sum conf-$(date +%F-d &quot;-1day&quot;).tar.gz
+</code></pre>
+
+<p><code>根据find命令找到的文件 创建指纹</code></p>
+
+<pre><code>find /backup/ -type f -name &quot;*.tar.gz&quot;
+
+</code></pre>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
+				<time datetime="2017-08-07T00:34:21+08:00" itemprop="datePublished">2017/8/7</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="15020372614069.html" itemprop="url">
+		web服务基础</a></h1>
 		<div class="entry-content" itemprop="articleBody">
 			
 			<ol>
-<li><p>curl 纯文本格式输出:<br/>
-推荐使用</p>
+<li>http服务的重要基础
 
-<pre><code>curl ipinfo.io/ip
-</code></pre>
+<ol>
+<li>用户访问网站基本流程</li>
+<li>DNS系统解析基本流程
 
-<p>备选</p>
+<ol>
+<li>DNS简介</li>
+<li>DNS解析流程</li>
+</ol></li>
+</ol></li>
+<li>http协议
 
-<pre><code>curl ipinfo.io
-curl ifconfig.me
-curl icanhazip.com
-curl ifconfig.me
-curl curlmyip.com
-curl ip.appspot.com
-curl ipecho.net/plain
-curl www.trackip.net/i
-curl http://members.3322.org/dyndns/getip 
-</code></pre></li>
-<li><p>curl JSON格式输出:</p>
+<ol>
+<li>http协议简介</li>
+<li>http协议版本
 
-<pre><code>curl ipinfo.io/json
-curl ifconfig.me/all.json
-curl www.trackip.net/ip?json  #(有点丑陋)
-</code></pre></li>
-<li><p>curl XML格式输出:</p>
+<ol>
+<li>http/1.0简介</li>
+<li>http/1.1简介</li>
+</ol></li>
+<li>http请求方法</li>
+<li>http状态码
 
-<pre><code>curl ifconfig.me/all.xml
-</code></pre></li>
-<li><p>curl 得到所有IP细节 （挖掘机）</p>
+<ol>
+<li>http状态码介绍</li>
+<li>http状态码的命令行查看</li>
+</ol></li>
+<li>http报文
 
-<pre><code>curl ifconfig.me/all
-</code></pre></li>
-<li><p>使用 DYDNS （当你使用 DYDNS 服务时有用）</p>
+<ol>
+<li>http请求报文(request message)介绍</li>
+<li>http响应报文(response message)介绍</li>
+<li>一个简单的请求报文和应答报文示例</li>
+</ol></li>
+<li>http协议原理及重点分析</li>
+</ol></li>
+<li>http资源
 
-<pre><code>curl -s &#39;http://checkip.dyndns.org&#39; | sed &#39;s/.*Current IP Address: \([0-9\.]*\).*/\1/g&#39;
-curl -s http://checkip.dyndns.org/ | grep -o &quot;[[:digit:].]\+&quot;
-</code></pre></li>
-<li><p>使用 Wget 代替 Curl</p>
+<ol>
+<li>媒体类型</li>
+<li>URL介绍</li>
+<li>URI介绍</li>
+<li>静态网页资源
 
-<pre><code>wget http://ipecho.net/plain -O - -q ; echo
-wget http://observebox.com/ip -O - -q ; echo
-</code></pre></li>
-<li><p>使用 host 和 dig 命令</p>
+<ol>
+<li>静态网页资源介绍</li>
+<li>静态网页资源特点</li>
+<li>静态网页语言</li>
+<li>有关静态网页的架构思想</li>
+</ol></li>
+<li>动态网页资源
 
-<blockquote>
-<p>如果有的话，你也可以直接使用 host 和 dig 命令。</p>
-</blockquote>
+<ol>
+<li>动态网页资源介绍</li>
+<li>动态网页资源特点</li>
+<li>有关动态网页的架构思想</li>
+</ol></li>
+<li>伪静态网页
 
-<pre><code>host -t a dartsclink.com | sed &#39;s/.*has address //&#39;
-dig +short myip.opendns.com @resolver1.opendns.com
-</code></pre></li>
-<li><p>bash 脚本示例:</p>
+<ol>
+<li>伪静态网页资源介绍</li>
+<li>伪静态网页资源特点</li>
+<li>伪静态网页作用</li>
+<li>伪静态网页的缺点</li>
+<li>伪静态网页小结</li>
+</ol></li>
+<li>生产web架构优化实战方案
 
-<pre><code>#!/bin/bash
-PUBLIC_IP=`wget http://ipecho.net/plain -O - -q ; echo`
-echo $PUBLIC_IP
-</code></pre></li>
+<ol>
+<li>门户新闻业务</li>
+<li>视频网站业务</li>
+<li>blog/BBS/SNS/微博社区业务/电商(如淘宝、京东)</li>
+</ol></li>
+</ol></li>
+<li>网站流量度量术语
+
+<ol>
+<li>IP</li>
+<li>PV</li>
+<li>UV</li>
+<li>企业网站对IP、PV、UV的度量
+
+<ol>
+<li>对IP的度量</li>
+<li>对PV的度量</li>
+<li>对UV的度量</li>
+</ol></li>
+<li>IP、PV、UV的区别</li>
+<li>并发连接
+
+<ol>
+<li>网站并发连接</li>
+<li>其他服务并发连接</li>
+</ol></li>
+<li>常见企业网站排名及PV/IP访问量</li>
+<li>有关网站度量Linux企业运维的常见面试题</li>
+</ol></li>
+<li>WWW服务软件介绍
+
+<ol>
+<li>WWW软件全球使用排名参考</li>
+<li>当前互联网主流web服务说明
+
+<ol>
+<li>当前互联网主流web服务软件</li>
+<li>常用来提供动态服务的软件</li>
+</ol></li>
+<li>WWW静态程序服务软件Apache</li>
+<li>WWW静态服务软件Nginx</li>
+<li>WWW动态服务软件resin</li>
+<li>WWW动态服务软件Tomcat</li>
+<li>WWW动态服务软件PHP</li>
+</ol></li>
 </ol>
-
-
-			
-			
-		</div>
-
-	</article>
- 
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-		<div class="meta">
-			<div class="date">
-				<time datetime="2017-09-11T23:52:13+08:00" itemprop="datePublished">2017/9/11</time>
-			</div>
-			<div class="tags">posted in 
-			
-			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
-			 
-			</div>
-		</div>
-		<h1 class="title" itemprop="name"><a href="15051451335516.html" itemprop="url">
-		附录: 502和504错误</a></h1>
-		<div class="entry-content" itemprop="articleBody">
-			
-			<h3 id="toc_0">一、错误提示说明：</h3>
-
-<p>Nginx 502 Bad Gateway的含义是请求的PHP-CGI已经执行，但是由于某种原因（一般是读取资源的问题）没有执行完毕而导致PHP-CGI进程终止。</p>
-
-<p>Nginx 504 Gateway Time-out的含义是所请求的网关没有请求到，简单来说就是没有请求到可以执行的PHP-CGI。</p>
-
-<h3 id="toc_1">二、错误提示原因分析：</h3>
-
-<p>解决这两个问题其实是需要综合思考的，一般来说Nginx 502 Bad Gateway和php-fpm.conf的设置有关，<br/>
-而Nginx 504 Gateway Time-out则是与nginx.conf的设置有关。</p>
-
-<p>php-fpm.conf有两个至关重要的参数，一个是”max_children”,另一个是”request_terminate_timeout” ，但是这个值不是通用的，而是需要自己计算的。</p>
-
-<p>计算的方式如下：<br/>
-如果你的服务器性能足够好，且宽带资源足够充足，PHP脚本没有系循环或BUG的话你可以直接将”request_terminate_timeout”设置成0s。0s的含义是让PHP-CGI一直执行下去而没有时间限制。而如果你做不到这一点，也就是说你的PHP-CGI可能出现某个BUG，或者你的宽带不够充足或者其他的原因导致你的PHP-CGI能够假死那么就建议你给”request_terminate_timeout”赋一个值，这个值可以根据你服务器的性能进行设定。一般来说性能越好你可以设置越高，20分钟-30分钟都可以。由于我的服务器PHP脚本需要长时间运行，有的可能会超过10分钟因此我设置了900秒，这样不会导致PHP-CGI死掉而出现502 Bad gateway这个错误。</p>
-
-<p>而”max_children”这个值又是怎么计算出来的呢？这个值原则上是越大越好，php-cgi的进程多了就会处理的很快，排队的请求就会很少。设置”max_children”也需要根据服务器的性能进行设定，一般来说一台服务器正常情况下每一个php-cgi所耗费的内存在20M左右，因此我的”max_children”我设置成40个，20M*40=800M也就是说在峰值的时候所有PHP-CGI所耗内存在800M以内，低于我的有效内存1Gb。而如果我的”max_children”设置的较小，比如5-10个，那么php-cgi就会“很累”，处理速度也很慢，等待的时间也较长。如果长时间没有得到处理的请求就会出现504 Gateway Time-out这个错误，而正在处理的很累的那几个php-cgi如果遇到了问题就会出现502 Bad gateway这个错误。</p>
-
-<h3 id="toc_2">三、临时解决办法：</h3>
-
-<p>综上所述，Nginx提示502和504错误的临时解决办法是：</p>
-
-<h4 id="toc_3">1、调整php-fpm.conf的相关设置：</h4>
-
-<pre><code>32
-30s
-</code></pre>
-
-<h4 id="toc_4">2、调整nginx.conf的相关设置：</h4>
-
-<pre><code>fastcgi_connect_timeout 600;
-fastcgi_send_timeout 600;
-fastcgi_read_timeout 600;
-fastcgi_buffer_size 256k;
-fastcgi_buffers 16 256k;
-fastcgi_busy_buffers_size 512k;
-fastcgi_temp_file_write_size 512k;
-</code></pre>
-
-<h3 id="toc_5">四、终级解决方案：</h3>
-
-<p>标题3中所示的解决方案只能临时解决问题，而如果网站的访问量确实非常非常大，而Nginx+FastCGI只能对处理瞬间或短时间内的高并发有很好的效果，所以目前唯一的终极解决方案是：定时平滑重启php-cgi。</p>
-
-<p>具体配置如下：</p>
-
-<h4 id="toc_6">1、写一个非常简单的脚本：</h4>
-
-<pre><code>vi /home/www/scripts/php-fpm.sh 
-</code></pre>
-
-<p>内容如下：</p>
-
-<pre><code>#!/bin/bash
-# This script run at */1
-/usr/local/php/sbin/php-fpm reload
-</code></pre>
-
-<h4 id="toc_7">2、将脚本添加至计划任务：</h4>
-
-<pre><code>crontab -e
-</code></pre>
-
-<p>内容如下：</p>
-
-<pre><code>*/1 * * * * /home/www/scripts/php-fpm.sh 
-</code></pre>
-
-<blockquote>
-<p>注：为了省事起见，也可以不写脚本，直接在crontab里写入php-fpm的平滑重启命令。</p>
-</blockquote>
-
-
-			
-			
-		</div>
-
-	</article>
- 
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-		<div class="meta">
-			<div class="date">
-				<time datetime="2017-08-08T09:03:49+08:00" itemprop="datePublished">2017/8/8</time>
-			</div>
-			<div class="tags">posted in 
-			
-			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
-			 
-			</div>
-		</div>
-		<h1 class="title" itemprop="name"><a href="15021542293136.html" itemprop="url">
-		HTTP状态码列表</a></h1>
-		<div class="entry-content" itemprop="articleBody">
-			
-			<p>消息（1字头）服务器收到请求，需要请求者继续执行操作</p>
-
-<table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>状态码英文名称</th>
-<th>中文描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>100</td>
-<td>Continue</td>
-<td>继续。客户端应继续其请求</td>
-</tr>
-<tr>
-<td>101</td>
-<td>Switching Protocols</td>
-<td>切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
-</tr>
-<tr>
-<td>102</td>
-<td>Processing</td>
-<td>由WebDAV（RFC 2518）扩展的状态码，代表处理将被继续执行。</td>
-</tr>
-</tbody>
-</table>
-
-<hr/>
-
-<p>成功（2字头）操作被成功接收并处理</p>
-
-<table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>状态码英文名称</th>
-<th>中文描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>200</td>
-<td>OK</td>
-<td>请求成功。一般用于GET与POST请求</td>
-</tr>
-<tr>
-<td>201</td>
-<td>Created</td>
-<td>已创建。成功请求并创建了新的资源</td>
-</tr>
-<tr>
-<td>202</td>
-<td>Accepted</td>
-<td>已接受。已经接受请求，但未处理完成</td>
-</tr>
-<tr>
-<td>203</td>
-<td>Non-Authoritative Information</td>
-<td>非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
-</tr>
-<tr>
-<td>204</td>
-<td>No Content</td>
-<td>无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
-</tr>
-<tr>
-<td>205</td>
-<td>Reset Content</td>
-<td>重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
-</tr>
-<tr>
-<td>206</td>
-<td>Partial Content</td>
-<td>部分内容。服务器成功处理了部分GET请求</td>
-</tr>
-<tr>
-<td>207</td>
-<td>Multi-Status</td>
-<td>由WebDAV(RFC 2518)扩展的状态码，代表之后的消息体将是一个XML消息，并且可能依照之前子请求数量的不同，包含一系列独立的响应代码。</td>
-</tr>
-</tbody>
-</table>
-
-<hr/>
-
-<p>重定向（3字头）需要进一步的操作以完成请求</p>
-
-<table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>状态码英文名称</th>
-<th>中文描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>300</td>
-<td>Multiple Choices</td>
-<td>多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
-</tr>
-<tr>
-<td>301</td>
-<td>Moved Permanently</td>
-<td>永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
-</tr>
-<tr>
-<td>302</td>
-<td>Move temporarily</td>
-<td>临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
-</tr>
-<tr>
-<td>303</td>
-<td>See Other</td>
-<td>查看其它地址。与301类似。使用GET和POST请求查看</td>
-</tr>
-<tr>
-<td>304</td>
-<td>Not Modified</td>
-<td>未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
-</tr>
-<tr>
-<td>305</td>
-<td>Use Proxy</td>
-<td>使用代理。所请求的资源必须通过代理访问</td>
-</tr>
-<tr>
-<td>306</td>
-<td>Unused</td>
-<td>已经被废弃的HTTP状态码</td>
-</tr>
-<tr>
-<td>307</td>
-<td>Temporary Redirect</td>
-<td>临时重定向。与302类似。使用GET请求重定向</td>
-</tr>
-</tbody>
-</table>
-
-<hr/>
-
-<p>请求错误（4字头）客户端错误，请求包含语法错误或无法完成请求</p>
-
-<table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>状态码英文名称</th>
-<th>中文描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>400</td>
-<td>Bad Request</td>
-<td>客户端请求的语法错误，服务器无法理解</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized</td>
-<td>请求要求用户的身份认证</td>
-</tr>
-<tr>
-<td>402</td>
-<td>Payment Required</td>
-<td>保留，将来使用</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden</td>
-<td>服务器理解请求客户端的请求，但是拒绝执行此请求</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found</td>
-<td>服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置“您所请求的资源无法找到”的个性页面</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed</td>
-<td>客户端请求中的方法被禁止</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable</td>
-<td>服务器无法根据客户端请求的内容特性完成请求</td>
-</tr>
-<tr>
-<td>407</td>
-<td>Proxy Authentication Required</td>
-<td>请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
-</tr>
-<tr>
-<td>408</td>
-<td>Request Time-out</td>
-<td>服务器等待客户端发送的请求时间过长，超时</td>
-</tr>
-<tr>
-<td>409</td>
-<td>Conflict</td>
-<td>服务器完成客户端的PUT请求是可能返回此代码，服务器处理请求时发生了冲突</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone</td>
-<td>客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
-</tr>
-<tr>
-<td>411</td>
-<td>Length Required</td>
-<td>服务器无法处理客户端发送的不带Content-Length的请求信息</td>
-</tr>
-<tr>
-<td>412</td>
-<td>Precondition Failed</td>
-<td>客户端请求信息的先决条件错误</td>
-</tr>
-<tr>
-<td>413</td>
-<td>Request Entity Too Large</td>
-<td>由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
-</tr>
-<tr>
-<td>414</td>
-<td>Request-URI Too Large</td>
-<td>请求的URI过长（URI通常为网址），服务器无法处理</td>
-</tr>
-<tr>
-<td>415</td>
-<td>Unsupported Media Type</td>
-<td>服务器无法处理请求附带的媒体格式</td>
-</tr>
-<tr>
-<td>416</td>
-<td>Requested range not satisfiable</td>
-<td>客户端请求的范围无效</td>
-</tr>
-<tr>
-<td>417</td>
-<td>Expectation Failed</td>
-<td>服务器无法满足Expect的请求头信息</td>
-</tr>
-</tbody>
-</table>
-
-<hr/>
-
-<p>服务器错误（5字头）服务器在处理请求的过程中发生了错误</p>
-
-<table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>状态码英文名称</th>
-<th>中文描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>500</td>
-<td>Internal Server Error</td>
-<td>服务器内部错误，无法完成请求</td>
-</tr>
-<tr>
-<td>501</td>
-<td>Not Implemented</td>
-<td>服务器不支持请求的功能，无法完成请求</td>
-</tr>
-<tr>
-<td>502</td>
-<td>Bad Gateway</td>
-<td>充当网关或代理的服务器，从远端服务器接收到了一个无效的请求</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable</td>
-<td>由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
-</tr>
-<tr>
-<td>504</td>
-<td>Gateway Time-out</td>
-<td>充当网关或代理的服务器，未及时从远端服务器获取请求</td>
-</tr>
-<tr>
-<td>505</td>
-<td>HTTP Version not supported</td>
-<td>服务器不支持请求的HTTP协议的版本，无法完成处理</td>
-</tr>
-</tbody>
-</table>
 
 
 			
@@ -1464,7 +1091,7 @@ command模块包含如下选项：</p>
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
-				<time datetime="2017-08-07T00:34:21+08:00" itemprop="datePublished">2017/8/7</time>
+				<time datetime="2017-08-08T09:03:49+08:00" itemprop="datePublished">2017/8/8</time>
 			</div>
 			<div class="tags">posted in 
 			
@@ -1472,331 +1099,307 @@ command模块包含如下选项：</p>
 			 
 			</div>
 		</div>
-		<h1 class="title" itemprop="name"><a href="15020372614069.html" itemprop="url">
-		web服务基础</a></h1>
+		<h1 class="title" itemprop="name"><a href="15021542293136.html" itemprop="url">
+		HTTP状态码列表</a></h1>
 		<div class="entry-content" itemprop="articleBody">
 			
-			<ol>
-<li>http服务的重要基础
+			<p>消息（1字头）服务器收到请求，需要请求者继续执行操作</p>
 
-<ol>
-<li>用户访问网站基本流程</li>
-<li>DNS系统解析基本流程
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
 
-<ol>
-<li>DNS简介</li>
-<li>DNS解析流程</li>
-</ol></li>
-</ol></li>
-<li>http协议
-
-<ol>
-<li>http协议简介</li>
-<li>http协议版本
-
-<ol>
-<li>http/1.0简介</li>
-<li>http/1.1简介</li>
-</ol></li>
-<li>http请求方法</li>
-<li>http状态码
-
-<ol>
-<li>http状态码介绍</li>
-<li>http状态码的命令行查看</li>
-</ol></li>
-<li>http报文
-
-<ol>
-<li>http请求报文(request message)介绍</li>
-<li>http响应报文(response message)介绍</li>
-<li>一个简单的请求报文和应答报文示例</li>
-</ol></li>
-<li>http协议原理及重点分析</li>
-</ol></li>
-<li>http资源
-
-<ol>
-<li>媒体类型</li>
-<li>URL介绍</li>
-<li>URI介绍</li>
-<li>静态网页资源
-
-<ol>
-<li>静态网页资源介绍</li>
-<li>静态网页资源特点</li>
-<li>静态网页语言</li>
-<li>有关静态网页的架构思想</li>
-</ol></li>
-<li>动态网页资源
-
-<ol>
-<li>动态网页资源介绍</li>
-<li>动态网页资源特点</li>
-<li>有关动态网页的架构思想</li>
-</ol></li>
-<li>伪静态网页
-
-<ol>
-<li>伪静态网页资源介绍</li>
-<li>伪静态网页资源特点</li>
-<li>伪静态网页作用</li>
-<li>伪静态网页的缺点</li>
-<li>伪静态网页小结</li>
-</ol></li>
-<li>生产web架构优化实战方案
-
-<ol>
-<li>门户新闻业务</li>
-<li>视频网站业务</li>
-<li>blog/BBS/SNS/微博社区业务/电商(如淘宝、京东)</li>
-</ol></li>
-</ol></li>
-<li>网站流量度量术语
-
-<ol>
-<li>IP</li>
-<li>PV</li>
-<li>UV</li>
-<li>企业网站对IP、PV、UV的度量
-
-<ol>
-<li>对IP的度量</li>
-<li>对PV的度量</li>
-<li>对UV的度量</li>
-</ol></li>
-<li>IP、PV、UV的区别</li>
-<li>并发连接
-
-<ol>
-<li>网站并发连接</li>
-<li>其他服务并发连接</li>
-</ol></li>
-<li>常见企业网站排名及PV/IP访问量</li>
-<li>有关网站度量Linux企业运维的常见面试题</li>
-</ol></li>
-<li>WWW服务软件介绍
-
-<ol>
-<li>WWW软件全球使用排名参考</li>
-<li>当前互联网主流web服务说明
-
-<ol>
-<li>当前互联网主流web服务软件</li>
-<li>常用来提供动态服务的软件</li>
-</ol></li>
-<li>WWW静态程序服务软件Apache</li>
-<li>WWW静态服务软件Nginx</li>
-<li>WWW动态服务软件resin</li>
-<li>WWW动态服务软件Tomcat</li>
-<li>WWW动态服务软件PHP</li>
-</ol></li>
-</ol>
-
-
-			
-			
-		</div>
-
-	</article>
- 
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-		<div class="meta">
-			<div class="date">
-				<time datetime="2017-07-27T01:03:22+08:00" itemprop="datePublished">2017/7/27</time>
-			</div>
-			<div class="tags">posted in 
-			
-			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
-			 
-			</div>
-		</div>
-		<h1 class="title" itemprop="name"><a href="15010886029579.html" itemprop="url">
-		全网备份案例</a></h1>
-		<div class="entry-content" itemprop="articleBody">
-			
-			<h2 id="toc_0">备份全网服务器数据生产架构方案案例模型</h2>
-
-<pre><code>做一个周期性定时备份,要求如下:
-每天网上00点整在web服务器A(web01)上打包备份网站程序目录,并通过rsync命令推送到服务器B(backup)上备份保留(备份思路:可以是先在本地按日期打包,然后再利用rsync推送到备份服务器上)
-</code></pre>
-
-<pre><code>具体要求如下:
-1)web服务器A和备份服务器B的备份目录必须都为/backup
-2)web服务器A站点目录假定为(/var/www/html)
-3)web服务器A本地仅保留7天内的备份
-4)备份服务器上[每周六的数据都保留],其他备份仅保留180天备份
-5)备份服务器上检查备份结果是否正常,并将每天的备份结果发给管理员信箱
-</code></pre>
+<tbody>
+<tr>
+<td>100</td>
+<td>Continue</td>
+<td>继续。客户端应继续其请求</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Switching Protocols</td>
+<td>切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Processing</td>
+<td>由WebDAV（RFC 2518）扩展的状态码，代表处理将被继续执行。</td>
+</tr>
+</tbody>
+</table>
 
 <hr/>
 
-<h2 id="toc_1">backup+web01</h2>
+<p>成功（2字头）操作被成功接收并处理</p>
 
-<h3 id="toc_2">一 backup是服务端</h3>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
 
-<pre><code>谁是rsync的服务端和客户端
-</code></pre>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>请求成功。一般用于GET与POST请求</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>已创建。成功请求并创建了新的资源</td>
+</tr>
+<tr>
+<td>202</td>
+<td>Accepted</td>
+<td>已接受。已经接受请求，但未处理完成</td>
+</tr>
+<tr>
+<td>203</td>
+<td>Non-Authoritative Information</td>
+<td>非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
+</tr>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
+</tr>
+<tr>
+<td>205</td>
+<td>Reset Content</td>
+<td>重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
+</tr>
+<tr>
+<td>206</td>
+<td>Partial Content</td>
+<td>部分内容。服务器成功处理了部分GET请求</td>
+</tr>
+<tr>
+<td>207</td>
+<td>Multi-Status</td>
+<td>由WebDAV(RFC 2518)扩展的状态码，代表之后的消息体将是一个XML消息，并且可能依照之前子请求数量的不同，包含一系列独立的响应代码。</td>
+</tr>
+</tbody>
+</table>
 
 <hr/>
 
-<h3 id="toc_3">二 搭建好rsync服务端和客户端,并且测试</h3>
+<p>重定向（3字头）需要进一步的操作以完成请求</p>
 
-<pre><code>服务端 -- backup   172.16.1.41
-客户端 -- web01    172.16.1.8
-</code></pre>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>300</td>
+<td>Multiple Choices</td>
+<td>多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
+</tr>
+<tr>
+<td>301</td>
+<td>Moved Permanently</td>
+<td>永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Move temporarily</td>
+<td>临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td>303</td>
+<td>See Other</td>
+<td>查看其它地址。与301类似。使用GET和POST请求查看</td>
+</tr>
+<tr>
+<td>304</td>
+<td>Not Modified</td>
+<td>未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
+</tr>
+<tr>
+<td>305</td>
+<td>Use Proxy</td>
+<td>使用代理。所请求的资源必须通过代理访问</td>
+</tr>
+<tr>
+<td>306</td>
+<td>Unused</td>
+<td>已经被废弃的HTTP状态码</td>
+</tr>
+<tr>
+<td>307</td>
+<td>Temporary Redirect</td>
+<td>临时重定向。与302类似。使用GET请求重定向</td>
+</tr>
+</tbody>
+</table>
 
 <hr/>
 
-<h4 id="toc_4">服务端</h4>
+<p>请求错误（4字头）客户端错误，请求包含语法错误或无法完成请求</p>
 
-<p>1.检查是否安装</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
 
-<pre><code>rpm -qa rsync
-</code></pre>
+<tbody>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>客户端请求的语法错误，服务器无法理解</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>请求要求用户的身份认证</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Payment Required</td>
+<td>保留，将来使用</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>服务器理解请求客户端的请求，但是拒绝执行此请求</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置“您所请求的资源无法找到”的个性页面</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed</td>
+<td>客户端请求中的方法被禁止</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable</td>
+<td>服务器无法根据客户端请求的内容特性完成请求</td>
+</tr>
+<tr>
+<td>407</td>
+<td>Proxy Authentication Required</td>
+<td>请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
+</tr>
+<tr>
+<td>408</td>
+<td>Request Time-out</td>
+<td>服务器等待客户端发送的请求时间过长，超时</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict</td>
+<td>服务器完成客户端的PUT请求是可能返回此代码，服务器处理请求时发生了冲突</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone</td>
+<td>客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
+</tr>
+<tr>
+<td>411</td>
+<td>Length Required</td>
+<td>服务器无法处理客户端发送的不带Content-Length的请求信息</td>
+</tr>
+<tr>
+<td>412</td>
+<td>Precondition Failed</td>
+<td>客户端请求信息的先决条件错误</td>
+</tr>
+<tr>
+<td>413</td>
+<td>Request Entity Too Large</td>
+<td>由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
+</tr>
+<tr>
+<td>414</td>
+<td>Request-URI Too Large</td>
+<td>请求的URI过长（URI通常为网址），服务器无法处理</td>
+</tr>
+<tr>
+<td>415</td>
+<td>Unsupported Media Type</td>
+<td>服务器无法处理请求附带的媒体格式</td>
+</tr>
+<tr>
+<td>416</td>
+<td>Requested range not satisfiable</td>
+<td>客户端请求的范围无效</td>
+</tr>
+<tr>
+<td>417</td>
+<td>Expectation Failed</td>
+<td>服务器无法满足Expect的请求头信息</td>
+</tr>
+</tbody>
+</table>
 
-<p>2.添加虚拟用户 rsync</p>
+<hr/>
 
-<pre><code>useradd -s /sbin/nologin -M rsync
-id rsync        #检查是否添加成功
-</code></pre>
+<p>服务器错误（5字头）服务器在处理请求的过程中发生了错误</p>
 
-<p>3.创建目录,并修改目录的属主与属组</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
 
-<pre><code>mkdir /backup
-chown rsync.rsync /backup
-</code></pre>
-
-<p>4.创建密码文件并修改权限</p>
-
-<pre><code>echo &#39;rsync_backup:123456&#39; &gt;/etc/rsync.password
-chmod 600 /etc/rsync.password
-</code></pre>
-
-<p>5.创建配置文件</p>
-
-<pre><code>cat /etc/rsyncd.conf
-</code></pre>
-
-<h4 id="toc_5">客户端</h4>
-
-<p>创建密码文件并修改权限</p>
-
-<pre><code>echo &#39;123456&#39; &gt;/etc/rsync.password
-chmod 600 /etc/rsync.password
-</code></pre>
-
-<h3 id="toc_6">三 打包备份web01上面的数据</h3>
-
-<blockquote>
-<p>/var/www/html<br/>
-/etc/rc.local<br/>
-/etc/hosts<br/>
-/var/spool/cron/</p>
-</blockquote>
-
-<p><code>创建本机备份目录</code></p>
-
-<pre><code>mkdir -p /var/www/heml/ /backup
-</code></pre>
-
-<h4 id="toc_7">web01上面的备份命令</h4>
-
-<pre><code>tar zchf /backup/conf-$(date +%F -d &quot;-1day&quot;).tar.gz /etc/rc.local
-tar zchf /backup/html-$(date +%F -d &quot;-1day&quot;).tar.gz /var/www/html
-</code></pre>
-
-<h3 id="toc_8">四 验证web01-md5sum-给压缩包加上指纹</h3>
-
-<p><code>手动指定文件 创建指纹</code></p>
-
-<pre><code>md5sum conf-$(date +%F-d &quot;-1day&quot;).tar.gz
-</code></pre>
-
-<p><code>根据find命令找到的文件 创建指纹</code></p>
-
-<pre><code>find /backup/ -type f -name &quot;*.tar.gz&quot;
-
-</code></pre>
-
-
-			
-			
-		</div>
-
-	</article>
- 
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-		<div class="meta">
-			<div class="date">
-				<time datetime="2017-07-26T16:31:38+08:00" itemprop="datePublished">2017/7/26</time>
-			</div>
-			<div class="tags">posted in 
-			
-			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
-			 
-			</div>
-		</div>
-		<h1 class="title" itemprop="name"><a href="15010578989827.html" itemprop="url">
-		xinetd服务管理器</a></h1>
-		<div class="entry-content" itemprop="articleBody">
-			
-			<blockquote>
-<p>xinetd服务，这个就相当于一个大管家<br/>
-```<br/>
-[root@backup ~]# cat /etc/xinetd.d/rsync </p>
-
-<h1 id="toc_0">default: off</h1>
-
-<h1 id="toc_1">description: The rsync server is a good addition to an ftp server, as it \</h1>
-
-<h1 id="toc_2">allows crc checksumming etc.</h1>
-
-<p>service rsync<br/>
-{<br/>
-    disable = yes<br/>
-    flags       = IPv6<br/>
-    socket_type     = stream<br/>
-    wait            = no<br/>
-    user            = root<br/>
-    server          = /usr/bin/rsync<br/>
-    server_args     = --daemon<br/>
-    log_on_failure  += USERID<br/>
-}<br/>
-[root@backup ~]# sed -i &#39;s#yes#no#g&#39; /etc/xinetd.d/rsync<br/>
-[root@backup ~]# cat /etc/xinetd.d/rsync </p>
-
-<h1 id="toc_3">default: off</h1>
-
-<h1 id="toc_4">description: The rsync server is a good addition to an ftp server, as it \</h1>
-
-<h1 id="toc_5">allows crc checksumming etc.</h1>
-
-<p>service rsync<br/>
-{<br/>
-    disable = no<br/>
-    flags       = IPv6<br/>
-    socket_type     = stream<br/>
-    wait            = no<br/>
-    user            = root<br/>
-    server          = /usr/bin/rsync<br/>
-    server_args     = --daemon<br/>
-    log_on_failure  += USERID<br/>
-}<br/>
-[root@backup ~]# killall rsync<br/>
-rsync: no process killed<br/>
-[root@backup ~]# netstat -lntup|grep 873<br/>
-[root@backup ~]# yum install xinetd -y<br/>
-[root@backup ~]# /etc/init.d/xinetd start<br/>
-Starting xinetd:                                           [  OK  ]<br/>
-[root@backup ~]# netstat -lntup|grep 873<br/>
-tcp        0      0 :::873                      :::*                        LISTEN      2296/xinetd<br/><br/>
-[root@backup ~]# /etc/init.d/xinetd stop<br/>
-Stopping xinetd:                                           [  OK  ]<br/>
-[root@backup ~]# netstat -lntup|grep 873<br/>
-[root@backup ~]# <br/>
-```</p>
-</blockquote>
+<tbody>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>服务器内部错误，无法完成请求</td>
+</tr>
+<tr>
+<td>501</td>
+<td>Not Implemented</td>
+<td>服务器不支持请求的功能，无法完成请求</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Bad Gateway</td>
+<td>充当网关或代理的服务器，从远端服务器接收到了一个无效的请求</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Gateway Time-out</td>
+<td>充当网关或代理的服务器，未及时从远端服务器获取请求</td>
+</tr>
+<tr>
+<td>505</td>
+<td>HTTP Version not supported</td>
+<td>服务器不支持请求的HTTP协议的版本，无法完成处理</td>
+</tr>
+</tbody>
+</table>
 
 
 			
@@ -2137,6 +1740,403 @@ sed -i &#39;s/back01/m01/&#39; /etc/sysconfig/network &amp;&amp; hostname lb01 &
 
 <pre><code>echo &quot;PS1=&#39;\[\e[32;1m\][\u@\h \W]\$ \[\e[0m\]&#39;&quot;&gt;&gt;/etc/profile
 </code></pre>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
+				<time datetime="2017-09-12T14:36:16+08:00" itemprop="datePublished">2017/9/12</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="15051981760993.html" itemprop="url">
+		Linux下获取公网IP地址的方法</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<ol>
+<li><p>curl 纯文本格式输出:<br/>
+推荐使用</p>
+
+<pre><code>curl ipinfo.io/ip
+</code></pre>
+
+<p>备选</p>
+
+<pre><code>curl ipinfo.io
+curl ifconfig.me
+curl icanhazip.com
+curl ifconfig.me
+curl curlmyip.com
+curl ip.appspot.com
+curl ipecho.net/plain
+curl www.trackip.net/i
+curl http://members.3322.org/dyndns/getip 
+</code></pre></li>
+<li><p>curl JSON格式输出:</p>
+
+<pre><code>curl ipinfo.io/json
+curl ifconfig.me/all.json
+curl www.trackip.net/ip?json  #(有点丑陋)
+</code></pre></li>
+<li><p>curl XML格式输出:</p>
+
+<pre><code>curl ifconfig.me/all.xml
+</code></pre></li>
+<li><p>curl 得到所有IP细节 （挖掘机）</p>
+
+<pre><code>curl ifconfig.me/all
+</code></pre></li>
+<li><p>使用 DYDNS （当你使用 DYDNS 服务时有用）</p>
+
+<pre><code>curl -s &#39;http://checkip.dyndns.org&#39; | sed &#39;s/.*Current IP Address: \([0-9\.]*\).*/\1/g&#39;
+curl -s http://checkip.dyndns.org/ | grep -o &quot;[[:digit:].]\+&quot;
+</code></pre></li>
+<li><p>使用 Wget 代替 Curl</p>
+
+<pre><code>wget http://ipecho.net/plain -O - -q ; echo
+wget http://observebox.com/ip -O - -q ; echo
+</code></pre></li>
+<li><p>使用 host 和 dig 命令</p>
+
+<blockquote>
+<p>如果有的话，你也可以直接使用 host 和 dig 命令。</p>
+</blockquote>
+
+<pre><code>host -t a dartsclink.com | sed &#39;s/.*has address //&#39;
+dig +short myip.opendns.com @resolver1.opendns.com
+</code></pre></li>
+<li><p>bash 脚本示例:</p>
+
+<pre><code>#!/bin/bash
+PUBLIC_IP=`wget http://ipecho.net/plain -O - -q ; echo`
+echo $PUBLIC_IP
+</code></pre></li>
+</ol>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
+				<time datetime="2017-09-11T23:52:13+08:00" itemprop="datePublished">2017/9/11</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="15051451335516.html" itemprop="url">
+		附录: 502和504错误</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<h3 id="toc_0">一、错误提示说明：</h3>
+
+<p>Nginx 502 Bad Gateway的含义是请求的PHP-CGI已经执行，但是由于某种原因（一般是读取资源的问题）没有执行完毕而导致PHP-CGI进程终止。</p>
+
+<p>Nginx 504 Gateway Time-out的含义是所请求的网关没有请求到，简单来说就是没有请求到可以执行的PHP-CGI。</p>
+
+<h3 id="toc_1">二、错误提示原因分析：</h3>
+
+<p>解决这两个问题其实是需要综合思考的，一般来说Nginx 502 Bad Gateway和php-fpm.conf的设置有关，<br/>
+而Nginx 504 Gateway Time-out则是与nginx.conf的设置有关。</p>
+
+<p>php-fpm.conf有两个至关重要的参数，一个是”max_children”,另一个是”request_terminate_timeout” ，但是这个值不是通用的，而是需要自己计算的。</p>
+
+<p>计算的方式如下：<br/>
+如果你的服务器性能足够好，且宽带资源足够充足，PHP脚本没有系循环或BUG的话你可以直接将”request_terminate_timeout”设置成0s。0s的含义是让PHP-CGI一直执行下去而没有时间限制。而如果你做不到这一点，也就是说你的PHP-CGI可能出现某个BUG，或者你的宽带不够充足或者其他的原因导致你的PHP-CGI能够假死那么就建议你给”request_terminate_timeout”赋一个值，这个值可以根据你服务器的性能进行设定。一般来说性能越好你可以设置越高，20分钟-30分钟都可以。由于我的服务器PHP脚本需要长时间运行，有的可能会超过10分钟因此我设置了900秒，这样不会导致PHP-CGI死掉而出现502 Bad gateway这个错误。</p>
+
+<p>而”max_children”这个值又是怎么计算出来的呢？这个值原则上是越大越好，php-cgi的进程多了就会处理的很快，排队的请求就会很少。设置”max_children”也需要根据服务器的性能进行设定，一般来说一台服务器正常情况下每一个php-cgi所耗费的内存在20M左右，因此我的”max_children”我设置成40个，20M*40=800M也就是说在峰值的时候所有PHP-CGI所耗内存在800M以内，低于我的有效内存1Gb。而如果我的”max_children”设置的较小，比如5-10个，那么php-cgi就会“很累”，处理速度也很慢，等待的时间也较长。如果长时间没有得到处理的请求就会出现504 Gateway Time-out这个错误，而正在处理的很累的那几个php-cgi如果遇到了问题就会出现502 Bad gateway这个错误。</p>
+
+<h3 id="toc_2">三、临时解决办法：</h3>
+
+<p>综上所述，Nginx提示502和504错误的临时解决办法是：</p>
+
+<h4 id="toc_3">1、调整php-fpm.conf的相关设置：</h4>
+
+<pre><code>32
+30s
+</code></pre>
+
+<h4 id="toc_4">2、调整nginx.conf的相关设置：</h4>
+
+<pre><code>fastcgi_connect_timeout 600;
+fastcgi_send_timeout 600;
+fastcgi_read_timeout 600;
+fastcgi_buffer_size 256k;
+fastcgi_buffers 16 256k;
+fastcgi_busy_buffers_size 512k;
+fastcgi_temp_file_write_size 512k;
+</code></pre>
+
+<h3 id="toc_5">四、终级解决方案：</h3>
+
+<p>标题3中所示的解决方案只能临时解决问题，而如果网站的访问量确实非常非常大，而Nginx+FastCGI只能对处理瞬间或短时间内的高并发有很好的效果，所以目前唯一的终极解决方案是：定时平滑重启php-cgi。</p>
+
+<p>具体配置如下：</p>
+
+<h4 id="toc_6">1、写一个非常简单的脚本：</h4>
+
+<pre><code>vi /home/www/scripts/php-fpm.sh 
+</code></pre>
+
+<p>内容如下：</p>
+
+<pre><code>#!/bin/bash
+# This script run at */1
+/usr/local/php/sbin/php-fpm reload
+</code></pre>
+
+<h4 id="toc_7">2、将脚本添加至计划任务：</h4>
+
+<pre><code>crontab -e
+</code></pre>
+
+<p>内容如下：</p>
+
+<pre><code>*/1 * * * * /home/www/scripts/php-fpm.sh 
+</code></pre>
+
+<blockquote>
+<p>注：为了省事起见，也可以不写脚本，直接在crontab里写入php-fpm的平滑重启命令。</p>
+</blockquote>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
+				<time datetime="2017-09-13T08:34:43+08:00" itemprop="datePublished">2017/9/13</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='%E9%9B%B6%E6%95%A3%E7%AC%94%E8%AE%B0.html'>零散笔记</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="15052628837678.html" itemprop="url">
+		redis简单入门及实现wordpress数据库缓存</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<p>redis简介<br/>
+Remote Dictionary Server（Redis）是一个基于 key-value 键值对的持久化数据库存储系统。支持多种数据结构，包括 string (字符串)、list (链表)、set (集合)、zset (sorted set --有序集合)和 hash（哈希类型）。<br/>
+redis和memcached的区别<br/>
+Redis和Memcache都是将数据存放在内存中，都是内存数据库。不过memcache还可用于缓存其他东西，例如图片、视频等等；<br/>
+Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，hash等数据结构的存储；<br/>
+虚拟内存--Redis当物理内存用完时，可以将一些很久没用到的value 交换到磁盘；<br/>
+过期策略--memcache在set时就指定，例如set key1 0 0 8,即永不过期。Redis可以通过例如expire 设定，例如expire name 10；<br/>
+分布式--设定memcache集群，利用magent做一主多从;redis可以做一主多从。<br/>
+存储数据安全--memcache挂掉后，数据没了；redis可以定期保存到磁盘（持久化）；<br/>
+灾难恢复--memcache挂掉后，数据不可恢复; redis数据丢失后可以恢复；<br/>
+Redis支持数据的备份，即master-slave模式的数据备份；<br/>
+应用场景不一样：Redis除了作为NoSQL数据库使用外，还能用做消息队列、数据堆栈和数据缓存等；Memcached适合于缓存SQL语句、数据集、用户临时性数据、延迟查询数据和session等<br/>
+性能对比：由于Redis只使用单核，而Memcached可以使用多核，所以平均每一个核上Redis在存储小数据时比Memcached性能更高。而在100k以上的数据中，Memcached性能要高于Redis，虽然Redis最近也在存储大数据的性能上进行优化，但是比起 Memcached，还是稍有逊色。<br/>
+内存使用效率对比：使用简单的key-value存储的话，Memcached的内存利用率更高，而如果Redis采用hash结构来做key-value存储，由于其组合式的压缩，其内存利用率会高于Memcached。<br/>
+Redis支持服务器端的数据操作：Redis相比Memcached来说，拥有更多的数据结构和并支持更丰富的数据操作，通常在Memcached 里，你需要将数据拿到客户端来进行类似的修改再set回去。这大大增加了网络IO的次数和数据体积。在Redis中，这些复杂的操作通常和一般的 GET/SET一样高效。所以，如果需要缓存能够支持更复杂的结构和操作，那么Redis会是不错的选择。<br/>
+redis服务端的安装<br/>
+中文帮助文档<br/>
+<a href="http://redisdoc.com/">http://redisdoc.com/</a><br/>
+在lb01   10.0.0.5（172.16.1.5）上操作：<br/>
+下载地址：<br/>
+wget  <a href="http://download.redis.io/releases/redis-3.2.10.tar.gz">http://download.redis.io/releases/redis-3.2.10.tar.gz</a><br/>
+安装：<br/>
+tar zxf redis-3.2.10.tar.gz <br/>
+cd redis-3.2.10<br/>
+make<br/>
+make install<br/>
+拷贝启动文件：<br/>
+cd utils/<br/>
+cp redis_init_script /etc/init.d/redis<br/>
+chmod +x /etc/init.d/redis<br/>
+拷贝配置文件：<br/>
+mkdir /etc/redis<br/>
+cd ..<br/>
+cp redis.conf /etc/redis/6379.conf<br/>
+/etc/init.d/redis start<br/>
+此时会看到redis是在前台运行需要修改配置文件让其在后台运行并且开启持久化：<br/>
+持久化有两种方式：<br/>
+1.rdb（快照默认开启）二进制文件<br/>
+2.aof（类似于mysql的binlog功能）操作语句保存在文件中<br/>
+sed -i &#39;s/daemonize no/daemonize yes/;s/appendonly no/appendonly yes/;163c logfile &quot;/var/log/redis.log&quot;&#39; /etc/redis/6379.conf<br/>
+sed -i &#39;247c dir  /tmp&#39; /etc/redis/6379.conf<br/><br/>
+sed -i &#39;s/bind 127.0.0.1/bind 127.0.0.1 172.16.1.5 /g&#39; /etc/redis/6379.conf<br/>
+/etc/init.d/redis start<br/>
+查看端口是否启动成功：<br/>
+[root@lb01 ~]# netstat -lntup|grep redis<br/>
+tcp        0      0 127.0.0.1:6379              0.0.0.0:*                   LISTEN      58534/redis-server<br/>
+测试：<br/>
+[root@lb01 ~]# redis-cli <br/>
+127.0.0.1:6379&gt; set key1 hellword<br/>
+OK<br/>
+127.0.0.1:6379&gt; get key1<br/>
+&quot;hellword&quot;<br/>
+127.0.0.1:6379&gt; quit<br/>
+查看帮助：<br/>
+redis-cli --help<br/>
+安装redis php客户端<br/>
+下载地址：<br/>
+wget <a href="http://pecl.php.net/get/redis-2.2.3.tgz">http://pecl.php.net/get/redis-2.2.3.tgz</a><br/>
+添加模块<br/>
+tar zxf redis-2.2.3.tgz<br/>
+cd redis-2.2.3<br/>
+/application/php/bin/phpize<br/>
+./configure --with-php-config=/application/php/bin/php-config<br/>
+make &amp;&amp; make install<br/>
+修改配置文件并重启<br/>
+echo &quot;extension = redis.so&quot; &gt;&gt;/application/php/lib/php.ini<br/>
+killall php-fpm<br/>
+/application/php/sbin/php-fpm<br/>
+wordpress实现redis数据库缓存<br/>
+需要一个客户端开发包以便PHP可以连接到redis服务端 ，这里推荐predis. 加入WordPress的根目录，执行下面<br/>
+cd /application/nginx/html/blog wget <a href="http://uploads.staticjw.com/ji/jim/predis.php">http://uploads.staticjw.com/ji/jim/predis.php</a>  chown nginx.nginx predis.php<br/>
+前端缓存的PHP脚本，加入WordPress的根目录，执行下面<br/>
+wget <a href="https://gist.githubusercontent.com/JimWestergren/3053250/raw/d9e279e31cbee4a1520f59108a4418ae396b2dde/index-with-redis.php">https://gist.githubusercontent.com/JimWestergren/3053250/raw/d9e279e31cbee4a1520f59108a4418ae396b2dde/index-with-redis.php</a>  chown nginx.nginx index-with-redis.php<br/>
+根据自己需求修改index-with-redis.php，修改如下：<br/>
+\(cf = 0;                // set to 1 if you are using cloudflare  \)debug = 1;              // set to 1 if you wish to see execution time and cache actions  $display_powered_by_redis = 0; // set to 1 if you want to display a powered by redis message with execution time, see below<br/>
+替换index.php<br/>
+ mv index.php index.php.bak   mv index-with-redis.php index.php<br/>
+修改predis文件信息<br/>
+sed -i &#39;s/127.0.0.1/172.16.1.5/g&#39; predis.php<br/>
+[root@web02 blog]# grep 172.16.1.5 predis.php <br/>
+    const DEFAULT_HOST = &#39;172.16.1.5&#39;;<br/>
+打开网页测试：<br/>
+在redis服务器执行：<br/>
+[root@lb01 ~]# redis-cli -h 172.16.1.5<br/>
+172.16.1.5:6379&gt; keys *<br/>
+1) &quot;count&quot;<br/>
+2) &quot;key1&quot;<br/>
+3) &quot;feaeb784f8a27e2af7166667a5f084fb&quot;<br/>
+[root@lb01 tmp]# tail -5 /tmp/appendonly.aof<br/><br/>
+<script type='text/javascript' src='http://blog.etiantian.org/wp-content/themes/twentysixteen/js/functions.js?ver=20160816'></script><br/>
+<script type='text/javascript' src='http://blog.etiantian.org/wp-includes/js/wp-embed.min.js?ver=4.8.1'></script><br/>
+</body><br/>
+</html><br/>
+redis实现session共享<br/>
+修改php的配置文件php.ini<br/>
+session.save_handler = redis<br/>
+session.save_path = &quot;tcp://172.16.1.5:6379&quot;<br/>
+重启php即可<br/>
+redis的主从复制<br/>
+Redis全量复制一般发生在Slave初始化阶段，这时Slave需要将Master上的所有数据都复制一份。具体步骤如下：</p>
+
+<p>从服务器连接主服务器，发送SYNC命令；<br/>
+ 主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令；<br/>
+ 主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令；<br/>
+ 从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；<br/>
+ 主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； <br/>
+从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；</p>
+
+<p>Redis增量复制是指Slave初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。  增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令。</p>
+
+<p>vim /etc/redis/6379.conf</p>
+
+<p>logfile &quot;/var/log/redis_6379.log&quot;<br/>
+dbfilename dump_6379.rdb<br/>
+appendfilename &quot;appendonly_6379.aof&quot;</p>
+
+<p>/etc/init.d/redis stop<br/>
+/etc/init.d/redis start<br/>
+[root@lb01 tmp]# ls /tmp<br/>
+appendonly_6379.aof  appendonly.aof  dump.rdb<br/>
+拷贝配置文件并修改<br/>
+cd /etc/redis/<br/>
+cp 6379.conf 6380.conf<br/>
+sed -i &#39;s/6379/6380/g&#39; 6380.conf<br/>
+diff 6379.conf 6380.conf </p>
+
+<p>/usr/local/bin/redis-server 6380.conf </p>
+
+<p>[root@lb01 redis]# ps aux |grep redis <br/>
+root      59357  0.1  0.7 133544  7524 ?        Ssl  11:42   0:01 /usr/local/bin/redis-server 127.0.0.1:6379<br/><br/>
+root      59379  0.0  0.7 133544  7520 ?        Ssl  11:59   0:00 /usr/local/bin/redis-server 127.0.0.1:6380</p>
+
+<p>[root@lb01 redis]# ls /tmp<br/>
+appendonly_6379.aof  appendonly_6380.aof  appendonly.aof  dump.rdb<br/>
+redis-cli -p 6380<br/>
+开启主从复制功能<br/>
+127.0.0.1:6380&gt; SLAVEOF 172.16.1.5 6379<br/>
+OK<br/>
+127.0.0.1:6380&gt; info<br/>
+......</p>
+
+<h1 id="toc_0">Replication</h1>
+
+<p>role:slave<br/>
+master_host:172.16.1.5<br/>
+master_port:6379<br/>
+master_link_status:up<br/>
+master_last_io_seconds_ago:3<br/>
+......<br/>
+查看主机状态<br/>
+172.16.1.5:6379&gt; info<br/>
+......</p>
+
+<h1 id="toc_1">Replication</h1>
+
+<p>role:master<br/>
+connected_slaves:1<br/>
+slave0:ip=127.0.0.1,port=6380,state=online,offset=169,lag=1<br/>
+master_repl_offset:169<br/>
+......<br/>
+测试主从复制功能<br/>
+主库写入<br/>
+172.16.1.5:6379&gt; set key test<br/>
+OK<br/>
+从库查询<br/>
+127.0.0.1:6380&gt; keys *<br/>
+1) &quot;count&quot;<br/>
+2) &quot;key&quot;<br/>
+redis cluster集群<br/>
+redis本身是单实例单进程的<br/>
+参考文档<br/>
+<a href="http://www.cnblogs.com/wuxl360/p/5920330.html">http://www.cnblogs.com/wuxl360/p/5920330.html</a> </p>
+
+<p>redis管理工具<br/>
+cd /application/nginx/html/blog<br/>
+git clone <a href="https://github.com/ErikDubbelboer/phpRedisAdmin.git">https://github.com/ErikDubbelboer/phpRedisAdmin.git</a> <br/>
+cd phpRedisAdmin <br/>
+git clone <a href="https://github.com/nrk/predis.git">https://github.com/nrk/predis.git</a> vendor<br/>
+更改配置文件添加多实例<br/>
+/application/nginx/html/blog/phpRedisAdmin/includes<br/>
+vim config.sample.inc.php<br/>
+......<br/>
+$config = array(<br/>
+  &#39;servers&#39; =&gt; array(<br/>
+    array(<br/>
+      &#39;name&#39;   =&gt; &#39;6379&#39;, // Optional name.<br/>
+      &#39;host&#39;   =&gt; &#39;172.16.1.5&#39;,<br/>
+      &#39;port&#39;   =&gt; 6379,<br/>
+      &#39;filter&#39; =&gt; &#39;*&#39;,<br/>
+      &#39;scheme&#39; =&gt; &#39;tcp&#39;,<br/>
+      &#39;path&#39;   =&gt; &#39;&#39;<br/>
+    ),<br/>
+    array(<br/>
+      &#39;name&#39; =&gt; &#39;6380&#39;,<br/>
+      &#39;host&#39; =&gt; &#39;172.16.1.5&#39;,<br/>
+      &#39;port&#39; =&gt; 6380<br/>
+    ),<br/>
+......<br/>
+浏览器输入<a href="http://blog.etiantian.org/phpRedisAdmin/%E5%8D%B3%E5%8F%AF%E8%AE%BF%E9%97%AE">http://blog.etiantian.org/phpRedisAdmin/即可访问</a></p>
 
 
 			
