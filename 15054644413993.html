@@ -134,14 +134,13 @@
 			<ol>
 <li><p>为什么需要版本控制系统</p>
 
-<p>就是为了保留历史版本文件，以待未来查询或者恢复（后悔药）</p>
-
-<p>第一个阶段：本地版本控制系统（人工，每个人都在自己电脑上操作，缺点是无法协同工作）<br/>
-第二个阶段：集中式版本控制系统（所有人都在一个平台上操作，所有备份等操作都有这个平台管理）           SVN  集中式的版本控制系统<br/>
-第三个阶段：分布式版本控制系统  Git</p></li>
-</ol>
-
-<p>2.环境准备 </p>
+<ul>
+<li><p>就是为了保留历史版本文件，以待未来查询或者恢复（后悔药）</p></li>
+<li><p>第一个阶段：本地版本控制系统（人工，每个人都在自己电脑上操作，缺点是无法协同工作）</p></li>
+<li><p>第二个阶段：集中式版本控制系统（所有人都在一个平台上操作，所有备份等操作都有这个平台管理）             SVN  集中式的版本控制系统</p></li>
+<li><p>第三个阶段：分布式版本控制系统  Git</p></li>
+</ul></li>
+<li><p>环境准备 </p>
 
 <pre><code>[root@CentOS7 ~]# getenforce 
 Disabled
@@ -155,9 +154,8 @@ CentOS Linux release 7.2.1511 (Core)
 3.10.0-327.el7.x86_64
 [root@CentOS7 ~]# hostname -I
 10.0.0.201 172.16.1.201 
-</code></pre>
-
-<p>3.安装配置Git</p>
+</code></pre></li>
+<li><p>安装配置Git</p>
 
 <pre><code>[root@CentOS7 ~]# rpm -qa git
 git-1.8.3.1-5.el7.x86_64
@@ -176,362 +174,341 @@ git config --list # 查看全局配置
     email = zhangyao@oldboyedu.com
 [color]
     ui = true
-</code></pre>
-
-<ol>
+</code></pre></li>
 <li><p>创建Git工作目录</p>
 
-<p>工作目录：只有在这个目录存放的文件以及修改等操作，才能够被git管理</p>
+<pre><code>工作目录：只有在这个目录存放的文件以及修改等操作，才能够被git管理
 
-<p>[root@CentOS7 ~]# mkdir git_data<br/>
-[root@CentOS7 ~]# cd git_data/<br/>
-[root@CentOS7 git_data]# git init<br/>
-初始化空的 Git 版本库于 /root/git_data/.git/</p>
+[root@CentOS7 ~]# mkdir git_data
+[root@CentOS7 ~]# cd git_data/
+[root@CentOS7 git_data]# git init
+初始化空的 Git 版本库于 /root/git_data/.git/
 
-<p>[root@CentOS7 git_data]# git status</p>
+[root@CentOS7 git_data]# git status
 
-<h1 id="toc_0">位于分支 master</h1>
-
-<h1 id="toc_1">初始提交</h1>
-
-<p>无文件要提交（创建/拷贝文件并使用 &quot;git add&quot; 建立跟踪）</p>
+位于分支 master
+初始提交
+无文件要提交（创建/拷贝文件并使用 &quot;git add&quot; 建立跟踪）
+</code></pre>
 
 <p>小结1：<br/>
 git init 初始化git工作目录<br/>
 git status  查看工作目录状态</p></li>
-</ol>
+<li><p>Git常规使用</p>
 
-<p>5.Git常规使用</p>
+<p>5.1 在工作目录添加数据</p>
 
-<pre><code>5.1 在工作目录添加数据
-    [root@CentOS7 git_data]# touch README
-    [root@CentOS7 git_data]# ls
+<pre><code>[root@CentOS7 git_data]# touch README
+[root@CentOS7 git_data]# ls
+README
+[root@CentOS7 git_data]# git status
+位于分支 master
+
+初始提交
+
+未跟踪的文件:
+  （使用 &quot;git add &lt;file&gt;...&quot; 以包含要提交的内容）
+
     README
-    [root@CentOS7 git_data]# git status
-    # 位于分支 master
-    #
-    # 初始提交
-    #
-    # 未跟踪的文件:
-    #   （使用 &quot;git add &lt;file&gt;...&quot; 以包含要提交的内容）
-    #
-    #   README
-    提交为空，但是存在尚未跟踪的文件（使用 &quot;git add&quot; 建立跟踪）
+提交为空，但是存在尚未跟踪的文件（使用 &quot;git add&quot; 建立跟踪）
+</code></pre>
 
-5.2 将工作目录的文件添加到暂存区域
-    [root@CentOS7 git_data]# git add README
-    [root@CentOS7 git_data]# git status
+<p>5.2 将工作目录的文件添加到暂存区域</p>
+
+<pre><code>[root@CentOS7 git_data]# git add README
+[root@CentOS7 git_data]# git status
+位于分支 master
+
+初始提交
+
+要提交的变更：
+  （使用 &quot;git rm --cached &lt;file&gt;...&quot; 撤出暂存区）
+
+    新文件：    README
+</code></pre>
+
+<p>5.3 将暂存区域的数据添加到本地仓库</p>
+
+<pre><code>[root@CentOS7 git_data]# git commit -m &quot;first commit&quot;
+[master（根提交） 01aaf0d] first commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README
+</code></pre>
+
+<p>小结2：</p>
+
+<ul>
+<li>git add 将工作目录的文件添加到暂存区域</li>
+<li>git commit 将暂存区域的数据添加到本地仓库</li>
+</ul>
+
+<p>快捷方法：<br/>
+    如果是新创建的文件，仍然需要经过git add和git commit<br/>
+    如果是修改或删除已经被git监控跟踪文件，那么可以快捷使用git commit -a提交</p>
+
+<pre><code>-a  # Tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
+</code></pre>
+
+<p>5.4 删除文件几种情况</p>
+
+<pre><code>①如果文件没有被git跟踪，直接 “rm 文件名”
+②文件已经被跟踪，已经在暂存区域
+    git rm --cached &lt;file&gt;  撤出暂存区，磁盘上文件不受影响
+    git rm -f &lt;file&gt;        撤出暂存区，并删除磁盘上文件
+    git reset HEAD &lt;file&gt;   撤出暂存区，磁盘上文件不受影响
+
+③已经被提交到仓库，只能进行版本回滚，但是这个文件依然会存储在仓库
+
+④一键还原 git checkout -- &lt;file&gt;
+当修改某些文件。但是觉得改的不对，想还原，但是手动还原太累，因此可以使仓库的文件覆盖我当前目录的文件。
+
+小结3：
+git rm 
+git reset
+git checkout
+</code></pre>
+
+<p>5.5 重命名文件<br/>
+    如果文件没有被git跟踪，直接 “mv 源文件名 新文件名”<br/>
+    已经在暂存区域 <code>git mv oldboy oldgirl</code></p>
+
+<pre><code>    [root@CentOS7 git_data]# git status
     # 位于分支 master
-    #
-    # 初始提交
-    #
     # 要提交的变更：
-    #   （使用 &quot;git rm --cached &lt;file&gt;...&quot; 撤出暂存区）
+    #   （使用 &quot;git reset HEAD &lt;file&gt;...&quot; 撤出暂存区）
     #
-    #   新文件：    README
+    #   新文件：    oldboy
     #
-
-5.3 将暂存区域的数据添加到本地仓库
-    [root@CentOS7 git_data]# git commit -m &quot;first commit&quot;
-    [master（根提交） 01aaf0d] first commit
-     1 file changed, 0 insertions(+), 0 deletions(-)
-     create mode 100644 README
-
-
-小结2：
-    git add 将工作目录的文件添加到暂存区域
-    git commit 将暂存区域的数据添加到本地仓库
-
-
-快捷方法：
-    如果是新创建的文件，仍然需要经过git add和git commit
-    如果是修改或删除已经被git监控跟踪文件，那么可以快捷使用git commit -a提交
-
-    -a  Tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
-
-5.4 删除文件几种情况
-
-    ①如果文件没有被git跟踪，直接 “rm 文件名”
-    ②文件已经被跟踪，已经在暂存区域
-        git rm --cached &lt;file&gt;  撤出暂存区，磁盘上文件不受影响
-        git rm -f &lt;file&gt;        撤出暂存区，并删除磁盘上文件
-        git reset HEAD &lt;file&gt;   撤出暂存区，磁盘上文件不受影响
-
-    ③已经被提交到仓库，只能进行版本回滚，但是这个文件依然会存储在仓库
-
-
-    ④一键还原 git checkout -- &lt;file&gt;
-    当修改某些文件。但是觉得改的不对，想还原，但是手动还原太累，因此可以使仓库的文件覆盖我当前目录的文件。
-
-
-    小结3：
-    git rm 
-    git reset
-    git checkout
-
-5.5 重命名文件
-    如果文件没有被git跟踪，直接 “mv 源文件名 新文件名”
-    已经在暂存区域 git mv oldboy oldgirl
-
-        [root@CentOS7 git_data]# git status
-        # 位于分支 master
-        # 要提交的变更：
-        #   （使用 &quot;git reset HEAD &lt;file&gt;...&quot; 撤出暂存区）
-        #
-        #   新文件：    oldboy
-        #
-        [root@CentOS7 git_data]# git mv oldboy oldgirl
-        [root@CentOS7 git_data]# git status
-        # 位于分支 master
-        # 要提交的变更：
-        #   （使用 &quot;git reset HEAD &lt;file&gt;...&quot; 撤出暂存区）
-        #
-        #   新文件：    oldgirl
-        #
-
-5.6 查看版本日志
-
-    git log   #→查看提交历史记录
-    git log -2   #→查看最近几条记录
-    git log -p -1  #→-p显示每次提交的内容差异,例如仅查看最近一次差异
-    git log --stat -2 #→--stat简要显示数据增改行数，这样能够看到提交中修改过的内容，对文件添加或移动的行数，并在最后列出所有增减行的概要信息
-    git log --pretty=oneline  #→--pretty根据不同的格式展示提交的历史信息
-    git log --pretty=fuller -2 #→以更详细的模式输出提交的历史记录
-    git log --pretty=fomat:&quot;%h %cn&quot;  #→查看当前所有提交记录的简短SHA-1哈希字串与提交着的姓名，其他格式见备注。
-
-
-    #→还可以使用format参数来指定具体的输出格式，这样非常便于后期编程的提取分析哦，常用的格式有：
-    %s  提交说明。
-    %cd 提交日期。
-    %an 作者的名字。
-    %cn 提交者的姓名。
-    %ce 提交者的电子邮件。
-    %H  提交对象的完整SHA-1哈希字串。
-    %h  提交对象的简短SHA-1哈希字串。
-    %T  树对象的完整SHA-1哈希字串。
-    %t  树对象的简短SHA-1哈希字串。
-    %P  父对象的完整SHA-1哈希字串。
-    %p  父对象的简短SHA-1哈希字串。
-    %ad 作者的修订时间。
-
-
-5.7 版本回滚
-
-    [root@CentOS7 git_data]# git reset --hard 01aa
-    HEAD 现在位于 01aaf0d first commit
-    [root@CentOS7 git_data]# cat README 
-    [root@CentOS7 git_data]# 
-
-5.8 回滚到未来版本
-    [root@CentOS7 git_data]# git reflog 
-    01aaf0d HEAD@{0}: reset: moving to 01aa
-    a27cb64 HEAD@{1}: commit: second commit
-    01aaf0d HEAD@{2}: commit (initial): first commit
-    [root@CentOS7 git_data]# git reset --hard a27cb64
-    HEAD 现在位于 a27cb64 second commit
-    [root@CentOS7 git_data]# git reflog 
-    a27cb64 HEAD@{0}: reset: moving to a27cb64
-    01aaf0d HEAD@{1}: reset: moving to 01aa
-    a27cb64 HEAD@{2}: commit: second commit
-    01aaf0d HEAD@{3}: commit (initial): first commit
-
-5.9 使用标签进行回滚
-
-    [root@CentOS7 git_data]# git log -1
-    commit a27cb640f5b6df2cdb5fbaf1a2342f21151df33b
-    Author: zy &lt;zhangyao@oldboyedu.com&gt;
-    Date:   Wed Sep 13 09:39:02 2017 +0800
-
-        second commit
-    [root@CentOS7 git_data]# git tag v20171001
-    [root@CentOS7 git_data]# git reset --hard HEAD^
-    HEAD 现在位于 01aaf0d first commit
-    [root@CentOS7 git_data]# git log -1
-    commit 01aaf0d8cfa29674378f6876bdae294c21077863
-    Author: zy &lt;zhangyao@oldboyedu.com&gt;
-    Date:   Wed Sep 13 09:28:11 2017 +0800
-
-        first commit
-    [root@CentOS7 git_data]# git reset --hard v20171001
-    HEAD 现在位于 a27cb64 second commit
-    [root@CentOS7 git_data]# git log -1
-    commit a27cb640f5b6df2cdb5fbaf1a2342f21151df33b
-    Author: zy &lt;zhangyao@oldboyedu.com&gt;
-    Date:   Wed Sep 13 09:39:02 2017 +0800
-
-        second commit
-
-
-    常用命令：
-    git tag v20171001   #→当前提交内容打一个标签(方便快速回滚)，每次提交都可以打个tag。
-    git tag          #→查看当前所有的标签
-    git show v20171001   #→查看当前1.0版本的详细信息
-    git tag v20171002 -m &quot;version 1.2 release is test&quot;  #→创建带有说明的标签,-a指定标签名字，-m指定说明文字
-    git tag -d v20171002   #→我们为同一个提交版本设置了两次标签,删除之前的v1.0
-
-
-    给以前的版本补上标签
-    [root@CentOS7 git_data]# git tag v20170910 01aaf0d8c
-    [root@CentOS7 git_data]# git reset --hard v20170910
-    HEAD 现在位于 01aaf0d first commit
-
-
-    # 显示tag和版本之间关系
-    [root@CentOS7 git_data]# git tag -n
-    v20170910       first commit
-    v20171001       second commit
-
-
-5.10 每次提交代码前可以检查今天写了什么
-    [root@CentOS7 git_data]# git diff README
-    diff --git a/README b/README
-    index e69de29..ca028fb 100644
-    --- a/README
-    +++ b/README
-    @@ -0,0 +1 @@
-    +11111111
-
-
-小结4：
-    git mv  重命名暂存区的文件
-    git log  查看版本日志  ****
-    git reset 回滚         ****
-    git reflog 查看未来版本日志  ****
-    git tag 
-    git diff
+    [root@CentOS7 git_data]# git mv oldboy oldgirl
+    [root@CentOS7 git_data]# git status
+    # 位于分支 master
+    # 要提交的变更：
+    #   （使用 &quot;git reset HEAD &lt;file&gt;...&quot; 撤出暂存区）
+    #
+    #   新文件：    oldgirl
+    #
 </code></pre>
 
-<p>6.分支结构<br/>
-    6.1 创建分支<br/>
-        [root@CentOS7 git_data]# git branch    # 查看所有分支以及当前所处分支<br/>
-        * master<br/>
-        [root@CentOS7 git_data]# git branch linux  # 创建分支，linux为分支名<br/>
-        [root@CentOS7 git_data]# git branch <br/>
-          linux<br/>
-        * master<br/>
-        [root@CentOS7 git_data]# git checkout linux  # 切换分支<br/>
-        M   README<br/>
-        切换到分支 &#39;linux&#39;</p>
+<p>5.6 查看版本日志</p>
 
-<pre><code>6.2 自动合并分支
+<pre><code>git log   #→查看提交历史记录
+git log -2   #→查看最近几条记录
+git log -p -1  #→-p显示每次提交的内容差异,例如仅查看最近一次差异
+git log --stat -2 #→--stat简要显示数据增改行数，这样能够看到提交中修改过的内容，对文件添加或移动的行数，并在最后列出所有增减行的概要信息
+git log --pretty=oneline  #→--pretty根据不同的格式展示提交的历史信息
+git log --pretty=fuller -2 #→以更详细的模式输出提交的历史记录
+git log --pretty=fomat:&quot;%h %cn&quot;  #→查看当前所有提交记录的简短SHA-1哈希字串与提交着的姓名，其他格式见备注。
 
-
-    [root@CentOS7 git_data]# echo &quot;Hello World&quot; &gt;&gt; README 
-    [root@CentOS7 git_data]# git commit -a -m &quot;this is branch commit&quot;
-    [linux 060bb89] this is branch commit
-     1 file changed, 2 insertions(+)
-
-
-    [root@CentOS7 git_data]# git log -1
-    commit 060bb89004120f26ca4defb517fe5a29455492c6
-    Author: zy &lt;zhangyao@oldboyedu.com&gt;
-    Date:   Wed Sep 13 12:07:30 2017 +0800
-
-        this is branch commit
-
-
-
-    [root@CentOS7 git_data]# git checkout master 
-    切换到分支 &#39;master&#39;
-    [root@CentOS7 git_data]# git log -1
-    commit 01aaf0d8cfa29674378f6876bdae294c21077863
-    Author: zy &lt;zhangyao@oldboyedu.com&gt;
-    Date:   Wed Sep 13 09:28:11 2017 +0800
-
-        first commit
-    [root@CentOS7 git_data]# git merge linux
-    更新 01aaf0d..060bb89
-    Fast-forward
-     README | 2 ++
-     1 file changed, 2 insertions(+)
-    [root@CentOS7 git_data]# git log -1
-    commit 060bb89004120f26ca4defb517fe5a29455492c6
-    Author: zy &lt;zhangyao@oldboyedu.com&gt;
-    Date:   Wed Sep 13 12:07:30 2017 +0800
-
-        this is branch commit
-
-
-    [root@CentOS7 git_data]# cat README 
-    11111111
-    Hello World
-
-
-6.3 解决分支冲突
-
-    制造分支冲突场景：
-        [root@CentOS7 git_data]# git branch 
-          linux
-        * master
-        [root@CentOS7 git_data]# echo &quot;hello oldboy&quot; &gt; README 
-        [root@CentOS7 git_data]# git commit -a -m &quot;this is master branch commit&quot;
-        [master ab40a03] this is master branch commit
-         1 file changed, 1 insertion(+), 2 deletions(-)
-
-
-        [root@CentOS7 git_data]# git checkout linux 
-        切换到分支 &#39;linux&#39;
-        [root@CentOS7 git_data]# echo &quot;hello oldgirl&quot; &gt; README
-        [root@CentOS7 git_data]# git commit -a -m &quot;this is linux  branch commit 22222&quot;
-        [linux f7b9447] this is linux  branch commit 22222
-         1 file changed, 1 insertion(+), 2 deletions(-)
-
-
-    上面的操作实质：在两个分支分别修改同一个文件的同一行内容
-
-
-
-    [root@CentOS7 git_data]#git checkout master 
-    切换到分支 &#39;master&#39;
-    [root@CentOS7 git_data]# git merge linux
-    自动合并 README
-    冲突（内容）：合并冲突于 README
-    自动合并失败，修正冲突然后提交修正的结果。
-    [root@CentOS7 git_data]# vim README 
-    &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-    hello oldboy
-    =======
-    hello oldgirl
-    &gt;&gt;&gt;&gt;&gt;&gt;&gt; linux
-
-    ===&gt;上面的文件需要人工删除不需要的内容，然后解决完冲突之后，需要再次commit
-    [root@CentOS7 git_data]# git commit -a -m &quot;this is master merge commit 22222&quot;
-    [master dc15c3f] this is master merge commit 22222
+#→还可以使用format参数来指定具体的输出格式，这样非常便于后期编程的提取分析哦，常用的格式有：
+%s  提交说明。
+%cd 提交日期。
+%an 作者的名字。
+%cn 提交者的姓名。
+%ce 提交者的电子邮件。
+%H  提交对象的完整SHA-1哈希字串。
+%h  提交对象的简短SHA-1哈希字串。
+%T  树对象的完整SHA-1哈希字串。
+%t  树对象的简短SHA-1哈希字串。
+%P  父对象的完整SHA-1哈希字串。
+%p  父对象的简短SHA-1哈希字串。
+%ad 作者的修订时间。
 </code></pre>
 
-<p>今日总结：<br/>
-1. git log、git reset、git reflog<br/>
-2. 了解分支结构</p>
+<p>5.7 版本回滚</p>
 
-<p>明天课程：<br/>
-1. 提前安装好Git-2.10.0-64-bit.exe<br/>
-2. 提前安装好gitlab，必须能够看到网页</p>
+<pre><code>[root@CentOS7 git_data]# git reset --hard 01aa
+HEAD 现在位于 01aaf0d first commit
+[root@CentOS7 git_data]# cat README 
+[root@CentOS7 git_data]# 
+</code></pre>
 
-<p>安装文档  <a href="https://about.gitlab.com/downloads/#centos7">https://about.gitlab.com/downloads/#centos7</a><br/>
-<a href="https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/">https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/</a></p>
+<p>5.8 回滚到未来版本</p>
 
-<p>机器内存给大点<br/>
-①上传gitlab-ce-9.1.4-ce.0.el7.x86_64.rpm<br/>
-②yum localinstall gitlab-ce-9.1.4-ce.0.el7.x86_64.rpm<br/>
-③gitlab-ctl reconfigure  #→初始化，就执行一次<br/>
-④通过浏览器访问页面，设置初始密码，其他操作类似GitHUB。<br/>
-账户：root  密码自己设置为12345678</p>
+<pre><code>[root@CentOS7 git_data]# git reflog 
+01aaf0d HEAD@{0}: reset: moving to 01aa
+a27cb64 HEAD@{1}: commit: second commit
+01aaf0d HEAD@{2}: commit (initial): first commit
+[root@CentOS7 git_data]# git reset --hard a27cb64
+HEAD 现在位于 a27cb64 second commit
+[root@CentOS7 git_data]# git reflog 
+a27cb64 HEAD@{0}: reset: moving to a27cb64
+01aaf0d HEAD@{1}: reset: moving to 01aa
+a27cb64 HEAD@{2}: commit: second commit
+01aaf0d HEAD@{3}: commit (initial): first commit
+</code></pre>
 
-<p>3.代码上线</p>
+<p>5.9 使用标签进行回滚</p>
 
-<p>字符画效果：<br/>
-[root@CentOS7 git_data]# git log --pretty=fomat:&quot;%h %s&quot; --graph<br/>
-*   fomat:dc15c3f this is master merge commit 22222<br/>
-|\<br/><br/>
-| * fomat:f7b9447 this is linux  branch commit 22222<br/>
-* | fomat:ab40a03 this is master branch commit<br/>
-|/<br/><br/>
-* fomat:060bb89 this is branch commit<br/>
-* fomat:01aaf0d first commit</p>
+<pre><code>[root@CentOS7 git_data]# git log -1
+commit a27cb640f5b6df2cdb5fbaf1a2342f21151df33b
+Author: zy &lt;zhangyao@oldboyedu.com&gt;
+Date:   Wed Sep 13 09:39:02 2017 +0800
 
-<p>1.windows版本的git使用</p>
+    second commit
+[root@CentOS7 git_data]# git tag v20171001
+[root@CentOS7 git_data]# git reset --hard HEAD^
+HEAD 现在位于 01aaf0d first commit
+[root@CentOS7 git_data]# git log -1
+commit 01aaf0d8cfa29674378f6876bdae294c21077863
+Author: zy &lt;zhangyao@oldboyedu.com&gt;
+Date:   Wed Sep 13 09:28:11 2017 +0800
 
-<p>2.私有的仓库gitlab</p>
+    first commit
+[root@CentOS7 git_data]# git reset --hard v20171001
+HEAD 现在位于 a27cb64 second commit
+[root@CentOS7 git_data]# git log -1
+commit a27cb640f5b6df2cdb5fbaf1a2342f21151df33b
+Author: zy &lt;zhangyao@oldboyedu.com&gt;
+Date:   Wed Sep 13 09:39:02 2017 +0800
+
+    second commit
+
+常用命令：
+git tag v20171001   #→当前提交内容打一个标签(方便快速回滚)，每次提交都可以打个tag。
+git tag          #→查看当前所有的标签
+git show v20171001   #→查看当前1.0版本的详细信息
+git tag v20171002 -m &quot;version 1.2 release is test&quot;  #→创建带有说明的标签,-a指定标签名字，-m指定说明文字
+git tag -d v20171002   #→我们为同一个提交版本设置了两次标签,删除之前的v1.0
+
+给以前的版本补上标签
+[root@CentOS7 git_data]# git tag v20170910 01aaf0d8c
+[root@CentOS7 git_data]# git reset --hard v20170910
+HEAD 现在位于 01aaf0d first commit
+
+# 显示tag和版本之间关系
+[root@CentOS7 git_data]# git tag -n
+v20170910       first commit
+v20171001       second commit
+</code></pre>
+
+<p>5.10 每次提交代码前可以检查今天写了什么</p>
+
+<pre><code>[root@CentOS7 git_data]# git diff README
+diff --git a/README b/README
+index e69de29..ca028fb 100644
+--- a/README
++++ b/README
+@@ -0,0 +1 @@
++11111111
+</code></pre>
+
+<p>小结4：</p>
+
+<pre><code>git mv  重命名暂存区的文件
+git log  查看版本日志  ****
+git reset 回滚         ****
+git reflog 查看未来版本日志  ****
+git tag 
+git diff
+</code></pre></li>
+<li><p>分支结构</p>
+
+<p>6.1 创建分支</p>
+
+<pre><code>[root@CentOS7 git_data]# git branch    # 查看所有分支以及当前所处分支
+* master
+[root@CentOS7 git_data]# git branch linux  # 创建分支，linux为分支名
+[root@CentOS7 git_data]# git branch 
+  linux
+* master
+[root@CentOS7 git_data]# git checkout linux  # 切换分支
+M   README
+切换到分支 &#39;linux&#39;
+</code></pre>
+
+<p>6.2 自动合并分支</p>
+
+<pre><code>[root@CentOS7 git_data]# echo &quot;Hello World&quot; &gt;&gt; README 
+[root@CentOS7 git_data]# git commit -a -m &quot;this is branch commit&quot;
+[linux 060bb89] this is branch commit
+ 1 file changed, 2 insertions(+)
+
+[root@CentOS7 git_data]# git log -1
+commit 060bb89004120f26ca4defb517fe5a29455492c6
+Author: zy &lt;zhangyao@oldboyedu.com&gt;
+Date:   Wed Sep 13 12:07:30 2017 +0800
+
+    this is branch commit
+
+[root@CentOS7 git_data]# git checkout master 
+切换到分支 &#39;master&#39;
+[root@CentOS7 git_data]# git log -1
+commit 01aaf0d8cfa29674378f6876bdae294c21077863
+Author: zy &lt;zhangyao@oldboyedu.com&gt;
+Date:   Wed Sep 13 09:28:11 2017 +0800
+
+    first commit
+[root@CentOS7 git_data]# git merge linux
+更新 01aaf0d..060bb89
+Fast-forward
+ README | 2 ++
+ 1 file changed, 2 insertions(+)
+[root@CentOS7 git_data]# git log -1
+commit 060bb89004120f26ca4defb517fe5a29455492c6
+Author: zy &lt;zhangyao@oldboyedu.com&gt;
+Date:   Wed Sep 13 12:07:30 2017 +0800
+
+    this is branch commit
+
+[root@CentOS7 git_data]# cat README 
+11111111
+Hello World
+</code></pre>
+
+<p>6.3 解决分支冲突</p>
+
+<pre><code>制造分支冲突场景：
+    [root@CentOS7 git_data]# git branch 
+      linux
+    * master
+    [root@CentOS7 git_data]# echo &quot;hello oldboy&quot; &gt; README 
+    [root@CentOS7 git_data]# git commit -a -m &quot;this is master branch commit&quot;
+    [master ab40a03] this is master branch commit
+     1 file changed, 1 insertion(+), 2 deletions(-)
+
+    [root@CentOS7 git_data]# git checkout linux 
+    切换到分支 &#39;linux&#39;
+    [root@CentOS7 git_data]# echo &quot;hello oldgirl&quot; &gt; README
+    [root@CentOS7 git_data]# git commit -a -m &quot;this is linux  branch commit 22222&quot;
+    [linux f7b9447] this is linux  branch commit 22222
+     1 file changed, 1 insertion(+), 2 deletions(-)
+
+上面的操作实质：在两个分支分别修改同一个文件的同一行内容
+
+[root@CentOS7 git_data]#git checkout master 
+切换到分支 &#39;master&#39;
+[root@CentOS7 git_data]# git merge linux
+自动合并 README
+冲突（内容）：合并冲突于 README
+自动合并失败，修正冲突然后提交修正的结果。
+[root@CentOS7 git_data]# vim README 
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+hello oldboy
+=======
+hello oldgirl
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; linux
+
+===&gt;上面的文件需要人工删除不需要的内容，然后解决完冲突之后，需要再次commit
+[root@CentOS7 git_data]# git commit -a -m &quot;this is master merge commit 22222&quot;
+[master dc15c3f] this is master merge commit 22222
+</code></pre></li>
+<li><p>代码上线</p>
+
+<p>字符画效果：</p>
+
+<pre><code>[root@CentOS7 git_data]# git log --pretty=fomat:&quot;%h %s&quot; --graph
+*   fomat:dc15c3f this is master merge commit 22222
+|\  
+| * fomat:f7b9447 this is linux  branch commit 22222
+* | fomat:ab40a03 this is master branch commit
+|/  
+* fomat:060bb89 this is branch commit
+* fomat:01aaf0d first commit
+</code></pre>
+
+<ol>
+<li><p>windows版本的git使用</p></li>
+<li><p>私有的仓库gitlab</p>
 
 <p>ssh(支持读取写入)、git（只读）、http(s)（只读）</p>
 
@@ -541,124 +518,124 @@ git status  查看工作目录状态</p></li>
 
 <p><a href="https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/">https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/</a></p>
 
-<p>上传gitlab-ce-9.1.4-ce.0.el7.x86_64.rpm</p>
+<pre><code>上传gitlab-ce-9.1.4-ce.0.el7.x86_64.rpm
 
-<p>rpm -ivh gitlab-ce-9.1.4-ce.0.el7.x86_64.rpm</p>
+rpm -ivh gitlab-ce-9.1.4-ce.0.el7.x86_64.rpm
 
-<p>gitlab-ctl reconfigure</p>
+gitlab-ctl reconfigure
 
-<p>管理gitlab的命令：gitlab-ctl status/stop/start</p>
+管理gitlab的命令：gitlab-ctl status/stop/start
 
-<p>[root@CentOS7 ~]# systemctl is-enabled gitlab-runsvdir.service <br/>
-enabled</p>
+[root@CentOS7 ~]# systemctl is-enabled gitlab-runsvdir.service 
+enabled
+</code></pre>
 
-<p>通过浏览器<a href="http://10.0.0.201/%E8%AE%BF%E9%97%AE%E9%A1%B5%E9%9D%A2%EF%BC%8C%E8%AE%BE%E7%BD%AE%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81%EF%BC%8C%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%BC%BCGitHUB%E3%80%82">http://10.0.0.201/访问页面，设置初始密码，其他操作类似GitHUB。</a><br/>
-账户：root  密码自己设置为12345678</p>
-
-<ol>
+<p>通过浏览器<a href="http://10.0.0.201/">http://10.0.0.201/</a> 访问页面，设置初始密码，其他操作类似GitHUB。<br/>
+账户：root  密码自己设置为12345678</p></li>
 <li><p>gitlab代码操作</p>
 
-<h1 id="toc_2">第一次克隆代码</h1>
+<p>第一次克隆代码</p>
 
-<p>[root@CentOS7 ~]# git clone git@10.0.0.201:root/38team.git<br/>
-[root@CentOS7 ~]# cd 38team/<br/>
-[root@CentOS7 38team]# touch README.md<br/>
-[root@CentOS7 38team]# git add README.md<br/>
-[root@CentOS7 38team]# git commit -m &quot;add README&quot;<br/>
-[master（根提交） 265d2ec] add README<br/>
- 1 file changed, 0 insertions(+), 0 deletions(-)<br/>
- create mode 100644 README.md<br/>
-[root@CentOS7 38team]# git push -u origin master<br/>
-Counting objects: 3, done.<br/>
-Writing objects: 100% (3/3), 214 bytes | 0 bytes/s, done.<br/>
-Total 3 (delta 0), reused 0 (delta 0)<br/>
-To git@10.0.0.201:root/38team.git</p>
+<pre><code>[root@CentOS7 ~]# git clone git@10.0.0.201:root/38team.git
+[root@CentOS7 ~]# cd 38team/
+[root@CentOS7 38team]# touch README.md
+[root@CentOS7 38team]# git add README.md
+[root@CentOS7 38team]# git commit -m &quot;add README&quot;
+[master（根提交） 265d2ec] add README
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README.md
+[root@CentOS7 38team]# git push -u origin master
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 214 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@10.0.0.201:root/38team.git
+ * [new branch]      master -&gt; master
+分支 master 设置为跟踪来自 origin 的远程分支 master。
+</code></pre>
 
-<ul>
-<li>[new branch]      master -&gt; master
-分支 master 设置为跟踪来自 origin 的远程分支 master。</li>
-</ul>
+<p>以后常规操作流程</p>
 
-<h1 id="toc_3">以后常规操作流程</h1>
+<pre><code>[root@CentOS7 38team]# git pull
+Already up-to-date.
+[root@CentOS7 38team]# echo &quot;# Hello World&quot; &gt;&gt; README.md 
+[root@CentOS7 38team]# git commit -a -m &quot;update README&quot;
+[master db49101] update README
+ 1 file changed, 1 insertion(+)
+[root@CentOS7 38team]# git push -u origin master
+Counting objects: 5, done.
+Writing objects: 100% (3/3), 260 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@10.0.0.201:root/38team.git
+   265d2ec..db49101  master -&gt; master
+分支 master 设置为跟踪来自 origin 的远程分支 master。
+</code></pre></li>
+</ol></li>
+<li><p>Gitlab提供参考命令</p>
 
-<p>[root@CentOS7 38team]# git pull<br/>
-Already up-to-date.<br/>
-[root@CentOS7 38team]# echo &quot;# Hello World&quot; &gt;&gt; README.md <br/>
-[root@CentOS7 38team]# git commit -a -m &quot;update README&quot;<br/>
-[master db49101] update README<br/>
- 1 file changed, 1 insertion(+)<br/>
-[root@CentOS7 38team]# git push -u origin master<br/>
-Counting objects: 5, done.<br/>
-Writing objects: 100% (3/3), 260 bytes | 0 bytes/s, done.<br/>
-Total 3 (delta 0), reused 0 (delta 0)<br/>
-To git@10.0.0.201:root/38team.git<br/>
-   265d2ec..db49101  master -&gt; master<br/>
-分支 master 设置为跟踪来自 origin 的远程分支 master。</p></li>
-<li><p>Gitlab提供参考命令</p></li>
-</ol>
+<pre><code>Command line instructions
 
-<p>Command line instructions</p>
+Git global setup
 
-<p>Git global setup</p>
+git config --global user.name &quot;Administrator&quot;
+git config --global user.email &quot;admin@example.com&quot;
 
-<p>git config --global user.name &quot;Administrator&quot;<br/>
-git config --global user.email &quot;<a href="mailto:admin@example.com">admin@example.com</a>&quot;</p>
+Create a new repository  ===》创建新的仓库操作流程
 
-<p>Create a new repository  ===》创建新的仓库操作流程</p>
+git clone git@gitlab.example.com:root/38team.git
+cd 38team
+touch README.md
+git add README.md
+git commit -m &quot;add README&quot;
+git push -u origin master
 
-<p>git clone <a href="mailto:git@gitlab.example.com">git@gitlab.example.com</a>:root/38team.git<br/>
-cd 38team<br/>
-touch README.md<br/>
-git add README.md<br/>
-git commit -m &quot;add README&quot;<br/>
-git push -u origin master</p>
+Existing folder    ==》已经存在目录操作流程
 
-<p>Existing folder    ==》已经存在目录操作流程</p>
-
-<p>cd existing_folder<br/>
-git init<br/>
-git remote add origin <a href="mailto:git@gitlab.example.com">git@gitlab.example.com</a>:root/38team.git<br/>
-git add .<br/>
-git commit<br/>
-git push -u origin master</p>
+cd existing_folder
+git init
+git remote add origin git@gitlab.example.com:root/38team.git
+git add .
+git commit
+git push -u origin master
+</code></pre>
 
 <p>Existing Git repository  ==》已经存在的本地git仓库操作流程</p>
 
-<p>cd existing_repo<br/>
-git remote add origin <a href="mailto:git@gitlab.example.com">git@gitlab.example.com</a>:root/38team.git<br/>
-git push -u origin --all<br/>
-git push -u origin --tags</p>
+<pre><code>cd existing_repo
+git remote add origin git@gitlab.example.com:root/38team.git
+git push -u origin --all
+git push -u origin --tags
+</code></pre>
 
 <p>对于已经存在的目录或仓库：<br/>
 ①当前系统已经有这个目录或仓库（名字是自己定的）<br/>
 ②gitlab必须有同名（系统目录名）的项目<br/>
 ③git remote add关联本地仓库与远程仓库</p>
 
-<p>[root@CentOS7 ~]# mkdir test<br/>
-[root@CentOS7 ~]# cd test/<br/>
-[root@CentOS7 test]# git init<br/>
-初始化空的 Git 版本库于 /root/test/.git/<br/>
-[root@CentOS7 test]# git remote add origin git@10.0.0.201:root/test.git<br/>
-[root@CentOS7 test]# git remote -v<br/>
-origin  git@10.0.0.201:root/test.git (fetch)<br/>
-origin  git@10.0.0.201:root/test.git (push)<br/>
-[root@CentOS7 test]# touch test.md<br/>
-[root@CentOS7 test]# git add .<br/>
-[root@CentOS7 test]# git commit -m &#39;hah&#39;<br/>
-[master（根提交） 5fccb43] hah<br/>
- 1 file changed, 0 insertions(+), 0 deletions(-)<br/>
- create mode 100644 test.md<br/>
-[root@CentOS7 test]# git push -u origin master<br/>
-Counting objects: 3, done.<br/>
-Writing objects: 100% (3/3), 201 bytes | 0 bytes/s, done.<br/>
-Total 3 (delta 0), reused 0 (delta 0)<br/>
-To git@10.0.0.201:root/test.git<br/>
- * [new branch]      master -&gt; master<br/>
-分支 master 设置为跟踪来自 origin 的远程分支 master。</p>
+<pre><code>[root@CentOS7 ~]# mkdir test
+[root@CentOS7 ~]# cd test/
+[root@CentOS7 test]# git init
+初始化空的 Git 版本库于 /root/test/.git/
+[root@CentOS7 test]# git remote add origin git@10.0.0.201:root/test.git
+[root@CentOS7 test]# git remote -v
+origin  git@10.0.0.201:root/test.git (fetch)
+origin  git@10.0.0.201:root/test.git (push)
+[root@CentOS7 test]# touch test.md
+[root@CentOS7 test]# git add .
+[root@CentOS7 test]# git commit -m &#39;hah&#39;
+[master（根提交） 5fccb43] hah
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 test.md
+[root@CentOS7 test]# git push -u origin master
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 201 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@10.0.0.201:root/test.git
+ * [new branch]      master -&gt; master
+分支 master 设置为跟踪来自 origin 的远程分支 master。
+</code></pre>
 
-<p>Markdown语法：<a href="http://www.zyops.com/markdown-syntax">http://www.zyops.com/markdown-syntax</a></p>
-
-<p>5.代码上线</p>
+<p>Markdown语法：<a href="http://www.zyops.com/markdown-syntax">http://www.zyops.com/markdown-syntax</a></p></li>
+<li><p>代码上线</p>
 
 <p>java --- 分组平滑上线（AB上线）</p>
 
@@ -673,15 +650,18 @@ nginxAB.conf</p>
 
 <p>灰度发布：通过用户的ip来源分配服务器</p>
 
-<p>智能DNS调度：实现指定地区的用户的解析的ip地址</p>
+<p>智能DNS调度：实现指定地区的用户的解析的ip地址</p></li>
+</ol>
 
-<p>今日总结：<br/>
-1.gitlab使用<br/>
-2.代码上线方案：弃1用2懂3<br/>
-3，微信文章  <a href="http://dwz.cn/6j9fHv">http://dwz.cn/6j9fHv</a></p>
+<p>今日总结：</p>
 
-<p>明日课程<br/>
-：为期6天的Shell课程</p>
+<ol>
+<li>git log、git reset、git reflog</li>
+<li>了解分支结构</li>
+<li>gitlab使用</li>
+<li>代码上线方案：弃1用2懂3</li>
+<li>微信文章  <a href="http://dwz.cn/6j9fHv">http://dwz.cn/6j9fHv</a></li>
+</ol>
 
 		</div>
 	</article>
